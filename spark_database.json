@@ -1,0 +1,2882 @@
+[
+  {
+    "degree": "0",
+    "sign": "Aries",
+    "helper": "0°-Aries",
+    "spark": "Aries",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "0",
+    "sign": "Taurus",
+    "helper": "0°-Taurus",
+    "spark": "Libra",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "0",
+    "sign": "Gemini",
+    "helper": "0°-Gemini",
+    "spark": "Aries",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "0",
+    "sign": "Cancer",
+    "helper": "0°-Cancer",
+    "spark": "Libra",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "0",
+    "sign": "Leo",
+    "helper": "0°-Leo",
+    "spark": "Aries",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "0",
+    "sign": "Virgo",
+    "helper": "0°-Virgo",
+    "spark": "Libra",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "0",
+    "sign": "Libra",
+    "helper": "0°-Libra",
+    "spark": "Aries",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "0",
+    "sign": "Scorpio",
+    "helper": "0°-Scorpio",
+    "spark": "Libra",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "0",
+    "sign": "Sagittarius",
+    "helper": "0°-Sagittarius",
+    "spark": "Aries",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "0",
+    "sign": "Capricorn",
+    "helper": "0°-Capricorn",
+    "spark": "Libra",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "0",
+    "sign": "Aquarius",
+    "helper": "0°-Aquarius",
+    "spark": "Aries",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "0",
+    "sign": "Pisces",
+    "helper": "0°-Pisces",
+    "spark": "Libra",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "1°",
+    "sign": "Aries",
+    "helper": "1°-Aries",
+    "spark": "Taurus",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "1°",
+    "sign": "Taurus",
+    "helper": "1°-Taurus",
+    "spark": "Scorpio",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "1°",
+    "sign": "Gemini",
+    "helper": "1°-Gemini",
+    "spark": "Taurus",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "1°",
+    "sign": "Cancer",
+    "helper": "1°-Cancer",
+    "spark": "Scorpio",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "1°",
+    "sign": "Leo",
+    "helper": "1°-Leo",
+    "spark": "Taurus",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "1°",
+    "sign": "Virgo",
+    "helper": "1°-Virgo",
+    "spark": "Scorpio",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "1°",
+    "sign": "Libra",
+    "helper": "1°-Libra",
+    "spark": "Taurus",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "1°",
+    "sign": "Scorpio",
+    "helper": "1°-Scorpio",
+    "spark": "Scorpio",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "1°",
+    "sign": "Sagittarius",
+    "helper": "1°-Sagittarius",
+    "spark": "Taurus",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "1°",
+    "sign": "Capricorn",
+    "helper": "1°-Capricorn",
+    "spark": "Scorpio",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "1°",
+    "sign": "Aquarius",
+    "helper": "1°-Aquarius",
+    "spark": "Taurus",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "1°",
+    "sign": "Pisces",
+    "helper": "1°-Pisces",
+    "spark": "Scorpio",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "2°",
+    "sign": "Aries",
+    "helper": "2°-Aries",
+    "spark": "Gemini",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "2°",
+    "sign": "Taurus",
+    "helper": "2°-Taurus",
+    "spark": "Sagittarius",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "2°",
+    "sign": "Gemini",
+    "helper": "2°-Gemini",
+    "spark": "Gemini",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "2°",
+    "sign": "Cancer",
+    "helper": "2°-Cancer",
+    "spark": "Sagittarius",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "2°",
+    "sign": "Leo",
+    "helper": "2°-Leo",
+    "spark": "Gemini",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "2°",
+    "sign": "Virgo",
+    "helper": "2°-Virgo",
+    "spark": "Sagittarius",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "2°",
+    "sign": "Libra",
+    "helper": "2°-Libra",
+    "spark": "Gemini",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "2°",
+    "sign": "Scorpio",
+    "helper": "2°-Scorpio",
+    "spark": "Sagittarius",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "2°",
+    "sign": "Sagittarius",
+    "helper": "2°-Sagittarius",
+    "spark": "Gemini",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "2°",
+    "sign": "Capricorn",
+    "helper": "2°-Capricorn",
+    "spark": "Sagittarius",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "2°",
+    "sign": "Aquarius",
+    "helper": "2°-Aquarius",
+    "spark": "Gemini",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "2°",
+    "sign": "Pisces",
+    "helper": "2°-Pisces",
+    "spark": "Sagittarius",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "3°",
+    "sign": "Aries",
+    "helper": "3°-Aries",
+    "spark": "Cancer",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "3°",
+    "sign": "Taurus",
+    "helper": "3°-Taurus",
+    "spark": "Capricorn",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "3°",
+    "sign": "Gemini",
+    "helper": "3°-Gemini",
+    "spark": "Cancer",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "3°",
+    "sign": "Cancer",
+    "helper": "3°-Cancer",
+    "spark": "Capricorn",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "3°",
+    "sign": "Leo",
+    "helper": "3°-Leo",
+    "spark": "Cancer",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "3°",
+    "sign": "Virgo",
+    "helper": "3°-Virgo",
+    "spark": "Capricorn",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "3°",
+    "sign": "Libra",
+    "helper": "3°-Libra",
+    "spark": "Cancer",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "3°",
+    "sign": "Scorpio",
+    "helper": "3°-Scorpio",
+    "spark": "Capricorn",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "3°",
+    "sign": "Sagittarius",
+    "helper": "3°-Sagittarius",
+    "spark": "Cancer",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "3°",
+    "sign": "Capricorn",
+    "helper": "3°-Capricorn",
+    "spark": "Capricorn",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "3°",
+    "sign": "Aquarius",
+    "helper": "3°-Aquarius",
+    "spark": "Cancer",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "3°",
+    "sign": "Pisces",
+    "helper": "3°-Pisces",
+    "spark": "Capricorn",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "4°",
+    "sign": "Aries",
+    "helper": "4°-Aries",
+    "spark": "Leo",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "4°",
+    "sign": "Taurus",
+    "helper": "4°-Taurus",
+    "spark": "Aquarius",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "4°",
+    "sign": "Gemini",
+    "helper": "4°-Gemini",
+    "spark": "Leo",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "4°",
+    "sign": "Cancer",
+    "helper": "4°-Cancer",
+    "spark": "Aquarius",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "4°",
+    "sign": "Leo",
+    "helper": "4°-Leo",
+    "spark": "Leo",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "4°",
+    "sign": "Virgo",
+    "helper": "4°-Virgo",
+    "spark": "Aquarius",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "4°",
+    "sign": "Libra",
+    "helper": "4°-Libra",
+    "spark": "Leo",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "4°",
+    "sign": "Scorpio",
+    "helper": "4°-Scorpio",
+    "spark": "Aquarius",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "4°",
+    "sign": "Sagittarius",
+    "helper": "4°-Sagittarius",
+    "spark": "Leo",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "4°",
+    "sign": "Capricorn",
+    "helper": "4°-Capricorn",
+    "spark": "Aquarius",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "4°",
+    "sign": "Aquarius",
+    "helper": "4°-Aquarius",
+    "spark": "Leo",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "4°",
+    "sign": "Pisces",
+    "helper": "4°-Pisces",
+    "spark": "Aquarius",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "5°",
+    "sign": "Aries",
+    "helper": "5°-Aries",
+    "spark": "Virgo",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "5°",
+    "sign": "Taurus",
+    "helper": "5°-Taurus",
+    "spark": "Pisces",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "5°",
+    "sign": "Gemini",
+    "helper": "5°-Gemini",
+    "spark": "Virgo",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "5°",
+    "sign": "Cancer",
+    "helper": "5°-Cancer",
+    "spark": "Pisces",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "5°",
+    "sign": "Leo",
+    "helper": "5°-Leo",
+    "spark": "Virgo",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "5°",
+    "sign": "Virgo",
+    "helper": "5°-Virgo",
+    "spark": "Pisces",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "5°",
+    "sign": "Libra",
+    "helper": "5°-Libra",
+    "spark": "Virgo",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "5°",
+    "sign": "Scorpio",
+    "helper": "5°-Scorpio",
+    "spark": "Pisces",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "5°",
+    "sign": "Sagittarius",
+    "helper": "5°-Sagittarius",
+    "spark": "Virgo",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "5°",
+    "sign": "Capricorn",
+    "helper": "5°-Capricorn",
+    "spark": "Pisces",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "5°",
+    "sign": "Aquarius",
+    "helper": "5°-Aquarius",
+    "spark": "Virgo",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "5°",
+    "sign": "Pisces",
+    "helper": "5°-Pisces",
+    "spark": "Pisces",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "6°",
+    "sign": "Aries",
+    "helper": "6°-Aries",
+    "spark": "Libra",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "6°",
+    "sign": "Taurus",
+    "helper": "6°-Taurus",
+    "spark": "Aries",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "6°",
+    "sign": "Gemini",
+    "helper": "6°-Gemini",
+    "spark": "Libra",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "6°",
+    "sign": "Cancer",
+    "helper": "6°-Cancer",
+    "spark": "Aries",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "6°",
+    "sign": "Leo",
+    "helper": "6°-Leo",
+    "spark": "Libra",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "6°",
+    "sign": "Virgo",
+    "helper": "6°-Virgo",
+    "spark": "Aries",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "6°",
+    "sign": "Libra",
+    "helper": "6°-Libra",
+    "spark": "Libra",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "6°",
+    "sign": "Scorpio",
+    "helper": "6°-Scorpio",
+    "spark": "Aries",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "6°",
+    "sign": "Sagittarius",
+    "helper": "6°-Sagittarius",
+    "spark": "Libra",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "6°",
+    "sign": "Capricorn",
+    "helper": "6°-Capricorn",
+    "spark": "Aries",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "6°",
+    "sign": "Aquarius",
+    "helper": "6°-Aquarius",
+    "spark": "Libra",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "6°",
+    "sign": "Pisces",
+    "helper": "6°-Pisces",
+    "spark": "Aries",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "7°",
+    "sign": "Aries",
+    "helper": "7°-Aries",
+    "spark": "Scorpio",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "7°",
+    "sign": "Taurus",
+    "helper": "7°-Taurus",
+    "spark": "Taurus",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "7°",
+    "sign": "Gemini",
+    "helper": "7°-Gemini",
+    "spark": "Scorpio",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "7°",
+    "sign": "Cancer",
+    "helper": "7°-Cancer",
+    "spark": "Taurus",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "7°",
+    "sign": "Leo",
+    "helper": "7°-Leo",
+    "spark": "Scorpio",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "7°",
+    "sign": "Virgo",
+    "helper": "7°-Virgo",
+    "spark": "Taurus",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "7°",
+    "sign": "Libra",
+    "helper": "7°-Libra",
+    "spark": "Scorpio",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "7°",
+    "sign": "Scorpio",
+    "helper": "7°-Scorpio",
+    "spark": "Taurus",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "7°",
+    "sign": "Sagittarius",
+    "helper": "7°-Sagittarius",
+    "spark": "Scorpio",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "7°",
+    "sign": "Capricorn",
+    "helper": "7°-Capricorn",
+    "spark": "Taurus",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "7°",
+    "sign": "Aquarius",
+    "helper": "7°-Aquarius",
+    "spark": "Scorpio",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "7°",
+    "sign": "Pisces",
+    "helper": "7°-Pisces",
+    "spark": "Taurus",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "8°",
+    "sign": "Aries",
+    "helper": "8°-Aries",
+    "spark": "Sagittarius",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "8°",
+    "sign": "Taurus",
+    "helper": "8°-Taurus",
+    "spark": "Gemini",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "8°",
+    "sign": "Gemini",
+    "helper": "8°-Gemini",
+    "spark": "Sagittarius",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "8°",
+    "sign": "Cancer",
+    "helper": "8°-Cancer",
+    "spark": "Gemini",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "8°",
+    "sign": "Leo",
+    "helper": "8°-Leo",
+    "spark": "Sagittarius",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "8°",
+    "sign": "Virgo",
+    "helper": "8°-Virgo",
+    "spark": "Gemini",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "8°",
+    "sign": "Libra",
+    "helper": "8°-Libra",
+    "spark": "Sagittarius",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "8°",
+    "sign": "Scorpio",
+    "helper": "8°-Scorpio",
+    "spark": "Gemini",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "8°",
+    "sign": "Sagittarius",
+    "helper": "8°-Sagittarius",
+    "spark": "Sagittarius",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "8°",
+    "sign": "Capricorn",
+    "helper": "8°-Capricorn",
+    "spark": "Gemini",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "8°",
+    "sign": "Aquarius",
+    "helper": "8°-Aquarius",
+    "spark": "Sagittarius",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "8°",
+    "sign": "Pisces",
+    "helper": "8°-Pisces",
+    "spark": "Gemini",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "9°",
+    "sign": "Aries",
+    "helper": "9°-Aries",
+    "spark": "Capricorn",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "9°",
+    "sign": "Taurus",
+    "helper": "9°-Taurus",
+    "spark": "Cancer",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "9°",
+    "sign": "Gemini",
+    "helper": "9°-Gemini",
+    "spark": "Capricorn",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "9°",
+    "sign": "Cancer",
+    "helper": "9°-Cancer",
+    "spark": "Cancer",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "9°",
+    "sign": "Leo",
+    "helper": "9°-Leo",
+    "spark": "Capricorn",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "9°",
+    "sign": "Virgo",
+    "helper": "9°-Virgo",
+    "spark": "Cancer",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "9°",
+    "sign": "Libra",
+    "helper": "9°-Libra",
+    "spark": "Capricorn",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "9°",
+    "sign": "Scorpio",
+    "helper": "9°-Scorpio",
+    "spark": "Cancer",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "9°",
+    "sign": "Sagittarius",
+    "helper": "9°-Sagittarius",
+    "spark": "Capricorn",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "9°",
+    "sign": "Capricorn",
+    "helper": "9°-Capricorn",
+    "spark": "Cancer",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "9°",
+    "sign": "Aquarius",
+    "helper": "9°-Aquarius",
+    "spark": "Capricorn",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "9°",
+    "sign": "Pisces",
+    "helper": "9°-Pisces",
+    "spark": "Cancer",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "10°",
+    "sign": "Aries",
+    "helper": "10°-Aries",
+    "spark": "Aquarius",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "10°",
+    "sign": "Taurus",
+    "helper": "10°-Taurus",
+    "spark": "Leo",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "10°",
+    "sign": "Gemini",
+    "helper": "10°-Gemini",
+    "spark": "Aquarius",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "10°",
+    "sign": "Cancer",
+    "helper": "10°-Cancer",
+    "spark": "Leo",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "10°",
+    "sign": "Leo",
+    "helper": "10°-Leo",
+    "spark": "Aquarius",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "10°",
+    "sign": "Virgo",
+    "helper": "10°-Virgo",
+    "spark": "Leo",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "10°",
+    "sign": "Libra",
+    "helper": "10°-Libra",
+    "spark": "Aquarius",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "10°",
+    "sign": "Scorpio",
+    "helper": "10°-Scorpio",
+    "spark": "Leo",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "10°",
+    "sign": "Sagittarius",
+    "helper": "10°-Sagittarius",
+    "spark": "Aquarius",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "10°",
+    "sign": "Capricorn",
+    "helper": "10°-Capricorn",
+    "spark": "Leo",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "10°",
+    "sign": "Aquarius",
+    "helper": "10°-Aquarius",
+    "spark": "Aquarius",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "10°",
+    "sign": "Pisces",
+    "helper": "10°-Pisces",
+    "spark": "Leo",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "11°",
+    "sign": "Aries",
+    "helper": "11°-Aries",
+    "spark": "Pisces",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "11°",
+    "sign": "Taurus",
+    "helper": "11°-Taurus",
+    "spark": "Virgo",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "11°",
+    "sign": "Gemini",
+    "helper": "11°-Gemini",
+    "spark": "Pisces",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "11°",
+    "sign": "Cancer",
+    "helper": "11°-Cancer",
+    "spark": "Virgo",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "11°",
+    "sign": "Leo",
+    "helper": "11°-Leo",
+    "spark": "Pisces",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "11°",
+    "sign": "Virgo",
+    "helper": "11°-Virgo",
+    "spark": "Virgo",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "11°",
+    "sign": "Libra",
+    "helper": "11°-Libra",
+    "spark": "Pisces",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "11°",
+    "sign": "Scorpio",
+    "helper": "11°-Scorpio",
+    "spark": "Virgo",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "11°",
+    "sign": "Sagittarius",
+    "helper": "11°-Sagittarius",
+    "spark": "Pisces",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "11°",
+    "sign": "Capricorn",
+    "helper": "11°-Capricorn",
+    "spark": "Virgo",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "11°",
+    "sign": "Aquarius",
+    "helper": "11°-Aquarius",
+    "spark": "Pisces",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "11°",
+    "sign": "Pisces",
+    "helper": "11°-Pisces",
+    "spark": "Virgo",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "12°",
+    "sign": "Aries",
+    "helper": "12°-Aries",
+    "spark": "Aries",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "12°",
+    "sign": "Taurus",
+    "helper": "12°-Taurus",
+    "spark": "Libra",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "12°",
+    "sign": "Gemini",
+    "helper": "12°-Gemini",
+    "spark": "Aries",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "12°",
+    "sign": "Cancer",
+    "helper": "12°-Cancer",
+    "spark": "Libra",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "12°",
+    "sign": "Leo",
+    "helper": "12°-Leo",
+    "spark": "Aries",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "12°",
+    "sign": "Virgo",
+    "helper": "12°-Virgo",
+    "spark": "Libra",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "12°",
+    "sign": "Libra",
+    "helper": "12°-Libra",
+    "spark": "Aries",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "12°",
+    "sign": "Scorpio",
+    "helper": "12°-Scorpio",
+    "spark": "Libra",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "12°",
+    "sign": "Sagittarius",
+    "helper": "12°-Sagittarius",
+    "spark": "Aries",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "12°",
+    "sign": "Capricorn",
+    "helper": "12°-Capricorn",
+    "spark": "Libra",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "12°",
+    "sign": "Aquarius",
+    "helper": "12°-Aquarius",
+    "spark": "Aries",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "12°",
+    "sign": "Pisces",
+    "helper": "12°-Pisces",
+    "spark": "Libra",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "13°",
+    "sign": "Aries",
+    "helper": "13°-Aries",
+    "spark": "Taurus",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "13°",
+    "sign": "Taurus",
+    "helper": "13°-Taurus",
+    "spark": "Scorpio",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "13°",
+    "sign": "Gemini",
+    "helper": "13°-Gemini",
+    "spark": "Taurus",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "13°",
+    "sign": "Cancer",
+    "helper": "13°-Cancer",
+    "spark": "Scorpio",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "13°",
+    "sign": "Leo",
+    "helper": "13°-Leo",
+    "spark": "Taurus",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "13°",
+    "sign": "Virgo",
+    "helper": "13°-Virgo",
+    "spark": "Scorpio",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "13°",
+    "sign": "Libra",
+    "helper": "13°-Libra",
+    "spark": "Taurus",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "13°",
+    "sign": "Scorpio",
+    "helper": "13°-Scorpio",
+    "spark": "Scorpio",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "13°",
+    "sign": "Sagittarius",
+    "helper": "13°-Sagittarius",
+    "spark": "Taurus",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "13°",
+    "sign": "Capricorn",
+    "helper": "13°-Capricorn",
+    "spark": "Scorpio",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "13°",
+    "sign": "Aquarius",
+    "helper": "13°-Aquarius",
+    "spark": "Taurus",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "13°",
+    "sign": "Pisces",
+    "helper": "13°-Pisces",
+    "spark": "Scorpio",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "14°",
+    "sign": "Aries",
+    "helper": "14°-Aries",
+    "spark": "Gemini",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "14°",
+    "sign": "Taurus",
+    "helper": "14°-Taurus",
+    "spark": "Sagittarius",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "14°",
+    "sign": "Gemini",
+    "helper": "14°-Gemini",
+    "spark": "Gemini",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "14°",
+    "sign": "Cancer",
+    "helper": "14°-Cancer",
+    "spark": "Sagittarius",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "14°",
+    "sign": "Leo",
+    "helper": "14°-Leo",
+    "spark": "Gemini",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "14°",
+    "sign": "Virgo",
+    "helper": "14°-Virgo",
+    "spark": "Sagittarius",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "14°",
+    "sign": "Libra",
+    "helper": "14°-Libra",
+    "spark": "Gemini",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "14°",
+    "sign": "Scorpio",
+    "helper": "14°-Scorpio",
+    "spark": "Sagittarius",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "14°",
+    "sign": "Sagittarius",
+    "helper": "14°-Sagittarius",
+    "spark": "Gemini",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "14°",
+    "sign": "Capricorn",
+    "helper": "14°-Capricorn",
+    "spark": "Sagittarius",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "14°",
+    "sign": "Aquarius",
+    "helper": "14°-Aquarius",
+    "spark": "Gemini",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "14°",
+    "sign": "Pisces",
+    "helper": "14°-Pisces",
+    "spark": "Sagittarius",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "15°",
+    "sign": "Aries",
+    "helper": "15°-Aries",
+    "spark": "Cancer",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "15°",
+    "sign": "Taurus",
+    "helper": "15°-Taurus",
+    "spark": "Capricorn",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "15°",
+    "sign": "Gemini",
+    "helper": "15°-Gemini",
+    "spark": "Cancer",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "15°",
+    "sign": "Cancer",
+    "helper": "15°-Cancer",
+    "spark": "Capricorn",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "15°",
+    "sign": "Leo",
+    "helper": "15°-Leo",
+    "spark": "Cancer",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "15°",
+    "sign": "Virgo",
+    "helper": "15°-Virgo",
+    "spark": "Capricorn",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "15°",
+    "sign": "Libra",
+    "helper": "15°-Libra",
+    "spark": "Cancer",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "15°",
+    "sign": "Scorpio",
+    "helper": "15°-Scorpio",
+    "spark": "Capricorn",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "15°",
+    "sign": "Sagittarius",
+    "helper": "15°-Sagittarius",
+    "spark": "Cancer",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "15°",
+    "sign": "Capricorn",
+    "helper": "15°-Capricorn",
+    "spark": "Capricorn",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "15°",
+    "sign": "Aquarius",
+    "helper": "15°-Aquarius",
+    "spark": "Cancer",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "15°",
+    "sign": "Pisces",
+    "helper": "15°-Pisces",
+    "spark": "Capricorn",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "16°",
+    "sign": "Aries",
+    "helper": "16°-Aries",
+    "spark": "Leo",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "16°",
+    "sign": "Taurus",
+    "helper": "16°-Taurus",
+    "spark": "Aquarius",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "16°",
+    "sign": "Gemini",
+    "helper": "16°-Gemini",
+    "spark": "Leo",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "16°",
+    "sign": "Cancer",
+    "helper": "16°-Cancer",
+    "spark": "Aquarius",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "16°",
+    "sign": "Leo",
+    "helper": "16°-Leo",
+    "spark": "Leo",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "16°",
+    "sign": "Virgo",
+    "helper": "16°-Virgo",
+    "spark": "Aquarius",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "16°",
+    "sign": "Libra",
+    "helper": "16°-Libra",
+    "spark": "Leo",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "16°",
+    "sign": "Scorpio",
+    "helper": "16°-Scorpio",
+    "spark": "Aquarius",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "16°",
+    "sign": "Sagittarius",
+    "helper": "16°-Sagittarius",
+    "spark": "Leo",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "16°",
+    "sign": "Capricorn",
+    "helper": "16°-Capricorn",
+    "spark": "Aquarius",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "16°",
+    "sign": "Aquarius",
+    "helper": "16°-Aquarius",
+    "spark": "Leo",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "16°",
+    "sign": "Pisces",
+    "helper": "16°-Pisces",
+    "spark": "Aquarius",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "17°",
+    "sign": "Aries",
+    "helper": "17°-Aries",
+    "spark": "Virgo",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "17°",
+    "sign": "Taurus",
+    "helper": "17°-Taurus",
+    "spark": "Pisces",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "17°",
+    "sign": "Gemini",
+    "helper": "17°-Gemini",
+    "spark": "Virgo",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "17°",
+    "sign": "Cancer",
+    "helper": "17°-Cancer",
+    "spark": "Pisces",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "17°",
+    "sign": "Leo",
+    "helper": "17°-Leo",
+    "spark": "Virgo",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "17°",
+    "sign": "Virgo",
+    "helper": "17°-Virgo",
+    "spark": "Pisces",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "17°",
+    "sign": "Libra",
+    "helper": "17°-Libra",
+    "spark": "Virgo",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "17°",
+    "sign": "Scorpio",
+    "helper": "17°-Scorpio",
+    "spark": "Pisces",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "17°",
+    "sign": "Sagittarius",
+    "helper": "17°-Sagittarius",
+    "spark": "Virgo",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "17°",
+    "sign": "Capricorn",
+    "helper": "17°-Capricorn",
+    "spark": "Pisces",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "17°",
+    "sign": "Aquarius",
+    "helper": "17°-Aquarius",
+    "spark": "Virgo",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "17°",
+    "sign": "Pisces",
+    "helper": "17°-Pisces",
+    "spark": "Pisces",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "18°",
+    "sign": "Aries",
+    "helper": "18°-Aries",
+    "spark": "Libra",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "18°",
+    "sign": "Taurus",
+    "helper": "18°-Taurus",
+    "spark": "Aries",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "18°",
+    "sign": "Gemini",
+    "helper": "18°-Gemini",
+    "spark": "Libra",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "18°",
+    "sign": "Cancer",
+    "helper": "18°-Cancer",
+    "spark": "Aries",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "18°",
+    "sign": "Leo",
+    "helper": "18°-Leo",
+    "spark": "Libra",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "18°",
+    "sign": "Virgo",
+    "helper": "18°-Virgo",
+    "spark": "Aries",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "18°",
+    "sign": "Libra",
+    "helper": "18°-Libra",
+    "spark": "Libra",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "18°",
+    "sign": "Scorpio",
+    "helper": "18°-Scorpio",
+    "spark": "Aries",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "18°",
+    "sign": "Sagittarius",
+    "helper": "18°-Sagittarius",
+    "spark": "Libra",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "18°",
+    "sign": "Capricorn",
+    "helper": "18°-Capricorn",
+    "spark": "Aries",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "18°",
+    "sign": "Aquarius",
+    "helper": "18°-Aquarius",
+    "spark": "Libra",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "18°",
+    "sign": "Pisces",
+    "helper": "18°-Pisces",
+    "spark": "Aries",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "19°",
+    "sign": "Aries",
+    "helper": "19°-Aries",
+    "spark": "Scorpio",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "19°",
+    "sign": "Taurus",
+    "helper": "19°-Taurus",
+    "spark": "Taurus",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "19°",
+    "sign": "Gemini",
+    "helper": "19°-Gemini",
+    "spark": "Scorpio",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "19°",
+    "sign": "Cancer",
+    "helper": "19°-Cancer",
+    "spark": "Taurus",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "19°",
+    "sign": "Leo",
+    "helper": "19°-Leo",
+    "spark": "Scorpio",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "19°",
+    "sign": "Virgo",
+    "helper": "19°-Virgo",
+    "spark": "Taurus",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "19°",
+    "sign": "Libra",
+    "helper": "19°-Libra",
+    "spark": "Scorpio",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "19°",
+    "sign": "Scorpio",
+    "helper": "19°-Scorpio",
+    "spark": "Taurus",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "19°",
+    "sign": "Sagittarius",
+    "helper": "19°-Sagittarius",
+    "spark": "Scorpio",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "19°",
+    "sign": "Capricorn",
+    "helper": "19°-Capricorn",
+    "spark": "Taurus",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "19°",
+    "sign": "Aquarius",
+    "helper": "19°-Aquarius",
+    "spark": "Scorpio",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "19°",
+    "sign": "Pisces",
+    "helper": "19°-Pisces",
+    "spark": "Taurus",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "20°",
+    "sign": "Aries",
+    "helper": "20°-Aries",
+    "spark": "Sagittarius",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "20°",
+    "sign": "Taurus",
+    "helper": "20°-Taurus",
+    "spark": "Gemini",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "20°",
+    "sign": "Gemini",
+    "helper": "20°-Gemini",
+    "spark": "Sagittarius",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "20°",
+    "sign": "Cancer",
+    "helper": "20°-Cancer",
+    "spark": "Gemini",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "20°",
+    "sign": "Leo",
+    "helper": "20°-Leo",
+    "spark": "Sagittarius",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "20°",
+    "sign": "Virgo",
+    "helper": "20°-Virgo",
+    "spark": "Gemini",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "20°",
+    "sign": "Libra",
+    "helper": "20°-Libra",
+    "spark": "Sagittarius",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "20°",
+    "sign": "Scorpio",
+    "helper": "20°-Scorpio",
+    "spark": "Gemini",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "20°",
+    "sign": "Sagittarius",
+    "helper": "20°-Sagittarius",
+    "spark": "Sagittarius",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "20°",
+    "sign": "Capricorn",
+    "helper": "20°-Capricorn",
+    "spark": "Gemini",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "20°",
+    "sign": "Aquarius",
+    "helper": "20°-Aquarius",
+    "spark": "Sagittarius",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "20°",
+    "sign": "Pisces",
+    "helper": "20°-Pisces",
+    "spark": "Gemini",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "21°",
+    "sign": "Aries",
+    "helper": "21°-Aries",
+    "spark": "Capricorn",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "21°",
+    "sign": "Taurus",
+    "helper": "21°-Taurus",
+    "spark": "Cancer",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "21°",
+    "sign": "Gemini",
+    "helper": "21°-Gemini",
+    "spark": "Capricorn",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "21°",
+    "sign": "Cancer",
+    "helper": "21°-Cancer",
+    "spark": "Cancer",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "21°",
+    "sign": "Leo",
+    "helper": "21°-Leo",
+    "spark": "Capricorn",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "21°",
+    "sign": "Virgo",
+    "helper": "21°-Virgo",
+    "spark": "Cancer",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "21°",
+    "sign": "Libra",
+    "helper": "21°-Libra",
+    "spark": "Capricorn",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "21°",
+    "sign": "Scorpio",
+    "helper": "21°-Scorpio",
+    "spark": "Cancer",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "21°",
+    "sign": "Sagittarius",
+    "helper": "21°-Sagittarius",
+    "spark": "Capricorn",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "21°",
+    "sign": "Capricorn",
+    "helper": "21°-Capricorn",
+    "spark": "Cancer",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "21°",
+    "sign": "Aquarius",
+    "helper": "21°-Aquarius",
+    "spark": "Capricorn",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "21°",
+    "sign": "Pisces",
+    "helper": "21°-Pisces",
+    "spark": "Cancer",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "22°",
+    "sign": "Aries",
+    "helper": "22°-Aries",
+    "spark": "Aquarius",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "22°",
+    "sign": "Taurus",
+    "helper": "22°-Taurus",
+    "spark": "Leo",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "22°",
+    "sign": "Gemini",
+    "helper": "22°-Gemini",
+    "spark": "Aquarius",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "22°",
+    "sign": "Cancer",
+    "helper": "22°-Cancer",
+    "spark": "Leo",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "22°",
+    "sign": "Leo",
+    "helper": "22°-Leo",
+    "spark": "Aquarius",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "22°",
+    "sign": "Virgo",
+    "helper": "22°-Virgo",
+    "spark": "Leo",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "22°",
+    "sign": "Libra",
+    "helper": "22°-Libra",
+    "spark": "Aquarius",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "22°",
+    "sign": "Scorpio",
+    "helper": "22°-Scorpio",
+    "spark": "Leo",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "22°",
+    "sign": "Sagittarius",
+    "helper": "22°-Sagittarius",
+    "spark": "Aquarius",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "22°",
+    "sign": "Capricorn",
+    "helper": "22°-Capricorn",
+    "spark": "Leo",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "22°",
+    "sign": "Aquarius",
+    "helper": "22°-Aquarius",
+    "spark": "Aquarius",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "22°",
+    "sign": "Pisces",
+    "helper": "22°-Pisces",
+    "spark": "Leo",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "23°",
+    "sign": "Aries",
+    "helper": "23°-Aries",
+    "spark": "Pisces",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "23°",
+    "sign": "Taurus",
+    "helper": "23°-Taurus",
+    "spark": "Virgo",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "23°",
+    "sign": "Gemini",
+    "helper": "23°-Gemini",
+    "spark": "Pisces",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "23°",
+    "sign": "Cancer",
+    "helper": "23°-Cancer",
+    "spark": "Virgo",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "23°",
+    "sign": "Leo",
+    "helper": "23°-Leo",
+    "spark": "Pisces",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "23°",
+    "sign": "Virgo",
+    "helper": "23°-Virgo",
+    "spark": "Virgo",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "23°",
+    "sign": "Libra",
+    "helper": "23°-Libra",
+    "spark": "Pisces",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "23°",
+    "sign": "Scorpio",
+    "helper": "23°-Scorpio",
+    "spark": "Virgo",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "23°",
+    "sign": "Sagittarius",
+    "helper": "23°-Sagittarius",
+    "spark": "Pisces",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "23°",
+    "sign": "Capricorn",
+    "helper": "23°-Capricorn",
+    "spark": "Virgo",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "23°",
+    "sign": "Aquarius",
+    "helper": "23°-Aquarius",
+    "spark": "Pisces",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "23°",
+    "sign": "Pisces",
+    "helper": "23°-Pisces",
+    "spark": "Virgo",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "24°",
+    "sign": "Aries",
+    "helper": "24°-Aries",
+    "spark": "Aries",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "24°",
+    "sign": "Taurus",
+    "helper": "24°-Taurus",
+    "spark": "Libra",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "24°",
+    "sign": "Gemini",
+    "helper": "24°-Gemini",
+    "spark": "Aries",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "24°",
+    "sign": "Cancer",
+    "helper": "24°-Cancer",
+    "spark": "Libra",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "24°",
+    "sign": "Leo",
+    "helper": "24°-Leo",
+    "spark": "Aries",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "24°",
+    "sign": "Virgo",
+    "helper": "24°-Virgo",
+    "spark": "Libra",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "24°",
+    "sign": "Libra",
+    "helper": "24°-Libra",
+    "spark": "Aries",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "24°",
+    "sign": "Scorpio",
+    "helper": "24°-Scorpio",
+    "spark": "Libra",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "24°",
+    "sign": "Sagittarius",
+    "helper": "24°-Sagittarius",
+    "spark": "Aries",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "24°",
+    "sign": "Capricorn",
+    "helper": "24°-Capricorn",
+    "spark": "Libra",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "24°",
+    "sign": "Aquarius",
+    "helper": "24°-Aquarius",
+    "spark": "Aries",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "24°",
+    "sign": "Pisces",
+    "helper": "24°-Pisces",
+    "spark": "Libra",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "25°",
+    "sign": "Aries",
+    "helper": "25°-Aries",
+    "spark": "Taurus",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "25°",
+    "sign": "Taurus",
+    "helper": "25°-Taurus",
+    "spark": "Scorpio",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "25°",
+    "sign": "Gemini",
+    "helper": "25°-Gemini",
+    "spark": "Taurus",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "25°",
+    "sign": "Cancer",
+    "helper": "25°-Cancer",
+    "spark": "Scorpio",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "25°",
+    "sign": "Leo",
+    "helper": "25°-Leo",
+    "spark": "Taurus",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "25°",
+    "sign": "Virgo",
+    "helper": "25°-Virgo",
+    "spark": "Scorpio",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "25°",
+    "sign": "Libra",
+    "helper": "25°-Libra",
+    "spark": "Taurus",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "25°",
+    "sign": "Scorpio",
+    "helper": "25°-Scorpio",
+    "spark": "Scorpio",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "25°",
+    "sign": "Sagittarius",
+    "helper": "25°-Sagittarius",
+    "spark": "Taurus",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "25°",
+    "sign": "Capricorn",
+    "helper": "25°-Capricorn",
+    "spark": "Scorpio",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "25°",
+    "sign": "Aquarius",
+    "helper": "25°-Aquarius",
+    "spark": "Taurus",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "25°",
+    "sign": "Pisces",
+    "helper": "25°-Pisces",
+    "spark": "Scorpio",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "26°",
+    "sign": "Aries",
+    "helper": "26°-Aries",
+    "spark": "Gemini",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "26°",
+    "sign": "Taurus",
+    "helper": "26°-Taurus",
+    "spark": "Sagittarius",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "26°",
+    "sign": "Gemini",
+    "helper": "26°-Gemini",
+    "spark": "Gemini",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "26°",
+    "sign": "Cancer",
+    "helper": "26°-Cancer",
+    "spark": "Sagittarius",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "26°",
+    "sign": "Leo",
+    "helper": "26°-Leo",
+    "spark": "Gemini",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "26°",
+    "sign": "Virgo",
+    "helper": "26°-Virgo",
+    "spark": "Sagittarius",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "26°",
+    "sign": "Libra",
+    "helper": "26°-Libra",
+    "spark": "Gemini",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "26°",
+    "sign": "Scorpio",
+    "helper": "26°-Scorpio",
+    "spark": "Sagittarius",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "26°",
+    "sign": "Sagittarius",
+    "helper": "26°-Sagittarius",
+    "spark": "Gemini",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "26°",
+    "sign": "Capricorn",
+    "helper": "26°-Capricorn",
+    "spark": "Sagittarius",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "26°",
+    "sign": "Aquarius",
+    "helper": "26°-Aquarius",
+    "spark": "Gemini",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "26°",
+    "sign": "Pisces",
+    "helper": "26°-Pisces",
+    "spark": "Sagittarius",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "27°",
+    "sign": "Aries",
+    "helper": "27°-Aries",
+    "spark": "Cancer",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "27°",
+    "sign": "Taurus",
+    "helper": "27°-Taurus",
+    "spark": "Capricorn",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "27°",
+    "sign": "Gemini",
+    "helper": "27°-Gemini",
+    "spark": "Cancer",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "27°",
+    "sign": "Cancer",
+    "helper": "27°-Cancer",
+    "spark": "Capricorn",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "27°",
+    "sign": "Leo",
+    "helper": "27°-Leo",
+    "spark": "Cancer",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "27°",
+    "sign": "Virgo",
+    "helper": "27°-Virgo",
+    "spark": "Capricorn",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "27°",
+    "sign": "Libra",
+    "helper": "27°-Libra",
+    "spark": "Cancer",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "27°",
+    "sign": "Scorpio",
+    "helper": "27°-Scorpio",
+    "spark": "Capricorn",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "27°",
+    "sign": "Sagittarius",
+    "helper": "27°-Sagittarius",
+    "spark": "Cancer",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "27°",
+    "sign": "Capricorn",
+    "helper": "27°-Capricorn",
+    "spark": "Capricorn",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "27°",
+    "sign": "Aquarius",
+    "helper": "27°-Aquarius",
+    "spark": "Cancer",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "27°",
+    "sign": "Pisces",
+    "helper": "27°-Pisces",
+    "spark": "Capricorn",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "28°",
+    "sign": "Aries",
+    "helper": "28°-Aries",
+    "spark": "Leo",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "28°",
+    "sign": "Taurus",
+    "helper": "28°-Taurus",
+    "spark": "Aquarius",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "28°",
+    "sign": "Gemini",
+    "helper": "28°-Gemini",
+    "spark": "Leo",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "28°",
+    "sign": "Cancer",
+    "helper": "28°-Cancer",
+    "spark": "Aquarius",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "28°",
+    "sign": "Leo",
+    "helper": "28°-Leo",
+    "spark": "Leo",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "28°",
+    "sign": "Virgo",
+    "helper": "28°-Virgo",
+    "spark": "Aquarius",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "28°",
+    "sign": "Libra",
+    "helper": "28°-Libra",
+    "spark": "Leo",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "28°",
+    "sign": "Scorpio",
+    "helper": "28°-Scorpio",
+    "spark": "Aquarius",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "28°",
+    "sign": "Sagittarius",
+    "helper": "28°-Sagittarius",
+    "spark": "Leo",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "28°",
+    "sign": "Capricorn",
+    "helper": "28°-Capricorn",
+    "spark": "Aquarius",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "28°",
+    "sign": "Aquarius",
+    "helper": "28°-Aquarius",
+    "spark": "Leo",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "28°",
+    "sign": "Pisces",
+    "helper": "28°-Pisces",
+    "spark": "Aquarius",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  },
+  {
+    "degree": "29°",
+    "sign": "Aries",
+    "helper": "29°-Aries",
+    "spark": "Virgo",
+    "decan": "Sagittarius",
+    "decan_planets": "JUPITER"
+  },
+  {
+    "degree": "29°",
+    "sign": "Taurus",
+    "helper": "29°-Taurus",
+    "spark": "Pisces",
+    "decan": "Capricorn",
+    "decan_planets": "SATURN"
+  },
+  {
+    "degree": "29°",
+    "sign": "Gemini",
+    "helper": "29°-Gemini",
+    "spark": "Virgo",
+    "decan": "Aquarius",
+    "decan_planets": "URANUS"
+  },
+  {
+    "degree": "29°",
+    "sign": "Cancer",
+    "helper": "29°-Cancer",
+    "spark": "Pisces",
+    "decan": "Pisces",
+    "decan_planets": "NEPTUNE"
+  },
+  {
+    "degree": "29°",
+    "sign": "Leo",
+    "helper": "29°-Leo",
+    "spark": "Virgo",
+    "decan": "Aries",
+    "decan_planets": "MARS"
+  },
+  {
+    "degree": "29°",
+    "sign": "Virgo",
+    "helper": "29°-Virgo",
+    "spark": "Pisces",
+    "decan": "Taurus",
+    "decan_planets": "VENUS (Taurus)"
+  },
+  {
+    "degree": "29°",
+    "sign": "Libra",
+    "helper": "29°-Libra",
+    "spark": "Virgo",
+    "decan": "Gemini",
+    "decan_planets": "MERCURY (Gemini)"
+  },
+  {
+    "degree": "29°",
+    "sign": "Scorpio",
+    "helper": "29°-Scorpio",
+    "spark": "Pisces",
+    "decan": "Cancer",
+    "decan_planets": "MOON"
+  },
+  {
+    "degree": "29°",
+    "sign": "Sagittarius",
+    "helper": "29°-Sagittarius",
+    "spark": "Virgo",
+    "decan": "Leo",
+    "decan_planets": "SUN"
+  },
+  {
+    "degree": "29°",
+    "sign": "Capricorn",
+    "helper": "29°-Capricorn",
+    "spark": "Pisces",
+    "decan": "Virgo",
+    "decan_planets": "MERCURY (Virgo)"
+  },
+  {
+    "degree": "29°",
+    "sign": "Aquarius",
+    "helper": "29°-Aquarius",
+    "spark": "Virgo",
+    "decan": "Libra",
+    "decan_planets": "VENUS (Libra)"
+  },
+  {
+    "degree": "29°",
+    "sign": "Pisces",
+    "helper": "29°-Pisces",
+    "spark": "Pisces",
+    "decan": "Scorpio",
+    "decan_planets": "PLUTO"
+  }
+]
