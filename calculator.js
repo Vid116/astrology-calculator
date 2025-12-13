@@ -44,6 +44,7 @@ let truePlacementDB1 = [];
 let truePlacementDB2 = [];
 let planetMeanings = {};
 let signMeanings = {};
+let profectionData = {};
 
 // Load all JSON data on page load
 async function loadData() {
@@ -53,7 +54,8 @@ async function loadData() {
             fetch('true_placement_db1.json'),
             fetch('true_placement_db2.json'),
             fetch('planet_meanings.json'),
-            fetch('sign_meanings.json')
+            fetch('sign_meanings.json'),
+            fetch('profection_data.json')
         ]);
 
         [
@@ -61,7 +63,8 @@ async function loadData() {
             truePlacementDB1,
             truePlacementDB2,
             planetMeanings,
-            signMeanings
+            signMeanings,
+            profectionData
         ] = await Promise.all(responses.map(r => r.json()));
 
         console.log('All data loaded successfully');
@@ -86,8 +89,10 @@ function showCalculator(calculatorName) {
 
     if (calculatorName === 'spark') {
         document.getElementById('spark-calculator').classList.add('active');
-    } else {
+    } else if (calculatorName === 'true-placement') {
         document.getElementById('true-placement-calculator').classList.add('active');
+    } else if (calculatorName === 'profection-years') {
+        document.getElementById('profection-years-calculator').classList.add('active');
     }
 }
 
@@ -219,6 +224,132 @@ document.getElementById('true-placement-form').addEventListener('submit', functi
         `;
         resultDiv.classList.add('show');
     }
+});
+
+// Profection Years Calculator
+document.getElementById('profection-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const birthdate = document.getElementById('pf-birthdate').value;
+    const rising = document.getElementById('pf-rising').value;
+
+    if (!birthdate || !rising) {
+        alert('Please fill in all fields');
+        return;
+    }
+
+    // Parse birth date
+    const birthDate = new Date(birthdate);
+    const birthYear = birthDate.getFullYear();
+    const birthMonth = birthDate.getMonth() + 1; // 0-indexed
+    const birthDay = birthDate.getDate();
+
+    // Calculate current age
+    const today = new Date();
+    let age = today.getFullYear() - birthYear;
+    const monthDiff = today.getMonth() + 1 - birthMonth;
+    const dayDiff = today.getDate() - birthDay;
+
+    // Adjust age if birthday hasn't happened this year
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+        age--;
+    }
+
+    // Determine first activation year
+    // Born late Feb/early March often start same year, others start next year
+    let firstActivation = birthYear;
+    if (birthMonth <= 2 || (birthMonth === 3 && birthDay <= 15)) {
+        firstActivation = birthYear; // Same year for early spring births
+    } else {
+        firstActivation = birthYear + 1; // Next year for most
+    }
+
+    // Get house mappings for this rising sign
+    const houseMappings = profectionData.house_mappings[rising];
+    const houseOrder = profectionData.house_order;
+
+    if (!houseMappings) {
+        alert('Error: Rising sign data not found');
+        return;
+    }
+
+    // Calculate current profection house (which house the person is in this year)
+    // Age 0-1 = 12th house, Age 1-2 = 1st house, etc.
+    const currentHouseIndex = age % 12;
+    const currentHouse = houseOrder[currentHouseIndex];
+    const currentSign = houseMappings[currentHouse];
+
+    // Generate profection table for current 12-year cycle and next
+    const currentCycleStart = Math.floor(age / 12) * 12;
+    const resultDiv = document.getElementById('profection-result');
+
+    let tableHTML = `
+        <h3>Profection Years Result</h3>
+        <div class="result-item">
+            <strong>Birth Date:</strong> <span>${birthdate}</span>
+        </div>
+        <div class="result-item">
+            <strong>Rising Sign:</strong> <span>${rising}</span>
+        </div>
+        <div class="result-item">
+            <strong>Current Age:</strong> <span>${age}</span>
+        </div>
+        <div class="result-item">
+            <strong>Current Profection:</strong> <span>${currentHouse} House - ${currentSign}</span>
+        </div>
+        <div class="result-item">
+            <strong>First Activation Year:</strong> <span>${firstActivation}</span>
+        </div>
+
+        <div class="interpretation">
+            You are currently <strong>${age}</strong> years old and in your <strong>${currentHouse} house</strong> profection year, activated through the sign of <strong>${currentSign}</strong>.
+        </div>
+
+        <h4 style="margin-top: 30px; color: var(--accent-primary);">Your Profection Cycles:</h4>
+        <div style="overflow-x: auto; margin-top: 15px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+                <thead>
+                    <tr style="background: var(--bg-tertiary); border: 1px solid var(--border-primary);">
+                        <th style="padding: 10px; text-align: left; color: var(--text-primary);">Age</th>
+                        <th style="padding: 10px; text-align: left; color: var(--text-primary);">Year</th>
+                        <th style="padding: 10px; text-align: left; color: var(--text-primary);">House</th>
+                        <th style="padding: 10px; text-align: left; color: var(--text-primary);">Sign</th>
+                    </tr>
+                </thead>
+                <tbody>
+    `;
+
+    // Generate rows for ages 0-23 (two full cycles)
+    for (let i = 0; i <= 23; i++) {
+        const houseIndex = i % 12;
+        const house = houseOrder[houseIndex];
+        const sign = houseMappings[house];
+        const year = firstActivation + i;
+
+        // Highlight current age
+        const isCurrentAge = i === age;
+        const rowStyle = isCurrentAge ?
+            'background: rgba(212, 175, 55, 0.2); border: 2px solid var(--accent-primary);' :
+            'background: var(--bg-secondary); border: 1px solid var(--border-primary);';
+
+        tableHTML += `
+            <tr style="${rowStyle}">
+                <td style="padding: 8px; color: var(--text-primary); ${isCurrentAge ? 'font-weight: bold;' : ''}">${i}</td>
+                <td style="padding: 8px; color: var(--text-secondary);">${year}</td>
+                <td style="padding: 8px; color: var(--accent-primary); ${isCurrentAge ? 'font-weight: bold;' : ''}">${house}</td>
+                <td style="padding: 8px; color: var(--text-primary); ${isCurrentAge ? 'font-weight: bold;' : ''}">${sign}</td>
+            </tr>
+        `;
+    }
+
+    tableHTML += `
+                </tbody>
+            </table>
+        </div>
+    `;
+
+    resultDiv.innerHTML = tableHTML;
+    resultDiv.classList.add('show');
 });
 
 // Initialize data on page load

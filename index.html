@@ -16,7 +16,7 @@
             <div class="header-content">
                 <div class="header-text">
                     <h1>Astrology Calculator</h1>
-                    <p class="subtitle">Discover your Spark and True Placement</p>
+                    <p class="subtitle">Discover your Spark, True Placement, and Profection Years</p>
                 </div>
                 <button class="theme-toggle" id="theme-toggle">
                     <span id="theme-icon">☀️</span>
@@ -28,6 +28,7 @@
         <div class="calculator-tabs">
             <button class="tab-button active" onclick="showCalculator('spark')">Spark Calculator</button>
             <button class="tab-button" onclick="showCalculator('true-placement')">True Placement Calculator</button>
+            <button class="tab-button" onclick="showCalculator('profection-years')">Profection Years</button>
         </div>
 
         <!-- Spark Calculator -->
@@ -148,6 +149,42 @@
             </form>
 
             <div id="true-placement-result" class="result-section"></div>
+        </div>
+
+        <!-- Profection Years Calculator -->
+        <div id="profection-years-calculator" class="calculator-section">
+            <h2>Profection Years Calculator</h2>
+            <p class="description">Calculate your annual profections based on your birth date and rising sign</p>
+
+            <form id="profection-form" class="calculator-form">
+                <div class="form-group">
+                    <label for="pf-birthdate">Birth Date:</label>
+                    <input type="date" id="pf-birthdate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pf-rising">Rising Sign (Ascendant):</label>
+                    <select id="pf-rising" required>
+                        <option value="">Select rising sign...</option>
+                        <option value="Aries">Aries</option>
+                        <option value="Taurus">Taurus</option>
+                        <option value="Gemini">Gemini</option>
+                        <option value="Cancer">Cancer</option>
+                        <option value="Leo">Leo</option>
+                        <option value="Virgo">Virgo</option>
+                        <option value="Libra">Libra</option>
+                        <option value="Scorpio">Scorpio</option>
+                        <option value="Sagittarius">Sagittarius</option>
+                        <option value="Capricorn">Capricorn</option>
+                        <option value="Aquarius">Aquarius</option>
+                        <option value="Pisces">Pisces</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="calculate-btn">Calculate Profection Years</button>
+            </form>
+
+            <div id="profection-result" class="result-section"></div>
         </div>
     </div>
 
