@@ -22,6 +22,62 @@
     --accent-secondary: #b8960f;
     --accent-tertiary: #f4e4b0;
 
+    /* ============================================
+       CELESTIAL COLOR PALETTE
+       ============================================ */
+
+    /* Gold Tones - Primary accent, sun, warmth */
+    --gold-50: #fefce8;
+    --gold-100: #fef9c3;
+    --gold-200: #fef08a;
+    --gold-300: #fde047;
+    --gold-400: #facc15;
+    --gold-500: #d4af37;
+    --gold-600: #b8960f;
+    --gold-700: #a16207;
+    --gold-800: #854d0e;
+    --gold-900: #713f12;
+    --gold-glow: rgba(212, 175, 55, 0.6);
+
+    /* Celestial Blue/Cyan - Stars, cosmic, cool accent */
+    --cyan-50: #ecfeff;
+    --cyan-100: #cffafe;
+    --cyan-200: #a5f3fc;
+    --cyan-300: #67e8f9;
+    --cyan-400: #22d3ee;
+    --cyan-500: #06b6d4;
+    --cyan-600: #0891b2;
+    --cyan-700: #0e7490;
+    --cyan-800: #155e75;
+    --cyan-900: #164e63;
+    --cyan-glow: rgba(103, 232, 249, 0.5);
+
+    /* Purple/Violet - Mystical, astrology, magic */
+    --purple-50: #faf5ff;
+    --purple-100: #f3e8ff;
+    --purple-200: #e9d5ff;
+    --purple-300: #d8b4fe;
+    --purple-400: #c084fc;
+    --purple-500: #a855f7;
+    --purple-600: #9333ea;
+    --purple-700: #7c3aed;
+    --purple-800: #6b21a8;
+    --purple-900: #581c87;
+    --purple-glow: rgba(167, 139, 250, 0.5);
+
+    /* Silver/Platinum - Elegant, moon, subtle */
+    --silver-50: #fafafa;
+    --silver-100: #f4f4f5;
+    --silver-200: #e4e4e7;
+    --silver-300: #d4d4d8;
+    --silver-400: #a1a1aa;
+    --silver-500: #71717a;
+    --silver-600: #52525b;
+    --silver-700: #3f3f46;
+    --silver-800: #27272a;
+    --silver-900: #18181b;
+    --silver-glow: rgba(212, 212, 216, 0.4);
+
     --border-primary: rgba(255, 255, 255, 0.5);
     --border-secondary: rgba(255, 255, 255, 0.6);
 

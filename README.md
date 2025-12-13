@@ -4,11 +4,18 @@ A stunning web-based astrology calculator featuring a celestial canvas backgroun
 
 ## Features
 
-### 🌟 Celestial Background Animation
-- **Canvas-based celestial animation** with twinkling stars
-- **Planetary motion** with visible trails
-- **Constellation patterns** connecting stars
-- **Dynamic and fluid** animations
+### 🌟 Real Astronomical Background
+- **10 Real Constellations** - Orion, Ursa Major, Cassiopeia, Scorpius, Leo, Cygnus, Gemini, Taurus, Lyra, Aquila
+- **Authentic Star Patterns** - Based on real astronomical data with accurate brightness
+- **Styled Constellation Labels**:
+  - **Cinzel font** (Roman/Latin style) for constellation names with gold glow effect
+  - **Parisienne font** (elegant script) for descriptions
+  - Manual letter spacing for professional appearance
+- **Smart Positioning** - Constellations avoid center UI, placed on screen edges
+- **Named Stars** - Famous stars like Betelgeuse, Rigel, Vega, Altair with proper positions
+- **Planetary Motion** - 4 orbiting planets with visible trails
+- **Twinkling Stars** - 100+ background stars for depth
+- **Modular Architecture** - Separate files for easy customization
 - **Theme-aware** colors (light & dark mode)
 
 ### 🔮 Calculators
@@ -30,7 +37,17 @@ Calculates house placements based on planetary positions.
 - `styles.css` - Theme-based styling with glass morphism effects
 - `calculator.js` - Calculator logic and theme management
 - `background.css` - Celestial canvas background styles
-- `background.js` - Animated background with planets and constellations
+
+### Background Module (`background/`)
+- `init.js` - Auto-initialization entry point
+- `CelestialBackground.js` - Main background controller
+- `constellationData.js` - Real astronomical constellation data (10 constellations)
+- `Constellation.js` - Real constellation renderer with star brightness
+- `Star.js` - Twinkling background stars
+- `Planet.js` - Orbital planets with trails
+- `theme.js` - Theme utilities and color management
+- `README.md` - Detailed background module documentation
+- `example.html` - Interactive demo with controls
 
 ### Data Files
 - `spark_database.json` - 360 entries for Spark lookups
@@ -56,11 +73,13 @@ Calculates house placements based on planetary positions.
 - Background animations visible through interface
 
 ### 🌌 Visual Effects
-- Twinkling stars at multiple depths
-- Planets with motion trails
-- Constellation line patterns
-- Smooth canvas-based animations
-- Responsive design for all screen sizes
+- **Real Constellations** - Authentic patterns like Orion's Belt, Big Dipper, Cassiopeia's W
+- **Star Brightness** - Based on actual astronomical magnitude data
+- **Twinkling Stars** - Background stars at multiple depths
+- **Planetary Orbits** - 4 planets with glowing motion trails
+- **Named Celestial Objects** - Famous stars like Betelgeuse (red supergiant), Vega, Altair
+- **Smooth Animations** - Canvas-based 60fps rendering
+- **Responsive Design** - All screen sizes supported
 
 ## How to Use
 
@@ -100,6 +119,31 @@ npx http-server
 
 ## Customization
 
+### Background Customization
+
+**Interactive Demo**: Open `background/example.html` to experiment with controls!
+
+**Add Specific Constellations**:
+```javascript
+// Access the background instance
+const bg = window.celestialBackground;
+
+// Add Orion constellation
+bg.addConstellation('ORION', { scale: 1.5, showStarNames: true });
+
+// Available constellations:
+// ORION, URSA_MAJOR, CASSIOPEIA, SCORPIUS, LEO,
+// CYGNUS, GEMINI, TAURUS, LYRA, AQUILA
+```
+
+**Toggle Features**:
+```javascript
+bg.toggleConstellationNames(false); // Hide constellation names
+bg.toggleStarNames(true);           // Show individual star names
+```
+
+See `background/README.md` for complete API documentation.
+
 ### Adjusting Transparency
 Edit line 9 in `styles.css`:
 ```css
@@ -128,11 +172,13 @@ Works on all modern browsers:
 
 ## Technical Details
 
-- **No dependencies** - Pure vanilla JavaScript
-- **Canvas API** for smooth animations
-- **CSS Variables** for theming
-- **LocalStorage** for theme persistence
-- **Responsive design** with mobile support
+- **No dependencies** - Pure vanilla JavaScript with ES6 modules
+- **Modular Architecture** - Separate files for each background component
+- **Real Astronomical Data** - 10 constellations with accurate star positions and brightness
+- **Canvas API** - Smooth 60fps animations
+- **CSS Variables** - Easy theming and customization
+- **LocalStorage** - Theme persistence
+- **Responsive Design** - Mobile and desktop support
 
 ## Data Source
 

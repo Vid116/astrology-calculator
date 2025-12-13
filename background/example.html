@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Constellation Background - Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        #celestial-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #0a0e1a;
+        }
+
+        [data-theme="dark"] #celestial-canvas {
+            background: #050810;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+            max-width: 300px;
+            z-index: 1000;
+        }
+
+        .controls h2 {
+            margin-bottom: 15px;
+            color: #d4af37;
+        }
+
+        .controls button {
+            margin: 5px 0;
+            padding: 8px 15px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: rgba(212, 175, 55, 0.4);
+            border-color: rgba(212, 175, 55, 0.8);
+        }
+
+        .controls label {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .controls input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        .info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            color: white;
+            max-width: 400px;
+            font-size: 14px;
+        }
+
+        .info h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+
+        .constellation-list {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .constellation-list div {
+            padding: 5px;
+            margin: 3px 0;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="celestial-canvas"></canvas>
+
+    <div class="controls">
+        <h2>Controls</h2>
+        <button onclick="addOrion()">Add Orion</button>
+        <button onclick="addBigDipper()">Add Big Dipper</button>
+        <button onclick="addCassiopeia()">Add Cassiopeia</button>
+        <button onclick="addRandom()">Add Random</button>
+        <button onclick="clearAll()">Clear Constellations</button>
+        <button onclick="restartBackground()">Restart</button>
+
+        <label>
+            <input type="checkbox" id="showNames" checked onchange="toggleNames()">
+            Show Constellation Names
+        </label>
+
+        <label>
+            <input type="checkbox" id="showStarNames" onchange="toggleStarNames()">
+            Show Star Names
+        </label>
+    </div>
+
+    <div class="info">
+        <h3>Real Astronomical Constellations</h3>
+        <p>This background features 10 real constellations with accurate star positions and brightness based on astronomical data.</p>
+        <div class="constellation-list" id="constellationList"></div>
+    </div>
+
+    <script type="module">
+        import { initCelestialBackground } from './init.js';
+        import { CONSTELLATIONS } from './constellationData.js';
+
+        // Initialize background with real constellations
+        window.celestialBg = initCelestialBackground('celestial-canvas', {
+            starCount: 150,
+            constellationCount: 5,
+            constellationScale: 0.9,
+            showConstellationNames: true,
+            showStarNames: false
+        });
+
+        // Display available constellations
+        const constellationList = document.getElementById('constellationList');
+        const constellations = Object.keys(CONSTELLATIONS);
+        constellationList.innerHTML = '<strong>Available:</strong><br>' +
+            constellations.map(name =>
+                `<div>${CONSTELLATIONS[name].name} - ${CONSTELLATIONS[name].description}</div>`
+            ).join('');
+
+        // Make functions global for button onclick
+        window.addOrion = () => {
+            celestialBg.addConstellation('ORION', { scale: 1.2 });
+        };
+
+        window.addBigDipper = () => {
+            celestialBg.addConstellation('URSA_MAJOR', { scale: 1.0 });
+        };
+
+        window.addCassiopeia = () => {
+            celestialBg.addConstellation('CASSIOPEIA', { scale: 1.0 });
+        };
+
+        window.addRandom = () => {
+            celestialBg.addRandomConstellation();
+        };
+
+        window.clearAll = () => {
+            celestialBg.clearConstellations();
+        };
+
+        window.restartBackground = () => {
+            celestialBg.restart();
+        };
+
+        window.toggleNames = () => {
+            const checked = document.getElementById('showNames').checked;
+            celestialBg.toggleConstellationNames(checked);
+        };
+
+        window.toggleStarNames = () => {
+            const checked = document.getElementById('showStarNames').checked;
+            celestialBg.toggleStarNames(checked);
+        };
+
+        console.log('🌟 Real Constellation Background Loaded!');
+        console.log('Available constellations:', celestialBg.getAvailableConstellations());
+    </script>
+</body>
+</html>

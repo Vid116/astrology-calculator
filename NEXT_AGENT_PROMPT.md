@@ -34,15 +34,22 @@ You're working on an **Astrology Calculator** web application that's **fully fun
 I'm continuing work on the Astrology Calculator project located at C:\Astro\
 
 CURRENT STATE:
-- The application is fully functional with two calculators (Spark & True Placement)
-- Uses animated celestial canvas background with twinkling stars, orbiting planets, and constellations
+- The application is fully functional with three calculators (Spark, True Placement & Profection Years)
+- **Modular Background System** with 10 real astronomical constellations (Orion, Ursa Major, etc.)
+- **Styled Constellation Labels**: Cinzel font (Roman style) for names, Parisienne (script) for descriptions
+- **Smart Positioning**: Constellations avoid center UI zone, placed on screen edges
+- Real star brightness based on astronomical magnitude data
+- Background components in separate modules for easy extension
 - Glass morphism design (85% transparent UI with backdrop blur)
 - Light/Dark theme system with localStorage persistence
 - All data extracted from Spark_converter.xlsx to JSON files
 
 TECH STACK:
-- Pure vanilla JavaScript (no frameworks)
+- Pure vanilla JavaScript with ES6 modules
 - HTML5 Canvas for animations
+- Google Fonts: Cinzel (Roman/Latin) + Parisienne (elegant script)
+- Modular architecture with separate background components
+- Real astronomical data (constellation positions, star brightness)
 - CSS Variables for theming
 - Glass morphism effects with backdrop-filter
 
@@ -55,8 +62,15 @@ KEY DESIGN DETAILS:
 FILES TO KNOW:
 - index.html: Main application
 - calculator.js: Contains theme toggle, data loading, and calculation logic
-- background.js: Canvas animation (Star, Planet, Constellation classes)
 - styles.css: All styling with CSS variables for easy customization
+- background/: Modular background system
+  - init.js: Auto-initialization
+  - CelestialBackground.js: Main controller with public API
+  - constellationData.js: 10 real constellation patterns
+  - Constellation.js, Star.js, Planet.js: Renderers
+  - theme.js: Color management
+  - example.html: Interactive demo
+  - README.md: Complete API docs
 - 5 JSON files: spark_database, true_placement_db1/2, planet/sign_meanings
 
 Please read HANDOVER.md for complete documentation.
@@ -76,13 +90,19 @@ What would you like me to work on next?
 ### Medium Priority:
 4. **More interpretations** - Expand the interpretation text using the meanings data
 5. **Zodiac symbols** - Add ♈ ♉ ♊ symbols to dropdowns
-6. **Animation controls** - Let users pause/play background animation
-7. **Print view** - Create printer-friendly results page
+6. **Background enhancements**:
+   - Add Zodiac constellations (Aries, Taurus already have Taurus, add rest)
+   - Shooting stars/meteor effects
+   - Interactive constellation tooltips on hover
+   - Nebula/galaxy backgrounds
+7. **Animation controls** - Let users pause/play background animation
+8. **Print view** - Create printer-friendly results page
 
 ### Nice to Have:
-8. **PWA support** - Make it installable as an app
-9. **More backgrounds** - Additional celestial animation options
-10. **Tutorial/Help** - Guide users on how to use calculators
+9. **PWA support** - Make it installable as an app
+10. **More constellations** - Add Southern Hemisphere constellations
+11. **Tutorial/Help** - Guide users on how to use calculators
+12. **Background presets** - Quick switches between different constellation sets
 
 ---
 
@@ -101,12 +121,28 @@ Edit `styles.css` line 9:
 --glass-opacity: 0.15;  /* Change value between 0.1-0.5 */
 ```
 
-### To Modify Animation:
-Edit `background.js`:
-- Stars: Line 40-52 (Star class)
-- Planets: Line 54-113 (Planet class)
-- Constellations: Line 115-138 (Constellation class)
-- Speed: Line 145-152 (planet creation)
+### To Modify Background:
+Edit files in `background/`:
+- Constellations: `constellationData.js` - Add new patterns
+- Label styling: `Constellation.js` - Font, size, colors, positioning
+- Star rendering: `Star.js` - Twinkling behavior
+- Planet rendering: `Planet.js` - Orbital motion
+- Main controller: `CelestialBackground.js` - API and animation loop
+- Speed: Lines 56-63 in CelestialBackground.js
+
+**Fonts used:**
+- Constellation names: Cinzel (14px, gold with glow)
+- Descriptions: Parisienne (16px, elegant script)
+
+### To Use Background API:
+```javascript
+const bg = window.celestialBackground;
+bg.addConstellation('ORION', { scale: 1.5, showStarNames: true });
+bg.toggleConstellationNames(false);
+console.log(bg.getAvailableConstellations());
+```
+
+See `background/README.md` for complete API documentation.
 
 ### To Add New Calculator:
 1. Add new tab button in `index.html`

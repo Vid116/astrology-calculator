@@ -23,7 +23,11 @@ Successfully converted an Excel-based astrology calculator (`Spark_converter.xls
    - Output: House placement, interpretation text
 
 ### Visual Features:
-- **Celestial Canvas Background** with animated constellations and planets
+- **Real Astronomical Constellations** - 10 authentic star patterns (Orion, Ursa Major, etc.)
+- **Styled Constellation Labels** - Cinzel font for names (Roman/Latin style), Parisienne for descriptions (elegant script)
+- **Smart Constellation Positioning** - Avoids center UI zone, places on screen edges
+- **Modular Background System** - Separate files for each component (easy to extend)
+- **Star Brightness Data** - Based on real astronomical magnitude
 - **Glass Morphism UI** (85% transparent with 30px backdrop blur)
 - **Light/Dark Theme** with localStorage persistence
 - **Fully Responsive** design
@@ -38,9 +42,19 @@ C:\Astro\
 ├── styles.css                    ← All styling + theme variables
 ├── calculator.js                 ← Calculator logic + theme toggle
 ├── background.css                ← Celestial canvas styles
-├── background.js                 ← Animated background (Canvas API)
 ├── README.md                     ← User documentation
 ├── HANDOVER.md                   ← This file
+│
+├── background/                   ← MODULAR BACKGROUND SYSTEM
+│   ├── init.js                   ← Auto-initialization entry point
+│   ├── CelestialBackground.js    ← Main background controller
+│   ├── constellationData.js      ← 10 real constellation patterns
+│   ├── Constellation.js          ← Constellation renderer
+│   ├── Star.js                   ← Twinkling stars
+│   ├── Planet.js                 ← Orbital planets
+│   ├── theme.js                  ← Theme utilities
+│   ├── README.md                 ← Background module docs
+│   └── example.html              ← Interactive demo with controls
 │
 ├── DATA FILES (extracted from Excel):
 ├── spark_database.json           ← 360 entries (every degree/sign combo)
@@ -103,14 +117,27 @@ planet === inputPlanet && sign === inputSign && rising === inputRising
 // Returns: house, expressing sign, base house, base sign
 ```
 
-### Background Animation (background.js)
+### Background Animation (background/ module)
 
-**Canvas-based animation with:**
-- 100 twinkling stars (Star class)
-- 4 orbiting planets with trails (Planet class)
-- 5 constellation patterns (Constellation class)
-- Continuous animation loop using `requestAnimationFrame()`
-- Theme-aware colors that update on theme change
+**Modular canvas-based system with:**
+- **Real Constellations** - 10 authentic astronomical patterns (Orion, Ursa Major, Cassiopeia, Scorpius, Leo, Cygnus, Gemini, Taurus, Lyra, Aquila)
+- **Styled Labels** - Cinzel font (Roman style) for names, Parisienne (script) for descriptions
+- **Gold Glow Effect** - Names rendered with letter spacing and gold (#d4af37) glow
+- **Smart Positioning** - Constellations placed on edges, avoiding center UI zone
+- **Star Brightness** - Accurate magnitude data (Betelgeuse, Rigel, Vega, Altair, etc.)
+- **100 Twinkling Stars** - Background star field (Star.js)
+- **4 Orbiting Planets** - With motion trails (Planet.js)
+- **Modular Design** - Each component in separate file
+- **Continuous Animation** - Using `requestAnimationFrame()`
+- **Theme-Aware Colors** - Auto-updates on theme change
+- **Public API** - Add/remove constellations, toggle names, etc.
+
+**Required Fonts (in index.html):**
+```html
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+```
+
+**Interactive Demo**: Open `background/example.html` to experiment with controls!
 
 ---
 
@@ -226,11 +253,23 @@ function toggleTheme() {
 - Displays: house, expressing sign, base house
 
 ### Background Animation:
-**File:** `background.js` entire file
-- `Star` class: Twinkling animation
-- `Planet` class: Orbital motion with trails
-- `Constellation` class: Star patterns with connecting lines
-- `animate()` function: Main animation loop
+**Modular System:** `background/` folder
+- `init.js`: Auto-initialization, exports `initCelestialBackground()`
+- `CelestialBackground.js`: Main controller class with public API
+- `constellationData.js`: Real astronomical data for 10 constellations
+- `Constellation.js`: Renders real star patterns with brightness
+- `Star.js`: Twinkling background stars
+- `Planet.js`: Orbital motion with glowing trails
+- `theme.js`: Color management and theme detection
+- `example.html`: Interactive demo page
+- `README.md`: Complete API documentation
+
+**API Access:**
+```javascript
+window.celestialBackground.addConstellation('ORION');
+window.celestialBackground.toggleConstellationNames(false);
+window.celestialBackground.getAvailableConstellations();
+```
 
 ---
 
@@ -257,11 +296,32 @@ function toggleTheme() {
 backdrop-filter: blur(30px);  /* Current: 30px, try 10-50px */
 ```
 
-### Animation Speed (background.js):
+### Background Customization (background/ module):
+
+**Via JavaScript API:**
 ```javascript
-// Line 114-117: Planet speeds
-planets.push(new Planet(centerX, centerY, 100,
-    { light: '#ffd700', dark: '#b8860b' }, 0.002));  // ← Change speed
+// Initialize with custom options
+import { initCelestialBackground } from './background/init.js';
+
+const bg = initCelestialBackground('celestial-canvas', {
+    starCount: 150,
+    constellationCount: 8,
+    constellationScale: 1.2,
+    showConstellationNames: true,
+    showStarNames: false,
+    specificConstellations: ['ORION', 'URSA_MAJOR', 'LEO']
+});
+
+// Add constellations dynamically
+bg.addConstellation('CASSIOPEIA', { scale: 1.5 });
+bg.toggleStarNames(true);
+```
+
+**Planet Speeds** (in `CelestialBackground.js`):
+```javascript
+// Lines 56-63: Adjust planet orbital speeds
+new Planet(centerX, centerY, 100, {...}, 0.002),  // Fastest
+new Planet(centerX, centerY, 250, {...}, 0.0008)  // Slowest
 ```
 
 ---
@@ -335,10 +395,14 @@ planets.push(new Planet(centerX, centerY, 100,
    - Add notes/interpretations to results
 
 4. **Visual Enhancements:**
-   - More background options (different constellations)
+   - Add more constellations (Zodiac constellations: Aries, Virgo, Capricorn, etc.)
+   - Shooting stars/meteor effects
+   - Nebula backgrounds
+   - Milky Way galaxy visualization
    - Zodiac symbols in dropdowns
    - Animated result transitions
    - Parallax effects on scroll
+   - Interactive constellation tooltips on hover
 
 5. **Technical:**
    - Add unit tests
@@ -385,7 +449,7 @@ planets.push(new Planet(centerX, centerY, 100,
 ## 🛠️ Troubleshooting
 
 ### Problem: Background not showing
-**Solution:** Check that `background.js` and `background.css` are loaded in `index.html`
+**Solution:** Check that `background/init.js` is loaded as a module in `index.html` (`<script type="module" src="background/init.js"></script>`)
 
 ### Problem: Calculations returning "Not Found"
 **Solution:** Verify JSON files are in same directory and accessible
