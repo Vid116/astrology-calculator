@@ -169,6 +169,23 @@ document.documentElement.setAttribute('data-theme', 'dark');
 localStorage.setItem('theme', 'dark');
 ```
 
+### Celestial Color Palette
+
+```css
+/* Gold - Primary accent */
+--gold-500: #d4af37;  --gold-glow: rgba(212, 175, 55, 0.6);
+
+/* Cyan - Cosmic, cool */
+--cyan-300: #67e8f9;  --cyan-glow: rgba(103, 232, 249, 0.5);
+
+/* Purple - Mystical */
+--purple-400: #c084fc; --purple-glow: rgba(167, 139, 250, 0.5);
+
+/* Silver - Elegant */
+--silver-300: #d4d4d8; --silver-glow: rgba(212, 212, 216, 0.4);
+```
+Each palette has shades 50-900. Use `var(--gold-500)` etc.
+
 ---
 
 ## ⚠️ Important Notes

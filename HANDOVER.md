@@ -81,6 +81,45 @@ C:\Astro\
 
 **To adjust transparency:** Change `--glass-opacity` value (0.15 = 85% transparent)
 
+### Celestial Color Palette (in `styles.css`)
+
+Four color palettes available, each with shades 50-900 + glow variant:
+
+**Gold (--gold-*)** - Primary accent, sun, warmth
+```css
+--gold-300: #fde047;   /* Light */
+--gold-400: #facc15;   /* Bright */
+--gold-500: #d4af37;   /* Primary */
+--gold-600: #b8960f;   /* Dark */
+--gold-glow: rgba(212, 175, 55, 0.6);
+```
+
+**Celestial Cyan (--cyan-*)** - Stars, cosmic, cool accent
+```css
+--cyan-300: #67e8f9;   /* Light */
+--cyan-400: #22d3ee;   /* Bright */
+--cyan-500: #06b6d4;   /* Primary */
+--cyan-600: #0891b2;   /* Dark */
+--cyan-glow: rgba(103, 232, 249, 0.5);
+```
+
+**Purple/Violet (--purple-*)** - Mystical, astrology, magic
+```css
+--purple-300: #d8b4fe; /* Light */
+--purple-400: #c084fc; /* Bright */
+--purple-500: #a855f7; /* Primary */
+--purple-700: #7c3aed; /* Deep */
+--purple-glow: rgba(167, 139, 250, 0.5);
+```
+
+**Silver/Platinum (--silver-*)** - Elegant, moon, subtle
+```css
+--silver-200: #e4e4e7; /* Light */
+--silver-300: #d4d4d8; /* Primary */
+--silver-400: #a1a1aa; /* Medium */
+--silver-glow: rgba(212, 212, 216, 0.4);
+```
+
 ### Color Themes:
 - **Light Theme:** Dark text on light transparent backgrounds
 - **Dark Theme:** Light text on dark transparent backgrounds

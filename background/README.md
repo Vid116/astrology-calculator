@@ -208,6 +208,19 @@ The background automatically adapts to light/dark themes:
 - Stars: light gray (#e2e8f0)
 - Constellation lines: rgba(212, 175, 55, 0.2)
 
+## Celestial Color Palette
+
+Available CSS variables in `styles.css` for consistent theming:
+
+| Palette | Primary | Glow | Use Case |
+|---------|---------|------|----------|
+| **Gold** | `--gold-500` #d4af37 | `--gold-glow` | Names, accents, sun |
+| **Cyan** | `--cyan-300` #67e8f9 | `--cyan-glow` | Stars, cosmic, cool |
+| **Purple** | `--purple-400` #c084fc | `--purple-glow` | Mystical, magic |
+| **Silver** | `--silver-300` #d4d4d8 | `--silver-glow` | Moon, elegant |
+
+Each palette has shades 50-900 (e.g., `--gold-50` to `--gold-900`).
+
 ## Extending the Background
 
 To add new background elements:
