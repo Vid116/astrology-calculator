@@ -31,6 +31,12 @@ Successfully converted an Excel-based astrology calculator (`Spark_converter.xls
 - **Glass Morphism UI** (85% transparent with 30px backdrop blur)
 - **Light/Dark Theme** with localStorage persistence
 - **Fully Responsive** design
+- **Color-Coded UI** using celestial palette:
+  - **Gold**: Actions (buttons, active tabs)
+  - **Cyan**: Cosmic elements (form labels, input focus, result borders)
+  - **Purple**: Mystical results (result values, interpretations, button hover)
+  - **Silver**: Subtle elements (borders, theme toggle)
+- **Animated Calculate Button** with swirly decorative lines and radial burst effects
 
 ---
 
@@ -125,6 +131,21 @@ Four color palettes available, each with shades 50-900 + glow variant:
 - **Dark Theme:** Light text on dark transparent backgrounds
 - **Space Background:** Always dark navy (#0a0e1a in light, #050810 in dark)
 
+### Color-Coded UI Elements:
+| Color | Used For | Elements |
+|-------|----------|----------|
+| **Gold** | Actions | Calculate button text, active tab, button decorative lines |
+| **Cyan** | Cosmic/Forms | Form labels, input focus glow, result section border, hover accents |
+| **Purple** | Mystical | Result values, interpretation text, button hover/press backgrounds |
+| **Silver** | Subtle | Container borders, theme toggle, result item borders |
+
+### Calculate Button Design:
+- **Style**: Ghost/outline with swirly decorative arcs
+- **Font**: Vast Shadow (dramatic serif with built-in shadow)
+- **Default**: Gold text with gold swirl lines above/below
+- **Hover**: Lines grow + turn cyan, dark purple radial burst background
+- **Press**: Lines burst outward and disappear, deeper purple background
+
 ---
 
 ## 🔧 Technical Implementation
@@ -173,8 +194,14 @@ planet === inputPlanet && sign === inputSign && rising === inputRising
 
 **Required Fonts (in index.html):**
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Parisienne&family=UnifrakturMaguntia&family=Vast+Shadow&display=swap" rel="stylesheet">
 ```
+
+**Font Usage:**
+- **Cinzel**: Constellation names (Roman/Latin style)
+- **Parisienne**: Constellation descriptions (elegant script)
+- **Vast Shadow**: Calculate button text (dramatic, shadowed)
+- **UnifrakturMaguntia**: Available for gothic/medieval elements
 
 **Interactive Demo**: Open `background/example.html` to experiment with controls!
 
@@ -528,7 +555,20 @@ The codebase is clean, well-structured, and easy to maintain. Everything is docu
 
 ---
 
-**Last Updated:** December 12, 2025
-**Version:** 1.0
+**Last Updated:** December 13, 2025
+**Version:** 1.2
 **Developer:** Claude Code
+
+### Version History:
+- **v1.2** (Dec 13, 2025):
+  - Added Cosmic Glass input styling with gradient backgrounds and inner glow
+  - Replaced native dropdowns with custom Cosmic Dropdowns (purple/cyan highlights, star icons, animations)
+  - Custom validation system with styled error messages (replaces browser defaults)
+  - Mystical typography: Cinzel for headers, Cormorant Garamond for subtitles
+  - Enhanced theme contrast (light=cyan glow, dark=purple glow)
+  - Icon-only theme toggle button
+  - Refined calculate button decorative lines
+  - Auto-scroll to results after calculation
+- **v1.1** (Dec 13, 2025): Added color-coded UI, animated calculate button with Vast Shadow font, swirly decorative lines
+- **v1.0** (Dec 12, 2025): Initial release with full functionality
 

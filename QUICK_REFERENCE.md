@@ -9,13 +9,20 @@ You're working on an **Astrology Calculator** web application that's **fully fun
 ## 📍 Current State: COMPLETE ✅
 
 ### What's Working:
-- ✅ Two calculators (Spark & True Placement) fully functional
+- ✅ Three calculators (Spark, True Placement & Profection Years) fully functional
 - ✅ Beautiful celestial canvas background with animations
-- ✅ Glass morphism UI design (85% transparent)
-- ✅ Light/Dark theme with persistence
+- ✅ Glass morphism UI design (fully transparent container)
+- ✅ Light/Dark theme with distinct styling (cyan vs purple glows)
 - ✅ Fully responsive design
 - ✅ All data extracted from Excel to JSON
 - ✅ Clean file structure
+- ✅ **Color-coded UI** using celestial palette (Gold/Cyan/Purple/Silver)
+- ✅ **Animated Calculate button** with swirly lines and burst effects
+- ✅ **Cosmic Glass inputs** with gradient backgrounds and glow effects
+- ✅ **Custom Cosmic Dropdowns** replacing native selects (star icons, animations)
+- ✅ **Custom validation** with styled error messages
+- ✅ **Mystical typography** (Cinzel headers, Cormorant Garamond subtitles)
+- ✅ **Auto-scroll** to results after calculation
 
 ### Location: `C:\Astro\`
 
@@ -47,11 +54,19 @@ CURRENT STATE:
 TECH STACK:
 - Pure vanilla JavaScript with ES6 modules
 - HTML5 Canvas for animations
-- Google Fonts: Cinzel (Roman/Latin) + Parisienne (elegant script)
+- Google Fonts: Cinzel, Cormorant Garamond, Parisienne, Vast Shadow, UnifrakturMaguntia
 - Modular architecture with separate background components
 - Real astronomical data (constellation positions, star brightness)
 - CSS Variables for theming
 - Glass morphism effects with backdrop-filter
+- Custom dropdown component (replaces native selects)
+- Custom validation system (replaces browser defaults)
+
+COLOR-CODED UI:
+- Gold: Actions (buttons, active tabs)
+- Cyan: Cosmic elements (form labels, input focus, result borders)
+- Purple: Mystical (result values, button hover/press backgrounds)
+- Silver: Subtle elements (borders, theme toggle)
 
 KEY DESIGN DETAILS:
 - Transparency controlled by --glass-opacity: 0.15 (line 9 in styles.css)
@@ -131,8 +146,36 @@ Edit files in `background/`:
 - Speed: Lines 56-63 in CelestialBackground.js
 
 **Fonts used:**
+- Main title (h1): Cinzel (gold gradient, uppercase)
+- Section headers (h2): Cinzel (cyan glow)
+- Subtitles & tabs: Cormorant Garamond (italic)
 - Constellation names: Cinzel (14px, gold with glow)
 - Descriptions: Parisienne (16px, elegant script)
+- Calculate button: Vast Shadow (dramatic serif)
+- Available: UnifrakturMaguntia (gothic/medieval)
+
+### Custom Cosmic Dropdowns:
+Native selects are replaced with styled custom dropdowns:
+- **Features**: Glass background, animated chevron, star icons on hover/selected
+- **Pentagram (⛤)** shows on selected option
+- **Scrollbar**: Cyan styled
+- **JS location**: `calculator.js` lines 1-100 (createCosmicDropdown)
+- **CSS location**: `styles.css` (search for "COSMIC DROPDOWN")
+
+### Custom Validation:
+Browser validation replaced with styled cosmic errors:
+- **Red glow** on invalid inputs
+- **Animated error messages** with star icon
+- **Shake animation** on error
+- **JS location**: `calculator.js` (showError, clearError functions)
+
+### Calculate Button Design:
+The button has animated swirly decorative lines:
+- **Default**: Gold text + small gold swirl arcs (50% width)
+- **Hover**: Lines grow slightly + turn cyan (65% width)
+- **Press**: Lines burst outward and vanish
+- **Auto-scrolls** to results after calculation
+- CSS location: `styles.css` lines 840-940
 
 ### To Use Background API:
 ```javascript
@@ -164,24 +207,29 @@ See `background/README.md` for complete API documentation.
 background: rgba(255, 255, 255, 0.15);
 backdrop-filter: blur(30px);
 
-/* Theme Toggle */
+/* Theme Toggle (icon-only: ☀️/🌙) */
 document.documentElement.setAttribute('data-theme', 'dark');
 localStorage.setItem('theme', 'dark');
+
+/* Theme Differences */
+Light theme: Cyan container glow, lighter background gradient
+Dark theme: Purple container glow, deep space gradient
 ```
 
-### Celestial Color Palette
+### Celestial Color Palette (Color-Coded by Purpose)
 
 ```css
-/* Gold - Primary accent */
+/* Gold - ACTIONS (buttons, active tabs) */
 --gold-500: #d4af37;  --gold-glow: rgba(212, 175, 55, 0.6);
 
-/* Cyan - Cosmic, cool */
+/* Cyan - COSMIC/FORMS (labels, focus, result borders) */
 --cyan-300: #67e8f9;  --cyan-glow: rgba(103, 232, 249, 0.5);
 
-/* Purple - Mystical */
+/* Purple - MYSTICAL (result values, button hover bg) */
 --purple-400: #c084fc; --purple-glow: rgba(167, 139, 250, 0.5);
+/* Dark purple for button hover: rgba(88, 28, 135, 0.6) */
 
-/* Silver - Elegant */
+/* Silver - SUBTLE (borders, theme toggle) */
 --silver-300: #d4d4d8; --silver-glow: rgba(212, 212, 216, 0.4);
 ```
 Each palette has shades 50-900. Use `var(--gold-500)` etc.

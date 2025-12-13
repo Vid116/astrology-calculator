@@ -1,4 +1,235 @@
+// ============================================
+// COSMIC DROPDOWN COMPONENT
+// ============================================
+
+function createCosmicDropdown(selectElement) {
+    // Create wrapper
+    const wrapper = document.createElement('div');
+    wrapper.className = 'cosmic-dropdown';
+
+    // Create toggle button
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'cosmic-dropdown-toggle';
+
+    // Get placeholder text
+    const placeholder = selectElement.options[0]?.text || 'Select...';
+    toggle.innerHTML = `<span class="placeholder">${placeholder}</span>`;
+
+    // Create dropdown menu
+    const menu = document.createElement('div');
+    menu.className = 'cosmic-dropdown-menu';
+
+    // Create options (skip first placeholder option)
+    Array.from(selectElement.options).forEach((option, index) => {
+        if (index === 0 && !option.value) return; // Skip placeholder
+
+        const optionDiv = document.createElement('div');
+        optionDiv.className = 'cosmic-dropdown-option';
+        optionDiv.textContent = option.text;
+        optionDiv.dataset.value = option.value;
+
+        optionDiv.addEventListener('click', () => {
+            // Update native select
+            selectElement.value = option.value;
+
+            // Update toggle text
+            toggle.innerHTML = option.text;
+
+            // Update selected state
+            menu.querySelectorAll('.cosmic-dropdown-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            optionDiv.classList.add('selected');
+
+            // Close dropdown
+            wrapper.classList.remove('open');
+
+            // Trigger change event on native select
+            selectElement.dispatchEvent(new Event('change', { bubbles: true }));
+
+            // Clear any validation errors
+            clearError(selectElement);
+        });
+
+        menu.appendChild(optionDiv);
+    });
+
+    // Toggle dropdown on click
+    toggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Close other dropdowns
+        document.querySelectorAll('.cosmic-dropdown.open').forEach(dd => {
+            if (dd !== wrapper) dd.classList.remove('open');
+        });
+
+        wrapper.classList.toggle('open');
+    });
+
+    // Close on click outside
+    document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+            wrapper.classList.remove('open');
+        }
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            wrapper.classList.remove('open');
+        }
+    });
+
+    // Hide native select and insert custom dropdown
+    selectElement.classList.add('hidden-select');
+    selectElement.parentNode.insertBefore(wrapper, selectElement);
+    wrapper.appendChild(toggle);
+    wrapper.appendChild(menu);
+
+    // Store reference for validation
+    wrapper.nativeSelect = selectElement;
+
+    return wrapper;
+}
+
+function initCosmicDropdowns() {
+    document.querySelectorAll('.form-group select').forEach(select => {
+        createCosmicDropdown(select);
+    });
+}
+
+// ============================================
+// COSMIC VALIDATION SYSTEM
+// ============================================
+
+function showError(input, message) {
+    const formGroup = input.closest('.form-group');
+    clearError(input);
+
+    formGroup.classList.add('has-error');
+
+    // Apply error styles directly to input
+    input.style.border = '2px solid #ff6b6b';
+    input.style.background = 'rgba(60, 20, 20, 0.8)';
+    input.style.boxShadow = 'inset 0 0 25px rgba(255, 80, 80, 0.2), 0 0 0 3px rgba(255, 100, 100, 0.4), 0 0 35px rgba(255, 100, 100, 0.3)';
+
+    // Also style the cosmic dropdown toggle if present
+    const cosmicToggle = formGroup.querySelector('.cosmic-dropdown-toggle');
+    if (cosmicToggle) {
+        cosmicToggle.style.border = '2px solid #ff6b6b';
+        cosmicToggle.style.background = 'rgba(60, 20, 20, 0.8)';
+        cosmicToggle.style.boxShadow = 'inset 0 0 25px rgba(255, 80, 80, 0.2), 0 0 0 3px rgba(255, 100, 100, 0.4), 0 0 35px rgba(255, 100, 100, 0.3)';
+    }
+
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'validation-error show';
+    errorDiv.textContent = message;
+    formGroup.appendChild(errorDiv);
+}
+
+function clearError(input) {
+    const formGroup = input.closest('.form-group');
+    formGroup.classList.remove('has-error');
+
+    // Remove inline error styles
+    input.style.border = '';
+    input.style.background = '';
+    input.style.boxShadow = '';
+
+    // Also clear cosmic dropdown toggle styles
+    const cosmicToggle = formGroup.querySelector('.cosmic-dropdown-toggle');
+    if (cosmicToggle) {
+        cosmicToggle.style.border = '';
+        cosmicToggle.style.background = '';
+        cosmicToggle.style.boxShadow = '';
+    }
+
+    const existingError = formGroup.querySelector('.validation-error');
+    if (existingError) {
+        existingError.remove();
+    }
+}
+
+function clearAllErrors(form) {
+    form.querySelectorAll('.form-group').forEach(group => {
+        group.classList.remove('has-error');
+        const error = group.querySelector('.validation-error');
+        if (error) error.remove();
+
+        // Clear inline styles from inputs
+        const input = group.querySelector('input, select');
+        if (input) {
+            input.style.border = '';
+            input.style.background = '';
+            input.style.boxShadow = '';
+        }
+
+        // Clear cosmic dropdown toggle styles
+        const cosmicToggle = group.querySelector('.cosmic-dropdown-toggle');
+        if (cosmicToggle) {
+            cosmicToggle.style.border = '';
+            cosmicToggle.style.background = '';
+            cosmicToggle.style.boxShadow = '';
+        }
+    });
+}
+
+function validateRequired(input, fieldName) {
+    if (!input.value || input.value.trim() === '') {
+        showError(input, `Please select a ${fieldName}`);
+        return false;
+    }
+    clearError(input);
+    return true;
+}
+
+function validateDegree(input) {
+    const value = parseInt(input.value);
+    if (isNaN(value)) {
+        showError(input, 'Please enter a degree value');
+        return false;
+    }
+    if (value < 0) {
+        showError(input, 'Degree must be 0 or higher');
+        return false;
+    }
+    if (value > 29) {
+        showError(input, 'Degree must be 29 or less');
+        return false;
+    }
+    clearError(input);
+    return true;
+}
+
+function validateDate(input) {
+    if (!input.value) {
+        showError(input, 'Please select your birth date');
+        return false;
+    }
+    const date = new Date(input.value);
+    const today = new Date();
+    if (date > today) {
+        showError(input, 'Birth date cannot be in the future');
+        return false;
+    }
+    clearError(input);
+    return true;
+}
+
+// Add real-time validation on input change
+document.addEventListener('DOMContentLoaded', function() {
+    // Clear errors when user starts typing/selecting
+    document.querySelectorAll('.form-group input, .form-group select').forEach(input => {
+        input.addEventListener('input', () => clearError(input));
+        input.addEventListener('change', () => clearError(input));
+    });
+});
+
+// ============================================
 // Theme Management
+// ============================================
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
@@ -16,14 +247,11 @@ function toggleTheme() {
 
 function updateThemeButton(theme) {
     const themeIcon = document.getElementById('theme-icon');
-    const themeText = document.getElementById('theme-text');
 
     if (theme === 'dark') {
         themeIcon.textContent = '🌙';
-        themeText.textContent = 'Dark';
     } else {
         themeIcon.textContent = '☀️';
-        themeText.textContent = 'Light';
     }
 }
 
@@ -99,10 +327,23 @@ function showCalculator(calculatorName) {
 // Spark Calculator
 document.getElementById('spark-form').addEventListener('submit', function(e) {
     e.preventDefault();
+    clearAllErrors(this);
 
-    const planet = document.getElementById('spark-planet').value;
-    const sign = document.getElementById('spark-sign').value;
-    const degree = document.getElementById('spark-degree').value;
+    const planetInput = document.getElementById('spark-planet');
+    const signInput = document.getElementById('spark-sign');
+    const degreeInput = document.getElementById('spark-degree');
+
+    // Validate all fields
+    let isValid = true;
+    if (!validateRequired(planetInput, 'planet')) isValid = false;
+    if (!validateRequired(signInput, 'sign')) isValid = false;
+    if (!validateDegree(degreeInput)) isValid = false;
+
+    if (!isValid) return;
+
+    const planet = planetInput.value;
+    const sign = signInput.value;
+    const degree = degreeInput.value;
 
     // Find matching entry in database
     const result = sparkDatabase.find(entry => {
@@ -136,6 +377,7 @@ document.getElementById('spark-form').addEventListener('submit', function(e) {
             </div>
         `;
         resultDiv.classList.add('show');
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
         resultDiv.innerHTML = `
             <div class="error-message">
@@ -143,16 +385,30 @@ document.getElementById('spark-form').addEventListener('submit', function(e) {
             </div>
         `;
         resultDiv.classList.add('show');
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 });
 
 // True Placement Calculator
 document.getElementById('true-placement-form').addEventListener('submit', function(e) {
     e.preventDefault();
+    clearAllErrors(this);
 
-    const planet = document.getElementById('tp-planet').value;
-    const sign = document.getElementById('tp-sign').value;
-    const rising = document.getElementById('tp-rising').value;
+    const planetInput = document.getElementById('tp-planet');
+    const signInput = document.getElementById('tp-sign');
+    const risingInput = document.getElementById('tp-rising');
+
+    // Validate all fields
+    let isValid = true;
+    if (!validateRequired(planetInput, 'planet')) isValid = false;
+    if (!validateRequired(signInput, 'sign')) isValid = false;
+    if (!validateRequired(risingInput, 'rising sign')) isValid = false;
+
+    if (!isValid) return;
+
+    const planet = planetInput.value;
+    const sign = signInput.value;
+    const rising = risingInput.value;
 
     // Search in database 1 first (most planets)
     let result = truePlacementDB1.find(entry =>
@@ -216,6 +472,7 @@ document.getElementById('true-placement-form').addEventListener('submit', functi
             </div>
         `;
         resultDiv.classList.add('show');
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
         resultDiv.innerHTML = `
             <div class="error-message">
@@ -223,20 +480,27 @@ document.getElementById('true-placement-form').addEventListener('submit', functi
             </div>
         `;
         resultDiv.classList.add('show');
+        resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 });
 
 // Profection Years Calculator
 document.getElementById('profection-form').addEventListener('submit', function(e) {
     e.preventDefault();
+    clearAllErrors(this);
 
-    const birthdate = document.getElementById('pf-birthdate').value;
-    const rising = document.getElementById('pf-rising').value;
+    const birthdateInput = document.getElementById('pf-birthdate');
+    const risingInput = document.getElementById('pf-rising');
 
-    if (!birthdate || !rising) {
-        alert('Please fill in all fields');
-        return;
-    }
+    // Validate all fields
+    let isValid = true;
+    if (!validateDate(birthdateInput)) isValid = false;
+    if (!validateRequired(risingInput, 'rising sign')) isValid = false;
+
+    if (!isValid) return;
+
+    const birthdate = birthdateInput.value;
+    const rising = risingInput.value;
 
     // Parse birth date
     const birthDate = new Date(birthdate);
@@ -350,7 +614,13 @@ document.getElementById('profection-form').addEventListener('submit', function(e
 
     resultDiv.innerHTML = tableHTML;
     resultDiv.classList.add('show');
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 // Initialize data on page load
 loadData();
+
+// Initialize cosmic dropdowns after DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    initCosmicDropdowns();
+});

@@ -6,7 +6,7 @@
     <title>Astrology Calculator - Spark & True Placement</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Parisienne&family=UnifrakturMaguntia&family=Vast+Shadow&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="background.css">
 </head>
@@ -23,7 +23,6 @@
                 </div>
                 <button class="theme-toggle" id="theme-toggle">
                     <span id="theme-icon">☀️</span>
-                    <span id="theme-text">Light</span>
                 </button>
             </div>
         </header>
@@ -39,7 +38,7 @@
             <h2>Spark Calculator</h2>
             <p class="description">Find which "Spark" sign and Decan a planet is in based on its position</p>
 
-            <form id="spark-form" class="calculator-form">
+            <form id="spark-form" class="calculator-form" novalidate>
                 <div class="form-group">
                     <label for="spark-planet">Planet:</label>
                     <select id="spark-planet" required>
@@ -92,7 +91,7 @@
             <h2>True Placement Calculator</h2>
             <p class="description">Calculate house placements and interpretations based on planetary positions</p>
 
-            <form id="true-placement-form" class="calculator-form">
+            <form id="true-placement-form" class="calculator-form" novalidate>
                 <div class="form-group">
                     <label for="tp-planet">Planet:</label>
                     <select id="tp-planet" required>
@@ -159,7 +158,7 @@
             <h2>Profection Years Calculator</h2>
             <p class="description">Calculate your annual profections based on your birth date and rising sign</p>
 
-            <form id="profection-form" class="calculator-form">
+            <form id="profection-form" class="calculator-form" novalidate>
                 <div class="form-group">
                     <label for="pf-birthdate">Birth Date:</label>
                     <input type="date" id="pf-birthdate" required>
