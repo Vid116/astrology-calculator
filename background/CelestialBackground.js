@@ -23,6 +23,10 @@ export class CelestialBackground {
         this.mouseX = -1000;
         this.mouseY = -1000;
 
+        // Track dimensions to avoid unnecessary restarts on mobile scroll
+        this.lastWidth = window.innerWidth;
+        this.lastHeight = window.innerHeight;
+
         // Preloaded silhouette images
         this.silhouettes = {};
         this.silhouettesPath = options.silhouettesPath || 'silhouettes/';
@@ -265,9 +269,25 @@ export class CelestialBackground {
     }
 
     setupEventListeners() {
-        // Handle window resize
+        // Handle window resize - only restart for significant changes
+        // This prevents mobile browsers from regenerating stars when address bar shows/hides
         window.addEventListener('resize', () => {
-            this.restart();
+            const newWidth = window.innerWidth;
+            const newHeight = window.innerHeight;
+            const widthChanged = newWidth !== this.lastWidth;
+            const heightDiff = Math.abs(newHeight - this.lastHeight);
+
+            // Only restart if width changed OR height changed by more than 150px
+            // (mobile address bars are typically 50-100px)
+            if (widthChanged || heightDiff > 150) {
+                this.lastWidth = newWidth;
+                this.lastHeight = newHeight;
+                this.restart();
+            } else if (heightDiff > 0) {
+                // For small height changes, just resize canvas without regenerating
+                this.lastHeight = newHeight;
+                this.resizeCanvas();
+            }
         });
 
         // Observe theme changes
