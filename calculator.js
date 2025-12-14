@@ -624,3 +624,29 @@ loadData();
 document.addEventListener('DOMContentLoaded', function() {
     initCosmicDropdowns();
 });
+
+// ============================================
+// LAUNCH BUTTON TOGGLE
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+    const launchBtn = document.getElementById('launch-btn');
+    const closeBtn = document.getElementById('close-btn');
+    const container = document.getElementById('calculator-container');
+
+    if (launchBtn && container) {
+        launchBtn.addEventListener('click', function() {
+            launchBtn.classList.add('hidden');
+            container.classList.remove('hidden');
+            container.classList.add('visible');
+        });
+    }
+
+    if (closeBtn && container && launchBtn) {
+        closeBtn.addEventListener('click', function() {
+            container.classList.add('hidden');
+            container.classList.remove('visible');
+            launchBtn.classList.remove('hidden');
+        });
+    }
+});

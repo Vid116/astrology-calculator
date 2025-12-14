@@ -403,28 +403,28 @@ export class Constellation {
 
         ctx.shadowBlur = 0;
 
-        // Draw constellation name
-        if (this.showName) {
+        // Draw constellation name (only on hover for cleaner background)
+        if (this.showName && this.isHovered) {
             const minY = Math.min(...this.stars.map(s => s.y));
 
             // Hover-enhanced values
-            const fontSize = this.isHovered ? 17 : 14;
-            const descFontSize = this.isHovered ? 19 : 16;
-            const glowSize = this.isHovered ? 15 : 8;
-            const textOpacity = this.isHovered ? 1.0 : 0.9;
+            const fontSize = 17;
+            const descFontSize = 19;
+            const glowSize = 15;
+            const textOpacity = 1.0;
 
-            // Add glow effect to text - stronger on hover
+            // Add glow effect to text
             ctx.shadowBlur = glowSize;
-            ctx.shadowColor = this.isHovered ? 'rgba(212, 175, 55, 0.9)' : 'rgba(212, 175, 55, 0.6)';
+            ctx.shadowColor = 'rgba(212, 175, 55, 0.9)';
 
             ctx.globalAlpha = textOpacity * this.opacity;
-            ctx.fillStyle = this.isHovered ? '#ffd700' : '#d4af37';
+            ctx.fillStyle = '#ffd700';
             ctx.font = `500 ${fontSize}px "Cinzel", "Times New Roman", serif`;
             ctx.textAlign = 'left';
 
             // Add letter spacing manually by drawing each character
             const name = this.data.name.toUpperCase();
-            const spacing = this.isHovered ? 5 : 4;
+            const spacing = 5;
 
             // Calculate total width first
             let totalWidth = 0;
@@ -446,11 +446,11 @@ export class Constellation {
             // Optional: Draw description/meaning
             const subtitle = this.data.description || this.data.meaning;
             if (subtitle) {
-                ctx.shadowBlur = this.isHovered ? 10 : 0;
-                ctx.globalAlpha = (this.isHovered ? 0.9 : 0.7) * this.opacity;
+                ctx.shadowBlur = 10;
+                ctx.globalAlpha = 0.9 * this.opacity;
                 ctx.font = `400 ${descFontSize}px "Parisienne", cursive`;
                 ctx.textAlign = 'center';
-                ctx.fillStyle = this.isHovered ? '#ffd700' : '#d4af37';
+                ctx.fillStyle = '#ffd700';
                 // Fake bold by drawing text twice with slight offset
                 ctx.fillText(subtitle, this.baseX, minY - 6);
                 ctx.fillText(subtitle, this.baseX + 0.5, minY - 6);

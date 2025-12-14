@@ -43,7 +43,7 @@ export class CelestialBackground {
             planetScale: options.planetScale || 1.0,
             orbitScale: options.orbitScale || 0.8,  // Scale orbits to fit screen
             orbitTilt: options.orbitTilt !== undefined ? options.orbitTilt : 0.6,  // 0 = face-on, 1 = edge-on
-            speedMultiplier: options.speedMultiplier || 1.0,
+            speedMultiplier: options.speedMultiplier || 0.4,
             specificPlanets: options.specificPlanets || null,  // Array of planet names, null = all
             ...options
         };
