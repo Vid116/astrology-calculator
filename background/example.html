@@ -119,6 +119,7 @@
         <button onclick="addOrion()">Add Orion</button>
         <button onclick="addBigDipper()">Add Big Dipper</button>
         <button onclick="addCassiopeia()">Add Cassiopeia</button>
+        <button onclick="addCrux()">Add Crux</button>
         <button onclick="addRandom()">Add Random</button>
         <button onclick="clearAll()">Clear Constellations</button>
         <button onclick="restartBackground()">Restart</button>
@@ -177,6 +178,10 @@
 
         window.addCassiopeia = () => {
             celestialBg.addConstellation('CASSIOPEIA', { scale: 1.0 });
+        };
+
+        window.addCrux = () => {
+            celestialBg.addConstellation('CRUX', { scale: 1.2 });
         };
 
         window.addRandom = () => {

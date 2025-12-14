@@ -25,6 +25,8 @@ export class Constellation {
         this.silhouetteImage = options.silhouetteImage || null;
         // Check complete property directly each frame instead of relying on onload
         this.silhouetteLoaded = false;
+        // Scale multiplier for silhouettes (makes them bigger/smaller)
+        this.silhouetteScale = options.silhouetteScale || 1.8;
 
         if (!this.silhouetteImage && this.showSilhouette) {
             // No preloaded image, load our own
@@ -146,16 +148,23 @@ export class Constellation {
         const canvasDy = star2.y - star1.y;
         const canvasDist = Math.sqrt(canvasDx * canvasDx + canvasDy * canvasDy);
 
-        // Calculate scale
-        const scale = canvasDist / imgDist;
+        // Calculate scale with silhouette multiplier
+        const baseScale = canvasDist / imgDist;
+        const silhouetteMultiplier = spriteConfig.silhouetteScale || this.silhouetteScale;
+        const scale = baseScale * silhouetteMultiplier;
 
         // Image dimensions at this scale
         const imgWidth = spriteConfig.imageSize[0] * scale;
         const imgHeight = spriteConfig.imageSize[1] * scale;
 
-        // Position where image will be drawn
-        const drawX = star1.x - (anchor1.imgPos[0] * scale);
-        const drawY = star1.y - (anchor1.imgPos[1] * scale);
+        // Position where image will be drawn (centered on base position)
+        const baseDrawX = star1.x - (anchor1.imgPos[0] * baseScale);
+        const baseDrawY = star1.y - (anchor1.imgPos[1] * baseScale);
+        const baseWidth = spriteConfig.imageSize[0] * baseScale;
+        const baseHeight = spriteConfig.imageSize[1] * baseScale;
+
+        const drawX = baseDrawX - (imgWidth - baseWidth) / 2;
+        const drawY = baseDrawY - (imgHeight - baseHeight) / 2;
 
         return {
             x: drawX,
@@ -250,16 +259,26 @@ export class Constellation {
                 const canvasDy = star2.y - star1.y;
                 const canvasDist = Math.sqrt(canvasDx * canvasDx + canvasDy * canvasDy);
 
-                // Calculate scale to match star distances
-                const scale = canvasDist / imgDist;
+                // Calculate scale to match star distances, then apply silhouette scale multiplier
+                // Also allow per-constellation override via spriteConfig.silhouetteScale
+                const baseScale = canvasDist / imgDist;
+                const silhouetteMultiplier = spriteConfig.silhouetteScale || this.silhouetteScale;
+                const scale = baseScale * silhouetteMultiplier;
 
                 // Image dimensions at this scale
                 imgWidth = spriteConfig.imageSize[0] * scale;
                 imgHeight = spriteConfig.imageSize[1] * scale;
 
                 // Position image so anchor1 in image aligns with star1 on canvas
-                drawX = star1.x - (anchor1.imgPos[0] * scale);
-                drawY = star1.y - (anchor1.imgPos[1] * scale);
+                // Adjust position to keep silhouette centered on the constellation
+                const baseDrawX = star1.x - (anchor1.imgPos[0] * baseScale);
+                const baseDrawY = star1.y - (anchor1.imgPos[1] * baseScale);
+                const baseWidth = spriteConfig.imageSize[0] * baseScale;
+                const baseHeight = spriteConfig.imageSize[1] * baseScale;
+
+                // Center the scaled silhouette on where the unscaled one would be
+                drawX = baseDrawX - (imgWidth - baseWidth) / 2;
+                drawY = baseDrawY - (imgHeight - baseHeight) / 2;
 
             } else {
                 // Fallback: center-based positioning

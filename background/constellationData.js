@@ -2244,20 +2244,20 @@ export const CONSTELLATIONS = {
         "meaning": "Southern Cross",
         "stars": [
             [
-                88,
-                16
+                74,
+                24
             ],
             [
-                16,
-                83
+                26,
+                76
             ],
             [
-                33,
-                16
+                41,
+                25
             ],
             [
-                48,
-                16
+                75,
+                57
             ]
         ],
         "connections": [
