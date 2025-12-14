@@ -1,5 +1,6 @@
 // Planet class for solar system animation
 import { getColors } from './theme.js';
+import { Planet3D } from './Planet3D.js';
 
 export class Planet {
     constructor(centerX, centerY, planetData, options = {}) {
@@ -36,10 +37,23 @@ export class Planet {
         // Animation for star pulsing
         this.pulsePhase = Math.random() * Math.PI * 2;
 
-        // Planet image
+        // Planet image (fallback)
         this.planetsPath = options.planetsPath || 'planets/';
         this.planetImage = null;
         this.imageLoaded = false;
+
+        // 3D Planet rendering (for all planets except Sun)
+        this.use3D = !this.isStar;
+        if (this.use3D) {
+            try {
+                const resolution = this.hasRings ? 256 : 128;
+                this.planet3D = new Planet3D(planetData.name, resolution);
+            } catch (e) {
+                console.error('Failed to create 3D planet:', e);
+                this.planet3D = null;
+            }
+        }
+        // Load image as fallback
         if (planetData.image) {
             this.loadImage(planetData.image);
         }
@@ -81,7 +95,9 @@ export class Planet {
         const dx = x - this.x;
         const dy = y - this.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        return distance <= this.size + 10; // Extra margin for easier hovering
+        // Larger hit area for planets with rings
+        const hitSize = this.hasRings ? this.size * 3.5 : this.size * 2;
+        return distance <= hitSize;
     }
 
     draw(ctx) {
@@ -158,8 +174,34 @@ export class Planet {
         ctx.shadowBlur = this.isHovered ? 20 : 8;
         ctx.shadowColor = this.colors.glow;
 
+        // 3D Planet rendering
+        if (this.use3D && this.planet3D && !this.planet3D.disabled) {
+            const planetCanvas = this.planet3D.getCanvas();
+            if (planetCanvas) {
+                // Size multiplier: larger for ringed planets
+                const sizeMultiplier = this.hasRings ? 3.5 : 2;
+                const imgSize = this.size * sizeMultiplier;
+
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.drawImage(
+                    planetCanvas,
+                    -imgSize,
+                    -imgSize,
+                    imgSize * 2,
+                    imgSize * 2
+                );
+                ctx.restore();
+
+                ctx.shadowBlur = 0;
+                if (this.isHovered) {
+                    this.drawLabel(ctx);
+                }
+                return; // Don't fall through to other rendering
+            }
+        }
         // Draw image if available, otherwise gradient
-        if (this.planetImage && this.planetImage.complete && this.planetImage.naturalHeight > 0) {
+        else if (this.planetImage && this.planetImage.complete && this.planetImage.naturalHeight > 0) {
             const imgSize = this.hasRings ? this.size * 2 : this.size;
 
             // For Saturn: rings horizontal when at left/right of orbit, tilted at top/bottom

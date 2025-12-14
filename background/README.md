@@ -10,12 +10,13 @@ background/
 ├── CelestialBackground.js     - Main background controller
 ├── Star.js                    - Twinkling star class
 ├── Planet.js                  - Solar system planet class
+├── Planet3D.js                - Three.js 3D planet renderer
 ├── Constellation.js           - Constellation renderer with silhouettes
 ├── constellationData.js       - All 88 constellation data
 ├── planetData.js              - Solar system planet data
 ├── theme.js                   - Theme utilities and color management
 ├── silhouettes/               - 85 constellation PNG images (Stellarium)
-├── planets/                   - Planet PNG images (NASA public domain)
+├── planets/                   - Planet PNG images (fallback)
 ├── example.html               - Interactive demo with controls
 ├── all-constellations.html    - Gallery of all 88 constellations
 ├── all-silhouettes.html       - Silhouette showcase
@@ -33,12 +34,16 @@ background/
 - **Smart Positioning**: Avoids center UI zone, prevents label overlap
 
 ### Solar System
-- **Real Planets**: Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
-- **Planet Images**: NASA public domain images for realistic appearance
+- **3D Rendered Planets**: All planets rendered in real-time 3D using Three.js
+- **Rotating Spheres**: Each planet spins on its axis as it orbits
+- **Planet-specific Features**:
+  - Gas giant bands (Jupiter, Saturn, Neptune)
+  - Saturn's detailed ring system with gaps
+  - Uranus tilted on its side with faint rings
+  - Earth with procedural continents, oceans, and ice caps
 - **Tilted Orbital Plane**: 3D effect with configurable tilt (default 0.6)
-- **Saturn's Rotating Rings**: Dynamic rotation as Saturn orbits
 - **Astrological Info**: Symbols and meanings shown on hover
-- **Gradient Fallback**: Colors display if images not loaded
+- **PNG Fallback**: Falls back to images if Three.js fails
 
 ### General
 - **Twinkling Background Stars**: 120 animated stars for depth
@@ -55,12 +60,23 @@ Add these Google Fonts to your HTML `<head>`:
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
 ```
 
+## Dependencies
+
+### Three.js (Required for 3D planets)
+
+Add Three.js to your HTML `<head>`:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+```
+
 ## Usage
 
 ### Basic Usage (Auto-initialization)
 
 ```html
 <canvas id="celestial-canvas"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script type="module" src="background/init.js"></script>
 ```
 
