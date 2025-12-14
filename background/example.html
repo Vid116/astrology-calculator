@@ -132,11 +132,16 @@
             <input type="checkbox" id="showStarNames" onchange="toggleStarNames()">
             Show Star Names
         </label>
+
+        <label>
+            <input type="checkbox" id="showSilhouettes" checked onchange="toggleSilhouettes()">
+            Show Silhouettes on Hover
+        </label>
     </div>
 
     <div class="info">
-        <h3>Real Astronomical Constellations</h3>
-        <p>This background features 10 real constellations with accurate star positions and brightness based on astronomical data.</p>
+        <h3>All 88 IAU Constellations</h3>
+        <p>Complete set of all 88 officially recognized constellations with their traditional star patterns.</p>
         <div class="constellation-list" id="constellationList"></div>
     </div>
 
@@ -156,9 +161,9 @@
         // Display available constellations
         const constellationList = document.getElementById('constellationList');
         const constellations = Object.keys(CONSTELLATIONS);
-        constellationList.innerHTML = '<strong>Available:</strong><br>' +
+        constellationList.innerHTML = `<strong>Available: ${constellations.length} constellations</strong><br>` +
             constellations.map(name =>
-                `<div>${CONSTELLATIONS[name].name} - ${CONSTELLATIONS[name].description}</div>`
+                `<div>${CONSTELLATIONS[name].name} - ${CONSTELLATIONS[name].meaning || CONSTELLATIONS[name].description}</div>`
             ).join('');
 
         // Make functions global for button onclick
@@ -196,8 +201,14 @@
             celestialBg.toggleStarNames(checked);
         };
 
+        window.toggleSilhouettes = () => {
+            const checked = document.getElementById('showSilhouettes').checked;
+            celestialBg.toggleSilhouettes(checked);
+        };
+
         console.log('🌟 Real Constellation Background Loaded!');
         console.log('Available constellations:', celestialBg.getAvailableConstellations());
+        console.log('Silhouette status:', celestialBg.getSilhouetteStatus());
     </script>
 </body>
 </html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All 88 Constellations - Silhouette Hover Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0a0e1a;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .stats {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .constellation-card {
+            background: rgba(20, 25, 40, 0.8);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .constellation-card:hover {
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            transform: translateY(-3px);
+        }
+        .constellation-card.has-sprite {
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+        .constellation-card.no-sprite {
+            border-color: rgba(100, 100, 100, 0.3);
+        }
+        .constellation-card canvas {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .constellation-name {
+            color: #d4af37;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+        .constellation-meaning {
+            color: #888;
+            font-family: 'Parisienne', cursive;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+        .sprite-badge {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .sprite-badge.has {
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+        }
+        .sprite-badge.none {
+            background: rgba(100, 100, 100, 0.2);
+            color: #666;
+        }
+        .attribution {
+            text-align: center;
+            color: #666;
+            font-size: 0.85rem;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
+        .attribution a {
+            color: #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <h1>THE 88 CONSTELLATIONS</h1>
+    <p class="subtitle">Hover over each constellation to reveal its silhouette</p>
+    <p class="stats" id="stats">Loading...</p>
+    <div class="grid" id="grid"></div>
+    <p class="attribution">
+        Constellation silhouette artwork by Johan Meuris |
+        <a href="https://artlibre.org/licence/lal/en/" target="_blank">Free Art License</a>
+    </p>
+
+    <script type="module">
+        import { Constellation } from './Constellation.js';
+        import { CONSTELLATIONS } from './constellationData.js';
+
+        const grid = document.getElementById('grid');
+        const statsEl = document.getElementById('stats');
+
+        // Sort constellation keys alphabetically by display name
+        const keys = Object.keys(CONSTELLATIONS).sort((a, b) => {
+            const nameA = CONSTELLATIONS[a].name || a;
+            const nameB = CONSTELLATIONS[b].name || b;
+            return nameA.localeCompare(nameB);
+        });
+
+        let withSprite = 0;
+        let withoutSprite = 0;
+
+        keys.forEach(key => {
+            const data = CONSTELLATIONS[key];
+            const hasSprite = data.sprite && data.sprite.anchors && data.sprite.anchors.length >= 2;
+
+            if (hasSprite) withSprite++;
+            else withoutSprite++;
+
+            // Create card
+            const card = document.createElement('div');
+            card.className = `constellation-card ${hasSprite ? 'has-sprite' : 'no-sprite'}`;
+
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            canvas.width = 400;
+            canvas.height = 300;
+
+            // Create constellation instance
+            const constellation = new Constellation(canvas, data, {
+                scale: 1.8,
+                showName: false,
+                useSprites: true,
+                spriteSize: 250
+            });
+
+            // Center the constellation
+            constellation.baseX = canvas.width / 2;
+            constellation.baseY = canvas.height / 2;
+            constellation.initStars();
+
+            // Track mouse for hover
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const mouseX = (e.clientX - rect.left) * scaleX;
+                const mouseY = (e.clientY - rect.top) * scaleY;
+                constellation.isHovered = constellation.containsPoint(mouseX, mouseY);
+            });
+
+            canvas.addEventListener('mouseleave', () => {
+                constellation.isHovered = false;
+            });
+
+            // Animation loop for this canvas
+            const ctx = canvas.getContext('2d');
+
+            function animate() {
+                // Clear with dark background
+                ctx.fillStyle = '#0a0e1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw faint background stars
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                for (let i = 0; i < 30; i++) {
+                    const x = ((i * 7919 + key.charCodeAt(0) * 100) % canvas.width);
+                    const y = ((i * 6547 + key.charCodeAt(1) * 100) % canvas.height);
+                    const size = ((i * 13) % 2) + 0.5;
+                    ctx.beginPath();
+                    ctx.arc(x, y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Draw constellation
+                constellation.draw(ctx);
+
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Name and meaning
+            const nameEl = document.createElement('div');
+            nameEl.className = 'constellation-name';
+            nameEl.textContent = (data.name || key).replace(/_/g, ' ');
+
+            const meaningEl = document.createElement('div');
+            meaningEl.className = 'constellation-meaning';
+            meaningEl.textContent = data.meaning || '';
+
+            // Sprite badge
+            const badge = document.createElement('div');
+            badge.className = `sprite-badge ${hasSprite ? 'has' : 'none'}`;
+            badge.textContent = hasSprite ? 'Silhouette' : 'No Silhouette';
+
+            card.appendChild(canvas);
+            card.appendChild(nameEl);
+            card.appendChild(meaningEl);
+            card.appendChild(badge);
+            grid.appendChild(card);
+        });
+
+        // Update stats
+        statsEl.textContent = `${keys.length} constellations | ${withSprite} with silhouettes | ${withoutSprite} without`;
+    </script>
+</body>
+</html>

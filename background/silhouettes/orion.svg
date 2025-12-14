@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-10 -35 120 140">
+  <defs>
+    <!-- Glow filter for ethereal effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Gradient fill for depth -->
+    <linearGradient id="silhouetteFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(180, 210, 240, 0.45)"/>
+      <stop offset="100%" stop-color="rgba(140, 180, 220, 0.35)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ORION - Single filled silhouette, traced clockwise from head -->
+  <path filter="url(#glow)" fill="url(#silhouetteFill)" stroke="rgba(200, 220, 245, 0.3)" stroke-width="0.5" d="
+    M 50,0
+    C 55,0 59,3 59,8
+    C 59,12 56,16 52,17
+    L 54,20
+    L 62,22
+    L 80,25
+    C 85,24 89,20 92,12
+    C 94,6 96,0 94,-6
+    L 96,-8
+    C 98,-6 100,-10 98,-16
+    C 96,-22 90,-26 84,-24
+    C 80,-22 78,-16 80,-10
+    L 78,-8
+    C 76,-4 74,2 76,10
+    C 72,14 68,18 66,22
+    L 68,26
+    C 74,28 78,34 80,42
+    C 82,50 80,58 76,64
+    L 72,68
+    L 75,80
+    L 78,88
+    L 82,92
+    L 78,96
+    L 70,96
+    L 68,92
+    L 72,84
+    L 68,74
+    L 60,70
+    L 50,72
+    L 40,70
+    L 32,74
+    L 28,84
+    L 32,92
+    L 30,96
+    L 22,96
+    L 18,92
+    L 22,88
+    L 25,80
+    L 28,68
+    L 24,64
+    C 20,58 18,50 20,42
+    C 22,34 26,28 32,26
+    L 34,22
+    C 30,18 24,14 20,10
+    C 16,4 14,-4 18,-10
+    L 14,-12
+    C 10,-18 6,-24 4,-20
+    C 2,-16 1,-8 4,-2
+    C 7,4 12,6 16,4
+    L 18,6
+    C 14,12 10,20 6,30
+    C 2,40 0,52 4,62
+    C 6,68 10,72 14,70
+    C 18,68 20,62 18,56
+    C 16,48 12,42 14,34
+    L 18,30
+    C 20,26 20,25 20,25
+    L 38,22
+    L 46,20
+    L 48,17
+    C 44,16 41,12 41,8
+    C 41,3 45,0 50,0
+    Z
+  "/>
+
+</svg>

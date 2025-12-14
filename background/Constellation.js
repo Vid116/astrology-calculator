@@ -1,4 +1,10 @@
 // Constellation class for real astronomical star patterns
+//
+// Constellation silhouette artwork by Johan Meuris
+// Licensed under the Free Art License 1.3
+// https://artlibre.org/licence/lal/en/
+// Artwork source: Stellarium (https://stellarium.org/)
+//
 import { getColors } from './theme.js';
 
 export class Constellation {
@@ -12,6 +18,18 @@ export class Constellation {
         this.showName = options.showName !== undefined ? options.showName : true;
         this.showStarNames = options.showStarNames || false;
         this.opacity = options.opacity || 1.0;
+        this.showSilhouette = options.showSilhouette !== undefined ? options.showSilhouette : true;
+        this.silhouettesPath = options.silhouettesPath || 'silhouettes/';
+
+        // Silhouette image - can be preloaded or loaded on demand
+        this.silhouetteImage = options.silhouetteImage || null;
+        // Check complete property directly each frame instead of relying on onload
+        this.silhouetteLoaded = false;
+
+        if (!this.silhouetteImage && this.showSilhouette) {
+            // No preloaded image, load our own
+            this.loadSilhouette();
+        }
 
         // Hover state
         this.isHovered = false;
@@ -55,10 +73,12 @@ export class Constellation {
 
     // Calculate the bounding box for this constellation's label
     updateLabelBounds() {
-        const minY = Math.min(...this.data.stars.map(s => this.baseY + s.y * this.scale));
-        const maxY = Math.max(...this.data.stars.map(s => this.baseY + s.y * this.scale));
-        const minX = Math.min(...this.data.stars.map(s => this.baseX + s.x * this.scale));
-        const maxX = Math.max(...this.data.stars.map(s => this.baseX + s.x * this.scale));
+        const getX = s => Array.isArray(s) ? s[0] : s.x;
+        const getY = s => Array.isArray(s) ? s[1] : s.y;
+        const minY = Math.min(...this.data.stars.map(s => this.baseY + getY(s) * this.scale));
+        const maxY = Math.max(...this.data.stars.map(s => this.baseY + getY(s) * this.scale));
+        const minX = Math.min(...this.data.stars.map(s => this.baseX + getX(s) * this.scale));
+        const maxX = Math.max(...this.data.stars.map(s => this.baseX + getX(s) * this.scale));
 
         // Larger bounds with more padding to prevent overlap
         const labelWidth = Math.max(this.data.name.length * 14 + 80, maxX - minX + 60);
@@ -86,9 +106,63 @@ export class Constellation {
 
     // Check if a point (mouse) is over this constellation
     containsPoint(x, y) {
+        // First check label bounds (stars + label)
         const bounds = this.labelBounds;
-        return x >= bounds.x && x <= bounds.x + bounds.width &&
-               y >= bounds.y && y <= bounds.y + bounds.height;
+        if (x >= bounds.x && x <= bounds.x + bounds.width &&
+            y >= bounds.y && y <= bounds.y + bounds.height) {
+            return true;
+        }
+
+        // Also check silhouette bounds if we have sprite config
+        const silhouetteBounds = this.getSilhouetteBounds();
+        if (silhouetteBounds) {
+            return x >= silhouetteBounds.x && x <= silhouetteBounds.x + silhouetteBounds.width &&
+                   y >= silhouetteBounds.y && y <= silhouetteBounds.y + silhouetteBounds.height;
+        }
+
+        return false;
+    }
+
+    // Calculate where the silhouette PNG will be drawn
+    getSilhouetteBounds() {
+        const spriteConfig = this.data.sprite;
+        if (!spriteConfig || !spriteConfig.anchors || spriteConfig.anchors.length < 2 || !spriteConfig.imageSize) {
+            return null;
+        }
+
+        const anchor1 = spriteConfig.anchors[0];
+        const anchor2 = spriteConfig.anchors[1];
+
+        const star1 = this.stars[anchor1.starIndex];
+        const star2 = this.stars[anchor2.starIndex];
+        if (!star1 || !star2) return null;
+
+        // Calculate distances
+        const imgDx = anchor2.imgPos[0] - anchor1.imgPos[0];
+        const imgDy = anchor2.imgPos[1] - anchor1.imgPos[1];
+        const imgDist = Math.sqrt(imgDx * imgDx + imgDy * imgDy);
+
+        const canvasDx = star2.x - star1.x;
+        const canvasDy = star2.y - star1.y;
+        const canvasDist = Math.sqrt(canvasDx * canvasDx + canvasDy * canvasDy);
+
+        // Calculate scale
+        const scale = canvasDist / imgDist;
+
+        // Image dimensions at this scale
+        const imgWidth = spriteConfig.imageSize[0] * scale;
+        const imgHeight = spriteConfig.imageSize[1] * scale;
+
+        // Position where image will be drawn
+        const drawX = star1.x - (anchor1.imgPos[0] * scale);
+        const drawY = star1.y - (anchor1.imgPos[1] * scale);
+
+        return {
+            x: drawX,
+            y: drawY,
+            width: imgWidth,
+            height: imgHeight
+        };
     }
 
     // Update hover animation (call each frame)
@@ -99,15 +173,146 @@ export class Constellation {
     }
 
     initStars() {
-        this.stars = this.data.stars.map(star => ({
-            name: star.name,
-            x: this.baseX + (star.x * this.scale),
-            y: this.baseY + (star.y * this.scale),
-            brightness: star.brightness,
-            // Calculate star size based on brightness (lower magnitude = brighter = larger)
-            // Magnitude 0 = size 4, Magnitude 5 = size 1
-            size: Math.max(1, 5 - star.brightness)
-        }));
+        this.stars = this.data.stars.map((star, i) => {
+            const isArray = Array.isArray(star);
+            const x = isArray ? star[0] : star.x;
+            const y = isArray ? star[1] : star.y;
+            const brightness = isArray ? 2 : (star.brightness || 2);
+            return {
+                name: isArray ? 'Star ' + (i + 1) : star.name,
+                x: this.baseX + (x * this.scale),
+                y: this.baseY + (y * this.scale),
+                brightness: brightness,
+                size: Math.max(1, 5 - brightness)
+            };
+        });
+    }
+
+    // Load PNG silhouette image (Stellarium artwork by Johan Meuris)
+    loadSilhouette() {
+        // Generate filename from constellation name (lowercase, replace spaces with dashes)
+        // Matches Stellarium naming convention: "Ursa Major" -> "ursa-major.png"
+        const filename = this.data.name.toLowerCase().replace(/\s+/g, '-') + '.png';
+        const src = this.silhouettesPath + filename;
+
+        this.silhouetteImage = new Image();
+        this.silhouetteImage.onload = () => {
+            this.silhouetteLoaded = true;
+        };
+        this.silhouetteImage.onerror = () => {
+            // PNG not found - fall back to vector paths if available
+            this.silhouetteLoaded = false;
+            this.silhouetteImage = null;
+        };
+        this.silhouetteImage.src = src;
+    }
+
+    // Draw silhouette figure (PNG image or fallback to vector paths)
+    drawSilhouette(ctx) {
+        if (!this.isHovered) return;
+
+        const fadeProgress = (this.hoverScale - 1.0) / 0.15;
+        const opacity = 1.0 * Math.min(1, fadeProgress * 2);  // Full opacity silhouettes
+        const bounds = this.getBounds();
+        const cx = (bounds.minX + bounds.maxX) / 2;
+        const cy = (bounds.minY + bounds.maxY) / 2;
+
+        ctx.save();
+
+        // Try to draw PNG image first (check complete directly to avoid shared image issues)
+        if (this.silhouetteImage && this.silhouetteImage.complete && this.silhouetteImage.naturalHeight > 0) {
+            const spriteConfig = this.data.sprite || {};
+
+            let drawX, drawY, imgWidth, imgHeight;
+
+            // Use anchor-based alignment if available
+            if (spriteConfig.anchors && spriteConfig.anchors.length >= 2 && spriteConfig.imageSize) {
+                // Get two anchor points for alignment
+                const anchor1 = spriteConfig.anchors[0];
+                const anchor2 = spriteConfig.anchors[1];
+
+                // Get actual star positions on canvas - validate indices
+                const star1 = this.stars[anchor1.starIndex];
+                const star2 = this.stars[anchor2.starIndex];
+
+                // Skip if stars don't exist (invalid anchor config)
+                if (!star1 || !star2) {
+                    ctx.restore();
+                    return;
+                }
+
+                // Calculate distances
+                const imgDx = anchor2.imgPos[0] - anchor1.imgPos[0];
+                const imgDy = anchor2.imgPos[1] - anchor1.imgPos[1];
+                const imgDist = Math.sqrt(imgDx * imgDx + imgDy * imgDy);
+
+                const canvasDx = star2.x - star1.x;
+                const canvasDy = star2.y - star1.y;
+                const canvasDist = Math.sqrt(canvasDx * canvasDx + canvasDy * canvasDy);
+
+                // Calculate scale to match star distances
+                const scale = canvasDist / imgDist;
+
+                // Image dimensions at this scale
+                imgWidth = spriteConfig.imageSize[0] * scale;
+                imgHeight = spriteConfig.imageSize[1] * scale;
+
+                // Position image so anchor1 in image aligns with star1 on canvas
+                drawX = star1.x - (anchor1.imgPos[0] * scale);
+                drawY = star1.y - (anchor1.imgPos[1] * scale);
+
+            } else {
+                // Fallback: center-based positioning
+                const constellationWidth = bounds.width || 100;
+                const constellationHeight = bounds.height || 100;
+                const imgScale = (spriteConfig.scale || 1.2) * this.scale;
+                const offsetX = (spriteConfig.offsetX || 0) * this.scale;
+                const offsetY = (spriteConfig.offsetY || 0) * this.scale;
+
+                const targetSize = Math.max(constellationWidth, constellationHeight) * imgScale;
+                imgWidth = targetSize;
+                imgHeight = targetSize;
+
+                drawX = cx - imgWidth / 2 + offsetX;
+                drawY = cy - imgHeight / 2 + offsetY;
+            }
+
+            // Apply ethereal glow effect
+            ctx.shadowBlur = 40;
+            ctx.shadowColor = 'rgba(120, 170, 220, 1.0)';
+
+            // Set opacity for the image
+            ctx.globalAlpha = this.opacity * opacity;
+
+            // Draw the PNG image (already has transparency and blue tint from preprocessing)
+            ctx.drawImage(this.silhouetteImage, drawX, drawY, imgWidth, imgHeight);
+
+            ctx.restore();
+            return;
+        }
+
+        // Fallback: Draw vector paths if no SVG or SVG failed to load
+        if (!this.data.figure || !this.data.figure.paths) {
+            ctx.restore();
+            return;
+        }
+
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(150, 180, 220, 0.7)';
+        ctx.strokeStyle = 'rgba(150, 180, 220, 0.7)';
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        this.data.figure.paths.forEach(path => {
+            if (path.length < 2) return;
+            ctx.beginPath();
+            ctx.moveTo(cx + path[0][0] * this.scale, cy + path[0][1] * this.scale);
+            for (let i = 1; i < path.length; i++) {
+                ctx.lineTo(cx + path[i][0] * this.scale, cy + path[i][1] * this.scale);
+            }
+            ctx.stroke();
+        });
+        ctx.restore();
     }
 
     draw(ctx) {
@@ -116,11 +321,16 @@ export class Constellation {
         // Update hover animation
         this.updateHover();
 
+        // Draw silhouette behind everything else
+        if (this.showSilhouette) {
+            this.drawSilhouette(ctx);
+        }
+
         // Hover multipliers
         const glowMultiplier = this.isHovered ? 2.5 : 1;
         const brightnessBoost = this.isHovered ? 0.4 : 0;
-        const lineOpacity = this.isHovered ? 1.0 : 0.7;
-        const lineWidth = this.isHovered ? 2.5 : 1.5;
+        const lineOpacity = this.isHovered ? 0.35 : 0.7;  // Reduced when hovered so silhouette shows through
+        const lineWidth = this.isHovered ? 1.5 : 1.5;     // Thinner lines when hovered
 
         // Draw connection lines
         ctx.strokeStyle = this.isHovered ? '#d4af37' : colors.line;
@@ -128,8 +338,8 @@ export class Constellation {
         ctx.lineWidth = lineWidth;
 
         if (this.isHovered) {
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = 'rgba(212, 175, 55, 0.5)';
+            ctx.shadowBlur = 3;  // Reduced glow so lines don't compete with silhouette
+            ctx.shadowColor = 'rgba(212, 175, 55, 0.3)';
         }
 
         this.data.connections.forEach(([startIdx, endIdx]) => {
@@ -214,16 +424,17 @@ export class Constellation {
                 x += charWidth + spacing;
             }
 
-            // Optional: Draw description
-            if (this.data.description) {
+            // Optional: Draw description/meaning
+            const subtitle = this.data.description || this.data.meaning;
+            if (subtitle) {
                 ctx.shadowBlur = this.isHovered ? 10 : 0;
                 ctx.globalAlpha = (this.isHovered ? 0.9 : 0.7) * this.opacity;
                 ctx.font = `400 ${descFontSize}px "Parisienne", cursive`;
                 ctx.textAlign = 'center';
                 ctx.fillStyle = this.isHovered ? '#ffd700' : '#d4af37';
                 // Fake bold by drawing text twice with slight offset
-                ctx.fillText(this.data.description, this.baseX, minY - 6);
-                ctx.fillText(this.data.description, this.baseX + 0.5, minY - 6);
+                ctx.fillText(subtitle, this.baseX, minY - 6);
+                ctx.fillText(subtitle, this.baseX + 0.5, minY - 6);
             }
 
             ctx.shadowBlur = 0;

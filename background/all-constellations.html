@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All 88 Constellations - Silhouette Gallery</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1a2e 50%, #0a0e1a 100%);
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', sans-serif;
+            color: #d4af37;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        .constellation-card {
+            background: rgba(20, 25, 40, 0.8);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .constellation-card:hover {
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            transform: translateY(-5px);
+        }
+        .constellation-card h3 {
+            margin: 10px 0 5px 0;
+            color: #fff;
+            font-size: 1.1em;
+        }
+        .constellation-card .meaning {
+            color: #888;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+        canvas {
+            background: #0a0e1a;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+        #attribution {
+            text-align: center;
+            color: #666;
+            font-size: 11px;
+            margin-top: 40px;
+            padding: 20px;
+        }
+        #attribution a { color: #888; }
+        .controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .controls input {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: 1px solid #444;
+            border-radius: 20px;
+            background: rgba(20, 25, 40, 0.9);
+            color: #fff;
+            width: 300px;
+        }
+        .controls input:focus {
+            outline: none;
+            border-color: #d4af37;
+        }
+        .stats {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>✦ ALL 88 CONSTELLATIONS ✦</h1>
+    <p class="subtitle">Hover over each constellation to reveal the mythological silhouette</p>
+
+    <div class="controls">
+        <input type="text" id="search" placeholder="Search constellations..." oninput="filterConstellations()">
+    </div>
+    <div class="stats" id="stats"></div>
+
+    <div class="gallery" id="gallery"></div>
+
+    <p id="attribution">
+        Constellation silhouette artwork by Johan Meuris |
+        <a href="https://artlibre.org/licence/lal/en/" target="_blank">Free Art License 1.3</a> |
+        Source: <a href="https://stellarium.org/" target="_blank">Stellarium</a>
+    </p>
+
+    <script type="module">
+        import { CONSTELLATIONS } from './constellationData.js';
+        import { Constellation } from './Constellation.js';
+
+        const CARD_SIZE = 260;
+        const SCALE = 2.2;
+        const gallery = document.getElementById('gallery');
+        const instances = [];
+
+        // Sort constellations alphabetically
+        const sortedKeys = Object.keys(CONSTELLATIONS).sort((a, b) =>
+            CONSTELLATIONS[a].name.localeCompare(CONSTELLATIONS[b].name)
+        );
+
+        document.getElementById('stats').textContent = `${sortedKeys.length} constellations loaded`;
+
+        // Create a card for each constellation
+        for (const key of sortedKeys) {
+            const data = CONSTELLATIONS[key];
+
+            const card = document.createElement('div');
+            card.className = 'constellation-card';
+            card.dataset.name = data.name.toLowerCase();
+            card.dataset.meaning = (data.meaning || '').toLowerCase();
+
+            const canvas = document.createElement('canvas');
+            canvas.width = CARD_SIZE;
+            canvas.height = CARD_SIZE;
+
+            const title = document.createElement('h3');
+            title.textContent = data.name;
+
+            const meaning = document.createElement('div');
+            meaning.className = 'meaning';
+            meaning.textContent = data.meaning || '';
+
+            card.appendChild(canvas);
+            card.appendChild(title);
+            card.appendChild(meaning);
+            gallery.appendChild(card);
+
+            // Create constellation instance
+            const constellation = new Constellation(canvas, data, {
+                scale: SCALE,
+                showName: false,
+                showSilhouette: true
+            });
+
+            // Calculate bounds and center
+            let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+            for (const star of data.stars) {
+                minX = Math.min(minX, star[0]);
+                maxX = Math.max(maxX, star[0]);
+                minY = Math.min(minY, star[1]);
+                maxY = Math.max(maxY, star[1]);
+            }
+            const centerX = (minX + maxX) / 2;
+            const centerY = (minY + maxY) / 2;
+
+            constellation.baseX = canvas.width / 2 - centerX * SCALE;
+            constellation.baseY = canvas.height / 2 - centerY * SCALE;
+            constellation.initStars();
+            constellation.updateLabelBounds();
+
+            instances.push({ canvas, constellation, ctx: canvas.getContext('2d') });
+
+            // Hover detection
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                constellation.isHovered = constellation.containsPoint(
+                    e.clientX - rect.left,
+                    e.clientY - rect.top
+                );
+            });
+            canvas.addEventListener('mouseenter', () => constellation.isHovered = true);
+            canvas.addEventListener('mouseleave', () => constellation.isHovered = false);
+        }
+
+        // Animation loop
+        function animate() {
+            for (const { canvas, constellation, ctx } of instances) {
+                ctx.fillStyle = '#0a0e1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                constellation.draw(ctx);
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Filter function
+        window.filterConstellations = function() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const cards = document.querySelectorAll('.constellation-card');
+            let visible = 0;
+            cards.forEach(card => {
+                const matches = card.dataset.name.includes(query) ||
+                               card.dataset.meaning.includes(query);
+                card.style.display = matches ? 'block' : 'none';
+                if (matches) visible++;
+            });
+            document.getElementById('stats').textContent = query ?
+                `${visible} of ${sortedKeys.length} constellations` :
+                `${sortedKeys.length} constellations loaded`;
+        };
+    </script>
+</body>
+</html>

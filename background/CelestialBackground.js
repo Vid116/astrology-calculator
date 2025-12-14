@@ -22,20 +22,45 @@ export class CelestialBackground {
         this.mouseX = -1000;
         this.mouseY = -1000;
 
-        // Configurable options
+        // Preloaded silhouette images
+        this.silhouettes = {};
+        this.silhouettesPath = options.silhouettesPath || 'silhouettes/';
+
+        // Configurable options - now defaults to more constellations from our 88 total
         this.config = {
-            starCount: options.starCount || 100,
+            starCount: options.starCount || 120,
             planetCount: options.planetCount || 4,
-            constellationCount: options.constellationCount || 5,
-            constellationScale: options.constellationScale || 0.8,
+            constellationCount: options.constellationCount || 12,  // Increased from 5 - picks randomly from all 88
+            constellationScale: options.constellationScale || 0.7,
             showConstellationNames: options.showConstellationNames !== undefined ? options.showConstellationNames : true,
             showStarNames: options.showStarNames || false,
             specificConstellations: options.specificConstellations || null, // Array of constellation names to use
+            showSilhouettes: options.showSilhouettes !== undefined ? options.showSilhouettes : true,
             ...options
         };
 
+        // Preload silhouettes before init
+        this.preloadSilhouettes();
         this.init();
         this.setupEventListeners();
+    }
+
+    // Preload all silhouette PNGs for better performance
+    // Constellation artwork by Johan Meuris | Free Art License | stellarium.org
+    preloadSilhouettes() {
+        Object.keys(CONSTELLATIONS).forEach(key => {
+            const data = CONSTELLATIONS[key];
+            if (data.sprite && !CelestialBackground.MISSING_SPRITES.includes(key)) {
+                const img = new Image();
+                // Convert key to filename: URSA_MAJOR -> ursa-major.png
+                const filename = key.toLowerCase().replace(/_/g, '-') + '.png';
+                img.src = this.silhouettesPath + filename;
+                img.onerror = () => {
+                    console.warn(`Silhouette not found: ${filename}`);
+                };
+                this.silhouettes[key] = img;
+            }
+        });
     }
 
     resizeCanvas() {
@@ -113,13 +138,32 @@ export class CelestialBackground {
         }
     }
 
+    // Constellations without silhouette PNGs (checked at runtime)
+    static MISSING_SPRITES = ['PUPPIS', 'SERPENS', 'VELA', 'CARINA'];
+
+    // Get the key for a constellation name (reverse lookup)
+    getConstellationKey(name) {
+        for (const [key, data] of Object.entries(CONSTELLATIONS)) {
+            if (data.name === name) return key;
+        }
+        return null;
+    }
+
     // Create a constellation and try to position it so labels don't overlap
     createNonOverlappingConstellation(constellationData, maxAttempts = 25) {
+        // Find the preloaded silhouette for this constellation
+        const key = this.getConstellationKey(constellationData.name);
+        const silhouetteImage = key ? this.silhouettes[key] : null;
+        const hasSilhouette = key && !CelestialBackground.MISSING_SPRITES.includes(key);
+
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
             const constellation = new Constellation(this.canvas, constellationData, {
                 scale: this.config.constellationScale,
                 showName: this.config.showConstellationNames,
-                showStarNames: this.config.showStarNames
+                showStarNames: this.config.showStarNames,
+                showSilhouette: this.config.showSilhouettes && hasSilhouette,
+                silhouetteImage: silhouetteImage,
+                silhouettesPath: this.silhouettesPath
             });
 
             // Check if this constellation's label overlaps with any existing
@@ -227,10 +271,22 @@ export class CelestialBackground {
     addConstellation(constellationName, options = {}) {
         const data = getConstellation(constellationName);
         if (data) {
+            // Find the preloaded silhouette for this constellation
+            const key = this.getConstellationKey(data.name);
+            const silhouetteImage = key ? this.silhouettes[key] : null;
+            const hasSilhouette = key && !CelestialBackground.MISSING_SPRITES.includes(key);
+
+            const showSil = options.showSilhouette !== undefined
+                ? options.showSilhouette
+                : (this.config.showSilhouettes && hasSilhouette);
+
             const constellation = new Constellation(this.canvas, data, {
                 scale: options.scale || this.config.constellationScale,
                 showName: options.showName !== undefined ? options.showName : this.config.showConstellationNames,
                 showStarNames: options.showStarNames || this.config.showStarNames,
+                showSilhouette: showSil,
+                silhouetteImage: silhouetteImage,
+                silhouettesPath: this.silhouettesPath,
                 ...options
             });
             this.constellations.push(constellation);
@@ -271,5 +327,18 @@ export class CelestialBackground {
     toggleStarNames(show) {
         this.config.showStarNames = show;
         this.constellations.forEach(c => c.showStarNames = show);
+    }
+
+    // Toggle silhouettes on hover
+    toggleSilhouettes(show) {
+        this.config.showSilhouettes = show;
+        this.constellations.forEach(c => c.showSilhouette = show);
+    }
+
+    // Get silhouette loading status (for debugging)
+    getSilhouetteStatus() {
+        const total = Object.keys(this.silhouettes).length;
+        const loaded = Object.values(this.silhouettes).filter(img => img.complete).length;
+        return { loaded, total, ready: loaded === total };
     }
 }

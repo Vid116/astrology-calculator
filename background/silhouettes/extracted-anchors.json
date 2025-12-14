@@ -1,0 +1,5952 @@
+[
+  {
+    "abbr": "Aql",
+    "ourName": "AQUILA",
+    "imageFile": "aquila",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 97649,
+        "starName": "Altair",
+        "imgPos": [
+          163,
+          232
+        ]
+      },
+      {
+        "hip": 93244,
+        "starName": "Theta Aql",
+        "imgPos": [
+          385,
+          131
+        ]
+      },
+      {
+        "hip": 93805,
+        "starName": "Eta Aql",
+        "imgPos": [
+          397,
+          397
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "And",
+    "ourName": "ANDROMEDA",
+    "imageFile": "andromeda",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 3881,
+        "starName": "Beta And",
+        "imgPos": [
+          198,
+          215
+        ]
+      },
+      {
+        "hip": 3092,
+        "starName": "Delta And",
+        "imgPos": [
+          337,
+          136
+        ]
+      },
+      {
+        "hip": 9640,
+        "starName": "Almach",
+        "imgPos": [
+          224,
+          428
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Scl",
+    "ourName": "SCULPTOR",
+    "imageFile": "sculptor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 115102,
+        "starName": "Gamma Scl",
+        "imgPos": [
+          231,
+          39
+        ]
+      },
+      {
+        "hip": 116231,
+        "starName": "Beta Scl",
+        "imgPos": [
+          240,
+          106
+        ]
+      },
+      {
+        "hip": 4577,
+        "starName": "Alpha Scl",
+        "imgPos": [
+          32,
+          174
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ara",
+    "ourName": "ARA",
+    "imageFile": "ara",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 83081,
+        "starName": "HIP 83081",
+        "imgPos": [
+          98,
+          70
+        ]
+      },
+      {
+        "hip": 85727,
+        "starName": "HIP 85727",
+        "imgPos": [
+          191,
+          93
+        ]
+      },
+      {
+        "hip": 88714,
+        "starName": "HIP 88714",
+        "imgPos": [
+          107,
+          249
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lib",
+    "ourName": "LIBRA",
+    "imageFile": "libra",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 74785,
+        "starName": "Gamma Lib",
+        "imgPos": [
+          41,
+          27
+        ]
+      },
+      {
+        "hip": 77853,
+        "starName": "Sigma Lib",
+        "imgPos": [
+          58,
+          170
+        ]
+      },
+      {
+        "hip": 73714,
+        "starName": "Upsilon Lib",
+        "imgPos": [
+          224,
+          107
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cet",
+    "ourName": "CETUS",
+    "imageFile": "cetus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 14143,
+        "starName": "Alpha Cet",
+        "imgPos": [
+          87,
+          63
+        ]
+      },
+      {
+        "hip": 12770,
+        "starName": "HIP 12770",
+        "imgPos": [
+          28,
+          274
+        ]
+      },
+      {
+        "hip": 1562,
+        "starName": "Iota Cet",
+        "imgPos": [
+          412,
+          440
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ari",
+    "ourName": "ARIES",
+    "imageFile": "aries",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 13209,
+        "starName": "41 Ari",
+        "imgPos": [
+          12,
+          130
+        ]
+      },
+      {
+        "hip": 13914,
+        "starName": "Botein",
+        "imgPos": [
+          58,
+          206
+        ]
+      },
+      {
+        "hip": 8832,
+        "starName": "Sheratan",
+        "imgPos": [
+          210,
+          47
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sct",
+    "ourName": "SCUTUM",
+    "imageFile": "scutum",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 92175,
+        "starName": "Alpha Sct",
+        "imgPos": [
+          52,
+          17
+        ]
+      },
+      {
+        "hip": 90595,
+        "starName": "Beta Sct",
+        "imgPos": [
+          224,
+          124
+        ]
+      },
+      {
+        "hip": 92814,
+        "starName": "Gamma Sct",
+        "imgPos": [
+          139,
+          206
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Pyx",
+    "ourName": "PYXIS",
+    "imageFile": "pyxis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 41723,
+        "starName": "HIP 41723",
+        "imgPos": [
+          152,
+          220
+        ]
+      },
+      {
+        "hip": 42828,
+        "starName": "HIP 42828",
+        "imgPos": [
+          94,
+          159
+        ]
+      },
+      {
+        "hip": 42515,
+        "starName": "HIP 42515",
+        "imgPos": [
+          44,
+          202
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Boo",
+    "ourName": "BOOTES",
+    "imageFile": "bootes",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 72105,
+        "starName": "Epsilon Boo",
+        "imgPos": [
+          225,
+          222
+        ]
+      },
+      {
+        "hip": 71075,
+        "starName": "Eta Boo",
+        "imgPos": [
+          365,
+          184
+        ]
+      },
+      {
+        "hip": 67927,
+        "starName": "Gamma Boo",
+        "imgPos": [
+          207,
+          401
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cae",
+    "ourName": "CAELUM",
+    "imageFile": "caelum",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 21060,
+        "starName": "HIP 21060",
+        "imgPos": [
+          16,
+          231
+        ]
+      },
+      {
+        "hip": 21770,
+        "starName": "HIP 21770",
+        "imgPos": [
+          76,
+          145
+        ]
+      },
+      {
+        "hip": 21861,
+        "starName": "HIP 21861",
+        "imgPos": [
+          199,
+          75
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cha",
+    "ourName": "CHAMAELEON",
+    "imageFile": "chamaeleon",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 60000,
+        "starName": "HIP 60000",
+        "imgPos": [
+          29,
+          214
+        ]
+      },
+      {
+        "hip": 51839,
+        "starName": "HIP 51839",
+        "imgPos": [
+          73,
+          123
+        ]
+      },
+      {
+        "hip": 40702,
+        "starName": "HIP 40702",
+        "imgPos": [
+          184,
+          33
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cnc",
+    "ourName": "CANCER",
+    "imageFile": "cancer",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 44066,
+        "starName": "Beta Cnc",
+        "imgPos": [
+          29,
+          166
+        ]
+      },
+      {
+        "hip": 40526,
+        "starName": "Acubens",
+        "imgPos": [
+          101,
+          255
+        ]
+      },
+      {
+        "hip": 40843,
+        "starName": "Gamma Cnc",
+        "imgPos": [
+          206,
+          91
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cap",
+    "ourName": "CAPRICORNUS",
+    "imageFile": "capricornus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 107556,
+        "starName": "Omega Cap",
+        "imgPos": [
+          15,
+          436
+        ]
+      },
+      {
+        "hip": 100064,
+        "starName": "Algedi",
+        "imgPos": [
+          403,
+          7
+        ]
+      },
+      {
+        "hip": 102978,
+        "starName": "Nashira",
+        "imgPos": [
+          460,
+          438
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Car",
+    "ourName": "CARINA",
+    "imageFile": "argonavis",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 45238,
+        "starName": "HIP 45238",
+        "imgPos": [
+          202,
+          455
+        ]
+      },
+      {
+        "hip": 50191,
+        "starName": "Phi Vel",
+        "imgPos": [
+          62,
+          216
+        ]
+      },
+      {
+        "hip": 39757,
+        "starName": "Naos",
+        "imgPos": [
+          298,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cas",
+    "ourName": "CASSIOPEIA",
+    "imageFile": "cassiopeia",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 8886,
+        "starName": "Segin",
+        "imgPos": [
+          390,
+          336
+        ]
+      },
+      {
+        "hip": 3179,
+        "starName": "Caph",
+        "imgPos": [
+          163,
+          156
+        ]
+      },
+      {
+        "hip": 746,
+        "starName": "Schedar",
+        "imgPos": [
+          73,
+          243
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cen",
+    "ourName": "CENTAURUS",
+    "imageFile": "centaurus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 68933,
+        "starName": "Hadar",
+        "imgPos": [
+          118,
+          157
+        ]
+      },
+      {
+        "hip": 71683,
+        "starName": "Rigil Kent",
+        "imgPos": [
+          194,
+          444
+        ]
+      },
+      {
+        "hip": 56561,
+        "starName": "Zeta Cen",
+        "imgPos": [
+          463,
+          412
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cep",
+    "ourName": "CEPHEUS",
+    "imageFile": "cepheus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 116727,
+        "starName": "HIP 116727",
+        "imgPos": [
+          60,
+          335
+        ]
+      },
+      {
+        "hip": 106032,
+        "starName": "Alfirk",
+        "imgPos": [
+          125,
+          170
+        ]
+      },
+      {
+        "hip": 109492,
+        "starName": "HIP 109492",
+        "imgPos": [
+          335,
+          147
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Com",
+    "ourName": "COMA_BERENICES",
+    "imageFile": "coma-berenices",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 64241,
+        "starName": "Diadem",
+        "imgPos": [
+          27,
+          199
+        ]
+      },
+      {
+        "hip": 64394,
+        "starName": "Gamma Com",
+        "imgPos": [
+          38,
+          58
+        ]
+      },
+      {
+        "hip": 60742,
+        "starName": "Beta Com",
+        "imgPos": [
+          172,
+          64
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CVn",
+    "ourName": "CANES_VENATICI",
+    "imageFile": "canes-venatici",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 63901,
+        "starName": "HIP 63901",
+        "imgPos": [
+          117,
+          113
+        ]
+      },
+      {
+        "hip": 61317,
+        "starName": "HIP 61317",
+        "imgPos": [
+          206,
+          40
+        ]
+      },
+      {
+        "hip": 61309,
+        "starName": "HIP 61309",
+        "imgPos": [
+          207,
+          152
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Aur",
+    "ourName": "AURIGA",
+    "imageFile": "auriga",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 28380,
+        "starName": "HIP 28380",
+        "imgPos": [
+          196,
+          189
+        ]
+      },
+      {
+        "hip": 24608,
+        "starName": "Capella",
+        "imgPos": [
+          419,
+          208
+        ]
+      },
+      {
+        "hip": 23015,
+        "starName": "Epsilon Aur",
+        "imgPos": [
+          290,
+          423
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Col",
+    "ourName": "COLUMBA",
+    "imageFile": "columba",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 30277,
+        "starName": "HIP 30277",
+        "imgPos": [
+          139,
+          29
+        ]
+      },
+      {
+        "hip": 28328,
+        "starName": "HIP 28328",
+        "imgPos": [
+          40,
+          190
+        ]
+      },
+      {
+        "hip": 25859,
+        "starName": "HIP 25859",
+        "imgPos": [
+          204,
+          211
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cir",
+    "ourName": "CIRCINUS",
+    "imageFile": "circinus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 75323,
+        "starName": "HIP 75323",
+        "imgPos": [
+          5,
+          36
+        ]
+      },
+      {
+        "hip": 74824,
+        "starName": "HIP 74824",
+        "imgPos": [
+          39,
+          11
+        ]
+      },
+      {
+        "hip": 71908,
+        "starName": "HIP 71908",
+        "imgPos": [
+          235,
+          239
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Crt",
+    "ourName": "CRATER",
+    "imageFile": "crater",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 58188,
+        "starName": "HIP 58188",
+        "imgPos": [
+          45,
+          41
+        ]
+      },
+      {
+        "hip": 55282,
+        "starName": "Alkes",
+        "imgPos": [
+          160,
+          149
+        ]
+      },
+      {
+        "hip": 54682,
+        "starName": "Gamma Crt",
+        "imgPos": [
+          55,
+          242
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CrA",
+    "ourName": "CORONA_AUSTRALIS",
+    "imageFile": "corona-australis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 93825,
+        "starName": "HIP 93825",
+        "imgPos": [
+          14,
+          142
+        ]
+      },
+      {
+        "hip": 90887,
+        "starName": "HIP 90887",
+        "imgPos": [
+          218,
+          34
+        ]
+      },
+      {
+        "hip": 92953,
+        "starName": "HIP 92953",
+        "imgPos": [
+          195,
+          208
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CrB",
+    "ourName": "CORONA_BOREALIS",
+    "imageFile": "corona-borealis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 78493,
+        "starName": "Iota CrB",
+        "imgPos": [
+          16,
+          186
+        ]
+      },
+      {
+        "hip": 76952,
+        "starName": "Delta CrB",
+        "imgPos": [
+          201,
+          203
+        ]
+      },
+      {
+        "hip": 76127,
+        "starName": "Gamma CrB",
+        "imgPos": [
+          157,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Crv",
+    "ourName": "CORVUS",
+    "imageFile": "corvus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 60965,
+        "starName": "Kraz",
+        "imgPos": [
+          65,
+          59
+        ]
+      },
+      {
+        "hip": 61359,
+        "starName": "Algorab",
+        "imgPos": [
+          77,
+          235
+        ]
+      },
+      {
+        "hip": 59316,
+        "starName": "Gienah",
+        "imgPos": [
+          213,
+          187
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cru",
+    "ourName": "CRUX",
+    "imageFile": "crux",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 61084,
+        "starName": "Gacrux",
+        "imgPos": [
+          112,
+          21
+        ]
+      },
+      {
+        "hip": 62434,
+        "starName": "Acrux",
+        "imgPos": [
+          42,
+          20
+        ]
+      },
+      {
+        "hip": 60718,
+        "starName": "Mimosa",
+        "imgPos": [
+          21,
+          106
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cyg",
+    "ourName": "CYGNUS",
+    "imageFile": "cygnus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 107310,
+        "starName": "Kappa Cyg",
+        "imgPos": [
+          7,
+          382
+        ]
+      },
+      {
+        "hip": 94779,
+        "starName": "Eta Cyg",
+        "imgPos": [
+          474,
+          46
+        ]
+      },
+      {
+        "hip": 95947,
+        "starName": "Sadr",
+        "imgPos": [
+          467,
+          453
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Del",
+    "ourName": "DELPHINUS",
+    "imageFile": "delphinus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 102532,
+        "starName": "Epsilon Del",
+        "imgPos": [
+          59,
+          31
+        ]
+      },
+      {
+        "hip": 102805,
+        "starName": "HIP 102805",
+        "imgPos": [
+          75,
+          148
+        ]
+      },
+      {
+        "hip": 101421,
+        "starName": "Sualocin",
+        "imgPos": [
+          211,
+          143
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Dor",
+    "ourName": "DORADO",
+    "imageFile": "dorado",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 27890,
+        "starName": "HIP 27890",
+        "imgPos": [
+          56,
+          197
+        ]
+      },
+      {
+        "hip": 27100,
+        "starName": "HIP 27100",
+        "imgPos": [
+          75,
+          228
+        ]
+      },
+      {
+        "hip": 19893,
+        "starName": "HIP 19893",
+        "imgPos": [
+          219,
+          46
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Dra",
+    "ourName": "DRACO",
+    "imageFile": "draco",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 56211,
+        "starName": "Giausar",
+        "imgPos": [
+          13,
+          411
+        ]
+      },
+      {
+        "hip": 85670,
+        "starName": "Rastaban",
+        "imgPos": [
+          361,
+          154
+        ]
+      },
+      {
+        "hip": 97433,
+        "starName": "HIP 97433",
+        "imgPos": [
+          449,
+          429
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Nor",
+    "ourName": "NORMA",
+    "imageFile": "norma",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 78639,
+        "starName": "HIP 78639",
+        "imgPos": [
+          17,
+          45
+        ]
+      },
+      {
+        "hip": 79509,
+        "starName": "HIP 79509",
+        "imgPos": [
+          101,
+          38
+        ]
+      },
+      {
+        "hip": 80582,
+        "starName": "HIP 80582",
+        "imgPos": [
+          16,
+          112
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Eri",
+    "ourName": "ERIDANUS",
+    "imageFile": "eridanus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 22109,
+        "starName": "HIP 22109",
+        "imgPos": [
+          41,
+          95
+        ]
+      },
+      {
+        "hip": 13701,
+        "starName": "HIP 13701",
+        "imgPos": [
+          296,
+          44
+        ]
+      },
+      {
+        "hip": 7588,
+        "starName": "Achernar",
+        "imgPos": [
+          493,
+          490
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sge",
+    "ourName": "SAGITTA",
+    "imageFile": "sagitta",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 98920,
+        "starName": "HIP 98920",
+        "imgPos": [
+          6,
+          12
+        ]
+      },
+      {
+        "hip": 96757,
+        "starName": "Delta Sge",
+        "imgPos": [
+          249,
+          213
+        ]
+      },
+      {
+        "hip": 96837,
+        "starName": "Gamma Sge",
+        "imgPos": [
+          218,
+          243
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "For",
+    "ourName": "FORNAX",
+    "imageFile": "fornax",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 14879,
+        "starName": "HIP 14879",
+        "imgPos": [
+          42,
+          125
+        ]
+      },
+      {
+        "hip": 13202,
+        "starName": "HIP 13202",
+        "imgPos": [
+          128,
+          37
+        ]
+      },
+      {
+        "hip": 13147,
+        "starName": "HIP 13147",
+        "imgPos": [
+          190,
+          129
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Gem",
+    "ourName": "GEMINI",
+    "imageFile": "gemini",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 37740,
+        "starName": "HIP 37740",
+        "imgPos": [
+          14,
+          81
+        ]
+      },
+      {
+        "hip": 32362,
+        "starName": "HIP 32362",
+        "imgPos": [
+          117,
+          252
+        ]
+      },
+      {
+        "hip": 28734,
+        "starName": "HIP 28734",
+        "imgPos": [
+          249,
+          165
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cam",
+    "ourName": "CAMELOPARDALIS",
+    "imageFile": "camelopardalis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 25110,
+        "starName": "HIP 25110",
+        "imgPos": [
+          77,
+          46
+        ]
+      },
+      {
+        "hip": 22783,
+        "starName": "HIP 22783",
+        "imgPos": [
+          128,
+          135
+        ]
+      },
+      {
+        "hip": 16228,
+        "starName": "HIP 16228",
+        "imgPos": [
+          219,
+          136
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CMa",
+    "ourName": "CANIS_MAJOR",
+    "imageFile": "canis-major",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 35904,
+        "starName": "Eta CMa",
+        "imgPos": [
+          21,
+          347
+        ]
+      },
+      {
+        "hip": 33160,
+        "starName": "Aludra",
+        "imgPos": [
+          321,
+          24
+        ]
+      },
+      {
+        "hip": 30122,
+        "starName": "HIP 30122",
+        "imgPos": [
+          318,
+          492
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "UMa",
+    "ourName": "URSA_MAJOR",
+    "imageFile": "ursa-major",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 67301,
+        "starName": "Alkaid",
+        "imgPos": [
+          26,
+          75
+        ]
+      },
+      {
+        "hip": 41704,
+        "starName": "Omicron UMa",
+        "imgPos": [
+          452,
+          272
+        ]
+      },
+      {
+        "hip": 50372,
+        "starName": "HIP 50372",
+        "imgPos": [
+          258,
+          394
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Gru",
+    "ourName": "GRUS",
+    "imageFile": "grus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 114131,
+        "starName": "HIP 114131",
+        "imgPos": [
+          49,
+          109
+        ]
+      },
+      {
+        "hip": 112623,
+        "starName": "HIP 112623",
+        "imgPos": [
+          85,
+          206
+        ]
+      },
+      {
+        "hip": 108085,
+        "starName": "Gamma Gru",
+        "imgPos": [
+          220,
+          45
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Her",
+    "ourName": "HERCULES",
+    "imageFile": "hercules",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 80170,
+        "starName": "Omicron Her",
+        "imgPos": [
+          44,
+          115
+        ]
+      },
+      {
+        "hip": 79992,
+        "starName": "Mu Her",
+        "imgPos": [
+          254,
+          477
+        ]
+      },
+      {
+        "hip": 88794,
+        "starName": "HIP 88794",
+        "imgPos": [
+          441,
+          102
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Hor",
+    "ourName": "HOROLOGIUM",
+    "imageFile": "horlogium",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 19747,
+        "starName": "HIP 19747",
+        "imgPos": [
+          16,
+          235
+        ]
+      },
+      {
+        "hip": 12484,
+        "starName": "HIP 12484",
+        "imgPos": [
+          184,
+          67
+        ]
+      },
+      {
+        "hip": 14240,
+        "starName": "HIP 14240",
+        "imgPos": [
+          235,
+          119
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Hya",
+    "ourName": "HYDRA",
+    "imageFile": "hydra",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 64962,
+        "starName": "Gamma Hya",
+        "imgPos": [
+          26,
+          491
+        ]
+      },
+      {
+        "hip": 55434,
+        "starName": "Chort",
+        "imgPos": [
+          111,
+          149
+        ]
+      },
+      {
+        "hip": 43813,
+        "starName": "Epsilon Hya",
+        "imgPos": [
+          401,
+          33
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Hyi",
+    "ourName": "HYDRUS",
+    "imageFile": "hydrus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 9236,
+        "starName": "HIP 9236",
+        "imgPos": [
+          14,
+          204
+        ]
+      },
+      {
+        "hip": 2021,
+        "starName": "HIP 2021",
+        "imgPos": [
+          201,
+          43
+        ]
+      },
+      {
+        "hip": 17678,
+        "starName": "HIP 17678",
+        "imgPos": [
+          241,
+          215
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ind",
+    "ourName": "INDUS",
+    "imageFile": "indus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 101772,
+        "starName": "HIP 101772",
+        "imgPos": [
+          64,
+          143
+        ]
+      },
+      {
+        "hip": 103227,
+        "starName": "HIP 103227",
+        "imgPos": [
+          154,
+          20
+        ]
+      },
+      {
+        "hip": 105319,
+        "starName": "HIP 105319",
+        "imgPos": [
+          175,
+          98
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lac",
+    "ourName": "LACERTA",
+    "imageFile": "lacerta",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 110538,
+        "starName": "HIP 110538",
+        "imgPos": [
+          249,
+          42
+        ]
+      },
+      {
+        "hip": 111104,
+        "starName": "HIP 111104",
+        "imgPos": [
+          108,
+          123
+        ]
+      },
+      {
+        "hip": 109937,
+        "starName": "HIP 109937",
+        "imgPos": [
+          67,
+          215
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Mon",
+    "ourName": "MONOCEROS",
+    "imageFile": "monoceros",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 39863,
+        "starName": "HIP 39863",
+        "imgPos": [
+          20,
+          306
+        ]
+      },
+      {
+        "hip": 31978,
+        "starName": "HIP 31978",
+        "imgPos": [
+          394,
+          80
+        ]
+      },
+      {
+        "hip": 29651,
+        "starName": "Delta Mon",
+        "imgPos": [
+          509,
+          359
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lep",
+    "ourName": "LEPUS",
+    "imageFile": "lepus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 28910,
+        "starName": "HIP 28910",
+        "imgPos": [
+          21,
+          48
+        ]
+      },
+      {
+        "hip": 24244,
+        "starName": "HIP 24244",
+        "imgPos": [
+          246,
+          62
+        ]
+      },
+      {
+        "hip": 23685,
+        "starName": "Eta Lep",
+        "imgPos": [
+          213,
+          235
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Leo",
+    "ourName": "LEO",
+    "imageFile": "leo",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 57632,
+        "starName": "Denebola",
+        "imgPos": [
+          69,
+          411
+        ]
+      },
+      {
+        "hip": 49669,
+        "starName": "Regulus",
+        "imgPos": [
+          383,
+          186
+        ]
+      },
+      {
+        "hip": 47908,
+        "starName": "Adhafera",
+        "imgPos": [
+          321,
+          32
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lup",
+    "ourName": "LUPUS",
+    "imageFile": "lupus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 74395,
+        "starName": "Beta Lup",
+        "imgPos": [
+          90,
+          257
+        ]
+      },
+      {
+        "hip": 70576,
+        "starName": "HIP 70576",
+        "imgPos": [
+          207,
+          435
+        ]
+      },
+      {
+        "hip": 75177,
+        "starName": "Theta Lup",
+        "imgPos": [
+          425,
+          239
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lyn",
+    "ourName": "LYNX",
+    "imageFile": "lynx",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 44248,
+        "starName": "HIP 44248",
+        "imgPos": [
+          100,
+          216
+        ]
+      },
+      {
+        "hip": 36145,
+        "starName": "2 Lyn",
+        "imgPos": [
+          337,
+          212
+        ]
+      },
+      {
+        "hip": 30060,
+        "starName": "HIP 30060",
+        "imgPos": [
+          472,
+          119
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lyr",
+    "ourName": "LYRA",
+    "imageFile": "lyra",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 92791,
+        "starName": "HIP 92791",
+        "imgPos": [
+          100,
+          96
+        ]
+      },
+      {
+        "hip": 91262,
+        "starName": "Vega",
+        "imgPos": [
+          157,
+          38
+        ]
+      },
+      {
+        "hip": 92420,
+        "starName": "Sheliak",
+        "imgPos": [
+          139,
+          162
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ant",
+    "ourName": "ANTLIA",
+    "imageFile": "antlia",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 51172,
+        "starName": "HIP 51172",
+        "imgPos": [
+          4,
+          84
+        ]
+      },
+      {
+        "hip": 47758,
+        "starName": "HIP 47758",
+        "imgPos": [
+          72,
+          69
+        ]
+      },
+      {
+        "hip": 48926,
+        "starName": "HIP 48926",
+        "imgPos": [
+          42,
+          120
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Mic",
+    "ourName": "MICROSCOPIUM",
+    "imageFile": "microscopium",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 105140,
+        "starName": "HIP 105140",
+        "imgPos": [
+          122,
+          226
+        ]
+      },
+      {
+        "hip": 103738,
+        "starName": "HIP 103738",
+        "imgPos": [
+          168,
+          148
+        ]
+      },
+      {
+        "hip": 102831,
+        "starName": "HIP 102831",
+        "imgPos": [
+          234,
+          115
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Mus",
+    "ourName": "MUSCA",
+    "imageFile": "musca",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 61199,
+        "starName": "HIP 61199",
+        "imgPos": [
+          57,
+          52
+        ]
+      },
+      {
+        "hip": 62322,
+        "starName": "HIP 62322",
+        "imgPos": [
+          177,
+          68
+        ]
+      },
+      {
+        "hip": 57363,
+        "starName": "HIP 57363",
+        "imgPos": [
+          129,
+          236
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Oct",
+    "ourName": "OCTANS",
+    "imageFile": "octans",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 70638,
+        "starName": "HIP 70638",
+        "imgPos": [
+          15,
+          16
+        ]
+      },
+      {
+        "hip": 107089,
+        "starName": "HIP 107089",
+        "imgPos": [
+          236,
+          239
+        ]
+      },
+      {
+        "hip": 112405,
+        "starName": "HIP 112405",
+        "imgPos": [
+          247,
+          140
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Aps",
+    "ourName": "APUS",
+    "imageFile": "apus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 81852,
+        "starName": "HIP 81852",
+        "imgPos": [
+          66,
+          60
+        ]
+      },
+      {
+        "hip": 81065,
+        "starName": "HIP 81065",
+        "imgPos": [
+          76,
+          87
+        ]
+      },
+      {
+        "hip": 72370,
+        "starName": "HIP 72370",
+        "imgPos": [
+          163,
+          110
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Oph",
+    "ourName": "OPHIUCHUS",
+    "imageFile": "ophiuchus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 92946,
+        "starName": "HIP 92946",
+        "imgPos": [
+          5,
+          183
+        ]
+      },
+      {
+        "hip": 77233,
+        "starName": "Epsilon Ser",
+        "imgPos": [
+          452,
+          47
+        ]
+      },
+      {
+        "hip": 85755,
+        "starName": "HIP 85755",
+        "imgPos": [
+          238,
+          453
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ori",
+    "ourName": "ORION",
+    "imageFile": "orion",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 27913,
+        "starName": "Betelgeuse",
+        "imgPos": [
+          59,
+          11
+        ]
+      },
+      {
+        "hip": 27366,
+        "starName": "Rigel",
+        "imgPos": [
+          329,
+          477
+        ]
+      },
+      {
+        "hip": 22449,
+        "starName": "Bellatrix",
+        "imgPos": [
+          421,
+          91
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Pav",
+    "ourName": "PAVO",
+    "imageFile": "pavo",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 100751,
+        "starName": "Peacock",
+        "imgPos": [
+          55,
+          60
+        ]
+      },
+      {
+        "hip": 98495,
+        "starName": "Zeta Pav",
+        "imgPos": [
+          110,
+          208
+        ]
+      },
+      {
+        "hip": 86929,
+        "starName": "HIP 86929",
+        "imgPos": [
+          235,
+          146
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Peg",
+    "ourName": "PEGASUS",
+    "imageFile": "pegasus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 107315,
+        "starName": "Enif",
+        "imgPos": [
+          164,
+          41
+        ]
+      },
+      {
+        "hip": 109410,
+        "starName": "Homam",
+        "imgPos": [
+          47,
+          283
+        ]
+      },
+      {
+        "hip": 1067,
+        "starName": "Algenib",
+        "imgPos": [
+          409,
+          349
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Pic",
+    "ourName": "PICTOR",
+    "imageFile": "pictor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 32607,
+        "starName": "HIP 32607",
+        "imgPos": [
+          4,
+          252
+        ]
+      },
+      {
+        "hip": 27530,
+        "starName": "HIP 27530",
+        "imgPos": [
+          148,
+          138
+        ]
+      },
+      {
+        "hip": 27321,
+        "starName": "HIP 27321",
+        "imgPos": [
+          167,
+          38
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Per",
+    "ourName": "PERSEUS",
+    "imageFile": "perseus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 18532,
+        "starName": "Epsilon Per",
+        "imgPos": [
+          164,
+          323
+        ]
+      },
+      {
+        "hip": 15863,
+        "starName": "Mirfak",
+        "imgPos": [
+          299,
+          175
+        ]
+      },
+      {
+        "hip": 13254,
+        "starName": "HIP 13254",
+        "imgPos": [
+          385,
+          386
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Equ",
+    "ourName": "EQUULEUS",
+    "imageFile": "equuleus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 104521,
+        "starName": "HIP 104521",
+        "imgPos": [
+          17,
+          180
+        ]
+      },
+      {
+        "hip": 104987,
+        "starName": "HIP 104987",
+        "imgPos": [
+          149,
+          86
+        ]
+      },
+      {
+        "hip": 105570,
+        "starName": "HIP 105570",
+        "imgPos": [
+          160,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CMi",
+    "ourName": "CANIS_MINOR",
+    "imageFile": "canis-minor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 37921,
+        "starName": "HIP 37921",
+        "imgPos": [
+          96,
+          43
+        ]
+      },
+      {
+        "hip": 37279,
+        "starName": "Procyon",
+        "imgPos": [
+          101,
+          171
+        ]
+      },
+      {
+        "hip": 36188,
+        "starName": "Gomeisa",
+        "imgPos": [
+          184,
+          124
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "LMi",
+    "ourName": "LEO_MINOR",
+    "imageFile": "leo-minor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 53229,
+        "starName": "21 LMi",
+        "imgPos": [
+          8,
+          40
+        ]
+      },
+      {
+        "hip": 46952,
+        "starName": "HIP 46952",
+        "imgPos": [
+          214,
+          127
+        ]
+      },
+      {
+        "hip": 50303,
+        "starName": "HIP 50303",
+        "imgPos": [
+          61,
+          155
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Vul",
+    "ourName": "VULPECULA",
+    "imageFile": "vulpecula",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 98543,
+        "starName": "Anser",
+        "imgPos": [
+          35,
+          133
+        ]
+      },
+      {
+        "hip": 95771,
+        "starName": "HIP 95771",
+        "imgPos": [
+          174,
+          111
+        ]
+      },
+      {
+        "hip": 94703,
+        "starName": "HIP 94703",
+        "imgPos": [
+          242,
+          135
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "UMi",
+    "ourName": "URSA_MINOR",
+    "imageFile": "ursa-minor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 11767,
+        "starName": "Polaris",
+        "imgPos": [
+          15,
+          20
+        ]
+      },
+      {
+        "hip": 59504,
+        "starName": "HIP 59504",
+        "imgPos": [
+          193,
+          51
+        ]
+      },
+      {
+        "hip": 79822,
+        "starName": "Zeta UMi",
+        "imgPos": [
+          93,
+          209
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Phe",
+    "ourName": "PHOENIX",
+    "imageFile": "phoenix",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 8837,
+        "starName": "HIP 8837",
+        "imgPos": [
+          55,
+          243
+        ]
+      },
+      {
+        "hip": 765,
+        "starName": "Kappa Phe",
+        "imgPos": [
+          209,
+          15
+        ]
+      },
+      {
+        "hip": 5348,
+        "starName": "Nu Phe",
+        "imgPos": [
+          229,
+          214
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Psc",
+    "ourName": "PISCES",
+    "imageFile": "pisces",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 4889,
+        "starName": "HIP 4889",
+        "imgPos": [
+          24,
+          104
+        ]
+      },
+      {
+        "hip": 9487,
+        "starName": "Omicron Psc",
+        "imgPos": [
+          111,
+          489
+        ]
+      },
+      {
+        "hip": 114971,
+        "starName": "HIP 114971",
+        "imgPos": [
+          481,
+          155
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "PsA",
+    "ourName": "PISCIS_AUSTRINUS",
+    "imageFile": "piscis-austrinus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 113246,
+        "starName": "HIP 113246",
+        "imgPos": [
+          190,
+          5
+        ]
+      },
+      {
+        "hip": 107608,
+        "starName": "HIP 107608",
+        "imgPos": [
+          82,
+          202
+        ]
+      },
+      {
+        "hip": 111954,
+        "starName": "HIP 111954",
+        "imgPos": [
+          236,
+          92
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Vol",
+    "ourName": "VOLANS",
+    "imageFile": "volans",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 44382,
+        "starName": "HIP 44382",
+        "imgPos": [
+          55,
+          85
+        ]
+      },
+      {
+        "hip": 35228,
+        "starName": "HIP 35228",
+        "imgPos": [
+          210,
+          122
+        ]
+      },
+      {
+        "hip": 34481,
+        "starName": "HIP 34481",
+        "imgPos": [
+          207,
+          163
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ret",
+    "ourName": "RETICULUM",
+    "imageFile": "reticulum",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 18597,
+        "starName": "HIP 18597",
+        "imgPos": [
+          47,
+          56
+        ]
+      },
+      {
+        "hip": 19780,
+        "starName": "HIP 19780",
+        "imgPos": [
+          78,
+          88
+        ]
+      },
+      {
+        "hip": 19921,
+        "starName": "HIP 19921",
+        "imgPos": [
+          16,
+          111
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sgr",
+    "ourName": "SAGITTARIUS",
+    "imageFile": "sagittarius",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 95168,
+        "starName": "HIP 95168",
+        "imgPos": [
+          96,
+          82
+        ]
+      },
+      {
+        "hip": 95294,
+        "starName": "HIP 95294",
+        "imgPos": [
+          307,
+          492
+        ]
+      },
+      {
+        "hip": 87072,
+        "starName": "HIP 87072",
+        "imgPos": [
+          506,
+          100
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sco",
+    "ourName": "SCORPIUS",
+    "imageFile": "scorpius",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 78820,
+        "starName": "Dschubba",
+        "imgPos": [
+          447,
+          29
+        ]
+      },
+      {
+        "hip": 85927,
+        "starName": "Kappa Sco",
+        "imgPos": [
+          62,
+          365
+        ]
+      },
+      {
+        "hip": 82729,
+        "starName": "HIP 82729",
+        "imgPos": [
+          217,
+          462
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sex",
+    "ourName": "SEXTANS",
+    "imageFile": "sextans",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 51437,
+        "starName": "HIP 51437",
+        "imgPos": [
+          26,
+          54
+        ]
+      },
+      {
+        "hip": 49641,
+        "starName": "Gamma Sex",
+        "imgPos": [
+          68,
+          36
+        ]
+      },
+      {
+        "hip": 48437,
+        "starName": "HIP 48437",
+        "imgPos": [
+          118,
+          84
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Men",
+    "ourName": "MENSA",
+    "imageFile": "mensa",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 21949,
+        "starName": "HIP 21949",
+        "imgPos": [
+          100,
+          67
+        ]
+      },
+      {
+        "hip": 25918,
+        "starName": "HIP 25918",
+        "imgPos": [
+          179,
+          136
+        ]
+      },
+      {
+        "hip": 29134,
+        "starName": "HIP 29134",
+        "imgPos": [
+          54,
+          183
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tau",
+    "ourName": "TAURUS",
+    "imageFile": "taurus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 26451,
+        "starName": "Zeta Tau",
+        "imgPos": [
+          13,
+          92
+        ]
+      },
+      {
+        "hip": 15900,
+        "starName": "HIP 15900",
+        "imgPos": [
+          399,
+          438
+        ]
+      },
+      {
+        "hip": 17999,
+        "starName": "HIP 17999",
+        "imgPos": [
+          382,
+          192
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tel",
+    "ourName": "TELESCOPIUM",
+    "imageFile": "telescopium",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 91589,
+        "starName": "HIP 91589",
+        "imgPos": [
+          30,
+          66
+        ]
+      },
+      {
+        "hip": 90422,
+        "starName": "HIP 90422",
+        "imgPos": [
+          101,
+          40
+        ]
+      },
+      {
+        "hip": 90568,
+        "starName": "HIP 90568",
+        "imgPos": [
+          106,
+          92
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tuc",
+    "ourName": "TUCANA",
+    "imageFile": "tucana",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 2484,
+        "starName": "Gamma Tuc",
+        "imgPos": [
+          53,
+          121
+        ]
+      },
+      {
+        "hip": 114996,
+        "starName": "Beta Tuc",
+        "imgPos": [
+          154,
+          86
+        ]
+      },
+      {
+        "hip": 110130,
+        "starName": "Alpha Tuc",
+        "imgPos": [
+          224,
+          141
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tri",
+    "ourName": "TRIANGULUM",
+    "imageFile": "triangulum",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 10064,
+        "starName": "Beta Tri",
+        "imgPos": [
+          16,
+          42
+        ]
+      },
+      {
+        "hip": 10559,
+        "starName": "HIP 10559",
+        "imgPos": [
+          13,
+          70
+        ]
+      },
+      {
+        "hip": 8796,
+        "starName": "Alpha Tri",
+        "imgPos": [
+          97,
+          78
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "TrA",
+    "ourName": "TRIANGULUM_AUSTRALE",
+    "imageFile": "triangulum-australe",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 77952,
+        "starName": "Gamma TrA",
+        "imgPos": [
+          26,
+          12
+        ]
+      },
+      {
+        "hip": 74946,
+        "starName": "Beta TrA",
+        "imgPos": [
+          108,
+          15
+        ]
+      },
+      {
+        "hip": 82273,
+        "starName": "Atria",
+        "imgPos": [
+          60,
+          106
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Aqr",
+    "ourName": "AQUARIUS",
+    "imageFile": "aquarius",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 115438,
+        "starName": "HIP 115438",
+        "imgPos": [
+          144,
+          464
+        ]
+      },
+      {
+        "hip": 109074,
+        "starName": "HIP 109074",
+        "imgPos": [
+          179,
+          98
+        ]
+      },
+      {
+        "hip": 102618,
+        "starName": "HIP 102618",
+        "imgPos": [
+          465,
+          49
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Vir",
+    "ourName": "VIRGO",
+    "imageFile": "virgo",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 72220,
+        "starName": "Syrma",
+        "imgPos": [
+          65,
+          389
+        ]
+      },
+      {
+        "hip": 57380,
+        "starName": "HIP 57380",
+        "imgPos": [
+          454,
+          57
+        ]
+      },
+      {
+        "hip": 65474,
+        "starName": "Spica",
+        "imgPos": [
+          338,
+          382
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Aql",
+    "ourName": "AQUILA",
+    "imageFile": "aquila",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 97649,
+        "starName": "Altair",
+        "imgPos": [
+          163,
+          232
+        ]
+      },
+      {
+        "hip": 93244,
+        "starName": "Theta Aql",
+        "imgPos": [
+          385,
+          131
+        ]
+      },
+      {
+        "hip": 93805,
+        "starName": "Eta Aql",
+        "imgPos": [
+          397,
+          397
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "And",
+    "ourName": "ANDROMEDA",
+    "imageFile": "andromeda",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 3881,
+        "starName": "Beta And",
+        "imgPos": [
+          198,
+          215
+        ]
+      },
+      {
+        "hip": 3092,
+        "starName": "Delta And",
+        "imgPos": [
+          337,
+          136
+        ]
+      },
+      {
+        "hip": 9640,
+        "starName": "Almach",
+        "imgPos": [
+          224,
+          428
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Scl",
+    "ourName": "SCULPTOR",
+    "imageFile": "sculptor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 115102,
+        "starName": "Gamma Scl",
+        "imgPos": [
+          231,
+          39
+        ]
+      },
+      {
+        "hip": 116231,
+        "starName": "Beta Scl",
+        "imgPos": [
+          240,
+          106
+        ]
+      },
+      {
+        "hip": 4577,
+        "starName": "Alpha Scl",
+        "imgPos": [
+          32,
+          174
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ara",
+    "ourName": "ARA",
+    "imageFile": "ara",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 83081,
+        "starName": "HIP 83081",
+        "imgPos": [
+          98,
+          70
+        ]
+      },
+      {
+        "hip": 85727,
+        "starName": "HIP 85727",
+        "imgPos": [
+          191,
+          93
+        ]
+      },
+      {
+        "hip": 88714,
+        "starName": "HIP 88714",
+        "imgPos": [
+          107,
+          249
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lib",
+    "ourName": "LIBRA",
+    "imageFile": "libra",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 74785,
+        "starName": "Gamma Lib",
+        "imgPos": [
+          41,
+          27
+        ]
+      },
+      {
+        "hip": 77853,
+        "starName": "Sigma Lib",
+        "imgPos": [
+          58,
+          170
+        ]
+      },
+      {
+        "hip": 73714,
+        "starName": "Upsilon Lib",
+        "imgPos": [
+          224,
+          107
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cet",
+    "ourName": "CETUS",
+    "imageFile": "cetus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 14143,
+        "starName": "Alpha Cet",
+        "imgPos": [
+          87,
+          63
+        ]
+      },
+      {
+        "hip": 12770,
+        "starName": "HIP 12770",
+        "imgPos": [
+          28,
+          274
+        ]
+      },
+      {
+        "hip": 1562,
+        "starName": "Iota Cet",
+        "imgPos": [
+          412,
+          440
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ari",
+    "ourName": "ARIES",
+    "imageFile": "aries",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 13209,
+        "starName": "41 Ari",
+        "imgPos": [
+          12,
+          130
+        ]
+      },
+      {
+        "hip": 13914,
+        "starName": "Botein",
+        "imgPos": [
+          58,
+          206
+        ]
+      },
+      {
+        "hip": 8832,
+        "starName": "Sheratan",
+        "imgPos": [
+          210,
+          47
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sct",
+    "ourName": "SCUTUM",
+    "imageFile": "scutum",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 92175,
+        "starName": "Alpha Sct",
+        "imgPos": [
+          52,
+          17
+        ]
+      },
+      {
+        "hip": 90595,
+        "starName": "Beta Sct",
+        "imgPos": [
+          224,
+          124
+        ]
+      },
+      {
+        "hip": 92814,
+        "starName": "Gamma Sct",
+        "imgPos": [
+          139,
+          206
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Pyx",
+    "ourName": "PYXIS",
+    "imageFile": "pyxis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 41723,
+        "starName": "HIP 41723",
+        "imgPos": [
+          152,
+          220
+        ]
+      },
+      {
+        "hip": 42828,
+        "starName": "HIP 42828",
+        "imgPos": [
+          94,
+          159
+        ]
+      },
+      {
+        "hip": 42515,
+        "starName": "HIP 42515",
+        "imgPos": [
+          44,
+          202
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Boo",
+    "ourName": "BOOTES",
+    "imageFile": "bootes",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 72105,
+        "starName": "Epsilon Boo",
+        "imgPos": [
+          225,
+          222
+        ]
+      },
+      {
+        "hip": 71075,
+        "starName": "Eta Boo",
+        "imgPos": [
+          365,
+          184
+        ]
+      },
+      {
+        "hip": 67927,
+        "starName": "Gamma Boo",
+        "imgPos": [
+          207,
+          401
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cae",
+    "ourName": "CAELUM",
+    "imageFile": "caelum",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 21060,
+        "starName": "HIP 21060",
+        "imgPos": [
+          16,
+          231
+        ]
+      },
+      {
+        "hip": 21770,
+        "starName": "HIP 21770",
+        "imgPos": [
+          76,
+          145
+        ]
+      },
+      {
+        "hip": 21861,
+        "starName": "HIP 21861",
+        "imgPos": [
+          199,
+          75
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cha",
+    "ourName": "CHAMAELEON",
+    "imageFile": "chamaeleon",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 60000,
+        "starName": "HIP 60000",
+        "imgPos": [
+          29,
+          214
+        ]
+      },
+      {
+        "hip": 51839,
+        "starName": "HIP 51839",
+        "imgPos": [
+          73,
+          123
+        ]
+      },
+      {
+        "hip": 40702,
+        "starName": "HIP 40702",
+        "imgPos": [
+          184,
+          33
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cnc",
+    "ourName": "CANCER",
+    "imageFile": "cancer",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 44066,
+        "starName": "Beta Cnc",
+        "imgPos": [
+          29,
+          166
+        ]
+      },
+      {
+        "hip": 40526,
+        "starName": "Acubens",
+        "imgPos": [
+          101,
+          255
+        ]
+      },
+      {
+        "hip": 40843,
+        "starName": "Gamma Cnc",
+        "imgPos": [
+          206,
+          91
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cap",
+    "ourName": "CAPRICORNUS",
+    "imageFile": "capricornus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 107556,
+        "starName": "Omega Cap",
+        "imgPos": [
+          15,
+          436
+        ]
+      },
+      {
+        "hip": 100064,
+        "starName": "Algedi",
+        "imgPos": [
+          403,
+          7
+        ]
+      },
+      {
+        "hip": 102978,
+        "starName": "Nashira",
+        "imgPos": [
+          460,
+          438
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Car",
+    "ourName": "CARINA",
+    "imageFile": "argonavis",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 45238,
+        "starName": "HIP 45238",
+        "imgPos": [
+          202,
+          455
+        ]
+      },
+      {
+        "hip": 50191,
+        "starName": "Phi Vel",
+        "imgPos": [
+          62,
+          216
+        ]
+      },
+      {
+        "hip": 39757,
+        "starName": "Naos",
+        "imgPos": [
+          298,
+          22
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cas",
+    "ourName": "CASSIOPEIA",
+    "imageFile": "cassiopeia",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 8886,
+        "starName": "Segin",
+        "imgPos": [
+          390,
+          336
+        ]
+      },
+      {
+        "hip": 3179,
+        "starName": "Caph",
+        "imgPos": [
+          163,
+          156
+        ]
+      },
+      {
+        "hip": 746,
+        "starName": "Schedar",
+        "imgPos": [
+          73,
+          243
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cen",
+    "ourName": "CENTAURUS",
+    "imageFile": "centaurus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 68933,
+        "starName": "Hadar",
+        "imgPos": [
+          118,
+          157
+        ]
+      },
+      {
+        "hip": 71683,
+        "starName": "Rigil Kent",
+        "imgPos": [
+          194,
+          444
+        ]
+      },
+      {
+        "hip": 56561,
+        "starName": "Zeta Cen",
+        "imgPos": [
+          463,
+          412
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cep",
+    "ourName": "CEPHEUS",
+    "imageFile": "cepheus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 116727,
+        "starName": "HIP 116727",
+        "imgPos": [
+          60,
+          335
+        ]
+      },
+      {
+        "hip": 106032,
+        "starName": "Alfirk",
+        "imgPos": [
+          125,
+          170
+        ]
+      },
+      {
+        "hip": 109492,
+        "starName": "HIP 109492",
+        "imgPos": [
+          335,
+          147
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Com",
+    "ourName": "COMA_BERENICES",
+    "imageFile": "coma-berenices",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 64241,
+        "starName": "Diadem",
+        "imgPos": [
+          27,
+          199
+        ]
+      },
+      {
+        "hip": 64394,
+        "starName": "Gamma Com",
+        "imgPos": [
+          38,
+          58
+        ]
+      },
+      {
+        "hip": 60742,
+        "starName": "Beta Com",
+        "imgPos": [
+          172,
+          64
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CVn",
+    "ourName": "CANES_VENATICI",
+    "imageFile": "canes-venatici",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 63901,
+        "starName": "HIP 63901",
+        "imgPos": [
+          117,
+          113
+        ]
+      },
+      {
+        "hip": 61317,
+        "starName": "HIP 61317",
+        "imgPos": [
+          206,
+          40
+        ]
+      },
+      {
+        "hip": 61309,
+        "starName": "HIP 61309",
+        "imgPos": [
+          207,
+          152
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Aur",
+    "ourName": "AURIGA",
+    "imageFile": "auriga",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 28380,
+        "starName": "HIP 28380",
+        "imgPos": [
+          196,
+          189
+        ]
+      },
+      {
+        "hip": 24608,
+        "starName": "Capella",
+        "imgPos": [
+          419,
+          208
+        ]
+      },
+      {
+        "hip": 23015,
+        "starName": "Epsilon Aur",
+        "imgPos": [
+          290,
+          423
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Col",
+    "ourName": "COLUMBA",
+    "imageFile": "columba",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 30277,
+        "starName": "HIP 30277",
+        "imgPos": [
+          139,
+          29
+        ]
+      },
+      {
+        "hip": 28328,
+        "starName": "HIP 28328",
+        "imgPos": [
+          40,
+          190
+        ]
+      },
+      {
+        "hip": 25859,
+        "starName": "HIP 25859",
+        "imgPos": [
+          204,
+          211
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cir",
+    "ourName": "CIRCINUS",
+    "imageFile": "circinus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 75323,
+        "starName": "HIP 75323",
+        "imgPos": [
+          5,
+          36
+        ]
+      },
+      {
+        "hip": 74824,
+        "starName": "HIP 74824",
+        "imgPos": [
+          39,
+          11
+        ]
+      },
+      {
+        "hip": 71908,
+        "starName": "HIP 71908",
+        "imgPos": [
+          235,
+          239
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Crt",
+    "ourName": "CRATER",
+    "imageFile": "crater",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 58188,
+        "starName": "HIP 58188",
+        "imgPos": [
+          45,
+          41
+        ]
+      },
+      {
+        "hip": 55282,
+        "starName": "Alkes",
+        "imgPos": [
+          160,
+          149
+        ]
+      },
+      {
+        "hip": 54682,
+        "starName": "Gamma Crt",
+        "imgPos": [
+          55,
+          242
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CrA",
+    "ourName": "CORONA_AUSTRALIS",
+    "imageFile": "corona-australis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 93825,
+        "starName": "HIP 93825",
+        "imgPos": [
+          14,
+          142
+        ]
+      },
+      {
+        "hip": 90887,
+        "starName": "HIP 90887",
+        "imgPos": [
+          218,
+          34
+        ]
+      },
+      {
+        "hip": 92953,
+        "starName": "HIP 92953",
+        "imgPos": [
+          195,
+          208
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CrB",
+    "ourName": "CORONA_BOREALIS",
+    "imageFile": "corona-borealis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 78493,
+        "starName": "Iota CrB",
+        "imgPos": [
+          16,
+          186
+        ]
+      },
+      {
+        "hip": 76952,
+        "starName": "Delta CrB",
+        "imgPos": [
+          201,
+          203
+        ]
+      },
+      {
+        "hip": 76127,
+        "starName": "Gamma CrB",
+        "imgPos": [
+          157,
+          20
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Crv",
+    "ourName": "CORVUS",
+    "imageFile": "corvus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 60965,
+        "starName": "Kraz",
+        "imgPos": [
+          65,
+          59
+        ]
+      },
+      {
+        "hip": 61359,
+        "starName": "Algorab",
+        "imgPos": [
+          77,
+          235
+        ]
+      },
+      {
+        "hip": 59316,
+        "starName": "Gienah",
+        "imgPos": [
+          213,
+          187
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cru",
+    "ourName": "CRUX",
+    "imageFile": "crux",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 61084,
+        "starName": "Gacrux",
+        "imgPos": [
+          112,
+          21
+        ]
+      },
+      {
+        "hip": 62434,
+        "starName": "Acrux",
+        "imgPos": [
+          42,
+          20
+        ]
+      },
+      {
+        "hip": 60718,
+        "starName": "Mimosa",
+        "imgPos": [
+          21,
+          106
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cyg",
+    "ourName": "CYGNUS",
+    "imageFile": "cygnus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 107310,
+        "starName": "Kappa Cyg",
+        "imgPos": [
+          7,
+          382
+        ]
+      },
+      {
+        "hip": 94779,
+        "starName": "Eta Cyg",
+        "imgPos": [
+          474,
+          46
+        ]
+      },
+      {
+        "hip": 95947,
+        "starName": "Sadr",
+        "imgPos": [
+          467,
+          453
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Del",
+    "ourName": "DELPHINUS",
+    "imageFile": "delphinus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 102532,
+        "starName": "Epsilon Del",
+        "imgPos": [
+          59,
+          31
+        ]
+      },
+      {
+        "hip": 102805,
+        "starName": "HIP 102805",
+        "imgPos": [
+          75,
+          148
+        ]
+      },
+      {
+        "hip": 101421,
+        "starName": "Sualocin",
+        "imgPos": [
+          211,
+          143
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Dor",
+    "ourName": "DORADO",
+    "imageFile": "dorado",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 27890,
+        "starName": "HIP 27890",
+        "imgPos": [
+          56,
+          197
+        ]
+      },
+      {
+        "hip": 27100,
+        "starName": "HIP 27100",
+        "imgPos": [
+          75,
+          228
+        ]
+      },
+      {
+        "hip": 19893,
+        "starName": "HIP 19893",
+        "imgPos": [
+          219,
+          46
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Dra",
+    "ourName": "DRACO",
+    "imageFile": "draco",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 56211,
+        "starName": "Giausar",
+        "imgPos": [
+          13,
+          411
+        ]
+      },
+      {
+        "hip": 85670,
+        "starName": "Rastaban",
+        "imgPos": [
+          361,
+          154
+        ]
+      },
+      {
+        "hip": 97433,
+        "starName": "HIP 97433",
+        "imgPos": [
+          449,
+          429
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Nor",
+    "ourName": "NORMA",
+    "imageFile": "norma",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 78639,
+        "starName": "HIP 78639",
+        "imgPos": [
+          17,
+          45
+        ]
+      },
+      {
+        "hip": 79509,
+        "starName": "HIP 79509",
+        "imgPos": [
+          101,
+          38
+        ]
+      },
+      {
+        "hip": 80582,
+        "starName": "HIP 80582",
+        "imgPos": [
+          16,
+          112
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Eri",
+    "ourName": "ERIDANUS",
+    "imageFile": "eridanus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 22109,
+        "starName": "HIP 22109",
+        "imgPos": [
+          41,
+          95
+        ]
+      },
+      {
+        "hip": 13701,
+        "starName": "HIP 13701",
+        "imgPos": [
+          296,
+          44
+        ]
+      },
+      {
+        "hip": 7588,
+        "starName": "Achernar",
+        "imgPos": [
+          493,
+          490
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sge",
+    "ourName": "SAGITTA",
+    "imageFile": "sagitta",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 98920,
+        "starName": "HIP 98920",
+        "imgPos": [
+          6,
+          12
+        ]
+      },
+      {
+        "hip": 96757,
+        "starName": "Delta Sge",
+        "imgPos": [
+          249,
+          213
+        ]
+      },
+      {
+        "hip": 96837,
+        "starName": "Gamma Sge",
+        "imgPos": [
+          218,
+          243
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "For",
+    "ourName": "FORNAX",
+    "imageFile": "fornax",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 14879,
+        "starName": "HIP 14879",
+        "imgPos": [
+          42,
+          125
+        ]
+      },
+      {
+        "hip": 13202,
+        "starName": "HIP 13202",
+        "imgPos": [
+          128,
+          37
+        ]
+      },
+      {
+        "hip": 13147,
+        "starName": "HIP 13147",
+        "imgPos": [
+          190,
+          129
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Gem",
+    "ourName": "GEMINI",
+    "imageFile": "gemini",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 37740,
+        "starName": "HIP 37740",
+        "imgPos": [
+          14,
+          81
+        ]
+      },
+      {
+        "hip": 32362,
+        "starName": "HIP 32362",
+        "imgPos": [
+          117,
+          252
+        ]
+      },
+      {
+        "hip": 28734,
+        "starName": "HIP 28734",
+        "imgPos": [
+          249,
+          165
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Cam",
+    "ourName": "CAMELOPARDALIS",
+    "imageFile": "camelopardalis",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 25110,
+        "starName": "HIP 25110",
+        "imgPos": [
+          77,
+          46
+        ]
+      },
+      {
+        "hip": 22783,
+        "starName": "HIP 22783",
+        "imgPos": [
+          128,
+          135
+        ]
+      },
+      {
+        "hip": 16228,
+        "starName": "HIP 16228",
+        "imgPos": [
+          219,
+          136
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CMa",
+    "ourName": "CANIS_MAJOR",
+    "imageFile": "canis-major",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 35904,
+        "starName": "Eta CMa",
+        "imgPos": [
+          21,
+          347
+        ]
+      },
+      {
+        "hip": 33160,
+        "starName": "Aludra",
+        "imgPos": [
+          321,
+          24
+        ]
+      },
+      {
+        "hip": 30122,
+        "starName": "HIP 30122",
+        "imgPos": [
+          318,
+          492
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "UMa",
+    "ourName": "URSA_MAJOR",
+    "imageFile": "ursa-major",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 67301,
+        "starName": "Alkaid",
+        "imgPos": [
+          26,
+          75
+        ]
+      },
+      {
+        "hip": 41704,
+        "starName": "Omicron UMa",
+        "imgPos": [
+          452,
+          272
+        ]
+      },
+      {
+        "hip": 50372,
+        "starName": "HIP 50372",
+        "imgPos": [
+          258,
+          394
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Gru",
+    "ourName": "GRUS",
+    "imageFile": "grus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 114131,
+        "starName": "HIP 114131",
+        "imgPos": [
+          49,
+          109
+        ]
+      },
+      {
+        "hip": 112623,
+        "starName": "HIP 112623",
+        "imgPos": [
+          85,
+          206
+        ]
+      },
+      {
+        "hip": 108085,
+        "starName": "Gamma Gru",
+        "imgPos": [
+          220,
+          45
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Her",
+    "ourName": "HERCULES",
+    "imageFile": "hercules",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 80170,
+        "starName": "Omicron Her",
+        "imgPos": [
+          44,
+          115
+        ]
+      },
+      {
+        "hip": 79992,
+        "starName": "Mu Her",
+        "imgPos": [
+          254,
+          477
+        ]
+      },
+      {
+        "hip": 88794,
+        "starName": "HIP 88794",
+        "imgPos": [
+          441,
+          102
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Hor",
+    "ourName": "HOROLOGIUM",
+    "imageFile": "horlogium",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 19747,
+        "starName": "HIP 19747",
+        "imgPos": [
+          16,
+          235
+        ]
+      },
+      {
+        "hip": 12484,
+        "starName": "HIP 12484",
+        "imgPos": [
+          184,
+          67
+        ]
+      },
+      {
+        "hip": 14240,
+        "starName": "HIP 14240",
+        "imgPos": [
+          235,
+          119
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Hya",
+    "ourName": "HYDRA",
+    "imageFile": "hydra",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 64962,
+        "starName": "Gamma Hya",
+        "imgPos": [
+          26,
+          491
+        ]
+      },
+      {
+        "hip": 55434,
+        "starName": "Chort",
+        "imgPos": [
+          111,
+          149
+        ]
+      },
+      {
+        "hip": 43813,
+        "starName": "Epsilon Hya",
+        "imgPos": [
+          401,
+          33
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Hyi",
+    "ourName": "HYDRUS",
+    "imageFile": "hydrus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 9236,
+        "starName": "HIP 9236",
+        "imgPos": [
+          14,
+          204
+        ]
+      },
+      {
+        "hip": 2021,
+        "starName": "HIP 2021",
+        "imgPos": [
+          201,
+          43
+        ]
+      },
+      {
+        "hip": 17678,
+        "starName": "HIP 17678",
+        "imgPos": [
+          241,
+          215
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ind",
+    "ourName": "INDUS",
+    "imageFile": "indus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 101772,
+        "starName": "HIP 101772",
+        "imgPos": [
+          64,
+          143
+        ]
+      },
+      {
+        "hip": 103227,
+        "starName": "HIP 103227",
+        "imgPos": [
+          154,
+          20
+        ]
+      },
+      {
+        "hip": 105319,
+        "starName": "HIP 105319",
+        "imgPos": [
+          175,
+          98
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lac",
+    "ourName": "LACERTA",
+    "imageFile": "lacerta",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 110538,
+        "starName": "HIP 110538",
+        "imgPos": [
+          249,
+          42
+        ]
+      },
+      {
+        "hip": 111104,
+        "starName": "HIP 111104",
+        "imgPos": [
+          108,
+          123
+        ]
+      },
+      {
+        "hip": 109937,
+        "starName": "HIP 109937",
+        "imgPos": [
+          67,
+          215
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Mon",
+    "ourName": "MONOCEROS",
+    "imageFile": "monoceros",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 39863,
+        "starName": "HIP 39863",
+        "imgPos": [
+          20,
+          306
+        ]
+      },
+      {
+        "hip": 31978,
+        "starName": "HIP 31978",
+        "imgPos": [
+          394,
+          80
+        ]
+      },
+      {
+        "hip": 29651,
+        "starName": "Delta Mon",
+        "imgPos": [
+          509,
+          359
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lep",
+    "ourName": "LEPUS",
+    "imageFile": "lepus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 28910,
+        "starName": "HIP 28910",
+        "imgPos": [
+          21,
+          48
+        ]
+      },
+      {
+        "hip": 24244,
+        "starName": "HIP 24244",
+        "imgPos": [
+          246,
+          62
+        ]
+      },
+      {
+        "hip": 23685,
+        "starName": "Eta Lep",
+        "imgPos": [
+          213,
+          235
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Leo",
+    "ourName": "LEO",
+    "imageFile": "leo",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 57632,
+        "starName": "Denebola",
+        "imgPos": [
+          69,
+          411
+        ]
+      },
+      {
+        "hip": 49669,
+        "starName": "Regulus",
+        "imgPos": [
+          383,
+          186
+        ]
+      },
+      {
+        "hip": 47908,
+        "starName": "Adhafera",
+        "imgPos": [
+          321,
+          32
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lup",
+    "ourName": "LUPUS",
+    "imageFile": "lupus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 74395,
+        "starName": "Beta Lup",
+        "imgPos": [
+          90,
+          257
+        ]
+      },
+      {
+        "hip": 70576,
+        "starName": "HIP 70576",
+        "imgPos": [
+          207,
+          435
+        ]
+      },
+      {
+        "hip": 75177,
+        "starName": "Theta Lup",
+        "imgPos": [
+          425,
+          239
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lyn",
+    "ourName": "LYNX",
+    "imageFile": "lynx",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 44248,
+        "starName": "HIP 44248",
+        "imgPos": [
+          100,
+          216
+        ]
+      },
+      {
+        "hip": 36145,
+        "starName": "2 Lyn",
+        "imgPos": [
+          337,
+          212
+        ]
+      },
+      {
+        "hip": 30060,
+        "starName": "HIP 30060",
+        "imgPos": [
+          472,
+          119
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Lyr",
+    "ourName": "LYRA",
+    "imageFile": "lyra",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 92791,
+        "starName": "HIP 92791",
+        "imgPos": [
+          100,
+          96
+        ]
+      },
+      {
+        "hip": 91262,
+        "starName": "Vega",
+        "imgPos": [
+          157,
+          38
+        ]
+      },
+      {
+        "hip": 92420,
+        "starName": "Sheliak",
+        "imgPos": [
+          139,
+          162
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ant",
+    "ourName": "ANTLIA",
+    "imageFile": "antlia",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 51172,
+        "starName": "HIP 51172",
+        "imgPos": [
+          4,
+          84
+        ]
+      },
+      {
+        "hip": 47758,
+        "starName": "HIP 47758",
+        "imgPos": [
+          72,
+          69
+        ]
+      },
+      {
+        "hip": 48926,
+        "starName": "HIP 48926",
+        "imgPos": [
+          42,
+          120
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Mic",
+    "ourName": "MICROSCOPIUM",
+    "imageFile": "microscopium",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 105140,
+        "starName": "HIP 105140",
+        "imgPos": [
+          122,
+          226
+        ]
+      },
+      {
+        "hip": 103738,
+        "starName": "HIP 103738",
+        "imgPos": [
+          168,
+          148
+        ]
+      },
+      {
+        "hip": 102831,
+        "starName": "HIP 102831",
+        "imgPos": [
+          234,
+          115
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Mus",
+    "ourName": "MUSCA",
+    "imageFile": "musca",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 61199,
+        "starName": "HIP 61199",
+        "imgPos": [
+          57,
+          52
+        ]
+      },
+      {
+        "hip": 62322,
+        "starName": "HIP 62322",
+        "imgPos": [
+          177,
+          68
+        ]
+      },
+      {
+        "hip": 57363,
+        "starName": "HIP 57363",
+        "imgPos": [
+          129,
+          236
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Oct",
+    "ourName": "OCTANS",
+    "imageFile": "octans",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 70638,
+        "starName": "HIP 70638",
+        "imgPos": [
+          15,
+          16
+        ]
+      },
+      {
+        "hip": 107089,
+        "starName": "HIP 107089",
+        "imgPos": [
+          236,
+          239
+        ]
+      },
+      {
+        "hip": 112405,
+        "starName": "HIP 112405",
+        "imgPos": [
+          247,
+          140
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Aps",
+    "ourName": "APUS",
+    "imageFile": "apus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 81852,
+        "starName": "HIP 81852",
+        "imgPos": [
+          66,
+          60
+        ]
+      },
+      {
+        "hip": 81065,
+        "starName": "HIP 81065",
+        "imgPos": [
+          76,
+          87
+        ]
+      },
+      {
+        "hip": 72370,
+        "starName": "HIP 72370",
+        "imgPos": [
+          163,
+          110
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Oph",
+    "ourName": "OPHIUCHUS",
+    "imageFile": "ophiuchus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 92946,
+        "starName": "HIP 92946",
+        "imgPos": [
+          5,
+          183
+        ]
+      },
+      {
+        "hip": 77233,
+        "starName": "Epsilon Ser",
+        "imgPos": [
+          452,
+          47
+        ]
+      },
+      {
+        "hip": 85755,
+        "starName": "HIP 85755",
+        "imgPos": [
+          238,
+          453
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ori",
+    "ourName": "ORION",
+    "imageFile": "orion",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 27913,
+        "starName": "Betelgeuse",
+        "imgPos": [
+          59,
+          11
+        ]
+      },
+      {
+        "hip": 27366,
+        "starName": "Rigel",
+        "imgPos": [
+          329,
+          477
+        ]
+      },
+      {
+        "hip": 22449,
+        "starName": "Bellatrix",
+        "imgPos": [
+          421,
+          91
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Pav",
+    "ourName": "PAVO",
+    "imageFile": "pavo",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 100751,
+        "starName": "Peacock",
+        "imgPos": [
+          55,
+          60
+        ]
+      },
+      {
+        "hip": 98495,
+        "starName": "Zeta Pav",
+        "imgPos": [
+          110,
+          208
+        ]
+      },
+      {
+        "hip": 86929,
+        "starName": "HIP 86929",
+        "imgPos": [
+          235,
+          146
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Peg",
+    "ourName": "PEGASUS",
+    "imageFile": "pegasus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 107315,
+        "starName": "Enif",
+        "imgPos": [
+          164,
+          41
+        ]
+      },
+      {
+        "hip": 109410,
+        "starName": "Homam",
+        "imgPos": [
+          47,
+          283
+        ]
+      },
+      {
+        "hip": 1067,
+        "starName": "Algenib",
+        "imgPos": [
+          409,
+          349
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Pic",
+    "ourName": "PICTOR",
+    "imageFile": "pictor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 32607,
+        "starName": "HIP 32607",
+        "imgPos": [
+          4,
+          252
+        ]
+      },
+      {
+        "hip": 27530,
+        "starName": "HIP 27530",
+        "imgPos": [
+          148,
+          138
+        ]
+      },
+      {
+        "hip": 27321,
+        "starName": "HIP 27321",
+        "imgPos": [
+          167,
+          38
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Per",
+    "ourName": "PERSEUS",
+    "imageFile": "perseus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 18532,
+        "starName": "Epsilon Per",
+        "imgPos": [
+          164,
+          323
+        ]
+      },
+      {
+        "hip": 15863,
+        "starName": "Mirfak",
+        "imgPos": [
+          299,
+          175
+        ]
+      },
+      {
+        "hip": 13254,
+        "starName": "HIP 13254",
+        "imgPos": [
+          385,
+          386
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Equ",
+    "ourName": "EQUULEUS",
+    "imageFile": "equuleus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 104521,
+        "starName": "HIP 104521",
+        "imgPos": [
+          17,
+          180
+        ]
+      },
+      {
+        "hip": 104987,
+        "starName": "HIP 104987",
+        "imgPos": [
+          149,
+          86
+        ]
+      },
+      {
+        "hip": 105570,
+        "starName": "HIP 105570",
+        "imgPos": [
+          160,
+          160
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "CMi",
+    "ourName": "CANIS_MINOR",
+    "imageFile": "canis-minor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 37921,
+        "starName": "HIP 37921",
+        "imgPos": [
+          96,
+          43
+        ]
+      },
+      {
+        "hip": 37279,
+        "starName": "Procyon",
+        "imgPos": [
+          101,
+          171
+        ]
+      },
+      {
+        "hip": 36188,
+        "starName": "Gomeisa",
+        "imgPos": [
+          184,
+          124
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "LMi",
+    "ourName": "LEO_MINOR",
+    "imageFile": "leo-minor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 53229,
+        "starName": "21 LMi",
+        "imgPos": [
+          8,
+          40
+        ]
+      },
+      {
+        "hip": 46952,
+        "starName": "HIP 46952",
+        "imgPos": [
+          214,
+          127
+        ]
+      },
+      {
+        "hip": 50303,
+        "starName": "HIP 50303",
+        "imgPos": [
+          61,
+          155
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Vul",
+    "ourName": "VULPECULA",
+    "imageFile": "vulpecula",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 98543,
+        "starName": "Anser",
+        "imgPos": [
+          35,
+          133
+        ]
+      },
+      {
+        "hip": 95771,
+        "starName": "HIP 95771",
+        "imgPos": [
+          174,
+          111
+        ]
+      },
+      {
+        "hip": 94703,
+        "starName": "HIP 94703",
+        "imgPos": [
+          242,
+          135
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "UMi",
+    "ourName": "URSA_MINOR",
+    "imageFile": "ursa-minor",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 11767,
+        "starName": "Polaris",
+        "imgPos": [
+          15,
+          20
+        ]
+      },
+      {
+        "hip": 59504,
+        "starName": "HIP 59504",
+        "imgPos": [
+          193,
+          51
+        ]
+      },
+      {
+        "hip": 79822,
+        "starName": "Zeta UMi",
+        "imgPos": [
+          93,
+          209
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Phe",
+    "ourName": "PHOENIX",
+    "imageFile": "phoenix",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 8837,
+        "starName": "HIP 8837",
+        "imgPos": [
+          55,
+          243
+        ]
+      },
+      {
+        "hip": 765,
+        "starName": "Kappa Phe",
+        "imgPos": [
+          209,
+          15
+        ]
+      },
+      {
+        "hip": 5348,
+        "starName": "Nu Phe",
+        "imgPos": [
+          229,
+          214
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Psc",
+    "ourName": "PISCES",
+    "imageFile": "pisces",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 4889,
+        "starName": "HIP 4889",
+        "imgPos": [
+          24,
+          104
+        ]
+      },
+      {
+        "hip": 9487,
+        "starName": "Omicron Psc",
+        "imgPos": [
+          111,
+          489
+        ]
+      },
+      {
+        "hip": 114971,
+        "starName": "HIP 114971",
+        "imgPos": [
+          481,
+          155
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "PsA",
+    "ourName": "PISCIS_AUSTRINUS",
+    "imageFile": "piscis-austrinus",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 113246,
+        "starName": "HIP 113246",
+        "imgPos": [
+          190,
+          5
+        ]
+      },
+      {
+        "hip": 107608,
+        "starName": "HIP 107608",
+        "imgPos": [
+          82,
+          202
+        ]
+      },
+      {
+        "hip": 111954,
+        "starName": "HIP 111954",
+        "imgPos": [
+          236,
+          92
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Vol",
+    "ourName": "VOLANS",
+    "imageFile": "volans",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 44382,
+        "starName": "HIP 44382",
+        "imgPos": [
+          55,
+          85
+        ]
+      },
+      {
+        "hip": 35228,
+        "starName": "HIP 35228",
+        "imgPos": [
+          210,
+          122
+        ]
+      },
+      {
+        "hip": 34481,
+        "starName": "HIP 34481",
+        "imgPos": [
+          207,
+          163
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Ret",
+    "ourName": "RETICULUM",
+    "imageFile": "reticulum",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 18597,
+        "starName": "HIP 18597",
+        "imgPos": [
+          47,
+          56
+        ]
+      },
+      {
+        "hip": 19780,
+        "starName": "HIP 19780",
+        "imgPos": [
+          78,
+          88
+        ]
+      },
+      {
+        "hip": 19921,
+        "starName": "HIP 19921",
+        "imgPos": [
+          16,
+          111
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sgr",
+    "ourName": "SAGITTARIUS",
+    "imageFile": "sagittarius",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 95168,
+        "starName": "HIP 95168",
+        "imgPos": [
+          96,
+          82
+        ]
+      },
+      {
+        "hip": 95294,
+        "starName": "HIP 95294",
+        "imgPos": [
+          307,
+          492
+        ]
+      },
+      {
+        "hip": 87072,
+        "starName": "HIP 87072",
+        "imgPos": [
+          506,
+          100
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sco",
+    "ourName": "SCORPIUS",
+    "imageFile": "scorpius",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 78820,
+        "starName": "Dschubba",
+        "imgPos": [
+          447,
+          29
+        ]
+      },
+      {
+        "hip": 85927,
+        "starName": "Kappa Sco",
+        "imgPos": [
+          62,
+          365
+        ]
+      },
+      {
+        "hip": 82729,
+        "starName": "HIP 82729",
+        "imgPos": [
+          217,
+          462
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Sex",
+    "ourName": "SEXTANS",
+    "imageFile": "sextans",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 51437,
+        "starName": "HIP 51437",
+        "imgPos": [
+          26,
+          54
+        ]
+      },
+      {
+        "hip": 49641,
+        "starName": "Gamma Sex",
+        "imgPos": [
+          68,
+          36
+        ]
+      },
+      {
+        "hip": 48437,
+        "starName": "HIP 48437",
+        "imgPos": [
+          118,
+          84
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Men",
+    "ourName": "MENSA",
+    "imageFile": "mensa",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 21949,
+        "starName": "HIP 21949",
+        "imgPos": [
+          100,
+          67
+        ]
+      },
+      {
+        "hip": 25918,
+        "starName": "HIP 25918",
+        "imgPos": [
+          179,
+          136
+        ]
+      },
+      {
+        "hip": 29134,
+        "starName": "HIP 29134",
+        "imgPos": [
+          54,
+          183
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tau",
+    "ourName": "TAURUS",
+    "imageFile": "taurus",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 26451,
+        "starName": "Zeta Tau",
+        "imgPos": [
+          13,
+          92
+        ]
+      },
+      {
+        "hip": 15900,
+        "starName": "HIP 15900",
+        "imgPos": [
+          399,
+          438
+        ]
+      },
+      {
+        "hip": 17999,
+        "starName": "HIP 17999",
+        "imgPos": [
+          382,
+          192
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tel",
+    "ourName": "TELESCOPIUM",
+    "imageFile": "telescopium",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 91589,
+        "starName": "HIP 91589",
+        "imgPos": [
+          30,
+          66
+        ]
+      },
+      {
+        "hip": 90422,
+        "starName": "HIP 90422",
+        "imgPos": [
+          101,
+          40
+        ]
+      },
+      {
+        "hip": 90568,
+        "starName": "HIP 90568",
+        "imgPos": [
+          106,
+          92
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tuc",
+    "ourName": "TUCANA",
+    "imageFile": "tucana",
+    "imageSize": [
+      256,
+      256
+    ],
+    "anchors": [
+      {
+        "hip": 2484,
+        "starName": "Gamma Tuc",
+        "imgPos": [
+          53,
+          121
+        ]
+      },
+      {
+        "hip": 114996,
+        "starName": "Beta Tuc",
+        "imgPos": [
+          154,
+          86
+        ]
+      },
+      {
+        "hip": 110130,
+        "starName": "Alpha Tuc",
+        "imgPos": [
+          224,
+          141
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Tri",
+    "ourName": "TRIANGULUM",
+    "imageFile": "triangulum",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 10064,
+        "starName": "Beta Tri",
+        "imgPos": [
+          16,
+          42
+        ]
+      },
+      {
+        "hip": 10559,
+        "starName": "HIP 10559",
+        "imgPos": [
+          13,
+          70
+        ]
+      },
+      {
+        "hip": 8796,
+        "starName": "Alpha Tri",
+        "imgPos": [
+          97,
+          78
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "TrA",
+    "ourName": "TRIANGULUM_AUSTRALE",
+    "imageFile": "triangulum-australe",
+    "imageSize": [
+      128,
+      128
+    ],
+    "anchors": [
+      {
+        "hip": 77952,
+        "starName": "Gamma TrA",
+        "imgPos": [
+          26,
+          12
+        ]
+      },
+      {
+        "hip": 74946,
+        "starName": "Beta TrA",
+        "imgPos": [
+          108,
+          15
+        ]
+      },
+      {
+        "hip": 82273,
+        "starName": "Atria",
+        "imgPos": [
+          60,
+          106
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Aqr",
+    "ourName": "AQUARIUS",
+    "imageFile": "aquarius",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 115438,
+        "starName": "HIP 115438",
+        "imgPos": [
+          144,
+          464
+        ]
+      },
+      {
+        "hip": 109074,
+        "starName": "HIP 109074",
+        "imgPos": [
+          179,
+          98
+        ]
+      },
+      {
+        "hip": 102618,
+        "starName": "HIP 102618",
+        "imgPos": [
+          465,
+          49
+        ]
+      }
+    ]
+  },
+  {
+    "abbr": "Vir",
+    "ourName": "VIRGO",
+    "imageFile": "virgo",
+    "imageSize": [
+      512,
+      512
+    ],
+    "anchors": [
+      {
+        "hip": 72220,
+        "starName": "Syrma",
+        "imgPos": [
+          65,
+          389
+        ]
+      },
+      {
+        "hip": 57380,
+        "starName": "HIP 57380",
+        "imgPos": [
+          454,
+          57
+        ]
+      },
+      {
+        "hip": 65474,
+        "starName": "Spica",
+        "imgPos": [
+          338,
+          382
+        ]
+      }
+    ]
+  }
+]
