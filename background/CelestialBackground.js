@@ -4,6 +4,7 @@ import { Star } from './Star.js';
 import { Planet } from './Planet.js';
 import { Constellation } from './Constellation.js';
 import { getRandomConstellation, getConstellation, CONSTELLATIONS } from './constellationData.js';
+import { PLANETS, getOrbitingPlanets } from './planetData.js';
 
 export class CelestialBackground {
     constructor(canvasId, options = {}) {
@@ -25,17 +26,25 @@ export class CelestialBackground {
         // Preloaded silhouette images
         this.silhouettes = {};
         this.silhouettesPath = options.silhouettesPath || 'silhouettes/';
+        this.planetsPath = options.planetsPath || 'planets/';
 
         // Configurable options - now defaults to more constellations from our 88 total
         this.config = {
             starCount: options.starCount || 120,
-            planetCount: options.planetCount || 4,
             constellationCount: options.constellationCount || 12,  // Increased from 5 - picks randomly from all 88
             constellationScale: options.constellationScale || 0.7,
             showConstellationNames: options.showConstellationNames !== undefined ? options.showConstellationNames : true,
             showStarNames: options.showStarNames || false,
             specificConstellations: options.specificConstellations || null, // Array of constellation names to use
             showSilhouettes: options.showSilhouettes !== undefined ? options.showSilhouettes : true,
+            // Planet options
+            showPlanets: options.showPlanets !== undefined ? options.showPlanets : true,
+            showSun: options.showSun !== undefined ? options.showSun : true,
+            planetScale: options.planetScale || 1.0,
+            orbitScale: options.orbitScale || 0.8,  // Scale orbits to fit screen
+            orbitTilt: options.orbitTilt !== undefined ? options.orbitTilt : 0.6,  // 0 = face-on, 1 = edge-on
+            speedMultiplier: options.speedMultiplier || 1.0,
+            specificPlanets: options.specificPlanets || null,  // Array of planet names, null = all
             ...options
         };
 
@@ -77,20 +86,9 @@ export class CelestialBackground {
             this.stars.push(new Star(this.canvas));
         }
 
-        // Create planets
-        const centerX = this.canvas.width / 2;
-        const centerY = this.canvas.height / 2;
-
-        this.planets = [
-            new Planet(centerX, centerY, 100,
-                { light: '#ffd700', dark: '#b8860b' }, 0.002),
-            new Planet(centerX, centerY, 150,
-                { light: '#4169e1', dark: '#1e3a8a' }, 0.0015),
-            new Planet(centerX, centerY, 200,
-                { light: '#ff6347', dark: '#8b0000' }, 0.001),
-            new Planet(centerX, centerY, 250,
-                { light: '#32cd32', dark: '#006400' }, 0.0008)
-        ];
+        // Create solar system planets
+        this.planets = [];
+        this.createPlanets();
 
         // Create real constellations
         this.constellations = [];
@@ -136,6 +134,43 @@ export class CelestialBackground {
                 }
             }
         }
+    }
+
+    createPlanets() {
+        if (!this.config.showPlanets) return;
+
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+
+        const planetOptions = {
+            scale: this.config.planetScale,
+            orbitScale: this.config.orbitScale,
+            orbitTilt: this.config.orbitTilt,
+            speedMultiplier: this.config.speedMultiplier,
+            planetsPath: this.planetsPath
+        };
+
+        // Add Sun at center if enabled
+        if (this.config.showSun) {
+            this.planets.push(new Planet(centerX, centerY, PLANETS.SUN, planetOptions));
+        }
+
+        // Determine which planets to show
+        let planetsToShow;
+        if (this.config.specificPlanets && Array.isArray(this.config.specificPlanets)) {
+            // Use specific planets
+            planetsToShow = this.config.specificPlanets
+                .map(name => PLANETS[name.toUpperCase()])
+                .filter(p => p && !p.isStar);
+        } else {
+            // Use all orbiting planets
+            planetsToShow = getOrbitingPlanets();
+        }
+
+        // Create planet instances
+        planetsToShow.forEach(planetData => {
+            this.planets.push(new Planet(centerX, centerY, planetData, planetOptions));
+        });
     }
 
     // Constellations without silhouette PNGs (checked at runtime)
@@ -252,10 +287,13 @@ export class CelestialBackground {
         });
     }
 
-    // Update hover states for all constellations
+    // Update hover states for all constellations and planets
     updateHoverStates() {
         for (const constellation of this.constellations) {
             constellation.isHovered = constellation.containsPoint(this.mouseX, this.mouseY);
+        }
+        for (const planet of this.planets) {
+            planet.isHovered = planet.containsPoint(this.mouseX, this.mouseY);
         }
     }
 
@@ -264,8 +302,55 @@ export class CelestialBackground {
         this.stars.push(new Star(this.canvas));
     }
 
-    addPlanet(centerX, centerY, orbitRadius, color, speed) {
-        this.planets.push(new Planet(centerX, centerY, orbitRadius, color, speed));
+    addPlanet(planetName, options = {}) {
+        const planetData = PLANETS[planetName.toUpperCase()];
+        if (planetData) {
+            const centerX = this.canvas.width / 2;
+            const centerY = this.canvas.height / 2;
+            const planet = new Planet(centerX, centerY, planetData, {
+                scale: options.scale || this.config.planetScale,
+                orbitScale: options.orbitScale || this.config.orbitScale,
+                speedMultiplier: options.speedMultiplier || this.config.speedMultiplier,
+                ...options
+            });
+            this.planets.push(planet);
+            return planet;
+        }
+        return null;
+    }
+
+    // Get available planet names
+    getAvailablePlanets() {
+        return Object.keys(PLANETS);
+    }
+
+    // Toggle planets visibility
+    togglePlanets(show) {
+        this.config.showPlanets = show;
+        if (show && this.planets.length === 0) {
+            this.createPlanets();
+        } else if (!show) {
+            this.planets = [];
+        }
+    }
+
+    // Toggle sun visibility
+    toggleSun(show) {
+        this.config.showSun = show;
+        if (show) {
+            // Check if sun exists, add if not
+            const hasSun = this.planets.some(p => p.isStar);
+            if (!hasSun) {
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2;
+                this.planets.unshift(new Planet(centerX, centerY, PLANETS.SUN, {
+                    scale: this.config.planetScale
+                }));
+            }
+        } else {
+            // Remove sun
+            this.planets = this.planets.filter(p => !p.isStar);
+        }
     }
 
     addConstellation(constellationName, options = {}) {

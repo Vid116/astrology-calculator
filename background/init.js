@@ -1,12 +1,10 @@
 // Simple initialization function for celestial background
 import { CelestialBackground } from './CelestialBackground.js';
 
-// Detect the base path for silhouettes based on script location
-function getSilhouettesPath() {
-    // Get the current script's path to determine base directory
+// Detect the base path based on script location
+function getBasePath() {
     const scriptUrl = import.meta.url;
-    const basePath = scriptUrl.substring(0, scriptUrl.lastIndexOf('/') + 1);
-    return basePath + 'silhouettes/';
+    return scriptUrl.substring(0, scriptUrl.lastIndexOf('/') + 1);
 }
 
 /**
@@ -14,16 +12,18 @@ function getSilhouettesPath() {
  * @param {string} canvasId - ID of the canvas element (default: 'celestial-canvas')
  * @param {object} options - Configuration options
  * @param {number} options.starCount - Number of stars (default: 100)
- * @param {number} options.planetCount - Number of planets (default: 4)
  * @param {number} options.constellationCount - Number of constellations (default: 5)
  * @returns {CelestialBackground} The background instance
  */
 export function initCelestialBackground(canvasId = 'celestial-canvas', options = {}) {
-    // Auto-detect silhouettes path if not provided
-    const silhouettesPath = options.silhouettesPath || getSilhouettesPath();
+    // Auto-detect paths if not provided
+    const basePath = getBasePath();
+    const silhouettesPath = options.silhouettesPath || basePath + 'silhouettes/';
+    const planetsPath = options.planetsPath || basePath + 'planets/';
 
     const background = new CelestialBackground(canvasId, {
         silhouettesPath,
+        planetsPath,
         ...options
     });
     background.start();
