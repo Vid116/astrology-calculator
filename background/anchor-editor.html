@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constellation Anchor Editor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a1a;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 15px;
+        }
+        h1 { text-align: center; margin-bottom: 10px; color: #d4af37; font-size: 24px; }
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        select, button, input {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #2a2a4e;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="range"] { width: 120px; }
+        button:hover { background: #3a3a6e; }
+        button.primary { background: #2d5a2d; border-color: #4f4; }
+        .main-workspace {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .panel {
+            background: #1a1a3e;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .panel h3 {
+            color: #d4af37;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-align: center;
+        }
+        .canvas-box {
+            border: 2px solid #444;
+            border-radius: 5px;
+            background: #000;
+            position: relative;
+        }
+        .canvas-box canvas { display: block; cursor: move; }
+        .side-panel {
+            min-width: 280px;
+            max-width: 320px;
+        }
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 8px 0;
+            font-size: 13px;
+        }
+        .slider-row label { min-width: 70px; }
+        .slider-row span { min-width: 50px; text-align: right; color: #d4af37; }
+        #output {
+            background: #0a0a2a;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 8px;
+            font-family: monospace;
+            font-size: 10px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 8px;
+        }
+        .instructions {
+            background: #2a2a4e;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 13px;
+        }
+        .instructions strong { color: #d4af37; }
+        .btn-row {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .btn-row button { flex: 1; font-size: 12px; padding: 6px; }
+        .info-text {
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Anchor Editor</h1>
+
+    <div class="instructions">
+        <strong>Drag</strong> to move silhouette |
+        <strong>Scroll</strong> or slider to scale |
+        <strong>Shift+Drag</strong> to rotate |
+        Anchors auto-calculated
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn">&larr;</button>
+        <select id="constellationSelect"></select>
+        <button id="nextBtn">&rarr;</button>
+        <button id="resetBtn">Reset Position</button>
+        <button id="copyBtn" class="primary">Copy Config</button>
+    </div>
+
+    <div class="main-workspace">
+        <!-- Main canvas with overlay -->
+        <div class="panel">
+            <h3 id="constellationName">-</h3>
+            <div class="canvas-box">
+                <canvas id="mainCanvas" width="600" height="500"></canvas>
+            </div>
+            <div class="info-text">Green = stars | Blue = silhouette</div>
+        </div>
+
+        <!-- Side: Controls & Config -->
+        <div class="panel side-panel">
+            <h3>Adjustments</h3>
+
+            <div class="slider-row">
+                <label>Scale:</label>
+                <input type="range" id="scaleSlider" min="0.2" max="3.0" step="0.02" value="1.0">
+                <span id="scaleValue">1.00</span>
+            </div>
+
+            <div class="slider-row">
+                <label>Rotation:</label>
+                <input type="range" id="rotateSlider" min="-180" max="180" step="1" value="0">
+                <span id="rotateValue">0°</span>
+            </div>
+
+            <div class="slider-row">
+                <label>Opacity:</label>
+                <input type="range" id="opacitySlider" min="0.1" max="1.0" step="0.05" value="0.6">
+                <span id="opacityValue">0.60</span>
+            </div>
+
+            <div class="btn-row">
+                <button id="rot0">0°</button>
+                <button id="rot90">90°</button>
+                <button id="rot180">180°</button>
+                <button id="rot270">-90°</button>
+            </div>
+
+            <div class="btn-row">
+                <button id="flipH">Flip H</button>
+                <button id="flipV">Flip V</button>
+                <button id="centerBtn">Center</button>
+            </div>
+
+            <h3 style="margin-top: 15px;">Output Config</h3>
+            <div id="output">Adjust silhouette position...</div>
+
+            <div class="btn-row" style="margin-top: 10px;">
+                <button id="prevBtn2">&larr; Prev</button>
+                <button id="nextBtn2">Next &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { CONSTELLATIONS } from './constellationData.js';
+
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const select = document.getElementById('constellationSelect');
+        const output = document.getElementById('output');
+
+        let currentKey = '';
+        let silhouetteImg = null;
+        let stars = [];  // Canvas positions
+        let starsData = []; // Original data [x, y, size]
+
+        // Silhouette transform (user adjustable)
+        let silX = 0;  // Offset X from center
+        let silY = 0;  // Offset Y from center
+        let silScale = 1.0;
+        let silRotation = 0; // degrees
+        let silFlipH = false;
+        let silFlipV = false;
+        let silOpacity = 0.6;
+
+        // Dragging state
+        let isDragging = false;
+        let isRotating = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let dragStartSilX = 0;
+        let dragStartSilY = 0;
+        let dragStartRotation = 0;
+
+        // Populate dropdown
+        const keys = Object.keys(CONSTELLATIONS).sort();
+        keys.forEach(key => {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = CONSTELLATIONS[key].name;
+            select.appendChild(opt);
+        });
+
+        function loadConstellation(key) {
+            currentKey = key;
+            const data = CONSTELLATIONS[key];
+            starsData = data.stars;
+            document.getElementById('constellationName').textContent = data.name;
+
+            // Reset transform
+            silX = 0;
+            silY = 0;
+            silScale = 1.0;
+            silRotation = 0;
+            silFlipH = false;
+            silFlipV = false;
+
+            // Update sliders
+            document.getElementById('scaleSlider').value = silScale;
+            document.getElementById('scaleValue').textContent = silScale.toFixed(2);
+            document.getElementById('rotateSlider').value = silRotation;
+            document.getElementById('rotateValue').textContent = silRotation + '°';
+
+            // Convert stars to canvas coords (centered)
+            const padding = 60;
+            const xs = data.stars.map(s => s[0]);
+            const ys = data.stars.map(s => s[1]);
+            const minX = Math.min(...xs), maxX = Math.max(...xs);
+            const minY = Math.min(...ys), maxY = Math.max(...ys);
+            const dataW = maxX - minX || 1;
+            const dataH = maxY - minY || 1;
+            const scale = Math.min((canvas.width - padding * 2) / dataW, (canvas.height - padding * 2) / dataH);
+
+            const offsetX = (canvas.width - dataW * scale) / 2;
+            const offsetY = (canvas.height - dataH * scale) / 2;
+
+            stars = data.stars.map((star, i) => ({
+                x: offsetX + (star[0] - minX) * scale,
+                y: offsetY + (star[1] - minY) * scale,
+                size: star[2] || 1,
+                index: i
+            }));
+
+            // Load silhouette
+            const filename = data.name.toLowerCase().replace(/\s+/g, '-') + '.png';
+            silhouetteImg = new Image();
+            silhouetteImg.onload = () => draw();
+            silhouetteImg.onerror = () => {
+                silhouetteImg = null;
+                draw();
+            };
+            silhouetteImg.src = 'silhouettes/' + filename;
+
+            draw();
+        }
+
+        function getStarsCenter() {
+            if (stars.length === 0) return { x: canvas.width / 2, y: canvas.height / 2 };
+            const sumX = stars.reduce((a, s) => a + s.x, 0);
+            const sumY = stars.reduce((a, s) => a + s.y, 0);
+            return { x: sumX / stars.length, y: sumY / stars.length };
+        }
+
+        function getStarsBounds() {
+            const xs = stars.map(s => s.x);
+            const ys = stars.map(s => s.y);
+            return {
+                minX: Math.min(...xs),
+                maxX: Math.max(...xs),
+                minY: Math.min(...ys),
+                maxY: Math.max(...ys),
+                width: Math.max(...xs) - Math.min(...xs),
+                height: Math.max(...ys) - Math.min(...ys)
+            };
+        }
+
+        function draw() {
+            ctx.fillStyle = '#0a0a1a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const center = getStarsCenter();
+            const bounds = getStarsBounds();
+
+            // Draw silhouette
+            if (silhouetteImg && silhouetteImg.complete && silhouetteImg.naturalHeight > 0) {
+                // Calculate base scale to roughly match constellation size
+                const constellationSize = Math.max(bounds.width, bounds.height) || 100;
+                const imgSize = Math.max(silhouetteImg.naturalWidth, silhouetteImg.naturalHeight);
+                const baseScale = (constellationSize * 1.5) / imgSize;
+                const effectiveScale = baseScale * silScale;
+
+                const w = silhouetteImg.naturalWidth * effectiveScale;
+                const h = silhouetteImg.naturalHeight * effectiveScale;
+
+                ctx.save();
+                ctx.globalAlpha = silOpacity;
+                ctx.translate(center.x + silX, center.y + silY);
+                ctx.rotate(silRotation * Math.PI / 180);
+                ctx.scale(silFlipH ? -1 : 1, silFlipV ? -1 : 1);
+                ctx.drawImage(silhouetteImg, -w / 2, -h / 2, w, h);
+                ctx.restore();
+            }
+
+            // Draw connections
+            const data = CONSTELLATIONS[currentKey];
+            if (data && data.connections) {
+                ctx.strokeStyle = 'rgba(100, 255, 100, 0.5)';
+                ctx.lineWidth = 1.5;
+                data.connections.forEach(([i, j]) => {
+                    if (stars[i] && stars[j]) {
+                        ctx.beginPath();
+                        ctx.moveTo(stars[i].x, stars[i].y);
+                        ctx.lineTo(stars[j].x, stars[j].y);
+                        ctx.stroke();
+                    }
+                });
+            }
+
+            // Draw stars
+            stars.forEach((star, i) => {
+                const radius = 3 + (star.size || 1) * 1.5;
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#44ff44';
+                ctx.fill();
+                ctx.strokeStyle = '#22aa22';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Index label
+                ctx.fillStyle = '#fff';
+                ctx.font = '10px monospace';
+                ctx.fillText(i.toString(), star.x + radius + 2, star.y - 2);
+            });
+
+            updateOutput();
+        }
+
+        function updateOutput() {
+            if (!silhouetteImg || !silhouetteImg.complete) {
+                output.textContent = 'No silhouette image loaded';
+                return;
+            }
+
+            const center = getStarsCenter();
+            const bounds = getStarsBounds();
+
+            // Find two stars that are far apart for anchors
+            let maxDist = 0;
+            let anchor1Idx = 0;
+            let anchor2Idx = 1;
+
+            for (let i = 0; i < stars.length; i++) {
+                for (let j = i + 1; j < stars.length; j++) {
+                    const dx = stars[i].x - stars[j].x;
+                    const dy = stars[i].y - stars[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > maxDist) {
+                        maxDist = dist;
+                        anchor1Idx = i;
+                        anchor2Idx = j;
+                    }
+                }
+            }
+
+            // Calculate where these stars fall on the silhouette image
+            const constellationSize = Math.max(bounds.width, bounds.height) || 100;
+            const imgSize = Math.max(silhouetteImg.naturalWidth, silhouetteImg.naturalHeight);
+            const baseScale = (constellationSize * 1.5) / imgSize;
+            const effectiveScale = baseScale * silScale;
+
+            // For each anchor star, calculate its position in image coordinates
+            function canvasToImageCoords(starX, starY) {
+                // Get position relative to silhouette center
+                let relX = starX - (center.x + silX);
+                let relY = starY - (center.y + silY);
+
+                // Reverse rotation
+                const rad = -silRotation * Math.PI / 180;
+                const unrotX = relX * Math.cos(rad) - relY * Math.sin(rad);
+                const unrotY = relX * Math.sin(rad) + relY * Math.cos(rad);
+
+                // Reverse flip
+                const flipX = silFlipH ? -unrotX : unrotX;
+                const flipY = silFlipV ? -unrotY : unrotY;
+
+                // Convert to image pixels
+                const imgX = Math.round(flipX / effectiveScale + silhouetteImg.naturalWidth / 2);
+                const imgY = Math.round(flipY / effectiveScale + silhouetteImg.naturalHeight / 2);
+
+                return [imgX, imgY];
+            }
+
+            const imgPos1 = canvasToImageCoords(stars[anchor1Idx].x, stars[anchor1Idx].y);
+            const imgPos2 = canvasToImageCoords(stars[anchor2Idx].x, stars[anchor2Idx].y);
+
+            // Calculate what silhouetteScale should be
+            // The anchor system uses: finalScale = baseScale * silhouetteScale
+            // where baseScale = canvasDist / imgDist
+            const canvasDist = maxDist;
+            const imgDx = imgPos2[0] - imgPos1[0];
+            const imgDy = imgPos2[1] - imgPos1[1];
+            const imgDist = Math.sqrt(imgDx * imgDx + imgDy * imgDy);
+
+            // We want: effectiveScale = (canvasDist / imgDist) * silhouetteScale
+            // So: silhouetteScale = effectiveScale * imgDist / canvasDist
+            const silhouetteScaleValue = imgDist > 0 ? (effectiveScale * imgDist / canvasDist) : 1.0;
+
+            const config = {
+                imageSize: [silhouetteImg.naturalWidth, silhouetteImg.naturalHeight],
+                anchors: [
+                    { starIndex: anchor1Idx, imgPos: imgPos1 },
+                    { starIndex: anchor2Idx, imgPos: imgPos2 }
+                ],
+                silhouetteScale: parseFloat(silhouetteScaleValue.toFixed(2))
+            };
+
+            output.textContent = `"sprite": ${JSON.stringify(config, null, 2)}`;
+        }
+
+        // Mouse events for dragging
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            dragStartX = e.clientX - rect.left;
+            dragStartY = e.clientY - rect.top;
+            dragStartSilX = silX;
+            dragStartSilY = silY;
+            dragStartRotation = silRotation;
+
+            if (e.shiftKey) {
+                isRotating = true;
+            } else {
+                isDragging = true;
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDragging && !isRotating) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (isDragging) {
+                silX = dragStartSilX + (x - dragStartX);
+                silY = dragStartSilY + (y - dragStartY);
+            } else if (isRotating) {
+                const center = getStarsCenter();
+                const startAngle = Math.atan2(dragStartY - center.y - dragStartSilY, dragStartX - center.x - dragStartSilX);
+                const currentAngle = Math.atan2(y - center.y - silY, x - center.x - silX);
+                const deltaAngle = (currentAngle - startAngle) * 180 / Math.PI;
+                silRotation = dragStartRotation + deltaAngle;
+                document.getElementById('rotateSlider').value = Math.round(silRotation);
+                document.getElementById('rotateValue').textContent = Math.round(silRotation) + '°';
+            }
+
+            draw();
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDragging = false;
+            isRotating = false;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            isDragging = false;
+            isRotating = false;
+        });
+
+        // Scroll to scale
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? 0.95 : 1.05;
+            silScale *= delta;
+            silScale = Math.max(0.2, Math.min(3.0, silScale));
+            document.getElementById('scaleSlider').value = silScale;
+            document.getElementById('scaleValue').textContent = silScale.toFixed(2);
+            draw();
+        });
+
+        // Slider controls
+        document.getElementById('scaleSlider').addEventListener('input', (e) => {
+            silScale = parseFloat(e.target.value);
+            document.getElementById('scaleValue').textContent = silScale.toFixed(2);
+            draw();
+        });
+
+        document.getElementById('rotateSlider').addEventListener('input', (e) => {
+            silRotation = parseFloat(e.target.value);
+            document.getElementById('rotateValue').textContent = silRotation + '°';
+            draw();
+        });
+
+        document.getElementById('opacitySlider').addEventListener('input', (e) => {
+            silOpacity = parseFloat(e.target.value);
+            document.getElementById('opacityValue').textContent = silOpacity.toFixed(2);
+            draw();
+        });
+
+        // Quick rotation buttons
+        document.getElementById('rot0').addEventListener('click', () => {
+            silRotation = 0;
+            document.getElementById('rotateSlider').value = 0;
+            document.getElementById('rotateValue').textContent = '0°';
+            draw();
+        });
+
+        document.getElementById('rot90').addEventListener('click', () => {
+            silRotation = 90;
+            document.getElementById('rotateSlider').value = 90;
+            document.getElementById('rotateValue').textContent = '90°';
+            draw();
+        });
+
+        document.getElementById('rot180').addEventListener('click', () => {
+            silRotation = 180;
+            document.getElementById('rotateSlider').value = 180;
+            document.getElementById('rotateValue').textContent = '180°';
+            draw();
+        });
+
+        document.getElementById('rot270').addEventListener('click', () => {
+            silRotation = -90;
+            document.getElementById('rotateSlider').value = -90;
+            document.getElementById('rotateValue').textContent = '-90°';
+            draw();
+        });
+
+        // Flip buttons
+        document.getElementById('flipH').addEventListener('click', () => {
+            silFlipH = !silFlipH;
+            draw();
+        });
+
+        document.getElementById('flipV').addEventListener('click', () => {
+            silFlipV = !silFlipV;
+            draw();
+        });
+
+        // Center button
+        document.getElementById('centerBtn').addEventListener('click', () => {
+            silX = 0;
+            silY = 0;
+            draw();
+        });
+
+        // Reset button
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            silX = 0;
+            silY = 0;
+            silScale = 1.0;
+            silRotation = 0;
+            silFlipH = false;
+            silFlipV = false;
+            document.getElementById('scaleSlider').value = 1.0;
+            document.getElementById('scaleValue').textContent = '1.00';
+            document.getElementById('rotateSlider').value = 0;
+            document.getElementById('rotateValue').textContent = '0°';
+            draw();
+        });
+
+        // Copy button
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(output.textContent);
+            alert('Copied to clipboard!');
+        });
+
+        // Navigation
+        select.addEventListener('change', () => loadConstellation(select.value));
+
+        function navigate(delta) {
+            const idx = keys.indexOf(currentKey);
+            const newIdx = (idx + delta + keys.length) % keys.length;
+            select.value = keys[newIdx];
+            loadConstellation(keys[newIdx]);
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => navigate(-1));
+        document.getElementById('nextBtn').addEventListener('click', () => navigate(1));
+        document.getElementById('prevBtn2').addEventListener('click', () => navigate(-1));
+        document.getElementById('nextBtn2').addEventListener('click', () => navigate(1));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') navigate(-1);
+            if (e.key === 'ArrowRight') navigate(1);
+        });
+
+        // Start
+        loadConstellation(keys[0]);
+    </script>
+</body>
+</html>

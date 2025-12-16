@@ -186,13 +186,14 @@ export class Constellation {
             const isArray = Array.isArray(star);
             const x = isArray ? star[0] : star.x;
             const y = isArray ? star[1] : star.y;
+            const sizeMultiplier = isArray ? (star[2] || 1) : (star.size || 1);
             const brightness = isArray ? 2 : (star.brightness || 2);
             return {
                 name: isArray ? 'Star ' + (i + 1) : star.name,
                 x: this.baseX + (x * this.scale),
                 y: this.baseY + (y * this.scale),
                 brightness: brightness,
-                size: Math.max(1, 5 - brightness)
+                size: Math.max(1, 4 - brightness) * (1 + (sizeMultiplier - 1) * 0.33)
             };
         });
     }
