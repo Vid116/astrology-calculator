@@ -1275,19 +1275,50 @@ header h1 {
     border-radius: 8px;
     margin-top: 4px;
     z-index: 1000;
-    display: none;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    /* Use visibility/opacity instead of display for smooth close */
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
 }
 
 .keyword-dropdown-list.show {
-    display: block;
-    animation: dropdownSlide 0.2s ease;
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    animation: dropdownSlide 0.2s ease forwards;
 }
 
 @keyframes dropdownSlide {
     from {
         opacity: 0;
         transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Flip dropdown upward when near bottom of screen */
+.keyword-dropdown-wrapper.flip-up .keyword-dropdown-list {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 4px;
+    /* Override box-shadow direction for upward dropdown */
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.keyword-dropdown-wrapper.flip-up .keyword-dropdown-list.show {
+    animation: dropdownSlideUp 0.2s ease forwards;
+}
+
+@keyframes dropdownSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
     to {
         opacity: 1;

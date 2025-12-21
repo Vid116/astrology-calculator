@@ -42,9 +42,8 @@ function createCosmicDropdown(selectElement) {
             });
             optionDiv.classList.add('selected');
 
-            // Close dropdown
+            // Close dropdown (keep flip-up until next open to prevent flicker)
             wrapper.classList.remove('open');
-            wrapper.classList.remove('flip-up');
 
             // Trigger change event on native select
             selectElement.dispatchEvent(new Event('change', { bubbles: true }));
@@ -75,11 +74,10 @@ function createCosmicDropdown(selectElement) {
         e.preventDefault();
         e.stopPropagation();
 
-        // Close other dropdowns
+        // Close other dropdowns (keep flip-up to prevent flicker)
         document.querySelectorAll('.cosmic-dropdown.open').forEach(dd => {
             if (dd !== wrapper) {
                 dd.classList.remove('open');
-                dd.classList.remove('flip-up');
             }
         });
 
@@ -97,19 +95,17 @@ function createCosmicDropdown(selectElement) {
         wrapper.classList.toggle('open');
     });
 
-    // Close on click outside
+    // Close on click outside (keep flip-up until next open to prevent flicker)
     document.addEventListener('click', (e) => {
         if (!wrapper.contains(e.target)) {
             wrapper.classList.remove('open');
-            wrapper.classList.remove('flip-up');
         }
     });
 
-    // Close on escape key
+    // Close on escape key (keep flip-up until next open to prevent flicker)
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             wrapper.classList.remove('open');
-            wrapper.classList.remove('flip-up');
         }
     });
 
@@ -442,6 +438,19 @@ function initSentenceBuilder() {
         // Store the previous value for restoration if no selection made
         let previousValue = '';
 
+        // Check if dropdown should flip upward (not enough space below)
+        function checkFlipDirection() {
+            const rect = wrapper.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const dropdownHeight = 200; // max-height of dropdown list
+
+            if (spaceBelow < dropdownHeight && rect.top > dropdownHeight) {
+                wrapper.classList.add('flip-up');
+            } else {
+                wrapper.classList.remove('flip-up');
+            }
+        }
+
         // Show/hide dropdown list on input focus
         searchInput.addEventListener('focus', () => {
             // Store current value before clearing
@@ -450,6 +459,8 @@ function initSentenceBuilder() {
             searchInput.value = '';
             // Show all items
             filterDropdownItems('', items);
+            // Check flip direction before showing
+            checkFlipDirection();
             list.classList.add('show');
         });
 
