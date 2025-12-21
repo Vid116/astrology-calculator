@@ -17,7 +17,7 @@
     background: rgba(10, 14, 26, 0.3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(212, 175, 55, 0.4);
+    border: 1px solid rgba(255, 216, 0, 0.4);
     border-radius: 20px;
     padding: 24px 48px;
     cursor: pointer;
@@ -27,17 +27,17 @@
     gap: 12px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow:
-        0 0 30px rgba(212, 175, 55, 0.2),
-        inset 0 0 20px rgba(212, 175, 55, 0.05);
+        0 0 30px rgba(255, 216, 0, 0.2),
+        inset 0 0 20px rgba(255, 216, 0, 0.05);
 }
 
 .launch-btn:hover {
     background: rgba(10, 14, 26, 0.5);
-    border-color: rgba(212, 175, 55, 0.7);
+    border-color: rgba(255, 216, 0, 0.7);
     transform: translateX(-50%) scale(1.05);
     box-shadow:
-        0 0 50px rgba(212, 175, 55, 0.3),
-        inset 0 0 30px rgba(212, 175, 55, 0.1);
+        0 0 50px rgba(255, 216, 0, 0.3),
+        inset 0 0 30px rgba(255, 216, 0, 0.1);
 }
 
 .launch-btn .launch-icon {
@@ -86,9 +86,9 @@
 }
 
 .close-btn:hover {
-    background: rgba(255, 100, 100, 0.2);
-    border-color: rgba(255, 100, 100, 0.4);
-    color: #ff8888;
+    background: rgba(227, 23, 10, 0.2);
+    border-color: rgba(227, 23, 10, 0.4);
+    color: var(--red-400);
     transform: scale(1.1);
 }
 
@@ -120,54 +120,66 @@
     --text-tertiary: #e0e0e0;
     --text-inverse: #ffffff;
 
-    --accent-primary: #d4af37;
-    --accent-secondary: #b8960f;
-    --accent-tertiary: #f4e4b0;
+    --accent-primary: #ffd800;
+    --accent-secondary: #1e96fc;
+    --accent-tertiary: #758e4f;
 
     /* ============================================
-       CELESTIAL COLOR PALETTE
+       NEW COLOR PALETTE
+       Bright Gold, Crimson Violet, Dodger Blue,
+       Burnt Tangerine, Palm Leaf
        ============================================ */
 
-    /* Gold Tones - Primary accent, sun, warmth */
-    --gold-50: #fefce8;
-    --gold-100: #fef9c3;
-    --gold-200: #fef08a;
-    --gold-300: #fde047;
-    --gold-400: #facc15;
-    --gold-500: #d4af37;
-    --gold-600: #b8960f;
-    --gold-700: #a16207;
-    --gold-800: #854d0e;
-    --gold-900: #713f12;
-    --gold-glow: rgba(212, 175, 55, 0.6);
+    /* Bright Gold (#ffd800) - Primary accent, highlights */
+    --gold-50: #fffbe6;
+    --gold-100: #fff7cc;
+    --gold-200: #ffef99;
+    --gold-300: #ffe766;
+    --gold-400: #ffd800;
+    --gold-500: #e6c200;
+    --gold-600: #b39700;
+    --gold-700: #806c00;
+    --gold-800: #4d4100;
+    --gold-900: #332b00;
+    --gold-glow: rgba(255, 216, 0, 0.5);
 
-    /* Celestial Blue/Cyan - Stars, cosmic, cool accent */
-    --cyan-50: #ecfeff;
-    --cyan-100: #cffafe;
-    --cyan-200: #a5f3fc;
-    --cyan-300: #67e8f9;
-    --cyan-400: #22d3ee;
-    --cyan-500: #06b6d4;
-    --cyan-600: #0891b2;
-    --cyan-700: #0e7490;
-    --cyan-800: #155e75;
-    --cyan-900: #164e63;
-    --cyan-glow: rgba(103, 232, 249, 0.5);
+    /* Dodger Blue (#1e96fc) - Interactive, links, cosmic */
+    --cyan-50: #e8f4ff;
+    --cyan-100: #d1eaff;
+    --cyan-200: #a3d5ff;
+    --cyan-300: #5cb8fe;
+    --cyan-400: #1e96fc;
+    --cyan-500: #0a7be0;
+    --cyan-600: #0862b3;
+    --cyan-700: #064a86;
+    --cyan-800: #04315a;
+    --cyan-900: #02192d;
+    --cyan-glow: rgba(30, 150, 252, 0.5);
 
-    /* Purple/Violet - Mystical, astrology, magic */
-    --purple-50: #faf5ff;
-    --purple-100: #f3e8ff;
-    --purple-200: #e9d5ff;
-    --purple-300: #d8b4fe;
-    --purple-400: #c084fc;
-    --purple-500: #a855f7;
-    --purple-600: #9333ea;
-    --purple-700: #7c3aed;
-    --purple-800: #6b21a8;
-    --purple-900: #581c87;
-    --purple-glow: rgba(167, 139, 250, 0.5);
+    /* Crimson Violet (#5f0f40) - Deep accent, mystical */
+    --purple-50: #fceef5;
+    --purple-100: #f8d4e6;
+    --purple-200: #e9a3c7;
+    --purple-300: #c9619a;
+    --purple-400: #8f2866;
+    --purple-500: #5f0f40;
+    --purple-600: #4d0c34;
+    --purple-700: #3b0928;
+    --purple-800: #29061c;
+    --purple-900: #170310;
+    --purple-glow: rgba(95, 15, 64, 0.6);
 
-    /* Silver/Platinum - Elegant, moon, subtle */
+    /* Burnt Tangerine (#e3170a) - Errors, warnings, bold accents */
+    --red-400: #e3170a;
+    --red-500: #c91409;
+    --red-glow: rgba(227, 23, 10, 0.5);
+
+    /* Palm Leaf (#758e4f) - Success, nature, secondary */
+    --green-400: #758e4f;
+    --green-500: #637a42;
+    --green-glow: rgba(117, 142, 79, 0.5);
+
+    /* Silver/Neutral - Text, borders */
     --silver-50: #fafafa;
     --silver-100: #f4f4f5;
     --silver-200: #e4e4e7;
@@ -203,9 +215,9 @@
     --text-tertiary: #b0b0b0;
     --text-inverse: #ffffff;
 
-    --accent-primary: #d4af37;
-    --accent-secondary: #f4d03f;
-    --accent-tertiary: #3d3419;
+    --accent-primary: #ffd800;
+    --accent-secondary: #1e96fc;
+    --accent-tertiary: #758e4f;
 
     --border-primary: var(--silver-500);
     --border-secondary: var(--silver-400);
@@ -277,8 +289,8 @@ body:not(:has(.space-background)):not(:has(#celestial-canvas)) {
 }
 
 [data-theme="dark"] .container {
-    border: 1px solid rgba(167, 139, 250, 0.2);
-    box-shadow: 0 0 30px rgba(167, 139, 250, 0.15);
+    border: 1px solid rgba(30, 150, 252, 0.2);
+    box-shadow: 0 0 30px rgba(30, 150, 252, 0.15);
 }
 
 header {
@@ -377,7 +389,7 @@ header h1 {
 .tab-button.active {
     color: var(--accent-primary);
     background: none;
-    text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+    text-shadow: 0 0 12px var(--gold-glow);
 }
 
 .tab-button.active::after {
@@ -394,7 +406,7 @@ header h1 {
         var(--accent-primary) 90%,
         transparent 100%
     );
-    box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 8px var(--gold-glow);
 }
 
 /* Add decorative dots along the bottom border */
@@ -406,7 +418,7 @@ header h1 {
     transform: translateX(-50%);
     color: var(--accent-primary);
     font-size: 0.6rem;
-    text-shadow: 0 0 6px rgba(212, 175, 55, 0.8);
+    text-shadow: 0 0 6px var(--gold-glow);
 }
 
 .calculator-section {
@@ -486,7 +498,7 @@ header h1 {
     background:
         linear-gradient(135deg,
             rgba(103, 232, 249, 0.03) 0%,
-            rgba(167, 139, 250, 0.05) 50%,
+            rgba(30, 150, 252, 0.05) 50%,
             rgba(103, 232, 249, 0.03) 100%),
         rgba(10, 14, 26, 0.6);
     backdrop-filter: blur(20px);
@@ -513,7 +525,7 @@ header h1 {
         /* Gradient background */
         linear-gradient(135deg,
             rgba(103, 232, 249, 0.03) 0%,
-            rgba(167, 139, 250, 0.05) 50%,
+            rgba(30, 150, 252, 0.05) 50%,
             rgba(103, 232, 249, 0.03) 100%),
         /* Dark base */
         linear-gradient(to bottom, rgba(10, 14, 26, 0.6), rgba(10, 14, 26, 0.7));
@@ -553,7 +565,7 @@ header h1 {
     background:
         linear-gradient(135deg,
             rgba(103, 232, 249, 0.04) 0%,
-            rgba(167, 139, 250, 0.06) 50%,
+            rgba(30, 150, 252, 0.06) 50%,
             rgba(103, 232, 249, 0.04) 100%),
         rgba(5, 8, 16, 0.7);
     color: var(--text-primary);
@@ -564,7 +576,7 @@ header h1 {
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2367e8f9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"),
         linear-gradient(135deg,
             rgba(103, 232, 249, 0.04) 0%,
-            rgba(167, 139, 250, 0.06) 50%,
+            rgba(30, 150, 252, 0.06) 50%,
             rgba(103, 232, 249, 0.04) 100%),
         linear-gradient(to bottom, rgba(5, 8, 16, 0.7), rgba(5, 8, 16, 0.8));
     background-repeat: no-repeat, no-repeat, no-repeat;
@@ -598,7 +610,7 @@ header h1 {
     background:
         linear-gradient(135deg,
             rgba(103, 232, 249, 0.03) 0%,
-            rgba(167, 139, 250, 0.05) 50%,
+            rgba(30, 150, 252, 0.05) 50%,
             rgba(103, 232, 249, 0.03) 100%),
         rgba(10, 14, 26, 0.6);
     backdrop-filter: blur(20px);
@@ -628,7 +640,7 @@ header h1 {
 
 .cosmic-dropdown.open .cosmic-dropdown-toggle::after {
     transform: translateY(-30%) rotate(-135deg);
-    border-color: var(--purple-400);
+    border-color: var(--cyan-400);
 }
 
 .cosmic-dropdown-toggle:hover {
@@ -644,7 +656,7 @@ header h1 {
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.1),
         inset 0 0 40px rgba(103, 232, 249, 0.08),
-        0 0 0 2px rgba(167, 139, 250, 0.4),
+        0 0 0 2px rgba(30, 150, 252, 0.4),
         0 0 30px rgba(103, 232, 249, 0.2);
 }
 
@@ -678,6 +690,16 @@ header h1 {
     max-height: 300px;
     overflow-y: auto;
     opacity: 1;
+    transform: translateY(0);
+}
+
+/* Flip dropdown upward when near bottom of screen */
+.cosmic-dropdown.flip-up .cosmic-dropdown-menu {
+    top: auto;
+    bottom: calc(100% + 8px);
+}
+
+.cosmic-dropdown.flip-up.open .cosmic-dropdown-menu {
     transform: translateY(0);
 }
 
@@ -717,7 +739,7 @@ header h1 {
 .cosmic-dropdown-option:hover {
     background: linear-gradient(135deg,
         rgba(103, 232, 249, 0.1) 0%,
-        rgba(167, 139, 250, 0.15) 100%);
+        rgba(30, 150, 252, 0.15) 100%);
     color: var(--cyan-300);
     padding-left: 28px;
 }
@@ -740,9 +762,9 @@ header h1 {
 
 .cosmic-dropdown-option.selected {
     background: linear-gradient(135deg,
-        rgba(167, 139, 250, 0.15) 0%,
-        rgba(192, 132, 252, 0.2) 100%);
-    color: var(--purple-300);
+        rgba(255, 216, 0, 0.15) 0%,
+        rgba(30, 150, 252, 0.2) 100%);
+    color: var(--gold-400);
 }
 
 .cosmic-dropdown-option.selected::after {
@@ -752,17 +774,17 @@ header h1 {
     top: 50%;
     transform: translateY(-50%);
     font-size: 0.7rem;
-    color: var(--purple-400);
+    color: var(--gold-400);
 }
 
 /* Error state for custom dropdown */
 .form-group.has-error .cosmic-dropdown-toggle {
-    border: 2px solid #ff6b6b;
+    border: 2px solid var(--red-400);
     background: rgba(60, 20, 20, 0.8);
     box-shadow:
         inset 0 0 25px rgba(255, 80, 80, 0.2),
-        0 0 0 3px rgba(255, 100, 100, 0.4),
-        0 0 35px rgba(255, 100, 100, 0.3);
+        0 0 0 3px rgba(227, 23, 10, 0.4),
+        0 0 35px rgba(227, 23, 10, 0.3);
 }
 
 /* Hover state - cosmic glow */
@@ -783,7 +805,7 @@ header h1 {
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%2322d3ee' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"),
         linear-gradient(135deg,
             rgba(103, 232, 249, 0.05) 0%,
-            rgba(167, 139, 250, 0.08) 50%,
+            rgba(30, 150, 252, 0.08) 50%,
             rgba(103, 232, 249, 0.05) 100%),
         linear-gradient(to bottom, rgba(10, 14, 26, 0.6), rgba(10, 14, 26, 0.7));
     background-repeat: no-repeat, no-repeat, no-repeat;
@@ -801,7 +823,7 @@ header h1 {
         inset 0 0 40px rgba(103, 232, 249, 0.08),
         0 0 0 2px rgba(103, 232, 249, 0.4),
         0 0 30px rgba(103, 232, 249, 0.25),
-        0 0 60px rgba(167, 139, 250, 0.15),
+        0 0 60px rgba(30, 150, 252, 0.15),
         0 8px 40px rgba(0, 0, 0, 0.4);
     transform: translateY(-2px);
     animation: cosmicPulse 2s ease-in-out infinite;
@@ -812,7 +834,7 @@ header h1 {
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23c084fc' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"),
         linear-gradient(135deg,
             rgba(103, 232, 249, 0.06) 0%,
-            rgba(167, 139, 250, 0.1) 50%,
+            rgba(30, 150, 252, 0.1) 50%,
             rgba(103, 232, 249, 0.06) 100%),
         linear-gradient(to bottom, rgba(10, 14, 26, 0.5), rgba(10, 14, 26, 0.6));
     background-repeat: no-repeat, no-repeat, no-repeat;
@@ -828,7 +850,7 @@ header h1 {
             inset 0 0 40px rgba(103, 232, 249, 0.08),
             0 0 0 2px rgba(103, 232, 249, 0.4),
             0 0 30px rgba(103, 232, 249, 0.25),
-            0 0 60px rgba(167, 139, 250, 0.15),
+            0 0 60px rgba(30, 150, 252, 0.15),
             0 8px 40px rgba(0, 0, 0, 0.4);
     }
     50% {
@@ -836,9 +858,9 @@ header h1 {
             inset 0 1px 0 rgba(255, 255, 255, 0.12),
             inset 0 -1px 0 rgba(0, 0, 0, 0.1),
             inset 0 0 50px rgba(103, 232, 249, 0.12),
-            0 0 0 2px rgba(167, 139, 250, 0.5),
+            0 0 0 2px rgba(30, 150, 252, 0.5),
             0 0 40px rgba(103, 232, 249, 0.35),
-            0 0 80px rgba(167, 139, 250, 0.2),
+            0 0 80px rgba(30, 150, 252, 0.2),
             0 8px 40px rgba(0, 0, 0, 0.4);
     }
 }
@@ -868,16 +890,16 @@ header h1 {
     font-size: 0.85rem;
     color: #ff8a8a;
     background: linear-gradient(135deg,
-        rgba(255, 100, 100, 0.08) 0%,
+        rgba(227, 23, 10, 0.08) 0%,
         rgba(255, 80, 80, 0.12) 50%,
-        rgba(255, 100, 100, 0.08) 100%);
+        rgba(227, 23, 10, 0.08) 100%);
     border-radius: 8px;
-    border-left: 3px solid #ff6b6b;
+    border-left: 3px solid var(--red-400);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     box-shadow:
-        inset 0 0 20px rgba(255, 100, 100, 0.05),
-        0 0 15px rgba(255, 100, 100, 0.1);
+        inset 0 0 20px rgba(227, 23, 10, 0.05),
+        0 0 15px rgba(227, 23, 10, 0.1);
     animation: errorSlideIn 0.3s ease-out;
 }
 
@@ -890,7 +912,7 @@ header h1 {
 .validation-error::before {
     content: '✧';
     font-size: 1rem;
-    color: #ff6b6b;
+    color: var(--red-400);
     animation: errorPulse 1.5s ease-in-out infinite;
 }
 
@@ -923,12 +945,12 @@ header h1 {
 .form-group.has-error input:hover,
 .form-group.has-error select:focus,
 .form-group.has-error input:focus {
-    border: 2px solid #ff6b6b !important;
+    border: 2px solid var(--red-400) !important;
     background: rgba(60, 20, 20, 0.8) !important;
     box-shadow:
         inset 0 0 25px rgba(255, 80, 80, 0.2),
-        0 0 0 3px rgba(255, 100, 100, 0.4),
-        0 0 35px rgba(255, 100, 100, 0.3) !important;
+        0 0 0 3px rgba(227, 23, 10, 0.4),
+        0 0 35px rgba(227, 23, 10, 0.3) !important;
     animation: errorShake 0.4s ease-out;
     transform: none !important;
 }
@@ -1038,7 +1060,7 @@ header h1 {
     transition: background-color 0.3s ease;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 0 20px var(--purple-glow);
+    box-shadow: 0 0 20px var(--cyan-glow);
 }
 
 .result-section.show {
@@ -1059,12 +1081,12 @@ header h1 {
 
 .result-section h3 {
     font-family: 'Cinzel', serif;
-    color: var(--purple-400);
+    color: var(--gold-400);
     margin-bottom: 20px;
     font-size: 1.4rem;
     font-weight: 500;
     letter-spacing: 1px;
-    text-shadow: 0 0 15px var(--purple-glow);
+    text-shadow: 0 0 15px var(--gold-glow);
 }
 
 .result-item {
@@ -1079,9 +1101,9 @@ header h1 {
 }
 
 .result-item:hover {
-    border-color: var(--purple-400);
+    border-color: var(--cyan-400);
     transform: translateX(4px);
-    box-shadow: 0 0 10px var(--purple-glow);
+    box-shadow: 0 0 10px var(--cyan-glow);
 }
 
 .result-item strong {
@@ -1093,10 +1115,10 @@ header h1 {
 }
 
 .result-item span {
-    color: var(--purple-300);
+    color: var(--cyan-300);
     font-weight: 600;
     font-size: 1rem;
-    text-shadow: 0 0 8px var(--purple-glow);
+    text-shadow: 0 0 8px var(--cyan-glow);
 }
 
 .interpretation {
@@ -1104,33 +1126,33 @@ header h1 {
     padding: 20px;
     background: var(--bg-tertiary);  /* Interpretation = SUBTLE background */
     border-radius: 8px;
-    border: 1px solid var(--purple-700);
+    border: 1px solid var(--cyan-700);
     line-height: 1.7;
     font-size: 1rem;
     color: var(--text-secondary);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow: inset 0 0 15px var(--purple-glow);
+    box-shadow: inset 0 0 15px var(--cyan-glow);
 }
 
 .interpretation strong {
-    color: var(--purple-300);
+    color: var(--gold-400);
     font-weight: 600;
-    text-shadow: 0 0 6px var(--purple-glow);
+    text-shadow: 0 0 6px var(--gold-glow);
 }
 
 .error-message {
-    background: rgba(255, 100, 100, 0.15);
-    color: #ff6b6b;
+    background: rgba(227, 23, 10, 0.15);
+    color: var(--red-400);
     padding: 16px;
     border-radius: 8px;
-    border-left: 4px solid #ff6b6b;
+    border-left: 4px solid var(--red-400);
 }
 
 [data-theme="dark"] .error-message {
-    background: rgba(255, 100, 100, 0.1);
-    color: #ff8888;
-    border-left-color: #ff6b6b;
+    background: rgba(227, 23, 10, 0.1);
+    color: var(--red-400);
+    border-left-color: var(--red-400);
 }
 
 @media (max-width: 768px) {

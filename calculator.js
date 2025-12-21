@@ -44,12 +44,27 @@ function createCosmicDropdown(selectElement) {
 
             // Close dropdown
             wrapper.classList.remove('open');
+            wrapper.classList.remove('flip-up');
 
             // Trigger change event on native select
             selectElement.dispatchEvent(new Event('change', { bubbles: true }));
 
             // Clear any validation errors
             clearError(selectElement);
+
+            // Handle "Other" option - show/hide custom input
+            const customInput = selectElement.parentNode.querySelector('.custom-planet-input');
+            if (customInput) {
+                if (option.value === 'OTHER') {
+                    customInput.style.display = 'block';
+                    customInput.required = true;
+                    customInput.focus();
+                } else {
+                    customInput.style.display = 'none';
+                    customInput.required = false;
+                    customInput.value = '';
+                }
+            }
         });
 
         menu.appendChild(optionDiv);
@@ -62,8 +77,22 @@ function createCosmicDropdown(selectElement) {
 
         // Close other dropdowns
         document.querySelectorAll('.cosmic-dropdown.open').forEach(dd => {
-            if (dd !== wrapper) dd.classList.remove('open');
+            if (dd !== wrapper) {
+                dd.classList.remove('open');
+                dd.classList.remove('flip-up');
+            }
         });
+
+        // Check if dropdown should flip upward (not enough space below)
+        const rect = wrapper.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const dropdownHeight = 300; // max-height of dropdown menu
+
+        if (spaceBelow < dropdownHeight && rect.top > dropdownHeight) {
+            wrapper.classList.add('flip-up');
+        } else {
+            wrapper.classList.remove('flip-up');
+        }
 
         wrapper.classList.toggle('open');
     });
@@ -72,6 +101,7 @@ function createCosmicDropdown(selectElement) {
     document.addEventListener('click', (e) => {
         if (!wrapper.contains(e.target)) {
             wrapper.classList.remove('open');
+            wrapper.classList.remove('flip-up');
         }
     });
 
@@ -79,6 +109,7 @@ function createCosmicDropdown(selectElement) {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             wrapper.classList.remove('open');
+            wrapper.classList.remove('flip-up');
         }
     });
 
@@ -324,7 +355,23 @@ function showCalculator(calculatorName) {
     }
 }
 
-// Spark Calculator
+// ============================================
+// SPARK CALCULATOR
+// ============================================
+// PURPOSE: Calculates the "Spark" (sub-sign) and Decan for a planet placement.
+//
+// HOW IT WORKS:
+// 1. User inputs: Planet, Zodiac Sign, and Degree (0-29)
+// 2. The calculator looks up the degree+sign combination in spark_database.json
+// 3. Each degree of each sign has a corresponding:
+//    - SPARK: A secondary zodiac sign influence (like a sub-sign within the main sign)
+//    - DECAN: Which third of the sign (1st, 2nd, or 3rd decan - each sign is divided into 3 decans of 10 degrees each)
+//    - DECAN PLANETS: The planetary rulers of that decan
+//
+// CALCULATION:
+// - Simply a database lookup: finds the row where degree and sign match the user input
+// - No mathematical calculation - the spark/decan values are pre-computed in the database
+// ============================================
 document.getElementById('spark-form').addEventListener('submit', function(e) {
     e.preventDefault();
     clearAllErrors(this);
@@ -341,15 +388,27 @@ document.getElementById('spark-form').addEventListener('submit', function(e) {
 
     if (!isValid) return;
 
-    const planet = planetInput.value;
+    // Get planet value - use custom input if "Other" is selected
+    const customPlanetInput = document.getElementById('spark-planet-custom');
+    let planet = planetInput.value;
+    if (planet === 'OTHER') {
+        if (!customPlanetInput.value || customPlanetInput.value.trim() === '') {
+            showError(customPlanetInput, 'Please enter a custom planet/point name');
+            return;
+        }
+        planet = customPlanetInput.value.trim().toUpperCase();
+    }
+
     const sign = signInput.value;
     const degree = degreeInput.value;
 
-    // Find matching entry in database
+    // DATABASE LOOKUP: Find the row in spark_database.json that matches the degree and sign
+    // The database contains pre-computed spark signs and decans for all 360 degree positions
+    // Note: New database uses capitalized field names (Degree, Sign, Spark, Decan, Decan_Planets)
     const result = sparkDatabase.find(entry => {
-        // Match degree and sign
-        const entryDegree = String(entry.degree).replace('°', '').trim();
-        return entryDegree === degree && entry.sign === sign;
+        // Match degree and sign - strip the degree symbol if present in database
+        const entryDegree = String(entry.Degree).replace('°', '').trim();
+        return entryDegree === degree && entry.Sign === sign;
     });
 
     const resultDiv = document.getElementById('spark-result');
@@ -364,16 +423,16 @@ document.getElementById('spark-form').addEventListener('submit', function(e) {
                 <strong>Position:</strong> <span>${degree}° ${sign}</span>
             </div>
             <div class="result-item">
-                <strong>Spark Sign:</strong> <span>${result.spark || 'Not Found'}</span>
+                <strong>Spark Sign:</strong> <span>${result.Spark || 'Not Found'}</span>
             </div>
             <div class="result-item">
-                <strong>Decan:</strong> <span>${result.decan || 'Not Found'}</span>
+                <strong>Decan:</strong> <span>${result.Decan || 'Not Found'}</span>
             </div>
             <div class="result-item">
-                <strong>Decan Planets:</strong> <span>${result.decan_planets || 'Not Found'}</span>
+                <strong>Decan Planets:</strong> <span>${result.Decan_Planets || 'Not Found'}</span>
             </div>
             <div class="interpretation">
-                <strong>${planet}</strong> at <strong>${degree}°</strong> in <strong>${sign}</strong> has a spark in <strong>${result.spark}</strong> and is in the <strong>${result.decan}</strong> decan, ruled by <strong>${result.decan_planets}</strong>.
+                <strong>${planet}</strong> at <strong>${degree}°</strong> in <strong>${sign}</strong> has a spark in <strong>${result.Spark}</strong> and is in the <strong>${result.Decan}</strong> decan, ruled by <strong>${result.Decan_Planets}</strong>.
             </div>
         `;
         resultDiv.classList.add('show');
@@ -389,84 +448,168 @@ document.getElementById('spark-form').addEventListener('submit', function(e) {
     }
 });
 
-// True Placement Calculator
+// ============================================
+// TRUE PLACEMENT CALCULATOR
+// ============================================
+// PURPOSE: Calculates the "True Placement" of a planet - showing which house
+// and sign the planet truly operates through based on the rising sign.
+// Also calculates the Spark (sub-sign) and Decan based on the degree.
+//
+// HOW IT WORKS:
+// 1. User inputs: Planet, Sign, Degree (0-29), and Rising Sign
+// 2. The calculator determines where this planet falls in the chart houses
+//    based on whole sign house system (where rising sign = 1st house)
+// 3. Also looks up the Spark and Decan from spark_database.json
+//
+// OUTPUTS:
+// - IS HOUSE: The house number where the planet resides (1st through 12th)
+// - IS SIGN: The zodiac sign associated with that house position
+// - EXPRESSING SIGN: The sign through which the planet expresses its energy
+// - BASE HOUSE: The foundational house influence
+// - BASE SIGN: The foundational sign influence
+// - SPARK SIGN: The sub-sign influence based on the degree
+// - DECAN: Which third of the sign (1st, 2nd, or 3rd)
+// - DECAN PLANETS: The planetary rulers of that decan
+//
+// CALCULATION:
+// - Database lookup in true_placement_db1.json (for most planets)
+// - Venus has special handling with additional data in true_placement_db2.json
+// - Spark/Decan lookup in spark_database.json using degree + sign
+// ============================================
 document.getElementById('true-placement-form').addEventListener('submit', function(e) {
     e.preventDefault();
     clearAllErrors(this);
 
     const planetInput = document.getElementById('tp-planet');
     const signInput = document.getElementById('tp-sign');
+    const degreeInput = document.getElementById('tp-degree');
     const risingInput = document.getElementById('tp-rising');
 
-    // Validate all fields
+    // Validate required fields (degree is optional)
     let isValid = true;
     if (!validateRequired(planetInput, 'planet')) isValid = false;
     if (!validateRequired(signInput, 'sign')) isValid = false;
     if (!validateRequired(risingInput, 'rising sign')) isValid = false;
 
+    // Only validate degree if provided
+    const hasDegree = degreeInput.value !== '' && degreeInput.value !== null;
+    if (hasDegree && !validateDegree(degreeInput)) isValid = false;
+
     if (!isValid) return;
 
     const planet = planetInput.value;
     const sign = signInput.value;
+    const degree = hasDegree ? degreeInput.value : null;
     const rising = risingInput.value;
 
-    // Search in database 1 first (most planets)
-    let result = truePlacementDB1.find(entry =>
-        entry.planet === planet &&
-        entry.sign === sign &&
-        entry.rising === rising
-    );
+    // DATABASE LOOKUP: Search true_placement_db1.json first (contains most planets)
+    // Matches on all three criteria: planet, sign, and rising sign
+    // Note: New database uses capitalized field names (Planet, Sign, Rising)
+    console.log('Looking for:', { planet, sign, rising });
+    console.log('Database loaded:', truePlacementDB1.length, 'entries');
+    console.log('First entry:', truePlacementDB1[0]);
 
-    // If not found and planet is VENUS, check database 2
+    let result = truePlacementDB1.find(entry =>
+        entry.Planet === planet &&
+        entry.Sign === sign &&
+        entry.Rising === rising
+    );
+    console.log('Result found:', result);
+
+    // SPECIAL CASE: Venus has extended data in a second database
+    // Venus has additional house connections that require extra fields
     if (!result && planet === 'VENUS') {
         result = truePlacementDB2.find(entry =>
-            entry.planet === planet &&
-            entry.house === sign &&
-            entry.rising === rising
+            entry.Planet === planet &&
+            entry.Sign === sign &&
+            entry.Rising === rising
         );
     }
 
     const resultDiv = document.getElementById('true-placement-result');
 
+    // SPARK LOOKUP: Only find spark/decan data if degree was provided
+    let sparkResult = null;
+    if (hasDegree) {
+        sparkResult = sparkDatabase.find(entry => {
+            const entryDegree = String(entry.Degree).replace('°', '').trim();
+            return entryDegree === degree && entry.Sign === sign;
+        });
+    }
+
     if (result) {
-        const isHouseText = result.is_house || 'N/A';
-        const isSignText = result.is_sign || 'N/A';
-        const expressingSignText = result.expressing_sign || result.sign || 'N/A';
-        const baseHouseText = result.base_house || 'N/A';
-        const baseSignText = result.base_sign || 'N/A';
+        // True Placement data - using new capitalized field names
+        const isHouseText = result.IS_house || 'N/A';
+        const isSignText = result.IS_sign || 'N/A';
+        const expressingSignText = result.Sign2 || 'N/A';
+        const baseHouseText = result.BASE_house || 'N/A';
+        const baseSignText = result.BASE_sign || 'N/A';
+        const throughSignText = result.Sign3 || 'N/A';
 
-        let interpretation = `<strong>${planet}</strong> in <strong>${sign}</strong> with <strong>${rising}</strong> rising is in the <strong>${isHouseText}</strong> house (<strong>${isSignText}</strong>) expressing through <strong>${expressingSignText}</strong> with base from <strong>${baseHouseText}</strong> house (<strong>${baseSignText}</strong>).`;
+        // Spark data - only available if degree was provided
+        const sparkSign = sparkResult?.Spark || null;
+        const decan = sparkResult?.Decan || null;
+        const decanPlanets = sparkResult?.Decan_Planets || null;
 
-        // Add additional houses for VENUS if available
-        if (result.base_house3 && result.base_sign4) {
-            interpretation += ` Also connected to <strong>${result.base_house3}</strong> house (<strong>${result.base_sign4}</strong>).`;
+        // DUAL RULERSHIP: Venus and Mercury rule two signs each, so they have two bases
+        // Venus rules Taurus (Sign5) and Libra (Sign6), Mercury rules Gemini and Virgo
+        const hasDualBase = (planet === 'VENUS' || planet === 'MERCURY') && result.Sign5;
+        const secondBaseSign = result.Sign5 || null;  // Second base sign (Libra for Venus, Virgo for Mercury)
+        const secondThroughSign = result.Sign6 || null;  // Second through sign
+        const secondBaseHouse = result.Sign4 || null;  // Second base house
+
+        // Build interpretation sentence based on whether planet has dual rulership
+        // Spark part is only included if degree was provided
+        const sparkPart = sparkSign ? `, with <strong>${sparkSign}</strong> spark in <strong>${decan}</strong> decan,` : ',';
+
+        let interpretation;
+        if (hasDualBase && secondBaseSign && secondThroughSign) {
+            // VENUS or MERCURY: dual base format
+            interpretation = `<strong>${planet}</strong> is <strong>${isSignText}</strong>${sparkPart} expressed through <strong>${expressingSignText}</strong> with <strong>${baseSignText}</strong> and <strong>${secondBaseSign}</strong> base (through <strong>${throughSignText}</strong> and <strong>${secondThroughSign}</strong>).`;
+        } else {
+            // All other planets: single base format
+            interpretation = `<strong>${planet}</strong> is <strong>${isSignText}</strong>${sparkPart} expressed through <strong>${expressingSignText}</strong> with <strong>${baseSignText}</strong> base (through <strong>${throughSignText}</strong>).`;
         }
+
+        // Build the result HTML - show second base for Venus/Mercury
+        let baseDisplay;
+        if (hasDualBase && secondBaseSign) {
+            baseDisplay = `
+            <div class="result-item">
+                <strong>Base 1:</strong> <span>(${baseHouseText}) ${baseSignText} through ${throughSignText}</span>
+            </div>
+            <div class="result-item">
+                <strong>Base 2:</strong> <span>(${secondBaseHouse}) ${secondBaseSign} through ${secondThroughSign}</span>
+            </div>`;
+        } else {
+            baseDisplay = `
+            <div class="result-item">
+                <strong>Base:</strong> <span>(${baseHouseText}) ${baseSignText} through ${throughSignText}</span>
+            </div>`;
+        }
+
+        // Spark display - only show if degree was provided
+        const sparkDisplay = sparkSign ? `
+            <div class="result-item">
+                <strong>Spark Sign:</strong> <span>${sparkSign}</span>
+            </div>
+            <div class="result-item">
+                <strong>Decan:</strong> <span>${decan}</span>
+            </div>
+            <div class="result-item">
+                <strong>Decan Planets:</strong> <span>${decanPlanets}</span>
+            </div>` : '';
 
         resultDiv.innerHTML = `
             <h3>True Placement Result</h3>
             <div class="result-item">
-                <strong>Planet:</strong> <span>${planet}</span>
-            </div>
-            <div class="result-item">
-                <strong>Sign:</strong> <span>${sign}</span>
-            </div>
-            <div class="result-item">
-                <strong>Rising:</strong> <span>${rising}</span>
-            </div>
-            <div class="result-item">
-                <strong>House (IS):</strong> <span>${isHouseText} (${isSignText})</span>
+                <strong>House:</strong> <span>(${isHouseText}) ${isSignText}</span>
             </div>
             <div class="result-item">
                 <strong>Expressing Through:</strong> <span>${expressingSignText}</span>
             </div>
-            <div class="result-item">
-                <strong>Base House:</strong> <span>${baseHouseText} (${baseSignText})</span>
-            </div>
-            ${result.base_house3 ? `
-            <div class="result-item">
-                <strong>Additional Base:</strong> <span>${result.base_house3} (${result.base_sign4})</span>
-            </div>
-            ` : ''}
+            ${baseDisplay}
+            ${sparkDisplay}
             <div class="interpretation">
                 ${interpretation}
             </div>
@@ -484,7 +627,37 @@ document.getElementById('true-placement-form').addEventListener('submit', functi
     }
 });
 
-// Profection Years Calculator
+// ============================================
+// PROFECTION YEARS CALCULATOR
+// ============================================
+// PURPOSE: Calculates Annual Profections - an ancient timing technique that
+// activates different houses/signs each year of life in a 12-year cycle.
+//
+// HOW IT WORKS:
+// 1. User inputs: Birth Date and Rising Sign
+// 2. The calculator determines current age and which house is "activated" this year
+//
+// THE PROFECTION CYCLE:
+// - Each year of life activates a different house in sequence
+// - Age 0 = 1st house (rising sign)
+// - Age 1 = 2nd house
+// - Age 2 = 3rd house
+// - ... and so on through all 12 houses
+// - Age 12 = back to 1st house (cycle repeats)
+//
+// CALCULATION FORMULA:
+// - Current House Index = Age modulo 12 (age % 12)
+// - This gives a number 0-11, which maps to houses 1st-12th
+// - The SIGN activated depends on the Rising Sign:
+//   - If Rising = Aries, then 1st house = Aries, 2nd = Taurus, etc.
+//   - If Rising = Taurus, then 1st house = Taurus, 2nd = Gemini, etc.
+//
+// OUTPUTS:
+// - Current Age
+// - Current Profection House (1st through 12th)
+// - Current Activated Sign (based on rising sign)
+// - Full 24-year table showing the profection cycle
+// ============================================
 document.getElementById('profection-form').addEventListener('submit', function(e) {
     e.preventDefault();
     clearAllErrors(this);
@@ -502,25 +675,29 @@ document.getElementById('profection-form').addEventListener('submit', function(e
     const birthdate = birthdateInput.value;
     const rising = risingInput.value;
 
-    // Parse birth date
+    // STEP 1: Parse birth date into components
     const birthDate = new Date(birthdate);
     const birthYear = birthDate.getFullYear();
-    const birthMonth = birthDate.getMonth() + 1; // 0-indexed
+    const birthMonth = birthDate.getMonth() + 1; // JavaScript months are 0-indexed, so add 1
     const birthDay = birthDate.getDate();
 
-    // Calculate current age
+    // STEP 2: Calculate current age
+    // Age = current year - birth year, adjusted if birthday hasn't happened yet this year
     const today = new Date();
     let age = today.getFullYear() - birthYear;
     const monthDiff = today.getMonth() + 1 - birthMonth;
     const dayDiff = today.getDate() - birthDay;
 
-    // Adjust age if birthday hasn't happened this year
+    // Adjust age down by 1 if birthday hasn't occurred yet this year
+    // (either we're in an earlier month, or same month but earlier day)
     if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
         age--;
     }
 
-    // Determine first activation year
-    // Born late Feb/early March often start same year, others start next year
+    // STEP 3: Determine first activation year
+    // This is when the profection cycle begins counting
+    // People born early in the year (Jan-mid March) start same year
+    // People born later in the year start the following year
     let firstActivation = birthYear;
     if (birthMonth <= 2 || (birthMonth === 3 && birthDay <= 15)) {
         firstActivation = birthYear; // Same year for early spring births
@@ -528,22 +705,27 @@ document.getElementById('profection-form').addEventListener('submit', function(e
         firstActivation = birthYear + 1; // Next year for most
     }
 
-    // Get house mappings for this rising sign
+    // STEP 4: Get house-to-sign mappings for this rising sign from database
+    // profection_data.json contains which sign corresponds to which house for each rising
     const houseMappings = profectionData.house_mappings[rising];
-    const houseOrder = profectionData.house_order;
+    const houseOrder = profectionData.house_order; // Array: ["1st", "2nd", "3rd", ... "12th"]
 
     if (!houseMappings) {
         alert('Error: Rising sign data not found');
         return;
     }
 
-    // Calculate current profection house (which house the person is in this year)
-    // Age 0-1 = 12th house, Age 1-2 = 1st house, etc.
+    // STEP 5: Calculate current profection house
+    // FORMULA: age % 12 gives the index (0-11) into the house order
+    // Age 0 → index 0 → 1st house
+    // Age 1 → index 1 → 2nd house
+    // Age 12 → index 0 → 1st house (cycle repeats)
     const currentHouseIndex = age % 12;
     const currentHouse = houseOrder[currentHouseIndex];
-    const currentSign = houseMappings[currentHouse];
+    const currentSign = houseMappings[currentHouse]; // Look up which sign this house corresponds to
 
-    // Generate profection table for current 12-year cycle and next
+    // STEP 6: Prepare to generate the profection table
+    // Calculate which 12-year cycle the person is currently in
     const currentCycleStart = Math.floor(age / 12) * 12;
     const resultDiv = document.getElementById('profection-result');
 
@@ -583,12 +765,18 @@ document.getElementById('profection-form').addEventListener('submit', function(e
                 <tbody>
     `;
 
-    // Generate rows for ages 0-23 (two full cycles)
+    // STEP 7: Generate the profection table rows
+    // Shows ages 0-23 (two complete 12-year cycles)
+    // For each age:
+    //   - houseIndex = age % 12 (cycles 0-11 repeatedly)
+    //   - house = the house name from houseOrder array ("1st", "2nd", etc.)
+    //   - sign = the zodiac sign for that house based on rising sign
+    //   - year = the calendar year when this age profection is active
     for (let i = 0; i <= 23; i++) {
-        const houseIndex = i % 12;
-        const house = houseOrder[houseIndex];
-        const sign = houseMappings[house];
-        const year = firstActivation + i;
+        const houseIndex = i % 12;             // Cycles: 0,1,2...11,0,1,2...11
+        const house = houseOrder[houseIndex];  // Maps index to house name
+        const sign = houseMappings[house];     // Maps house to zodiac sign
+        const year = firstActivation + i;      // Calendar year for this age
 
         // Highlight current age
         const isCurrentAge = i === age;
@@ -623,6 +811,24 @@ loadData();
 // Initialize cosmic dropdowns after DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     initCosmicDropdowns();
+
+    // Handle "Other" option for spark planet dropdown
+    const sparkPlanetSelect = document.getElementById('spark-planet');
+    const sparkPlanetCustom = document.getElementById('spark-planet-custom');
+
+    if (sparkPlanetSelect && sparkPlanetCustom) {
+        sparkPlanetSelect.addEventListener('change', function() {
+            if (this.value === 'OTHER') {
+                sparkPlanetCustom.style.display = 'block';
+                sparkPlanetCustom.required = true;
+                sparkPlanetCustom.focus();
+            } else {
+                sparkPlanetCustom.style.display = 'none';
+                sparkPlanetCustom.required = false;
+                sparkPlanetCustom.value = '';
+            }
+        });
+    }
 });
 
 // ============================================

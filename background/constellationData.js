@@ -124,7 +124,7 @@ export const CONSTELLATIONS = {
                     ]
                 }
             ],
-            "silhouetteScale": 1
+            "silhouetteScale": 1.8
         }
     },
     "ANDROMEDA": {
@@ -298,20 +298,14 @@ export const CONSTELLATIONS = {
             "anchors": [
                 {
                     "starIndex": 3,
-                    "imgPos": [
-                        409,
-                        141
-                    ]
+                    "imgPos": [435, 163]
                 },
                 {
                     "starIndex": 19,
-                    "imgPos": [
-                        104,
-                        135
-                    ]
+                    "imgPos": [75, 145]
                 }
             ],
-            "silhouetteScale": 1
+            "silhouetteScale": 0.93
         }
     },
     "SCULPTOR": {
@@ -2932,7 +2926,7 @@ export const CONSTELLATIONS = {
                 {
                     "starIndex": 0,
                     "imgPos": [
-                        104,
+                        88,
                         19
                     ]
                 },
@@ -10172,4 +10166,9 @@ export function getRandomConstellation() {
     const keys = Object.keys(CONSTELLATIONS);
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     return CONSTELLATIONS[randomKey];
+}
+
+
+export function getConstellation(name) {
+    return CONSTELLATIONS[name.toUpperCase()] || null;
 }
