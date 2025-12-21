@@ -304,6 +304,8 @@ let truePlacementDB2 = [];
 let planetMeanings = {};
 let signMeanings = {};
 let profectionData = {};
+let planetKeywords = {};
+let signKeywords = {};
 
 // Load all JSON data on page load
 async function loadData() {
@@ -314,7 +316,9 @@ async function loadData() {
             fetch('true_placement_db2.json'),
             fetch('planet_meanings.json'),
             fetch('sign_meanings.json'),
-            fetch('profection_data.json')
+            fetch('profection_data.json'),
+            fetch('planet_keywords.json'),
+            fetch('sign_keywords.json')
         ]);
 
         [
@@ -323,7 +327,9 @@ async function loadData() {
             truePlacementDB2,
             planetMeanings,
             signMeanings,
-            profectionData
+            profectionData,
+            planetKeywords,
+            signKeywords
         ] = await Promise.all(responses.map(r => r.json()));
 
         console.log('All data loaded successfully');
@@ -331,6 +337,272 @@ async function loadData() {
         console.error('Error loading data:', error);
         alert('Error loading calculator data. Please refresh the page.');
     }
+}
+
+// Helper function to get keywords for a placement calculation
+function getKeywordsForPlacement(result) {
+    return {
+        planetWords: planetKeywords[result.planet] || [],
+        isSignWords: signKeywords[result.isSign] || [],
+        sparkWords: signKeywords[result.spark] || [],
+        decanWords: signKeywords[result.decan] || [],
+        expressedThroughWords: signKeywords[result.expressedThrough] || [],
+        baseSignWords: signKeywords[result.baseSign] || [],
+        baseSign2Words: signKeywords[result.baseSign2] || []
+    };
+}
+
+// ============================================
+// SENTENCE BUILDER - Keyword Selection System
+// ============================================
+
+// Create a searchable dropdown for keyword selection
+function createKeywordDropdown(id, keywords, label, signName) {
+    if (!keywords || keywords.length === 0) {
+        return `<div class="keyword-dropdown-group">
+            <label class="keyword-dropdown-label">${label}: <span class="keyword-sign-name">${signName}</span></label>
+            <div class="keyword-dropdown-empty">No keywords available</div>
+        </div>`;
+    }
+
+    const optionsHTML = keywords.map(kw =>
+        `<option value="${kw}">${kw}</option>`
+    ).join('');
+
+    return `
+        <div class="keyword-dropdown-group">
+            <label class="keyword-dropdown-label">${label}: <span class="keyword-sign-name">${signName}</span></label>
+            <div class="keyword-dropdown-wrapper">
+                <input type="text"
+                       class="keyword-search-input"
+                       id="${id}-search"
+                       placeholder="Type to search or select..."
+                       autocomplete="off"
+                       data-dropdown-id="${id}">
+                <select class="keyword-select" id="${id}" data-label="${label}">
+                    <option value="">Select a keyword...</option>
+                    ${optionsHTML}
+                </select>
+                <div class="keyword-dropdown-list" id="${id}-list">
+                    ${keywords.map(kw => `<div class="keyword-dropdown-item" data-value="${kw}">${kw}</div>`).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Build the sentence builder HTML
+function buildSentenceBuilder(components) {
+    // components = { planet, planetKeywords, base, baseKeywords, base2, base2Keywords, through, throughKeywords, through2, through2Keywords, isSign, isSignKeywords, sign, signKeywords, hasDualBase }
+
+    // Convert to explicit boolean (otherwise && returns the string value, not true/false)
+    const hasDual = !!(components.hasDualBase && components.base2);
+
+    let html = `
+        <div class="sentence-builder" data-dual-base="${hasDual}">
+            <h4 class="sentence-builder-title">Build Your Interpretation</h4>
+            <p class="sentence-builder-desc">Select keywords from each component to create a personalized meaning</p>
+
+            <div class="keyword-dropdowns">
+                ${createKeywordDropdown('kw-planet', components.planetKeywords, 'Planet', components.planet)}
+                <div class="keyword-row ${hasDual ? 'dual-row' : ''}">
+                    ${createKeywordDropdown('kw-base', components.baseKeywords, 'Base', components.base)}
+                    ${hasDual ? createKeywordDropdown('kw-base2', components.base2Keywords, 'Base 2', components.base2) : ''}
+                </div>
+                <div class="keyword-row ${hasDual ? 'dual-row' : ''}">
+                    ${createKeywordDropdown('kw-through', components.throughKeywords, 'Through', components.through)}
+                    ${hasDual ? createKeywordDropdown('kw-through2', components.through2Keywords, 'Through 2', components.through2) : ''}
+                </div>
+                ${createKeywordDropdown('kw-is', components.isSignKeywords, 'House', components.isSign)}
+                ${createKeywordDropdown('kw-sign', components.signKeywords, 'Sign', components.sign)}
+            </div>
+
+            <div class="sentence-output">
+                <div class="sentence-label">Your Interpretation:</div>
+                <div class="sentence-text" id="generated-sentence">
+                    <span class="sentence-placeholder">Select keywords above to build your sentence...</span>
+                </div>
+            </div>
+        </div>
+    `;
+
+    return html;
+}
+
+// Initialize sentence builder dropdowns after they're added to DOM
+function initSentenceBuilder() {
+    const dropdowns = document.querySelectorAll('.keyword-dropdown-wrapper');
+
+    dropdowns.forEach(wrapper => {
+        const searchInput = wrapper.querySelector('.keyword-search-input');
+        const select = wrapper.querySelector('.keyword-select');
+        const list = wrapper.querySelector('.keyword-dropdown-list');
+        const items = list.querySelectorAll('.keyword-dropdown-item');
+
+        // Store the previous value for restoration if no selection made
+        let previousValue = '';
+
+        // Show/hide dropdown list on input focus
+        searchInput.addEventListener('focus', () => {
+            // Store current value before clearing
+            previousValue = select.value;
+            // Clear input for fresh search
+            searchInput.value = '';
+            // Show all items
+            filterDropdownItems('', items);
+            list.classList.add('show');
+        });
+
+        // Filter items as user types
+        searchInput.addEventListener('input', () => {
+            list.classList.add('show');
+            filterDropdownItems(searchInput.value, items);
+        });
+
+        // Handle item selection
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                const value = item.dataset.value;
+                searchInput.value = value;
+                select.value = value;
+                previousValue = value; // Update previous value on selection
+                list.classList.remove('show');
+                updateGeneratedSentence();
+            });
+        });
+
+        // Restore previous value if clicking outside without selecting
+        searchInput.addEventListener('blur', (e) => {
+            // Small delay to allow click events on items to fire first
+            setTimeout(() => {
+                if (!list.classList.contains('show')) {
+                    // If dropdown is closed and input is empty or different, restore previous
+                    if (searchInput.value === '' || searchInput.value !== select.value) {
+                        searchInput.value = previousValue;
+                        select.value = previousValue;
+                    }
+                }
+            }, 150);
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!wrapper.contains(e.target)) {
+                list.classList.remove('show');
+                // Restore previous value if nothing new was selected
+                if (searchInput.value === '' || searchInput.value !== select.value) {
+                    searchInput.value = previousValue;
+                    select.value = previousValue;
+                }
+            }
+        });
+
+        // Handle keyboard navigation
+        searchInput.addEventListener('keydown', (e) => {
+            const visibleItems = Array.from(items).filter(item => item.style.display !== 'none');
+            const currentIndex = visibleItems.findIndex(item => item.classList.contains('highlighted'));
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                const nextIndex = currentIndex < visibleItems.length - 1 ? currentIndex + 1 : 0;
+                highlightItem(visibleItems, nextIndex);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                const prevIndex = currentIndex > 0 ? currentIndex - 1 : visibleItems.length - 1;
+                highlightItem(visibleItems, prevIndex);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                const highlighted = visibleItems.find(item => item.classList.contains('highlighted'));
+                if (highlighted) {
+                    highlighted.click();
+                } else if (visibleItems.length > 0) {
+                    visibleItems[0].click();
+                }
+            } else if (e.key === 'Escape') {
+                list.classList.remove('show');
+                // Restore previous value on Escape
+                searchInput.value = previousValue;
+                select.value = previousValue;
+            }
+        });
+    });
+}
+
+// Filter dropdown items based on search text
+function filterDropdownItems(searchText, items) {
+    const search = searchText.toLowerCase();
+    items.forEach(item => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(search)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Highlight item for keyboard navigation
+function highlightItem(items, index) {
+    items.forEach(item => item.classList.remove('highlighted'));
+    if (items[index]) {
+        items[index].classList.add('highlighted');
+        items[index].scrollIntoView({ block: 'nearest' });
+    }
+}
+
+// Update the generated sentence based on selected keywords
+function updateGeneratedSentence() {
+    const planetKw = document.getElementById('kw-planet')?.value || '';
+    const baseKw = document.getElementById('kw-base')?.value || '';
+    const base2Kw = document.getElementById('kw-base2')?.value || '';
+    const throughKw = document.getElementById('kw-through')?.value || '';
+    const through2Kw = document.getElementById('kw-through2')?.value || '';
+    const isKw = document.getElementById('kw-is')?.value || '';
+    const signKw = document.getElementById('kw-sign')?.value || '';
+
+    const sentenceDiv = document.getElementById('generated-sentence');
+    const hasDualBase = document.querySelector('.sentence-builder')?.dataset.dualBase === 'true';
+
+    if (!planetKw && !baseKw && !throughKw && !isKw && !signKw) {
+        sentenceDiv.innerHTML = '<span class="sentence-placeholder">Select keywords above to build your sentence...</span>';
+        return;
+    }
+
+    // Build sentence with filled and empty parts
+    let sentence = '';
+    sentence += planetKw ? `<strong class="kw-filled">${planetKw}</strong>` : '<span class="kw-empty">[Planet]</span>';
+    sentence += ' <span class="kw-connector">based on</span> ';
+
+    if (hasDualBase) {
+        // Venus/Mercury: parentheses around (Base and Base2)
+        sentence += '<span class="kw-paren">(</span>';
+        sentence += baseKw ? `<strong class="kw-filled">${baseKw}</strong>` : '<span class="kw-empty">[Base]</span>';
+        sentence += ' <span class="kw-connector">and</span> ';
+        sentence += base2Kw ? `<strong class="kw-filled">${base2Kw}</strong>` : '<span class="kw-empty">[Base 2]</span>';
+        sentence += '<span class="kw-paren">)</span>';
+    } else {
+        sentence += baseKw ? `<strong class="kw-filled">${baseKw}</strong>` : '<span class="kw-empty">[Base]</span>';
+    }
+
+    sentence += ' <span class="kw-connector">through</span> ';
+
+    if (hasDualBase) {
+        // Venus/Mercury: parentheses around (Through and Through2)
+        sentence += '<span class="kw-paren">(</span>';
+        sentence += throughKw ? `<strong class="kw-filled">${throughKw}</strong>` : '<span class="kw-empty">[Through]</span>';
+        sentence += ' <span class="kw-connector">and</span> ';
+        sentence += through2Kw ? `<strong class="kw-filled">${through2Kw}</strong>` : '<span class="kw-empty">[Through 2]</span>';
+        sentence += '<span class="kw-paren">)</span>';
+    } else {
+        sentence += throughKw ? `<strong class="kw-filled">${throughKw}</strong>` : '<span class="kw-empty">[Through]</span>';
+    }
+
+    sentence += ' <span class="kw-connector">directed into</span> ';
+    sentence += isKw ? `<strong class="kw-filled">${isKw}</strong>` : '<span class="kw-empty">[House]</span>';
+    sentence += ' <span class="kw-connector">expressed through</span> ';
+    sentence += signKw ? `<strong class="kw-filled">${signKw}</strong>` : '<span class="kw-empty">[Sign]</span>';
+
+    sentenceDiv.innerHTML = sentence;
 }
 
 // Tab switching
@@ -565,10 +837,11 @@ document.getElementById('true-placement-form').addEventListener('submit', functi
         let interpretation;
         if (hasDualBase && secondBaseSign && secondThroughSign) {
             // VENUS or MERCURY: dual base format
-            interpretation = `<strong>${planet}</strong> is <strong>${isSignText}</strong>${sparkPart} expressed through <strong>${expressingSignText}</strong> with <strong>${baseSignText}</strong> and <strong>${secondBaseSign}</strong> base (through <strong>${throughSignText}</strong> and <strong>${secondThroughSign}</strong>).`;
+            // Example: "MERCURY in Virgo, with Cancer spark in Aquarius decan, expressed through Aquarius with Capricorn and Aries base (through Gemini and Virgo)"
+            interpretation = `<strong>${planet}</strong> in <strong>${sign}</strong>${sparkPart} expressed through <strong>${expressingSignText}</strong> with <strong>${baseSignText}</strong> and <strong>${secondBaseSign}</strong> base (through <strong>${throughSignText}</strong> and <strong>${secondThroughSign}</strong>).`;
         } else {
             // All other planets: single base format
-            interpretation = `<strong>${planet}</strong> is <strong>${isSignText}</strong>${sparkPart} expressed through <strong>${expressingSignText}</strong> with <strong>${baseSignText}</strong> base (through <strong>${throughSignText}</strong>).`;
+            interpretation = `<strong>${planet}</strong> in <strong>${sign}</strong>${sparkPart} expressed through <strong>${expressingSignText}</strong> with <strong>${baseSignText}</strong> base (through <strong>${throughSignText}</strong>).`;
         }
 
         // Build the result HTML - show second base for Venus/Mercury
@@ -600,6 +873,36 @@ document.getElementById('true-placement-form').addEventListener('submit', functi
                 <strong>Decan Planets:</strong> <span>${decanPlanets}</span>
             </div>` : '';
 
+        // Get keywords for sentence builder
+        // Structure: Planet, Base, Through, IS Sign (House), Input Sign
+        // For Venus/Mercury: also includes Base 2 and Through 2
+        const pKeywords = planetKeywords[planet] || [];
+        const baseWords = signKeywords[baseSignText] || [];
+        const base2Words = secondBaseSign ? signKeywords[secondBaseSign] || [] : [];
+        const throughWords = signKeywords[throughSignText] || [];
+        const through2Words = secondThroughSign ? signKeywords[secondThroughSign] || [] : [];
+        const isSignWords = signKeywords[isSignText] || [];
+        const inputSignWords = signKeywords[sign] || [];
+
+        // Build sentence builder HTML
+        const sentenceBuilderHTML = buildSentenceBuilder({
+            planet: planet,
+            planetKeywords: pKeywords,
+            base: baseSignText,
+            baseKeywords: baseWords,
+            base2: secondBaseSign,
+            base2Keywords: base2Words,
+            through: throughSignText,
+            throughKeywords: throughWords,
+            through2: secondThroughSign,
+            through2Keywords: through2Words,
+            isSign: isSignText,
+            isSignKeywords: isSignWords,
+            sign: sign,
+            signKeywords: inputSignWords,
+            hasDualBase: hasDualBase
+        });
+
         resultDiv.innerHTML = `
             <h3>True Placement Result</h3>
             <div class="result-item">
@@ -613,9 +916,13 @@ document.getElementById('true-placement-form').addEventListener('submit', functi
             <div class="interpretation">
                 ${interpretation}
             </div>
+            ${sentenceBuilderHTML}
         `;
         resultDiv.classList.add('show');
         resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Initialize the sentence builder dropdowns after adding to DOM
+        setTimeout(() => initSentenceBuilder(), 100);
     } else {
         resultDiv.innerHTML = `
             <div class="error-message">
