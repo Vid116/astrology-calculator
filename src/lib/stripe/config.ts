@@ -1,0 +1,50 @@
+// Stripe configuration
+// Update these after creating products in Stripe Dashboard
+
+export const STRIPE_CONFIG = {
+  // Product IDs (create these in Stripe Dashboard)
+  products: {
+    pro: process.env.STRIPE_PRODUCT_ID_PRO || 'prod_xxx',
+  },
+
+  // Price IDs (from Stripe Dashboard)
+  prices: {
+    proMonthly: process.env.STRIPE_PRICE_ID_PRO_MONTHLY || 'price_1Sjk8kPtcMkhnbKItuolh6hI',
+    proAnnual: process.env.STRIPE_PRICE_ID_PRO_ANNUAL || 'price_1Sjk9dPtcMkhnbKITL3WMPVc',
+  },
+
+  // Pricing display info
+  pricing: {
+    proMonthly: {
+      name: 'Astro Pro Monthly',
+      price: 9,
+      interval: 'month' as const,
+      features: [
+        'Unlimited calculations',
+        'Priority support',
+        'Access to all calculators',
+        'No daily limits',
+      ],
+    },
+    proAnnual: {
+      name: 'Astro Pro Annual',
+      price: 79,
+      interval: 'year' as const,
+      savings: '27% off',
+      features: [
+        'Unlimited calculations',
+        'Priority support',
+        'Access to all calculators',
+        'No daily limits',
+        '2 months free',
+      ],
+    },
+  },
+
+  // Free tier limits
+  freeTier: {
+    dailyCalculations: parseInt(process.env.FREE_TIER_DAILY_LIMIT || '10', 10),
+  },
+};
+
+export type PriceId = keyof typeof STRIPE_CONFIG.prices;
