@@ -7,11 +7,15 @@ import Image from 'next/image';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { createClient } from '@/lib/supabase/client';
 import { STRIPE_CONFIG } from '@/lib/stripe/config';
-import type { User } from '@/types/supabase';
+
+interface UserUsage {
+  calculation_count: number;
+  calculation_reset_date: string;
+}
 
 function AccountContent() {
   const { user, subscription, isPremium, signOut, isLoading } = useAuth();
-  const [userData, setUserData] = useState<User | null>(null);
+  const [usage, setUsage] = useState<UserUsage | null>(null);
   const [portalLoading, setPortalLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -20,21 +24,21 @@ function AccountContent() {
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUsage = async () => {
       if (!user) return;
 
       const { data } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', user.id)
+        .from('user_usage')
+        .select('calculation_count, calculation_reset_date')
+        .eq('user_id', user.id)
         .single();
 
       if (data) {
-        setUserData(data);
+        setUsage(data);
       }
     };
 
-    fetchUserData();
+    fetchUsage();
   }, [user]);
 
   const handleManageSubscription = async () => {
@@ -91,7 +95,7 @@ function AccountContent() {
     );
   }
 
-  const remainingCalculations = STRIPE_CONFIG.freeTier.dailyCalculations - (userData?.calculation_count || 0);
+  const remainingCalculations = STRIPE_CONFIG.freeTier.dailyCalculations - (usage?.calculation_count || 0);
   const calculationPercentage = Math.max(0, (remainingCalculations / STRIPE_CONFIG.freeTier.dailyCalculations) * 100);
 
   const initials = user?.user_metadata?.full_name
@@ -103,7 +107,7 @@ function AccountContent() {
         .slice(0, 2)
     : user?.email?.slice(0, 2).toUpperCase() || '??';
 
-  const displayName = userData?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Cosmic Traveler';
+  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Cosmic Traveler';
   const avatarUrl = user?.user_metadata?.avatar_url;
 
   return (
@@ -249,8 +253,8 @@ function AccountContent() {
               {/* Member Since */}
               <p className="text-[#4a5568] text-xs mt-4">
                 Joined the cosmos{' '}
-                {userData?.created_at
-                  ? new Date(userData.created_at).toLocaleDateString('en-US', {
+                {user?.created_at
+                  ? new Date(user.created_at).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric',
