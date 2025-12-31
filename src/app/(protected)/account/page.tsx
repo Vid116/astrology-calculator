@@ -141,7 +141,7 @@ function AccountContent() {
 
       {/* Profile Header Card */}
       <div
-        className="relative rounded-2xl overflow-hidden"
+        className="relative rounded-2xl"
         style={{
           background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
           border: '1px solid rgba(103, 232, 249, 0.15)',
@@ -155,7 +155,7 @@ function AccountContent() {
       >
         {/* Decorative Background */}
         <div
-          className="absolute inset-0 opacity-30"
+          className="absolute inset-0 opacity-30 rounded-2xl overflow-hidden"
           style={{
             background: `
               radial-gradient(ellipse 80% 50% at 50% 0%, rgba(103, 232, 249, 0.15) 0%, transparent 50%),
@@ -165,10 +165,10 @@ function AccountContent() {
         />
 
         {/* Content */}
-        <div className="relative px-10 py-12 md:px-14">
+        <div className="relative px-8 py-16 md:px-12 pt-24 pb-16">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
             {/* Avatar */}
-            <div className="relative flex-shrink-0 p-2">
+            <div className="relative flex-shrink-0">
               <div
                 className={`
                   w-24 h-24 md:w-28 md:h-28 rounded-full
@@ -176,8 +176,8 @@ function AccountContent() {
                   text-2xl md:text-3xl font-bold
                   transition-all duration-500
                   ${isPremium
-                    ? 'shadow-[0_0_40px_rgba(255,216,0,0.35)]'
-                    : 'shadow-[0_0_30px_rgba(103,232,249,0.25)]'
+                    ? 'shadow-[0_0_25px_rgba(255,216,0,0.4)]'
+                    : 'shadow-[0_0_20px_rgba(103,232,249,0.3)]'
                   }
                 `}
                 style={{

@@ -47,7 +47,7 @@ export default function ProtectedLayout({
         </div>
 
         {/* Main content container */}
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-24 max-w-4xl">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-20 md:py-24 max-w-4xl overflow-visible">
           {children}
         </div>
       </div>
