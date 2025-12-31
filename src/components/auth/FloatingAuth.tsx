@@ -24,8 +24,8 @@ export function FloatingAuth() {
       ) : (
         // Skeleton placeholder to prevent layout shift
         <div className="flex items-center gap-3">
-          <div className="w-20 h-9 rounded-lg bg-white/5 animate-pulse" />
-          <div className="w-28 h-9 rounded-lg bg-[#ffd800]/10 animate-pulse" />
+          <div className="w-[76px] h-11 rounded-lg bg-white/5 animate-pulse" />
+          <div className="w-[120px] h-11 rounded-lg bg-[#ffd800]/10 animate-pulse" />
         </div>
       )}
     </div>

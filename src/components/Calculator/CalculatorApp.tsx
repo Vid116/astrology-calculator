@@ -96,14 +96,14 @@ export function CalculatorApp() {
             <div className="flex items-center gap-3">
               {/* Usage counter for free users */}
               {!isPremium && (
-                <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-[rgba(103,232,249,0.1)] rounded-lg border border-[rgba(103,232,249,0.2)]">
+                <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-[rgba(103,232,249,0.1)] rounded-lg border border-[rgba(103,232,249,0.2)]">
                   <span className="text-[#67e8f9] text-xs">
                     {remaining >= 0 ? `${remaining}/${limit}` : '∞'}
                   </span>
                 </div>
               )}
               {isPremium && (
-                <div className="hidden md:flex items-center gap-1 px-3 py-1.5 bg-[rgba(255,216,0,0.1)] rounded-lg border border-[rgba(255,216,0,0.3)]">
+                <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-[rgba(255,216,0,0.1)] rounded-lg border border-[rgba(255,216,0,0.3)]">
                   <span className="text-[#ffd800] text-xs font-semibold">PRO ★</span>
                 </div>
               )}

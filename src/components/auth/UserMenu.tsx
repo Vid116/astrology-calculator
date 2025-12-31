@@ -63,8 +63,8 @@ export function UserMenu() {
   if (!mounted) {
     return (
       <div className="flex items-center gap-3">
-        <div className="w-20 h-9 rounded-lg bg-white/5 animate-pulse" />
-        <div className="w-28 h-9 rounded-lg bg-[#ffd800]/10 animate-pulse" />
+        <div className="w-[76px] h-11 rounded-lg bg-white/5 animate-pulse" />
+        <div className="w-[120px] h-11 rounded-lg bg-[#ffd800]/10 animate-pulse" />
       </div>
     );
   }
@@ -76,9 +76,9 @@ export function UserMenu() {
         <Link
           href="/login"
           className="
-            px-4 py-2.5 text-sm font-medium text-[#a8b4c4]
+            px-5 py-3 text-sm font-medium text-[#a8b4c4]
             hover:text-white transition-all duration-300
-            relative group
+            relative group rounded-lg
           "
         >
           <span className="relative z-10">Sign In</span>
@@ -93,7 +93,7 @@ export function UserMenu() {
         <Link
           href="/signup"
           className="
-            relative px-5 py-2.5 text-sm font-semibold rounded-lg
+            relative px-6 py-3 text-sm font-semibold rounded-lg
             bg-gradient-to-r from-[#ffd800] to-[#ffb800]
             text-[#0a0e1a]
             transition-all duration-300
@@ -295,8 +295,8 @@ export function UserMenu() {
             {isPremium && (
               <div
                 className="
-                  mt-3 inline-flex items-center gap-1.5
-                  px-2.5 py-1 rounded-full text-xs font-semibold
+                  mt-3 inline-flex items-center gap-2
+                  px-4 py-2 rounded-full text-xs font-semibold
                   bg-gradient-to-r from-[#ffd800]/15 to-[#ff9500]/10
                   text-[#ffd800] border border-[#ffd800]/25
                 "

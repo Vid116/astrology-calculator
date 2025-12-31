@@ -91,9 +91,9 @@ export default function PricingPage() {
           <div className="h-10" />
 
           {/* Card Content */}
-          <div className="p-6 lg:p-8 pt-4 flex flex-col flex-1">
+          <div className="p-7 lg:p-9 pt-4 flex flex-col flex-1">
             {/* Header */}
-            <div className="text-center mb-6">
+            <div className="text-center mb-8">
               <div
                 className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#67e8f9]/10 text-[#67e8f9]"
               >
@@ -106,7 +106,7 @@ export default function PricingPage() {
             </div>
 
             {/* Price */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-10">
               <div className="flex items-baseline justify-center gap-1">
                 <span className="text-5xl font-bold text-white">$0</span>
                 <span className="text-[#6b7a90] text-lg">/forever</span>
@@ -114,7 +114,7 @@ export default function PricingPage() {
             </div>
 
             {/* Features */}
-            <ul className="space-y-4 mb-8 flex-1">
+            <ul className="space-y-5 mb-10 flex-1">
               <li className="flex items-center gap-3 text-[#d0d0d0]">
                 <span className="w-6 h-6 rounded-full bg-[#67e8f9]/10 flex items-center justify-center flex-shrink-0">
                   <svg className="w-3.5 h-3.5 text-[#67e8f9]" fill="currentColor" viewBox="0 0 20 20">
@@ -193,9 +193,9 @@ export default function PricingPage() {
           />
 
           {/* Card Content */}
-          <div className="relative p-6 lg:p-8 pt-4 flex flex-col flex-1">
+          <div className="relative p-7 lg:p-9 pt-4 flex flex-col flex-1">
             {/* Header */}
-            <div className="text-center mb-6">
+            <div className="text-center mb-8">
               <div
                 className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#ffd800]/15 text-[#ffd800] shadow-[0_0_20px_rgba(255,216,0,0.2)]"
               >
@@ -213,7 +213,7 @@ export default function PricingPage() {
             </div>
 
             {/* Price */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-10">
               <div className="flex items-baseline justify-center gap-1">
                 <span
                   className="text-5xl font-bold text-[#ffd800]"
@@ -226,7 +226,7 @@ export default function PricingPage() {
             </div>
 
             {/* Features */}
-            <ul className="space-y-4 mb-8 flex-1">
+            <ul className="space-y-5 mb-10 flex-1">
               {STRIPE_CONFIG.pricing.proMonthly.features.map((feature, i) => (
                 <li key={i} className="flex items-center gap-3 text-[#e8e8e8]">
                   <span
@@ -308,9 +308,9 @@ export default function PricingPage() {
           </div>
 
           {/* Card Content */}
-          <div className="p-6 lg:p-8 pt-4 flex flex-col flex-1">
+          <div className="p-7 lg:p-9 pt-4 flex flex-col flex-1">
             {/* Header */}
-            <div className="text-center mb-6">
+            <div className="text-center mb-8">
               <div
                 className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#1e96fc]/10 text-[#1e96fc]"
               >
@@ -325,7 +325,7 @@ export default function PricingPage() {
             </div>
 
             {/* Price */}
-            <div className="text-center mb-8">
+            <div className="text-center mb-10">
               <div className="flex items-baseline justify-center gap-1">
                 <span className="text-5xl font-bold text-[#1e96fc]">
                   ${STRIPE_CONFIG.pricing.proAnnual.price}
@@ -338,7 +338,7 @@ export default function PricingPage() {
             </div>
 
             {/* Features */}
-            <ul className="space-y-4 mb-8 flex-1">
+            <ul className="space-y-5 mb-10 flex-1">
               {STRIPE_CONFIG.pricing.proAnnual.features.map((feature, i) => (
                 <li key={i} className="flex items-center gap-3 text-[#d0d0d0]">
                   <span className="w-6 h-6 rounded-full bg-[#1e96fc]/10 flex items-center justify-center flex-shrink-0">
@@ -405,7 +405,7 @@ export default function PricingPage() {
         }}
       >
         <div
-          className="px-6 py-5"
+          className="px-8 py-7"
           style={{
             background: 'linear-gradient(180deg, rgba(103, 232, 249, 0.03) 0%, transparent 100%)',
             borderBottom: '1px solid rgba(103, 232, 249, 0.08)',
@@ -413,8 +413,8 @@ export default function PricingPage() {
         >
           <h3 className="text-white font-semibold text-lg text-center">Why Choose Astro Pro?</h3>
         </div>
-        <div className="p-6">
-          <div className="grid sm:grid-cols-2 gap-6">
+        <div className="p-8 pt-10">
+          <div className="grid sm:grid-cols-2 gap-8">
             {[
               {
                 icon: (
@@ -445,17 +445,17 @@ export default function PricingPage() {
                 description: 'No waiting. Get your cosmic insights immediately.',
               },
             ].map((feature, i) => (
-              <div key={i} className="flex gap-4">
+              <div key={i} className="flex gap-5">
                 <div
-                  className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center bg-[#67e8f9]/10 text-[#67e8f9]"
+                  className="w-12 h-12 rounded-xl flex-shrink-0 flex items-center justify-center bg-[#67e8f9]/10 text-[#67e8f9]"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {feature.icon}
                   </svg>
                 </div>
                 <div className="min-w-0">
-                  <h4 className="text-white font-medium mb-1">{feature.title}</h4>
-                  <p className="text-[#6b7a90] text-sm">{feature.description}</p>
+                  <h4 className="text-white font-medium mb-2">{feature.title}</h4>
+                  <p className="text-[#6b7a90] text-sm leading-relaxed">{feature.description}</p>
                 </div>
               </div>
             ))}
@@ -466,7 +466,7 @@ export default function PricingPage() {
       {/* Trust Indicators */}
       <footer className="text-center pb-8">
         <div
-          className="inline-flex flex-wrap items-center justify-center gap-4 sm:gap-6 px-6 sm:px-8 py-4 rounded-2xl sm:rounded-full"
+          className="inline-flex flex-wrap items-center justify-center gap-5 sm:gap-8 px-8 sm:px-10 py-5 rounded-2xl sm:rounded-full"
           style={{
             background: 'rgba(103, 232, 249, 0.03)',
             border: '1px solid rgba(103, 232, 249, 0.08)',
