@@ -8,11 +8,12 @@ import { loadAstrologyData, type AstrologyData } from '@/lib/data';
 import { UserMenu } from '@/components/auth/UserMenu';
 import { UsageLimitBanner } from '@/components/subscription/UsageLimitBanner';
 import { useUsageLimit } from '@/lib/hooks/useUsageLimit';
+import { useCalculator } from './CalculatorContext';
 
 type Tab = 'spark' | 'true-placement' | 'profection-years';
 
 export function CalculatorApp() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, setIsOpen } = useCalculator();
   const [activeTab, setActiveTab] = useState<Tab>('spark');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [data, setData] = useState<AstrologyData | null>(null);
