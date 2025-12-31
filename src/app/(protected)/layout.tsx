@@ -1,6 +1,6 @@
 import '@/app/tailwind.css';
-import Link from 'next/link';
 import { CelestialBackground } from '@/components/CelestialBackground';
+import { BackToCalculatorButton } from '@/components/BackToCalculatorButton';
 
 export default function ProtectedLayout({
   children,
@@ -22,32 +22,14 @@ export default function ProtectedLayout({
       <div className="min-h-screen relative z-10">
         {/* Back to Calculator link */}
         <div className="fixed top-4 left-4 z-50">
-          <Link
-            href="/"
-            className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg transition-all duration-300 group"
-            style={{
-              color: '#67e8f9',
-              background: 'rgba(103, 232, 249, 0.08)',
-              border: '1px solid rgba(103, 232, 249, 0.2)',
-              backdropFilter: 'blur(8px)',
-            }}
-          >
-            <svg
-              className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            <span className="transition-colors duration-300 group-hover:text-[#ffd800]">
-              Back to Calculator
-            </span>
-          </Link>
+          <BackToCalculatorButton />
         </div>
 
         {/* Main content container */}
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-20 md:py-24 max-w-4xl overflow-visible">
+        <div
+          className="container mx-auto px-6 sm:px-8 lg:px-12 py-20 max-w-4xl overflow-visible"
+          style={{ marginTop: '42px' }}
+        >
           {children}
         </div>
       </div>

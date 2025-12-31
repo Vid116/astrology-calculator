@@ -60,8 +60,10 @@ function CelestialInput({
           minLength={minLength}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          className="relative w-full h-12 px-4 rounded-xl text-white placeholder:text-[#52525b] transition-all duration-300 outline-none flex items-center"
+          className="relative w-full h-12 rounded-xl text-white placeholder:text-[#52525b] transition-all duration-300 outline-none flex items-center"
           style={{
+            paddingLeft: '18px',
+            paddingRight: '16px',
             background: isFocused
               ? 'rgba(10, 14, 26, 0.8)'
               : 'rgba(10, 14, 26, 0.6)',
@@ -351,8 +353,9 @@ export default function SignupPage() {
 
         {/* Glassmorphism card */}
         <div
-          className="relative rounded-2xl px-8 py-10"
+          className="relative rounded-2xl"
           style={{
+            padding: '24px 24px',
             background: 'linear-gradient(135deg, rgba(10, 14, 26, 0.95) 0%, rgba(15, 20, 35, 0.9) 50%, rgba(10, 14, 26, 0.95) 100%)',
             backdropFilter: 'blur(24px)',
             boxShadow: '0 25px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.2)',
@@ -367,7 +370,7 @@ export default function SignupPage() {
           />
 
           {/* Header section */}
-          <div className="relative text-center mb-8">
+          <div className="relative text-center" style={{ marginBottom: '16px' }}>
             {/* Globe/planet icon with orbit ring */}
             <div
               className="mx-auto mb-5 w-20 h-20 rounded-full flex items-center justify-center relative"
@@ -421,7 +424,7 @@ export default function SignupPage() {
             </p>
           </div>
 
-          <form onSubmit={handleSignup} className="relative space-y-5">
+          <form onSubmit={handleSignup} className="relative" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {/* Error message */}
             {error && (
               <div
@@ -538,26 +541,36 @@ export default function SignupPage() {
             </button>
 
             {/* Divider */}
-            <div className="relative my-7">
-              <div className="absolute inset-0 flex items-center">
-                <div
-                  className="w-full h-px"
-                  style={{
-                    background: 'linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.3), transparent)',
-                  }}
-                />
-              </div>
-              <div className="relative flex justify-center">
+            <div className="relative flex items-center" style={{ margin: '14px 0' }}>
+              <div
+                className="flex-1 h-px"
+                style={{
+                  background: 'linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.25))',
+                }}
+              />
+              <div
+                className="flex items-center gap-3"
+                style={{ padding: '0 16px' }}
+              >
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="rgba(255, 216, 0, 0.5)">
+                  <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" />
+                </svg>
                 <span
-                  className="px-4 text-xs uppercase tracking-widest"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(10, 14, 26, 0.95) 0%, rgba(15, 20, 35, 0.9) 100%)',
-                    color: '#52525b',
-                  }}
+                  className="text-xs uppercase tracking-widest"
+                  style={{ color: '#67e8f9' }}
                 >
-                  or continue with
+                  or
                 </span>
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="rgba(255, 216, 0, 0.5)">
+                  <path d="M12 2L13.5 8.5L20 10L13.5 11.5L12 18L10.5 11.5L4 10L10.5 8.5L12 2Z" />
+                </svg>
               </div>
+              <div
+                className="flex-1 h-px"
+                style={{
+                  background: 'linear-gradient(90deg, rgba(103, 232, 249, 0.25), transparent)',
+                }}
+              />
             </div>
 
             {/* Google button */}
@@ -592,7 +605,7 @@ export default function SignupPage() {
           </form>
 
           {/* Footer link */}
-          <div className="relative text-center mt-8">
+          <div className="relative text-center" style={{ marginTop: '16px' }}>
             <p className="text-[#71717a] text-sm">
               Already a stargazer?{' '}
               <Link
@@ -602,48 +615,16 @@ export default function SignupPage() {
               >
                 <span className="relative z-10 group-hover:text-[#ffd800]">Sign in</span>
                 <span
-                  className="absolute bottom-0 left-0 w-full h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
+                  className="absolute bottom-0 left-0 w-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"
                   style={{
-                    background: 'linear-gradient(90deg, #67e8f9, #ffd800)',
+                    height: '1px',
+                    background: '#67e8f9',
                   }}
                 />
               </Link>
             </p>
           </div>
 
-          {/* Decorative corner accents */}
-          <div
-            className="absolute top-4 left-4 w-8 h-8 pointer-events-none"
-            style={{
-              borderLeft: '2px solid rgba(103, 232, 249, 0.3)',
-              borderTop: '2px solid rgba(103, 232, 249, 0.3)',
-              borderRadius: '4px 0 0 0',
-            }}
-          />
-          <div
-            className="absolute top-4 right-4 w-8 h-8 pointer-events-none"
-            style={{
-              borderRight: '2px solid rgba(255, 216, 0, 0.3)',
-              borderTop: '2px solid rgba(255, 216, 0, 0.3)',
-              borderRadius: '0 4px 0 0',
-            }}
-          />
-          <div
-            className="absolute bottom-4 left-4 w-8 h-8 pointer-events-none"
-            style={{
-              borderLeft: '2px solid rgba(255, 216, 0, 0.3)',
-              borderBottom: '2px solid rgba(255, 216, 0, 0.3)',
-              borderRadius: '0 0 0 4px',
-            }}
-          />
-          <div
-            className="absolute bottom-4 right-4 w-8 h-8 pointer-events-none"
-            style={{
-              borderRight: '2px solid rgba(103, 232, 249, 0.3)',
-              borderBottom: '2px solid rgba(103, 232, 249, 0.3)',
-              borderRadius: '0 0 4px 0',
-            }}
-          />
         </div>
       </div>
     </>

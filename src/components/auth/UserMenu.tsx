@@ -76,10 +76,11 @@ export function UserMenu() {
         <Link
           href="/login"
           className="
-            px-5 py-3 text-sm font-medium text-[#a8b4c4]
+            py-3 text-sm font-medium text-[#a8b4c4]
             hover:text-white transition-all duration-300
             relative group rounded-lg
           "
+          style={{ paddingLeft: '10px', paddingRight: '10px' }}
         >
           <span className="relative z-10">Sign In</span>
           <span
@@ -93,7 +94,7 @@ export function UserMenu() {
         <Link
           href="/signup"
           className="
-            relative px-6 py-3 text-sm font-semibold rounded-lg
+            relative py-3 text-sm font-semibold rounded-lg
             bg-gradient-to-r from-[#ffd800] to-[#ffb800]
             text-[#0a0e1a]
             transition-all duration-300
@@ -101,6 +102,7 @@ export function UserMenu() {
             hover:scale-[1.02]
             active:scale-[0.98]
           "
+          style={{ paddingLeft: '10px', paddingRight: '10px' }}
         >
           <span className="relative z-10">Get Started</span>
         </Link>
@@ -242,8 +244,8 @@ export function UserMenu() {
         >
           {/* User Info Header */}
           <div
-            className="px-5 py-4"
             style={{
+              padding: '20px 24px',
               background: 'linear-gradient(180deg, rgba(103, 232, 249, 0.03) 0%, transparent 100%)',
               borderBottom: '1px solid rgba(103, 232, 249, 0.08)',
             }}
@@ -295,11 +297,12 @@ export function UserMenu() {
             {isPremium && (
               <div
                 className="
-                  mt-3 inline-flex items-center gap-2
-                  px-4 py-2 rounded-full text-xs font-semibold
+                  inline-flex items-center gap-2
+                  py-2 rounded-full text-xs font-semibold
                   bg-gradient-to-r from-[#ffd800]/15 to-[#ff9500]/10
                   text-[#ffd800] border border-[#ffd800]/25
                 "
+                style={{ marginTop: '16px', paddingLeft: '10px', paddingRight: '10px' }}
               >
                 <svg
                   className="w-3.5 h-3.5"

@@ -47,10 +47,10 @@ export default function PricingPage() {
   };
 
   return (
-    <div className="space-y-12 md:space-y-16">
+    <div>
       {/* Header */}
-      <header className="text-center">
-        <div className="relative inline-block">
+      <header className="text-center" style={{ marginTop: '20px', marginBottom: '40px' }}>
+        <div className="relative">
           <h1
             className="font-cinzel text-4xl md:text-5xl lg:text-6xl text-[#ffd800] tracking-wider"
             style={{
@@ -60,20 +60,20 @@ export default function PricingPage() {
             Unlock the Stars
           </h1>
           <div
-            className="absolute -inset-4 -z-10 opacity-40"
+            className="absolute inset-0 -z-10 opacity-40 pointer-events-none"
             style={{
               background: 'radial-gradient(ellipse 50% 80% at 50% 50%, rgba(255, 216, 0, 0.15) 0%, transparent 70%)',
             }}
           />
         </div>
 
-        <p className="text-[#a1a1aa] text-lg max-w-2xl mx-auto mt-4">
+        <p className="text-[#a1a1aa] text-lg mt-4">
           Choose your path to unlimited celestial insights
         </p>
       </header>
 
       {/* Pricing Cards */}
-      <section className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
+      <section className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch" style={{ marginTop: '20px', marginBottom: '30px', marginLeft: '5px', marginRight: '5px' }}>
         {/* Free Tier */}
         <div
           className="relative rounded-2xl overflow-hidden group flex flex-col"
@@ -91,11 +91,12 @@ export default function PricingPage() {
           <div className="h-12" />
 
           {/* Card Content */}
-          <div className="p-7 lg:p-9 pt-4 flex flex-col flex-1">
+          <div className="flex flex-col flex-1" style={{ padding: '28px', paddingTop: '16px' }}>
             {/* Header */}
-            <div className="text-center mb-8">
+            <div className="text-center" style={{ marginBottom: '24px' }}>
               <div
-                className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#67e8f9]/10 text-[#67e8f9]"
+                className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center bg-[#67e8f9]/10 text-[#67e8f9]"
+                style={{ marginBottom: '16px' }}
               >
                 <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
@@ -106,7 +107,7 @@ export default function PricingPage() {
             </div>
 
             {/* Price */}
-            <div className="text-center mb-10">
+            <div className="text-center" style={{ marginBottom: '32px' }}>
               <div className="flex items-baseline justify-center gap-1">
                 <span className="text-5xl font-bold text-white">$0</span>
                 <span className="text-[#6b7a90] text-lg">/forever</span>
@@ -114,8 +115,8 @@ export default function PricingPage() {
             </div>
 
             {/* Features */}
-            <ul className="space-y-5 mb-10 flex-1">
-              <li className="flex items-center gap-3 text-[#d0d0d0]">
+            <ul className="flex-1" style={{ marginBottom: '32px', paddingLeft: '8px' }}>
+              <li className="flex items-center gap-3 text-[#d0d0d0]" style={{ marginBottom: '16px' }}>
                 <span className="w-6 h-6 rounded-full bg-[#67e8f9]/10 flex items-center justify-center flex-shrink-0">
                   <svg className="w-3.5 h-3.5 text-[#67e8f9]" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -123,7 +124,7 @@ export default function PricingPage() {
                 </span>
                 <span>{STRIPE_CONFIG.freeTier.dailyCalculations} calculations per day</span>
               </li>
-              <li className="flex items-center gap-3 text-[#d0d0d0]">
+              <li className="flex items-center gap-3 text-[#d0d0d0]" style={{ marginBottom: '16px' }}>
                 <span className="w-6 h-6 rounded-full bg-[#67e8f9]/10 flex items-center justify-center flex-shrink-0">
                   <svg className="w-3.5 h-3.5 text-[#67e8f9]" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -131,7 +132,7 @@ export default function PricingPage() {
                 </span>
                 <span>All calculator types</span>
               </li>
-              <li className="flex items-center gap-3 text-[#d0d0d0]">
+              <li className="flex items-center gap-3 text-[#d0d0d0]" style={{ marginBottom: '16px' }}>
                 <span className="w-6 h-6 rounded-full bg-[#67e8f9]/10 flex items-center justify-center flex-shrink-0">
                   <svg className="w-3.5 h-3.5 text-[#67e8f9]" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -157,7 +158,7 @@ export default function PricingPage() {
 
         {/* Pro Monthly - Featured */}
         <div
-          className="relative rounded-2xl overflow-hidden flex flex-col"
+          className={`relative rounded-2xl overflow-hidden flex flex-col ${!isPremium && loading !== 'proMonthly' ? 'cursor-pointer transition-transform duration-200 hover:scale-[1.02]' : ''}`}
           style={{
             background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.98) 0%, rgba(10, 14, 26, 0.98) 100%)',
             border: '2px solid rgba(255, 216, 0, 0.5)',
@@ -168,6 +169,7 @@ export default function PricingPage() {
               inset 0 1px 0 rgba(255, 255, 255, 0.05)
             `,
           }}
+          onClick={() => !isPremium && loading === null && handleCheckout('proMonthly')}
         >
           {/* Popular Badge */}
           <div
@@ -178,7 +180,8 @@ export default function PricingPage() {
           />
           <div className="h-12 flex items-center justify-center">
             <span
-              className="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#ffd800] to-[#ff9500] text-[#0a0e1a] shadow-[0_0_20px_rgba(255,216,0,0.4)]"
+              className="py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#ffd800] to-[#ff9500] text-[#0a0e1a] shadow-[0_0_20px_rgba(255,216,0,0.4)]"
+              style={{ paddingLeft: '10px', paddingRight: '10px' }}
             >
               Most Popular
             </span>
@@ -193,11 +196,12 @@ export default function PricingPage() {
           />
 
           {/* Card Content */}
-          <div className="relative p-7 lg:p-9 pt-4 flex flex-col flex-1">
+          <div className="relative flex flex-col flex-1" style={{ padding: '28px', paddingTop: '16px' }}>
             {/* Header */}
-            <div className="text-center mb-8">
+            <div className="text-center" style={{ marginBottom: '24px' }}>
               <div
-                className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#ffd800]/15 text-[#ffd800] shadow-[0_0_20px_rgba(255,216,0,0.2)]"
+                className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center bg-[#ffd800]/15 text-[#ffd800] shadow-[0_0_20px_rgba(255,216,0,0.2)]"
+                style={{ marginBottom: '16px' }}
               >
                 <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
@@ -213,7 +217,7 @@ export default function PricingPage() {
             </div>
 
             {/* Price */}
-            <div className="text-center mb-10">
+            <div className="text-center" style={{ marginBottom: '32px' }}>
               <div className="flex items-baseline justify-center gap-1">
                 <span
                   className="text-5xl font-bold text-[#ffd800]"
@@ -226,9 +230,9 @@ export default function PricingPage() {
             </div>
 
             {/* Features */}
-            <ul className="space-y-5 mb-10 flex-1">
+            <ul className="flex-1" style={{ marginBottom: '32px', paddingLeft: '8px' }}>
               {STRIPE_CONFIG.pricing.proMonthly.features.map((feature, i) => (
-                <li key={i} className="flex items-center gap-3 text-[#e8e8e8]">
+                <li key={i} className="flex items-center gap-3 text-[#e8e8e8]" style={{ marginBottom: '16px' }}>
                   <span
                     className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 bg-[#ffd800]/15 text-[#ffd800] shadow-[0_0_8px_rgba(255,216,0,0.2)]"
                   >
@@ -286,7 +290,7 @@ export default function PricingPage() {
 
         {/* Pro Annual */}
         <div
-          className="relative rounded-2xl overflow-hidden flex flex-col"
+          className={`relative rounded-2xl overflow-hidden flex flex-col ${!isPremium && loading !== 'proAnnual' ? 'cursor-pointer transition-transform duration-200 hover:scale-[1.02]' : ''}`}
           style={{
             background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
             border: '1px solid rgba(30, 150, 252, 0.25)',
@@ -297,22 +301,25 @@ export default function PricingPage() {
               inset 0 1px 0 rgba(255, 255, 255, 0.03)
             `,
           }}
+          onClick={() => !isPremium && loading === null && handleCheckout('proAnnual')}
         >
           {/* Savings Badge */}
           <div className="h-12 flex items-center justify-center">
             <span
-              className="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#758e4f] to-[#5a7340] text-white shadow-[0_0_15px_rgba(117,142,79,0.3)]"
+              className="py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#758e4f] to-[#5a7340] text-white shadow-[0_0_15px_rgba(117,142,79,0.3)]"
+              style={{ paddingLeft: '10px', paddingRight: '10px' }}
             >
               {STRIPE_CONFIG.pricing.proAnnual.savings}
             </span>
           </div>
 
           {/* Card Content */}
-          <div className="p-7 lg:p-9 pt-4 flex flex-col flex-1">
+          <div className="flex flex-col flex-1" style={{ padding: '28px', paddingTop: '16px' }}>
             {/* Header */}
-            <div className="text-center mb-8">
+            <div className="text-center" style={{ marginBottom: '24px' }}>
               <div
-                className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center bg-[#1e96fc]/10 text-[#1e96fc]"
+                className="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center bg-[#1e96fc]/10 text-[#1e96fc]"
+                style={{ marginBottom: '16px' }}
               >
                 <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
@@ -325,7 +332,7 @@ export default function PricingPage() {
             </div>
 
             {/* Price */}
-            <div className="text-center mb-10">
+            <div className="text-center" style={{ marginBottom: '32px' }}>
               <div className="flex items-baseline justify-center gap-1">
                 <span className="text-5xl font-bold text-[#1e96fc]">
                   ${STRIPE_CONFIG.pricing.proAnnual.price}
@@ -338,9 +345,9 @@ export default function PricingPage() {
             </div>
 
             {/* Features */}
-            <ul className="space-y-5 mb-10 flex-1">
+            <ul className="flex-1" style={{ marginBottom: '32px', paddingLeft: '8px' }}>
               {STRIPE_CONFIG.pricing.proAnnual.features.map((feature, i) => (
-                <li key={i} className="flex items-center gap-3 text-[#d0d0d0]">
+                <li key={i} className="flex items-center gap-3 text-[#d0d0d0]" style={{ marginBottom: '16px' }}>
                   <span className="w-6 h-6 rounded-full bg-[#1e96fc]/10 flex items-center justify-center flex-shrink-0">
                     <svg className="w-3.5 h-3.5 text-[#1e96fc]" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -399,22 +406,26 @@ export default function PricingPage() {
       <section
         className="rounded-2xl overflow-hidden max-w-4xl mx-auto"
         style={{
+          marginTop: '30px',
+          marginBottom: '30px',
+          marginLeft: '5px',
+          marginRight: '5px',
           background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.9) 0%, rgba(10, 14, 26, 0.9) 100%)',
           border: '1px solid rgba(103, 232, 249, 0.08)',
           boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
         }}
       >
         <div
-          className="px-8 py-7"
           style={{
+            padding: '28px',
             background: 'linear-gradient(180deg, rgba(103, 232, 249, 0.03) 0%, transparent 100%)',
             borderBottom: '1px solid rgba(103, 232, 249, 0.08)',
           }}
         >
           <h3 className="text-white font-semibold text-lg text-center">Why Choose Astro Pro?</h3>
         </div>
-        <div className="p-8 pt-10">
-          <div className="grid sm:grid-cols-2 gap-8">
+        <div style={{ padding: '32px' }}>
+          <div className="grid sm:grid-cols-2" style={{ gap: '28px' }}>
             {[
               {
                 icon: (
@@ -464,29 +475,38 @@ export default function PricingPage() {
       </section>
 
       {/* Trust Indicators */}
-      <footer className="text-center pb-8">
+      <footer
+        className="text-center"
+        style={{
+          marginTop: '30px',
+          marginBottom: '20px',
+          marginLeft: '5px',
+          marginRight: '5px',
+        }}
+      >
         <div
-          className="inline-flex flex-wrap items-center justify-center gap-5 sm:gap-8 px-8 sm:px-10 py-5 rounded-2xl sm:rounded-full"
+          className="inline-flex flex-wrap items-center justify-center gap-5 sm:gap-8 rounded-2xl sm:rounded-full"
           style={{
+            padding: '20px 32px',
             background: 'rgba(103, 232, 249, 0.03)',
             border: '1px solid rgba(103, 232, 249, 0.08)',
           }}
         >
-          <div className="flex items-center gap-2 text-[#6b7a90] text-sm">
+          <div className="flex items-center gap-3 text-[#6b7a90] text-sm" style={{ paddingLeft: '8px', paddingRight: '8px' }}>
             <svg className="w-4 h-4 text-[#758e4f] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
             <span>Cancel anytime</span>
           </div>
-          <div className="hidden sm:block w-px h-4 bg-[#67e8f9]/20" />
-          <div className="flex items-center gap-2 text-[#6b7a90] text-sm">
+          <div className="hidden sm:block w-px h-5 bg-[#67e8f9]/20" />
+          <div className="flex items-center gap-3 text-[#6b7a90] text-sm" style={{ paddingLeft: '8px', paddingRight: '8px' }}>
             <svg className="w-4 h-4 text-[#758e4f] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
             <span>Secure payment</span>
           </div>
-          <div className="hidden sm:block w-px h-4 bg-[#67e8f9]/20" />
-          <div className="flex items-center gap-2 text-[#6b7a90] text-sm">
+          <div className="hidden sm:block w-px h-5 bg-[#67e8f9]/20" />
+          <div className="flex items-center gap-3 text-[#6b7a90] text-sm" style={{ paddingLeft: '8px', paddingRight: '8px' }}>
             <svg className="w-4 h-4 text-[#758e4f] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>

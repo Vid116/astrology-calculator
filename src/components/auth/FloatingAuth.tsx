@@ -18,7 +18,7 @@ export function FloatingAuth() {
   }
 
   return (
-    <div className="fixed top-4 right-4 z-[9999]">
+    <div className="fixed z-[9999]" style={{ top: '20px', right: '20px' }}>
       {mounted ? (
         <UserMenu />
       ) : (

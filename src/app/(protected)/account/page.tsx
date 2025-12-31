@@ -111,12 +111,13 @@ function AccountContent() {
   const avatarUrl = user?.user_metadata?.avatar_url;
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-20">
       {/* Success Message */}
       {success && (
         <div
           className="mb-8 p-5 rounded-xl border border-[#758e4f]/40 animate-menu-open"
           style={{
+            marginTop: '20px',
             background: 'linear-gradient(135deg, rgba(117,142,79,0.15) 0%, rgba(117,142,79,0.05) 100%)',
             boxShadow: '0 0 30px rgba(117,142,79,0.15), inset 0 1px 0 rgba(255,255,255,0.05)',
           }}
@@ -143,6 +144,9 @@ function AccountContent() {
       <div
         className="relative rounded-2xl"
         style={{
+          marginTop: '20px',
+          marginLeft: '5px',
+          marginRight: '5px',
           background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
           border: '1px solid rgba(103, 232, 249, 0.15)',
           boxShadow: `
@@ -165,7 +169,7 @@ function AccountContent() {
         />
 
         {/* Content */}
-        <div className="relative px-8 py-16 md:px-12 pt-24 pb-16">
+        <div className="relative py-20 pt-28 pb-20" style={{ paddingLeft: '15px', paddingRight: '15px', paddingTop: '5px', paddingBottom: '5px' }}>
           <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
             {/* Avatar */}
             <div className="relative flex-shrink-0">
@@ -233,7 +237,8 @@ function AccountContent() {
               <div className="mt-6 flex justify-center md:justify-start">
                 {isPremium ? (
                   <span
-                    className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full text-sm font-semibold text-[#ffd800] bg-gradient-to-r from-[#ffd800]/15 to-[#ff9500]/10 border border-[#ffd800]/30 shadow-[0_0_20px_rgba(255,216,0,0.15)]"
+                    className="inline-flex items-center gap-3 py-3.5 rounded-full text-sm font-semibold text-[#ffd800] bg-gradient-to-r from-[#ffd800]/15 to-[#ff9500]/10 border border-[#ffd800]/30 shadow-[0_0_20px_rgba(255,216,0,0.15)]"
+                    style={{ paddingLeft: '10px', paddingRight: '14px' }}
                   >
                     <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
@@ -270,6 +275,9 @@ function AccountContent() {
       <div
         className="rounded-2xl overflow-hidden"
         style={{
+          marginTop: '20px',
+          marginLeft: '5px',
+          marginRight: '5px',
           background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
           border: '1px solid rgba(103, 232, 249, 0.15)',
           boxShadow: `
@@ -281,7 +289,7 @@ function AccountContent() {
       >
         {/* Header */}
         <div
-          className="px-10 py-7"
+          className="px-12 py-10"
           style={{
             background: 'linear-gradient(180deg, rgba(103, 232, 249, 0.03) 0%, transparent 100%)',
             borderBottom: '1px solid rgba(103, 232, 249, 0.08)',
@@ -303,20 +311,20 @@ function AccountContent() {
         </div>
 
         {/* Content */}
-        <div className="px-10 py-10">
+        <div className="px-12 py-12" style={{ marginTop: '20px' }}>
           {isPremium && subscription ? (
-            <div className="space-y-8">
+            <div>
               {/* Status Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div
-                  className="p-6 rounded-xl"
+                  className="p-8 rounded-xl"
                   style={{
                     background: 'rgba(103, 232, 249, 0.03)',
                     border: '1px solid rgba(103, 232, 249, 0.08)',
                   }}
                 >
-                  <p className="text-[#67e8f9] text-xs font-medium uppercase tracking-wider mb-3">Status</p>
-                  <p className="text-white font-medium capitalize flex items-center gap-3">
+                  <p className="text-[#67e8f9] text-xs font-medium uppercase tracking-wider mb-3" style={{ paddingLeft: '8px' }}>Status</p>
+                  <p className="text-white font-medium capitalize flex items-center gap-3" style={{ paddingLeft: '8px' }}>
                     <span className="w-2.5 h-2.5 rounded-full bg-[#758e4f] shadow-[0_0_6px_rgba(117,142,79,0.6)] flex-shrink-0" />
                     {subscription.status}
                   </p>
@@ -328,8 +336,8 @@ function AccountContent() {
                     border: '1px solid rgba(103, 232, 249, 0.08)',
                   }}
                 >
-                  <p className="text-[#67e8f9] text-xs font-medium uppercase tracking-wider mb-3">Renews</p>
-                  <p className="text-white font-medium">
+                  <p className="text-[#67e8f9] text-xs font-medium uppercase tracking-wider mb-3" style={{ paddingLeft: '8px' }}>Renews</p>
+                  <p className="text-white font-medium" style={{ paddingLeft: '8px' }}>
                     {new Date(subscription.current_period_end).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',
@@ -339,33 +347,14 @@ function AccountContent() {
                 </div>
               </div>
 
-              {/* Features */}
-              <div
-                className="p-7 rounded-xl"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255, 216, 0, 0.03) 0%, rgba(255, 184, 0, 0.01) 100%)',
-                  border: '1px solid rgba(255, 216, 0, 0.1)',
-                }}
-              >
-                <p className="text-[#ffd800] text-xs font-medium uppercase tracking-wider mb-5">Your Pro Benefits</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {['Unlimited calculations', 'Priority support', 'All calculators', 'No daily limits'].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-3 text-[#d0d0d0] text-sm py-1">
-                      <svg className="w-4 h-4 text-[#ffd800] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Manage Button */}
               <button
                 onClick={handleManageSubscription}
                 disabled={portalLoading}
                 className="w-full py-5 px-8 rounded-xl text-sm font-medium text-[#67e8f9] transition-all duration-300 hover:shadow-[0_0_25px_rgba(103,232,249,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
+                  marginTop: '20px',
+                  padding: '5px',
                   background: 'rgba(103, 232, 249, 0.08)',
                   border: '1px solid rgba(103, 232, 249, 0.2)',
                 }}
@@ -382,6 +371,29 @@ function AccountContent() {
                   'Manage Subscription'
                 )}
               </button>
+
+              {/* Features */}
+              <div
+                className="rounded-xl"
+                style={{
+                  marginTop: '20px',
+                  padding: '16px',
+                  background: 'linear-gradient(135deg, rgba(255, 216, 0, 0.03) 0%, rgba(255, 184, 0, 0.01) 100%)',
+                  border: '1px solid rgba(255, 216, 0, 0.1)',
+                }}
+              >
+                <p className="text-[#ffd800] text-xs font-medium uppercase tracking-wider" style={{ marginBottom: '24px' }}>Your Pro Benefits</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" style={{ paddingTop: '5px', paddingBottom: '5px' }}>
+                  {['Unlimited calculations', 'Priority support', 'All calculators', 'No daily limits'].map((feature, i) => (
+                    <div key={i} className="flex items-center gap-3 text-[#d0d0d0] text-sm py-1">
+                      <svg className="w-4 h-4 text-[#ffd800] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="space-y-8">
@@ -464,6 +476,10 @@ function AccountContent() {
       <div
         className="rounded-2xl overflow-hidden"
         style={{
+          marginTop: '20px',
+          marginBottom: '5px',
+          marginLeft: '5px',
+          marginRight: '5px',
           background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.9) 0%, rgba(10, 14, 26, 0.9) 100%)',
           border: '1px solid rgba(103, 232, 249, 0.1)',
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
