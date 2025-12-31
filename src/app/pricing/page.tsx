@@ -88,7 +88,7 @@ export default function PricingPage() {
           }}
         >
           {/* Badge Area - empty for alignment */}
-          <div className="h-10" />
+          <div className="h-12" />
 
           {/* Card Content */}
           <div className="p-7 lg:p-9 pt-4 flex flex-col flex-1">
@@ -176,9 +176,9 @@ export default function PricingPage() {
               background: 'linear-gradient(90deg, transparent 0%, #ffd800 50%, transparent 100%)',
             }}
           />
-          <div className="h-10 flex items-center justify-center">
+          <div className="h-12 flex items-center justify-center">
             <span
-              className="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#ffd800] to-[#ff9500] text-[#0a0e1a] shadow-[0_0_20px_rgba(255,216,0,0.4)]"
+              className="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#ffd800] to-[#ff9500] text-[#0a0e1a] shadow-[0_0_20px_rgba(255,216,0,0.4)]"
             >
               Most Popular
             </span>
@@ -299,9 +299,9 @@ export default function PricingPage() {
           }}
         >
           {/* Savings Badge */}
-          <div className="h-10 flex items-center justify-center">
+          <div className="h-12 flex items-center justify-center">
             <span
-              className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#758e4f] to-[#5a7340] text-white shadow-[0_0_15px_rgba(117,142,79,0.3)]"
+              className="px-6 py-2 rounded-full text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-[#758e4f] to-[#5a7340] text-white shadow-[0_0_15px_rgba(117,142,79,0.3)]"
             >
               {STRIPE_CONFIG.pricing.proAnnual.savings}
             </span>
