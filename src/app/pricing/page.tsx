@@ -73,7 +73,7 @@ export default function PricingPage() {
       </header>
 
       {/* Pricing Cards */}
-      <section className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch" style={{ marginTop: '20px', marginBottom: '30px', marginLeft: '5px', marginRight: '5px' }}>
+      <section className="grid md:grid-cols-3 gap-6 lg:gap-8 items-stretch" style={{ marginTop: '20px', marginBottom: '30px', marginLeft: '20px', marginRight: '20px' }}>
         {/* Free Tier */}
         <div
           className="relative rounded-2xl overflow-hidden group flex flex-col"
@@ -340,7 +340,7 @@ export default function PricingPage() {
                 <span className="text-[#6b7a90] text-lg">/year</span>
               </div>
               <p className="text-[#758e4f] text-sm mt-2">
-                ${Math.round(STRIPE_CONFIG.pricing.proAnnual.price / 12)}/mo billed annually
+                ${(STRIPE_CONFIG.pricing.proAnnual.price / 12).toFixed(2)}/mo billed annually
               </p>
             </div>
 
@@ -408,8 +408,8 @@ export default function PricingPage() {
         style={{
           marginTop: '30px',
           marginBottom: '30px',
-          marginLeft: '5px',
-          marginRight: '5px',
+          marginLeft: '20px',
+          marginRight: '20px',
           background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.9) 0%, rgba(10, 14, 26, 0.9) 100%)',
           border: '1px solid rgba(103, 232, 249, 0.08)',
           boxShadow: '0 4px 30px rgba(0, 0, 0, 0.2)',
@@ -480,8 +480,8 @@ export default function PricingPage() {
         style={{
           marginTop: '30px',
           marginBottom: '20px',
-          marginLeft: '5px',
-          marginRight: '5px',
+          marginLeft: '20px',
+          marginRight: '20px',
         }}
       >
         <div

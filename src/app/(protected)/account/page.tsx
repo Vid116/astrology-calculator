@@ -271,131 +271,95 @@ function AccountContent() {
         </div>
       </div>
 
-      {/* Subscription Details Card */}
-      <div
-        className="rounded-2xl overflow-hidden"
-        style={{
-          marginTop: '20px',
-          marginLeft: '5px',
-          marginRight: '5px',
-          background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
-          border: '1px solid rgba(103, 232, 249, 0.15)',
-          boxShadow: `
-            0 4px 6px rgba(0, 0, 0, 0.1),
-            0 10px 40px rgba(0, 0, 0, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.05)
-          `,
-        }}
-      >
-        {/* Header */}
+      {/* Subscription Section */}
+      {isPremium && subscription ? (
         <div
-          className="px-12 py-10"
+          className="rounded-2xl overflow-hidden"
           style={{
-            background: 'linear-gradient(180deg, rgba(103, 232, 249, 0.03) 0%, transparent 100%)',
-            borderBottom: '1px solid rgba(103, 232, 249, 0.08)',
+            marginTop: '20px',
+            marginLeft: '5px',
+            marginRight: '5px',
+            padding: '24px',
+            background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
+            border: '1px solid rgba(103, 232, 249, 0.15)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
           }}
         >
-          <div className="flex items-center gap-5">
-            <span
-              className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-[#67e8f9]/10 text-[#67e8f9]"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-              </svg>
-            </span>
-            <div className="min-w-0">
-              <h2 className="text-white font-semibold text-lg">Subscription</h2>
-              <p className="text-[#6b7a90] text-sm mt-1">Manage your cosmic access</p>
+          {/* Header */}
+          <h2
+            className="text-xl font-bold tracking-wide"
+            style={{
+              marginBottom: '28px',
+              background: 'linear-gradient(135deg, #ffd800 0%, #ffb800 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Astro Pro Subscription
+          </h2>
+
+          {/* Status and Renewal - Clean and Big */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <span className="w-4 h-4 rounded-full bg-[#758e4f] shadow-[0_0_12px_rgba(117,142,79,0.8)] flex-shrink-0" />
+              <span className="text-white text-xl font-semibold capitalize">{subscription.status}</span>
+            </div>
+            <div className="text-center sm:text-right">
+              <p className="text-[#6b7a90] text-xs uppercase tracking-wider mb-1">Renews</p>
+              <p className="text-white text-xl font-semibold">
+                {new Date(subscription.current_period_end).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
+              </p>
             </div>
           </div>
+
+          {/* Manage Button */}
+          <div className="flex justify-center" style={{ marginTop: '24px', marginBottom: '4px' }}>
+            <button
+              onClick={handleManageSubscription}
+              disabled={portalLoading}
+              className="rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(103,232,249,0.4)] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              style={{
+                paddingTop: '22px',
+                paddingBottom: '22px',
+                paddingLeft: '100px',
+                paddingRight: '100px',
+                background: '#1e96fc',
+                color: '#ffffff',
+                boxShadow: '0 0 20px rgba(30, 150, 252, 0.3)',
+              }}
+            >
+            {portalLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Opening Portal...
+              </span>
+            ) : (
+              'Manage Subscription'
+            )}
+            </button>
+          </div>
         </div>
-
-        {/* Content */}
-        <div className="px-12 py-12" style={{ marginTop: '20px' }}>
-          {isPremium && subscription ? (
-            <div>
-              {/* Status Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div
-                  className="p-8 rounded-xl"
-                  style={{
-                    background: 'rgba(103, 232, 249, 0.03)',
-                    border: '1px solid rgba(103, 232, 249, 0.08)',
-                  }}
-                >
-                  <p className="text-[#67e8f9] text-xs font-medium uppercase tracking-wider mb-3" style={{ paddingLeft: '8px' }}>Status</p>
-                  <p className="text-white font-medium capitalize flex items-center gap-3" style={{ paddingLeft: '8px' }}>
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#758e4f] shadow-[0_0_6px_rgba(117,142,79,0.6)] flex-shrink-0" />
-                    {subscription.status}
-                  </p>
-                </div>
-                <div
-                  className="p-6 rounded-xl"
-                  style={{
-                    background: 'rgba(103, 232, 249, 0.03)',
-                    border: '1px solid rgba(103, 232, 249, 0.08)',
-                  }}
-                >
-                  <p className="text-[#67e8f9] text-xs font-medium uppercase tracking-wider mb-3" style={{ paddingLeft: '8px' }}>Renews</p>
-                  <p className="text-white font-medium" style={{ paddingLeft: '8px' }}>
-                    {new Date(subscription.current_period_end).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
-                  </p>
-                </div>
-              </div>
-
-              {/* Manage Button */}
-              <button
-                onClick={handleManageSubscription}
-                disabled={portalLoading}
-                className="w-full py-5 px-8 rounded-xl text-sm font-medium text-[#67e8f9] transition-all duration-300 hover:shadow-[0_0_25px_rgba(103,232,249,0.2)] disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  marginTop: '20px',
-                  padding: '5px',
-                  background: 'rgba(103, 232, 249, 0.08)',
-                  border: '1px solid rgba(103, 232, 249, 0.2)',
-                }}
-              >
-                {portalLoading ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Opening Portal...
-                  </span>
-                ) : (
-                  'Manage Subscription'
-                )}
-              </button>
-
-              {/* Features */}
-              <div
-                className="rounded-xl"
-                style={{
-                  marginTop: '20px',
-                  padding: '16px',
-                  background: 'linear-gradient(135deg, rgba(255, 216, 0, 0.03) 0%, rgba(255, 184, 0, 0.01) 100%)',
-                  border: '1px solid rgba(255, 216, 0, 0.1)',
-                }}
-              >
-                <p className="text-[#ffd800] text-xs font-medium uppercase tracking-wider" style={{ marginBottom: '24px' }}>Your Pro Benefits</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" style={{ paddingTop: '5px', paddingBottom: '5px' }}>
-                  {['Unlimited calculations', 'Priority support', 'All calculators', 'No daily limits'].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-3 text-[#d0d0d0] text-sm py-1">
-                      <svg className="w-4 h-4 text-[#ffd800] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
+      ) : (
+        <div
+          className="rounded-2xl overflow-hidden"
+          style={{
+            marginTop: '20px',
+            marginLeft: '5px',
+            marginRight: '5px',
+            background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
+            border: '1px solid rgba(103, 232, 249, 0.15)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          <div className="p-8">
             <div className="space-y-8">
               {/* Daily Usage */}
               <div>
@@ -468,16 +432,16 @@ function AccountContent() {
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Sign Out Card */}
       <div
         className="rounded-2xl overflow-hidden"
         style={{
           marginTop: '20px',
-          marginBottom: '5px',
+          marginBottom: '20px',
           marginLeft: '5px',
           marginRight: '5px',
           background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.9) 0%, rgba(10, 14, 26, 0.9) 100%)',

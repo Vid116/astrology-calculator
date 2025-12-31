@@ -13,6 +13,11 @@ export async function GET(request: Request) {
   console.log('[Auth Callback] code:', code ? 'present' : 'missing');
   console.log('[Auth Callback] redirectTo:', redirectTo);
 
+  const destination = redirectTo ? `${origin}${redirectTo}` : origin;
+
+  // Create the redirect response FIRST so we can set cookies on it
+  const response = NextResponse.redirect(destination);
+
   if (code) {
     const cookieStore = await cookies();
 
@@ -25,8 +30,10 @@ export async function GET(request: Request) {
             return cookieStore.getAll();
           },
           setAll(cookiesToSet) {
+            // Set cookies on BOTH the cookieStore (for server) AND the response (for browser)
             cookiesToSet.forEach(({ name, value, options }) => {
               cookieStore.set(name, value, options);
+              response.cookies.set(name, value, options);
             });
           },
         },
@@ -45,8 +52,11 @@ export async function GET(request: Request) {
     console.log('[Auth Callback] Access token:', data.session?.access_token ? 'present' : 'missing');
   }
 
-  const destination = redirectTo ? `${origin}${redirectTo}` : origin;
   console.log('[Auth Callback] Redirecting to:', destination);
 
-  return NextResponse.redirect(destination);
+  // Prevent caching of the redirect response
+  response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+  response.headers.set('Pragma', 'no-cache');
+
+  return response;
 }

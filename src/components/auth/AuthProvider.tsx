@@ -1,9 +1,10 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { withAuthTimeout, syncAuthState, clearAuthCookies } from '@/lib/auth';
+import { clearAuthCookies } from '@/lib/auth';
 import type { Subscription } from '@/types/supabase';
 
 interface AuthContextType {
@@ -24,6 +25,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const supabase = createClient();
+  const router = useRouter();
+  const hasRefreshedRef = useRef(false);
 
   // Check if user has active premium subscription
   const isPremium = subscription?.status === 'active' || subscription?.status === 'trialing';
@@ -65,46 +68,67 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setSession(null);
     setSubscription(null);
+    hasRefreshedRef.current = false;
     // Force a full page reload to clear server-side session state
-    syncAuthState('/');
+    window.location.href = '/';
   };
 
   useEffect(() => {
-    // Get initial auth state using getUser() - same as middleware for consistency
-    const initAuth = async () => {
-      try {
-        // Use getUser() as source of truth (same as middleware)
-        let currentUser: User | null = null;
-        try {
-          const userResult = await withAuthTimeout(
-            supabase.auth.getUser().then(r => r.data.user),
-            null
-          );
-          currentUser = userResult;
-        } catch {
-          currentUser = null;
-        }
+    // Set up auth state change listener FIRST
+    // This ensures we catch any auth events that happen during initialization
+    const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(
+      (event: AuthChangeEvent, newSession: Session | null) => {
+        console.log('[AuthProvider] Auth state change:', event, newSession?.user?.email);
 
-        if (currentUser) {
-          // User is valid, now get the session
-          const currentSession = await withAuthTimeout(
-            supabase.auth.getSession().then(r => r.data.session),
-            null
-          );
+        setSession(newSession);
+        setUser(newSession?.user ?? null);
+        setIsLoading(false);
 
-          setUser(currentUser);
-          setSession(currentSession);
+        if (newSession?.user) {
+          // Load subscription in background - don't block
+          fetchSubscription(newSession.user.id);
 
-          await fetchSubscription(currentUser.id);
+          // After OAuth redirect, force a router refresh to sync server state
+          if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && !hasRefreshedRef.current) {
+            hasRefreshedRef.current = true;
+            setTimeout(() => {
+              router.refresh();
+            }, 100);
+          }
         } else {
-          // No valid user - check if we have stale cookies that need clearing
+          setSubscription(null);
+        }
+      }
+    );
+
+    // Initialize auth state from session (reads cookies)
+    const initAuth = async () => {
+      // Timeout to prevent hanging forever
+      const timeout = new Promise<null>((resolve) =>
+        setTimeout(() => resolve(null), 3000)
+      );
+
+      try {
+        // Race between getSession and timeout
+        const sessionResult = await Promise.race([
+          supabase.auth.getSession(),
+          timeout.then(() => ({ data: { session: null }, error: null }))
+        ]);
+
+        const currentSession = sessionResult?.data?.session;
+
+        if (currentSession?.user) {
+          setUser(currentSession.user);
+          setSession(currentSession);
+          // Don't await subscription - let it load in background
+          fetchSubscription(currentSession.user.id);
+        } else {
+          // No session - check for stale cookies
           const hasAuthCookies = document.cookie.split(';').some(c =>
             c.trim().startsWith('sb-') || c.includes('auth-token')
           );
 
           if (hasAuthCookies) {
-            // Stale cookies exist but no valid user - clear them directly
-            // (don't use supabase.auth.signOut() as it might hang)
             clearAuthCookies();
           }
 
@@ -112,7 +136,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setSession(null);
         }
       } catch (err) {
-        console.error('Auth init error:', err);
+        console.error('[AuthProvider] Init error:', err);
         setUser(null);
         setSession(null);
       } finally {
@@ -121,20 +145,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     initAuth();
-
-    // Listen for auth changes
-    const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(
-      async (_event: AuthChangeEvent, session: Session | null) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-
-        if (session?.user) {
-          await fetchSubscription(session.user.id);
-        } else {
-          setSubscription(null);
-        }
-      }
-    );
 
     return () => {
       authSubscription.unsubscribe();

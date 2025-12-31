@@ -60,17 +60,23 @@ export function UserMenu() {
     }
   };
 
-  if (!mounted) {
+  // Show skeleton while mounting or loading auth state
+  if (!mounted || isLoading) {
     return (
       <div className="flex items-center gap-3">
-        <div className="w-[76px] h-11 rounded-lg bg-white/5 animate-pulse" />
-        <div className="w-[120px] h-11 rounded-lg bg-[#ffd800]/10 animate-pulse" />
+        <div
+          className="w-10 h-10 rounded-full animate-pulse"
+          style={{
+            background: 'linear-gradient(135deg, rgba(103, 232, 249, 0.15) 0%, rgba(30, 150, 252, 0.1) 100%)',
+            border: '2px solid rgba(103, 232, 249, 0.3)',
+          }}
+        />
       </div>
     );
   }
 
-  // Show auth buttons when loading or not logged in
-  if (isLoading || !user) {
+  // Show auth buttons when not logged in
+  if (!user) {
     return (
       <div className="flex items-center gap-3">
         <Link
