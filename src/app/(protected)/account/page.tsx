@@ -166,9 +166,9 @@ function AccountContent() {
 
         {/* Content */}
         <div className="relative px-10 py-12 md:px-14">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-8">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-10">
             {/* Avatar */}
-            <div className="relative flex-shrink-0">
+            <div className="relative flex-shrink-0 p-2">
               <div
                 className={`
                   w-24 h-24 md:w-28 md:h-28 rounded-full
@@ -213,7 +213,7 @@ function AccountContent() {
               {/* Premium Badge on Avatar */}
               {isPremium && (
                 <div
-                  className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-br from-[#ffd800] to-[#ff9500] border-[3px] border-[#0a0e1a] shadow-[0_0_15px_rgba(255,216,0,0.5)]"
+                  className="absolute bottom-1 right-1 w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-br from-[#ffd800] to-[#ff9500] border-[3px] border-[#0a0e1a] shadow-[0_0_15px_rgba(255,216,0,0.5)]"
                 >
                   <svg className="w-4 h-4 text-[#0a0e1a]" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
