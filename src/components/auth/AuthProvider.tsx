@@ -6,14 +6,17 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { clearAuthCookies } from '@/lib/auth';
 import { getRandomAvatarPath } from '@/lib/avatars';
-import type { Subscription } from '@/types/supabase';
+import type { Subscription, UserRole } from '@/types/supabase';
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   subscription: Subscription | null;
+  userRole: UserRole | null;
   isLoading: boolean;
   isPremium: boolean;
+  isAdmin: boolean;
+  isSuperuser: boolean;
   signOut: () => Promise<void>;
   refreshSubscription: () => Promise<void>;
 }
@@ -24,6 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const supabase = createClient();
   const router = useRouter();
@@ -45,18 +49,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (!error && data.user) {
         setUser(data.user);
-        console.log('[AuthProvider] Assigned random avatar:', randomAvatar);
       }
-    } catch (err) {
-      console.error('[AuthProvider] Failed to assign avatar:', err);
+    } catch {
+      // Silently fail - avatar assignment is not critical
     }
   };
 
   // Check if user has active premium subscription
   const isPremium = subscription?.status === 'active' || subscription?.status === 'trialing';
 
+  // Check admin and superuser status
+  const isAdmin = userRole?.is_admin ?? false;
+  const isSuperuser = userRole?.is_superuser ?? false;
+
   const fetchSubscription = async (userId: string) => {
     try {
+      // Use maybeSingle() instead of single() to avoid errors when no subscription exists
       const { data, error } = await supabase
         .from('subscriptions')
         .select('*')
@@ -64,20 +72,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .in('status', ['active', 'trialing'])
         .order('created', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) {
-        console.log('Subscription query:', error.message);
-      }
-
-      if (!error && data) {
-        setSubscription(data);
-      } else {
+        // Only log actual errors, not "no rows found" which is expected for free users
+        if (error.code !== 'PGRST116') {
+          console.error('Subscription fetch error:', error.message);
+        }
         setSubscription(null);
+      } else {
+        setSubscription(data);
       }
     } catch (err) {
       console.error('Subscription fetch error:', err);
       setSubscription(null);
+    }
+  };
+
+  const fetchUserRole = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle();
+
+      if (error) {
+        if (error.code !== 'PGRST116') {
+          console.error('User role fetch error:', error.message);
+        }
+        setUserRole(null);
+      } else {
+        setUserRole(data);
+      }
+    } catch (err) {
+      console.error('User role fetch error:', err);
+      setUserRole(null);
     }
   };
 
@@ -92,6 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     setSession(null);
     setSubscription(null);
+    setUserRole(null);
     hasRefreshedRef.current = false;
     // Force a full page reload to clear server-side session state
     window.location.href = '/';
@@ -102,15 +133,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // This ensures we catch any auth events that happen during initialization
     const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(
       (event: AuthChangeEvent, newSession: Session | null) => {
-        console.log('[AuthProvider] Auth state change:', event, newSession?.user?.email);
-
         setSession(newSession);
         setUser(newSession?.user ?? null);
         setIsLoading(false);
 
         if (newSession?.user) {
-          // Load subscription in background - don't block
+          // Load subscription and role in background - don't block
           fetchSubscription(newSession.user.id);
+          fetchUserRole(newSession.user.id);
 
           // Assign random avatar if user doesn't have one
           assignRandomAvatar(newSession.user);
@@ -124,6 +154,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         } else {
           setSubscription(null);
+          setUserRole(null);
         }
       }
     );
@@ -147,8 +178,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (currentSession?.user) {
           setUser(currentSession.user);
           setSession(currentSession);
-          // Don't await subscription - let it load in background
+          // Don't await subscription/role - let them load in background
           fetchSubscription(currentSession.user.id);
+          fetchUserRole(currentSession.user.id);
         } else {
           // No session - check for stale cookies
           const hasAuthCookies = document.cookie.split(';').some(c =>
@@ -162,8 +194,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(null);
           setSession(null);
         }
-      } catch (err) {
-        console.error('[AuthProvider] Init error:', err);
+      } catch {
+        // Auth initialization failed - user will need to sign in
         setUser(null);
         setSession(null);
       } finally {
@@ -184,8 +216,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         session,
         subscription,
+        userRole,
         isLoading,
         isPremium,
+        isAdmin,
+        isSuperuser,
         signOut,
         refreshSubscription,
       }}

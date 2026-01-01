@@ -181,6 +181,55 @@ export type Database = {
           trial_end?: string | null;
         };
       };
+      user_roles: {
+        Row: {
+          user_id: string;
+          is_admin: boolean;
+          is_superuser: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          user_id: string;
+          is_admin?: boolean;
+          is_superuser?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          user_id?: string;
+          is_admin?: boolean;
+          is_superuser?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      keywords: {
+        Row: {
+          id: string;
+          type: 'planet' | 'sign';
+          name: string;
+          keywords: string[];
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          type: 'planet' | 'sign';
+          name: string;
+          keywords?: string[];
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          type?: 'planet' | 'sign';
+          name?: string;
+          keywords?: string[];
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
     Functions: {
       increment_calculation_count: {
@@ -206,6 +255,8 @@ export type Customer = Tables<'customers'>;
 export type Product = Tables<'products'>;
 export type Price = Tables<'prices'>;
 export type Subscription = Tables<'subscriptions'>;
+export type UserRole = Tables<'user_roles'>;
+export type Keyword = Tables<'keywords'>;
 
 export type SubscriptionWithPrice = Subscription & {
   prices: Price | null;
