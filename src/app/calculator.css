@@ -1512,3 +1512,50 @@ header h1 {
         flex-direction: column;
     }
 }
+
+/* ============================================
+   PROFECTION WHEEL
+   ============================================ */
+
+.profection-wheel-container {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg,
+        rgba(103, 232, 249, 0.03) 0%,
+        rgba(30, 150, 252, 0.05) 50%,
+        rgba(103, 232, 249, 0.03) 100%),
+        rgba(10, 14, 26, 0.6);
+    border-radius: 16px;
+    border: 1px solid rgba(103, 232, 249, 0.2);
+}
+
+.profection-wheel {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+.profection-wheel text {
+    font-family: 'Cormorant Garamond', serif;
+    user-select: none;
+}
+
+[data-theme="dark"] .profection-wheel-container {
+    background: linear-gradient(135deg,
+        rgba(103, 232, 249, 0.04) 0%,
+        rgba(30, 150, 252, 0.06) 50%,
+        rgba(103, 232, 249, 0.04) 100%),
+        rgba(5, 8, 15, 0.8);
+}
+
+@media (max-width: 550px) {
+    .profection-wheel-container {
+        padding: 10px;
+    }
+
+    .profection-wheel {
+        max-width: 100%;
+    }
+}

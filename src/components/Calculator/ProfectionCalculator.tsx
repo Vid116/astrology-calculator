@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CosmicDropdown } from '@/components/ui/CosmicDropdown';
 import { calculateProfection } from '@/lib/calculations';
+import { ProfectionWheel } from './ProfectionWheel';
 import type { ProfectionData, ProfectionResult, ZodiacSign } from '@/types/astrology';
 
 const SIGNS: { value: ZodiacSign; label: string }[] = [
@@ -105,12 +106,6 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
         <div className="result-section show">
           <h3>Profection Years Result</h3>
           <div className="result-item">
-            <strong>Birth Date:</strong> <span>{result.birthDate}</span>
-          </div>
-          <div className="result-item">
-            <strong>Rising Sign:</strong> <span>{result.rising}</span>
-          </div>
-          <div className="result-item">
             <strong>Current Age:</strong> <span>{result.age}</span>
           </div>
           <div className="result-item">
@@ -123,37 +118,7 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
             <strong>First Activation Year:</strong> <span>{result.firstActivation}</span>
           </div>
 
-          <div className="interpretation">
-            You are currently <strong>{result.age}</strong> years old and in your{' '}
-            <strong>{result.currentHouse} house</strong> profection year, activated through
-            the sign of <strong>{result.currentSign}</strong>.
-          </div>
-
-          <h4 className="profection-table-title">Your Profection Cycles:</h4>
-          <div className="profection-table-wrapper">
-            <table className="profection-table">
-              <thead>
-                <tr>
-                  <th>Age</th>
-                  <th>Year</th>
-                  <th>House</th>
-                  <th>Sign</th>
-                </tr>
-              </thead>
-              <tbody>
-                {result.cycles.map(cycle => (
-                  <tr key={cycle.age} className={cycle.isCurrent ? 'current' : ''}>
-                    <td className={cycle.isCurrent ? 'bold' : ''}>{cycle.age}</td>
-                    <td>{cycle.year}</td>
-                    <td className={cycle.isCurrent ? 'bold accent' : 'accent'}>
-                      {cycle.house}
-                    </td>
-                    <td className={cycle.isCurrent ? 'bold' : ''}>{cycle.sign}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ProfectionWheel result={result} />
         </div>
       )}
     </div>
