@@ -73,11 +73,13 @@ export function CalculatorApp() {
   return (
     <>
       <button
-        className={`launch-btn ${isOpen ? 'hidden' : ''}`}
-        onClick={() => setIsOpen(true)}
+        className={`launch-btn ${isOpen ? 'hidden' : ''} ${!canCalculate ? 'disabled' : ''}`}
+        onClick={() => canCalculate && setIsOpen(true)}
+        disabled={!canCalculate}
+        style={!canCalculate ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
       >
         <span className="launch-icon">&#9803;</span>
-        <span className="launch-text">Open Calculator</span>
+        <span className="launch-text">{canCalculate ? 'Open Calculator' : 'Limit Reached'}</span>
       </button>
 
       <div className={`container ${isOpen ? 'visible' : 'hidden'}`}>
@@ -185,7 +187,7 @@ export function CalculatorApp() {
       </div>
 
       {/* Usage limit overlay/banner */}
-      <UsageLimitBanner />
+      <UsageLimitBanner canCalculateOverride={canCalculate} />
     </>
   );
 }

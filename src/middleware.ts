@@ -2,7 +2,7 @@ import { updateSession } from '@/lib/supabase/middleware';
 import { NextResponse, type NextRequest } from 'next/server';
 
 // Routes that require authentication
-const protectedRoutes = ['/account'];
+const protectedRoutes = ['/account', '/admin', '/superuser'];
 
 // Routes that should redirect to home if already authenticated
 // Note: /reset-password is NOT included because users need to access it after clicking the email link

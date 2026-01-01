@@ -44,6 +44,7 @@ export const STRIPE_CONFIG = {
   // Free tier limits
   freeTier: {
     dailyCalculations: parseInt(process.env.FREE_TIER_DAILY_LIMIT || '10', 10),
+    anonymousDailyCalculations: parseInt(process.env.ANONYMOUS_DAILY_LIMIT || '3', 10),
   },
 };
 

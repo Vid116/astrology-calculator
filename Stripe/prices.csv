@@ -1,0 +1,3 @@
+Price ID,Product ID,Product Name,Product Statement Descriptor,Product Tax Code,Description,Created (UTC),Amount,Currency,Interval,Interval Count,Usage Type,Aggregate Usage,Billing Scheme,Trial Period Days,Tax Behavior
+price_1Sjk9dPtcMkhnbKITL3WMPVc,prod_Th8Qv23argChLc,Astro Pro Anual,,,,2025-12-29 17:22,79.00,usd,year,1,licensed,,per_unit,,unspecified
+price_1Sjk8kPtcMkhnbKItuolh6hI,prod_Th8P5AGEUe0As5,Astro Pro,,,,2025-12-29 17:21,9.00,usd,month,1,licensed,,per_unit,,unspecified

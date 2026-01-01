@@ -14,16 +14,18 @@ interface UsageState {
   showUpgradePrompt: boolean;
 }
 
-const ANON_STORAGE_KEY = 'astro_anon_calculations';
-const ANON_DATE_KEY = 'astro_anon_date';
+const ANON_STORAGE_KEY = 'astro_anon_calculations_v3';
+const ANON_DATE_KEY = 'astro_anon_date_v3';
+const ANON_LIMIT = STRIPE_CONFIG.freeTier.anonymousDailyCalculations;
+const LOGGED_IN_LIMIT = STRIPE_CONFIG.freeTier.dailyCalculations;
 
 export function useUsageLimit() {
   const { user, isPremium } = useAuth();
   const [state, setState] = useState<UsageState>({
     isLoading: true,
     canCalculate: true,
-    remaining: STRIPE_CONFIG.freeTier.dailyCalculations,
-    limit: STRIPE_CONFIG.freeTier.dailyCalculations,
+    remaining: ANON_LIMIT,
+    limit: ANON_LIMIT,
     isPremium: false,
     isLoggedIn: false,
     showUpgradePrompt: false,
@@ -56,7 +58,7 @@ export function useUsageLimit() {
             isLoading: false,
             canCalculate: data.remaining > 0 || data.isPremium,
             remaining: data.remaining || 0,
-            limit: data.limit || STRIPE_CONFIG.freeTier.dailyCalculations,
+            limit: data.limit || LOGGED_IN_LIMIT,
             isPremium: data.isPremium || false,
             isLoggedIn: true,
             showUpgradePrompt: data.remaining <= 2 && !data.isPremium,
@@ -81,16 +83,16 @@ export function useUsageLimit() {
         localStorage.setItem(ANON_STORAGE_KEY, '0');
       }
 
-      const remaining = Math.max(0, STRIPE_CONFIG.freeTier.dailyCalculations - count);
+      const remaining = Math.max(0, ANON_LIMIT - count);
 
       setState({
         isLoading: false,
         canCalculate: remaining > 0,
         remaining,
-        limit: STRIPE_CONFIG.freeTier.dailyCalculations,
+        limit: ANON_LIMIT,
         isPremium: false,
         isLoggedIn: false,
-        showUpgradePrompt: remaining <= 2,
+        showUpgradePrompt: remaining <= 1,
       });
     };
 
@@ -106,24 +108,34 @@ export function useUsageLimit() {
 
     // Logged in users - track on server
     if (user) {
+      // Check if already at limit BEFORE trying to calculate
+      if (state.remaining <= 0) {
+        setState((prev) => ({
+          ...prev,
+          canCalculate: false,
+        }));
+        return false;
+      }
+
       try {
         const response = await fetch('/api/track-calculation', { method: 'POST' });
         const data = await response.json();
 
         if (data.limitReached) {
+          // They were already over limit - block now
           setState((prev) => ({
             ...prev,
             canCalculate: false,
             remaining: 0,
-            showUpgradePrompt: true,
           }));
           return false;
         }
 
+        // Calculation succeeded - update remaining but keep canCalculate true
+        // They'll be blocked on their NEXT attempt if remaining is 0
         setState((prev) => ({
           ...prev,
           remaining: data.remaining,
-          canCalculate: data.remaining > 0,
           showUpgradePrompt: data.remaining <= 2,
         }));
 
@@ -146,29 +158,31 @@ export function useUsageLimit() {
       count = 0;
     }
 
-    if (count >= STRIPE_CONFIG.freeTier.dailyCalculations) {
+    // Check if already at limit BEFORE trying to calculate
+    if (count >= ANON_LIMIT) {
       setState((prev) => ({
         ...prev,
         canCalculate: false,
         remaining: 0,
-        showUpgradePrompt: true,
       }));
       return false;
     }
 
+    // Allow the calculation
     count += 1;
     localStorage.setItem(ANON_STORAGE_KEY, count.toString());
-    const remaining = Math.max(0, STRIPE_CONFIG.freeTier.dailyCalculations - count);
+    const remaining = Math.max(0, ANON_LIMIT - count);
 
+    // Update remaining but keep canCalculate true
+    // They'll be blocked on their NEXT attempt if remaining is 0
     setState((prev) => ({
       ...prev,
       remaining,
-      canCalculate: remaining > 0,
-      showUpgradePrompt: remaining <= 2,
+      showUpgradePrompt: remaining <= 1,
     }));
 
     return true;
-  }, [user, state.isPremium]);
+  }, [user, state.isPremium, state.remaining]);
 
   const dismissUpgradePrompt = useCallback(() => {
     setState((prev) => ({ ...prev, showUpgradePrompt: false }));

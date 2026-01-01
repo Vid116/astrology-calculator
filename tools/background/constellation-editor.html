@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constellation Editor - Overlay Mode</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #1a1a2e;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+        }
+        h1 { text-align: center; margin-bottom: 10px; color: #d4af37; }
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        select, button {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #2a2a4e;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover { background: #3a3a6e; }
+        button.active { background: #4a4a8e; border-color: #d4af37; }
+        button.primary { background: #2d5a2d; border-color: #4f4; }
+        button.primary:hover { background: #3d6a3d; }
+        .workspace {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .editor-container {
+            position: relative;
+            border: 2px solid #444;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        #refImage {
+            display: block;
+            max-width: 500px;
+            height: auto;
+        }
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+        .output-panel {
+            background: #2a2a4e;
+            border-radius: 8px;
+            padding: 15px;
+            min-width: 380px;
+            max-width: 450px;
+        }
+        .output-panel h3 {
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        #output {
+            background: #1a1a2e;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 11px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .instructions {
+            background: #2a2a4e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .instructions p { margin: 5px 0; color: #aaa; font-size: 14px; }
+        .mode-indicator {
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .mode-indicator.stars { background: #2d5a2d; }
+        .mode-indicator.connections { background: #5a2d2d; }
+        .size-selector {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: #1a1a2e;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .size-selector label { font-size: 12px; color: #aaa; }
+        .size-btn {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .size-btn.selected { background: #d4af37; color: #000; }
+        .star-list {
+            margin-top: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+            font-size: 11px;
+        }
+        .star-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 5px;
+            background: #1a1a2e;
+            margin: 2px 0;
+            border-radius: 3px;
+        }
+        .star-item:hover { background: #3a3a5e; }
+        .star-item .size-badge {
+            background: #d4af37;
+            color: #000;
+            padding: 1px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .copy-section {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .copy-section button { flex: 1; }
+    </style>
+</head>
+<body>
+    <h1>Constellation Editor - Overlay Mode</h1>
+
+    <div class="instructions">
+        <p><strong>Stars Mode:</strong> Click to place stars | <strong>Shift+Click</strong> on star to cycle size (1-4)</p>
+        <p><strong>Connections Mode:</strong> Click two stars to connect them</p>
+        <p><strong>Right-click</strong> a star to delete it</p>
+    </div>
+
+    <div class="controls">
+        <select id="constellationSelect"></select>
+        <button id="loadBtn">Load Existing</button>
+        <button id="clearBtn">Clear All</button>
+        <span class="mode-indicator stars" id="modeIndicator">Mode: Stars</span>
+        <button id="modeBtn">Switch to Connections</button>
+        <div class="size-selector">
+            <label>Size:</label>
+            <button class="size-btn selected" data-size="1">1</button>
+            <button class="size-btn" data-size="2">2</button>
+            <button class="size-btn" data-size="3">3</button>
+            <button class="size-btn" data-size="4">4</button>
+        </div>
+        <button id="undoBtn">Undo</button>
+    </div>
+
+    <div class="workspace">
+        <div>
+            <div class="editor-container">
+                <img id="refImage" src="" alt="Reference">
+                <canvas id="overlay"></canvas>
+            </div>
+        </div>
+
+        <div class="output-panel">
+            <h3>Constellation: <span id="currentName">-</span></h3>
+            <div id="output">Select a constellation and start placing stars...</div>
+
+            <div class="copy-section">
+                <button id="copyBtn" class="primary">Copy for /update-constellation</button>
+            </div>
+
+            <h3 style="margin-top: 15px;">Stars (<span id="starCount">0</span>)</h3>
+            <div class="star-list" id="starList"></div>
+
+            <h3 style="margin-top: 15px;">Connections (<span id="connCount">0</span>)</h3>
+            <div class="star-list" id="connList"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { CONSTELLATIONS } from './constellationData.js';
+
+        const select = document.getElementById('constellationSelect');
+        const refImage = document.getElementById('refImage');
+        const overlay = document.getElementById('overlay');
+        const ctx = overlay.getContext('2d');
+        const output = document.getElementById('output');
+        const modeBtn = document.getElementById('modeBtn');
+        const modeIndicator = document.getElementById('modeIndicator');
+        const starList = document.getElementById('starList');
+        const connList = document.getElementById('connList');
+        const starCount = document.getElementById('starCount');
+        const connCount = document.getElementById('connCount');
+        const currentName = document.getElementById('currentName');
+
+        let stars = []; // Each star is [x, y, size]
+        let connections = [];
+        let mode = 'stars';
+        let selectedStar = null;
+        let currentSize = 1;
+        let history = [];
+
+        // Size selector
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                currentSize = parseInt(btn.dataset.size);
+            });
+        });
+
+        function keyToFilename(key) {
+            return key.toLowerCase().replace(/_/g, '-');
+        }
+
+        Object.keys(CONSTELLATIONS).sort().forEach(key => {
+            const opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = CONSTELLATIONS[key].name;
+            select.appendChild(opt);
+        });
+
+        select.addEventListener('change', () => {
+            const key = select.value;
+            const filename = keyToFilename(key);
+            refImage.src = `../Throw/constellation-simple/${filename}.jpg`;
+            currentName.textContent = key;
+            stars = [];
+            connections = [];
+            selectedStar = null;
+            history = [];
+            updateDisplay();
+        });
+
+        refImage.onload = () => {
+            overlay.width = refImage.naturalWidth;
+            overlay.height = refImage.naturalHeight;
+            overlay.style.width = refImage.clientWidth + 'px';
+            overlay.style.height = refImage.clientHeight + 'px';
+            updateDisplay();
+        };
+
+        window.addEventListener('resize', () => {
+            if (refImage.complete) {
+                overlay.style.width = refImage.clientWidth + 'px';
+                overlay.style.height = refImage.clientHeight + 'px';
+            }
+        });
+
+        modeBtn.addEventListener('click', () => {
+            mode = mode === 'stars' ? 'connections' : 'stars';
+            modeBtn.textContent = mode === 'stars' ? 'Switch to Connections' : 'Switch to Stars';
+            modeIndicator.textContent = `Mode: ${mode.charAt(0).toUpperCase() + mode.slice(1)}`;
+            modeIndicator.className = `mode-indicator ${mode}`;
+            selectedStar = null;
+            updateDisplay();
+        });
+
+        function saveState() {
+            history.push({
+                stars: JSON.parse(JSON.stringify(stars)),
+                connections: JSON.parse(JSON.stringify(connections))
+            });
+            if (history.length > 50) history.shift();
+        }
+
+        document.getElementById('undoBtn').addEventListener('click', () => {
+            if (history.length > 0) {
+                const state = history.pop();
+                stars = state.stars;
+                connections = state.connections;
+                selectedStar = null;
+                updateDisplay();
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (confirm('Clear all stars and connections?')) {
+                saveState();
+                stars = [];
+                connections = [];
+                selectedStar = null;
+                updateDisplay();
+            }
+        });
+
+        document.getElementById('loadBtn').addEventListener('click', () => {
+            const key = select.value;
+            const data = CONSTELLATIONS[key];
+            if (data && data.stars) {
+                saveState();
+                const w = refImage.naturalWidth;
+                const h = refImage.naturalHeight;
+                stars = data.stars.map(star => {
+                    const x = star[0] * w / 100;
+                    const y = star[1] * h / 100;
+                    const size = star[2] || 1;
+                    return [x, y, size];
+                });
+                connections = data.connections ? [...data.connections.map(c => [...c])] : [];
+                updateDisplay();
+            }
+        });
+
+        function getMousePos(e) {
+            const rect = overlay.getBoundingClientRect();
+            const scaleX = overlay.width / rect.width;
+            const scaleY = overlay.height / rect.height;
+            return {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        }
+
+        function findStarAt(x, y, radius = 15) {
+            for (let i = 0; i < stars.length; i++) {
+                const [sx, sy] = stars[i];
+                const dist = Math.sqrt((x - sx) ** 2 + (y - sy) ** 2);
+                if (dist < radius) return i;
+            }
+            return -1;
+        }
+
+        overlay.addEventListener('click', (e) => {
+            const pos = getMousePos(e);
+            saveState();
+
+            if (mode === 'stars') {
+                const existingStar = findStarAt(pos.x, pos.y);
+                if (e.shiftKey && existingStar >= 0) {
+                    // Cycle size on shift+click
+                    stars[existingStar][2] = (stars[existingStar][2] % 4) + 1;
+                } else if (existingStar < 0) {
+                    // Add new star with current size
+                    stars.push([pos.x, pos.y, currentSize]);
+                }
+            } else {
+                const clickedStar = findStarAt(pos.x, pos.y);
+                if (clickedStar >= 0) {
+                    if (selectedStar === null) {
+                        selectedStar = clickedStar;
+                    } else if (selectedStar !== clickedStar) {
+                        const connExists = connections.some(([a, b]) =>
+                            (a === selectedStar && b === clickedStar) ||
+                            (a === clickedStar && b === selectedStar)
+                        );
+                        if (!connExists) {
+                            connections.push([selectedStar, clickedStar]);
+                        }
+                        selectedStar = null;
+                    } else {
+                        selectedStar = null;
+                    }
+                }
+            }
+            updateDisplay();
+        });
+
+        overlay.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            const pos = getMousePos(e);
+            const clickedStar = findStarAt(pos.x, pos.y);
+
+            if (clickedStar >= 0) {
+                saveState();
+                stars.splice(clickedStar, 1);
+                connections = connections.filter(([a, b]) => a !== clickedStar && b !== clickedStar)
+                    .map(([a, b]) => [
+                        a > clickedStar ? a - 1 : a,
+                        b > clickedStar ? b - 1 : b
+                    ]);
+                selectedStar = null;
+                updateDisplay();
+            }
+        });
+
+        function draw() {
+            ctx.clearRect(0, 0, overlay.width, overlay.height);
+
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(0, 0, overlay.width, overlay.height);
+
+            ctx.strokeStyle = 'rgba(100, 255, 100, 0.9)';
+            ctx.lineWidth = 2;
+            connections.forEach(([i, j]) => {
+                if (stars[i] && stars[j]) {
+                    ctx.beginPath();
+                    ctx.moveTo(stars[i][0], stars[i][1]);
+                    ctx.lineTo(stars[j][0], stars[j][1]);
+                    ctx.stroke();
+                }
+            });
+
+            stars.forEach(([x, y, size], i) => {
+                const radius = 4 + (size - 1) * 3; // Size 1=4, 2=7, 3=10, 4=13
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2);
+                ctx.fillStyle = i === selectedStar ? '#ff0' : (size > 1 ? '#ffd700' : '#fff');
+                ctx.fill();
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                ctx.fillStyle = '#0ff';
+                ctx.font = 'bold 10px sans-serif';
+                ctx.fillText(i.toString(), x + radius + 3, y - 3);
+            });
+
+            if (mode === 'connections' && selectedStar !== null && stars[selectedStar]) {
+                ctx.beginPath();
+                ctx.arc(stars[selectedStar][0], stars[selectedStar][1], 12, 0, Math.PI * 2);
+                ctx.strokeStyle = '#ff0';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        function updateOutput() {
+            const w = refImage.naturalWidth || 400;
+            const h = refImage.naturalHeight || 400;
+            const key = select.value;
+
+            const scaledStars = stars.map(([x, y, size]) => [
+                Math.round(x * 100 / w),
+                Math.round(y * 100 / h),
+                size || 1
+            ]);
+
+            // Format for /update-constellation command
+            const starsStr = scaledStars.map(s => `[${s[0]}, ${s[1]}, ${s[2]}]`).join(',\n');
+            const connsStr = connections.map(c => `[${c[0]}, ${c[1]}]`).join(',\n');
+
+            output.textContent = `Constellation: ${key}
+
+Stars:
+${starsStr}
+
+Connections:
+${connsStr}`;
+
+            starCount.textContent = stars.length;
+            connCount.textContent = connections.length;
+
+            starList.innerHTML = scaledStars.map((s, i) =>
+                `<div class="star-item">
+                    <span>${i}: [${s[0]}, ${s[1]}]</span>
+                    <span class="size-badge">${s[2]}</span>
+                </div>`
+            ).join('');
+
+            connList.innerHTML = connections.map((c, i) =>
+                `<div class="star-item"><span>${i}: [${c[0]}, ${c[1]}]</span></div>`
+            ).join('');
+        }
+
+        function updateDisplay() {
+            draw();
+            updateOutput();
+        }
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            navigator.clipboard.writeText(output.textContent);
+            alert('Copied! Now use /update-constellation and paste this data.');
+        });
+
+        select.value = 'ORION';
+        select.dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>

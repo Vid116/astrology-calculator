@@ -10,9 +10,6 @@ export async function GET(request: Request) {
   const redirectTo = requestUrl.searchParams.get('next')?.toString()
     || requestUrl.searchParams.get('redirect_to')?.toString();
 
-  console.log('[Auth Callback] code:', code ? 'present' : 'missing');
-  console.log('[Auth Callback] redirectTo:', redirectTo);
-
   const destination = redirectTo ? `${origin}${redirectTo}` : origin;
 
   // Create the redirect response FIRST so we can set cookies on it
@@ -40,19 +37,13 @@ export async function GET(request: Request) {
       }
     );
 
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (error) {
-      console.error('[Auth Callback] Exchange error:', error.message);
       // Redirect to login with error
       return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(error.message)}`);
     }
-
-    console.log('[Auth Callback] Session created for:', data.user?.email);
-    console.log('[Auth Callback] Access token:', data.session?.access_token ? 'present' : 'missing');
   }
-
-  console.log('[Auth Callback] Redirecting to:', destination);
 
   // Prevent caching of the redirect response
   response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate');

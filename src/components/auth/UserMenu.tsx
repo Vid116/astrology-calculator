@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useAuth } from './AuthProvider';
 
 export function UserMenu() {
-  const { user, isPremium, signOut, isLoading } = useAuth();
+  const { user, isPremium, isAdmin, isSuperuser, signOut, isLoading } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -365,6 +365,90 @@ export function UserMenu() {
               <span>My Account</span>
             </Link>
 
+            {isAdmin && (
+              <Link
+                href="/admin"
+                role="menuitem"
+                onClick={() => closeMenu()}
+                className="
+                  flex items-center gap-3 px-5 py-3
+                  text-sm text-[#b8c4d4]
+                  transition-all duration-200
+                  hover:text-white hover:bg-white/[0.04]
+                  focus:outline-none focus-visible:bg-white/[0.04]
+                  group
+                "
+              >
+                <span
+                  className="
+                    w-8 h-8 rounded-lg flex items-center justify-center
+                    bg-[#ffd800]/10 text-[#ffd800]
+                    transition-all duration-200
+                    group-hover:bg-[#ffd800]/15
+                    group-hover:shadow-[0_0_12px_rgba(255,216,0,0.2)]
+                  "
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.75}
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                    />
+                  </svg>
+                </span>
+                <span>Admin Panel</span>
+              </Link>
+            )}
+
+            {isSuperuser && (
+              <Link
+                href="/superuser"
+                role="menuitem"
+                onClick={() => closeMenu()}
+                className="
+                  flex items-center gap-3 px-5 py-3
+                  text-sm text-[#b8c4d4]
+                  transition-all duration-200
+                  hover:text-white hover:bg-white/[0.04]
+                  focus:outline-none focus-visible:bg-white/[0.04]
+                  group
+                "
+              >
+                <span
+                  className="
+                    w-8 h-8 rounded-lg flex items-center justify-center
+                    bg-[#a855f7]/10 text-[#a855f7]
+                    transition-all duration-200
+                    group-hover:bg-[#a855f7]/15
+                    group-hover:shadow-[0_0_12px_rgba(168,85,247,0.2)]
+                  "
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.75}
+                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    />
+                  </svg>
+                </span>
+                <span>Keywords Editor</span>
+              </Link>
+            )}
+
             {!isPremium && (
               <Link
                 href="/pricing"
@@ -399,11 +483,12 @@ export function UserMenu() {
                 <span className="flex-1 text-[#ffd800]">Upgrade to Pro</span>
                 <span
                   className="
-                    px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide
+                    py-0.5 text-[10px] font-bold uppercase tracking-wide
                     rounded bg-gradient-to-r from-[#ffd800] to-[#ff9500]
                     text-[#0a0e1a]
                     shadow-[0_0_8px_rgba(255,216,0,0.3)]
                   "
+                  style={{ paddingLeft: '10px', paddingRight: '10px' }}
                 >
                   Save 20%
                 </span>
