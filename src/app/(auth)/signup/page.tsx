@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { getRandomAvatarPath } from '@/lib/avatars';
 
 // Celestial input component with glow effects
 function CelestialInput({
@@ -103,6 +104,7 @@ export default function SignupPage() {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
         data: {
           full_name: fullName,
+          avatar_url: getRandomAvatarPath(),
         },
       },
     });
@@ -148,10 +150,10 @@ export default function SignupPage() {
             100% { background-position: 0% 50%; }
           }
           @keyframes iconPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(103, 232, 249, 0.4); }
-            50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(103, 232, 249, 0.6); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(103, 232, 249, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 35px rgba(103, 232, 249, 0.5); }
           }
-          @keyframes sparkleRotate {
+          @keyframes orbitRing {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
           }
@@ -165,53 +167,65 @@ export default function SignupPage() {
           <div
             className="absolute -inset-[1px] rounded-2xl"
             style={{
-              background: 'linear-gradient(90deg, rgba(103, 232, 249, 0.5), rgba(255, 216, 0, 0.4), rgba(30, 150, 252, 0.5), rgba(255, 216, 0, 0.4), rgba(103, 232, 249, 0.5))',
+              background: 'linear-gradient(90deg, rgba(103, 232, 249, 0.4), rgba(255, 216, 0, 0.3), rgba(30, 150, 252, 0.4), rgba(255, 216, 0, 0.3), rgba(103, 232, 249, 0.4))',
               backgroundSize: '300% 100%',
-              animation: 'borderRotate 6s linear infinite',
+              animation: 'borderRotate 8s linear infinite',
             }}
           />
 
-          {/* Card content */}
+          {/* Glassmorphism card */}
           <div
-            className="relative rounded-2xl px-8 py-12"
+            className="relative rounded-2xl"
             style={{
+              padding: '24px 24px',
               background: 'linear-gradient(135deg, rgba(10, 14, 26, 0.95) 0%, rgba(15, 20, 35, 0.9) 50%, rgba(10, 14, 26, 0.95) 100%)',
               backdropFilter: 'blur(24px)',
-              boxShadow: '0 25px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
+              boxShadow: '0 25px 80px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.2)',
             }}
           >
-            {/* Inner glow */}
+            {/* Inner glow effect */}
             <div
               className="absolute inset-0 rounded-2xl pointer-events-none"
               style={{
-                background: 'radial-gradient(ellipse at top, rgba(103, 232, 249, 0.08) 0%, transparent 50%), radial-gradient(ellipse at bottom, rgba(255, 216, 0, 0.05) 0%, transparent 50%)',
+                background: 'radial-gradient(ellipse at top, rgba(103, 232, 249, 0.05) 0%, transparent 50%), radial-gradient(ellipse at bottom, rgba(255, 216, 0, 0.03) 0%, transparent 50%)',
               }}
             />
 
-            {/* Success icon */}
-            <div className="relative text-center">
+            {/* Header section */}
+            <div className="relative text-center" style={{ marginBottom: '16px' }}>
+              {/* Email icon with orbit ring */}
               <div
-                className="mx-auto mb-6 w-24 h-24 rounded-full flex items-center justify-center relative"
+                className="mx-auto mb-5 w-20 h-20 rounded-full flex items-center justify-center relative"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(103, 232, 249, 0.15) 0%, rgba(30, 150, 252, 0.1) 100%)',
-                  border: '2px solid rgba(103, 232, 249, 0.4)',
-                  animation: 'iconPulse 2s ease-in-out infinite',
+                  background: 'linear-gradient(135deg, rgba(103, 232, 249, 0.15) 0%, rgba(30, 150, 252, 0.08) 100%)',
+                  border: '1px solid rgba(103, 232, 249, 0.3)',
+                  animation: 'iconPulse 3s ease-in-out infinite',
                 }}
               >
-                {/* Sparkle orbit */}
+                {/* Orbit ring */}
                 <div
-                  className="absolute inset-[-8px]"
-                  style={{ animation: 'sparkleRotate 8s linear infinite' }}
+                  className="absolute inset-[-6px] rounded-full border border-dashed pointer-events-none"
+                  style={{
+                    borderColor: 'rgba(255, 216, 0, 0.3)',
+                    animation: 'orbitRing 10s linear infinite',
+                  }}
                 >
-                  <svg className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 0L13.5 10.5L24 12L13.5 13.5L12 24L10.5 13.5L0 12L10.5 10.5L12 0Z" fill="#ffd800" />
-                  </svg>
+                  <div
+                    className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full"
+                    style={{ background: '#ffd800', boxShadow: '0 0 8px rgba(255, 216, 0, 0.6)' }}
+                  />
                 </div>
 
-                <svg className="w-12 h-12" viewBox="0 0 24 24" fill="none">
+                <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none">
+                  <defs>
+                    <linearGradient id="emailGradSuccess" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#67e8f9" />
+                      <stop offset="100%" stopColor="#1e96fc" />
+                    </linearGradient>
+                  </defs>
                   <path
                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    stroke="#67e8f9"
+                    stroke="url(#emailGradSuccess)"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -220,65 +234,88 @@ export default function SignupPage() {
               </div>
 
               <h1
-                className="font-cinzel text-3xl tracking-wider mb-3"
+                className="font-cinzel text-3xl tracking-wider mb-2"
                 style={{
-                  background: 'linear-gradient(135deg, #67e8f9 0%, #1e96fc 50%, #67e8f9 100%)',
+                  background: 'linear-gradient(135deg, #ffd800 0%, #ffe44d 50%, #ffd800 100%)',
                   backgroundClip: 'text',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
+                  textShadow: '0 0 40px rgba(255, 216, 0, 0.3)',
                 }}
               >
                 Check Your Email
               </h1>
-
-              <p className="text-[#e8e8e8] mb-2">
+              <p className="text-[#71717a] text-sm">
                 We&apos;ve sent a confirmation link to
               </p>
-              <p
-                className="font-semibold text-lg mb-4 break-all px-4 py-2 rounded-lg"
+            </div>
+
+            {/* Email display */}
+            <div
+              className="relative rounded-xl overflow-hidden"
+              style={{ marginBottom: '16px' }}
+            >
+              <div
+                className="py-4 text-center"
                 style={{
-                  background: 'rgba(30, 150, 252, 0.1)',
+                  background: 'rgba(30, 150, 252, 0.08)',
                   border: '1px solid rgba(30, 150, 252, 0.2)',
-                  color: '#1e96fc',
+                  borderRadius: '12px',
                 }}
               >
-                {email}
-              </p>
-              <p className="text-[#71717a] text-sm leading-relaxed">
-                Click the link in the email to activate your celestial account and begin your cosmic journey.
-              </p>
-
-              <div className="mt-8">
-                <Link
-                  href="/login"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 group"
-                  style={{
-                    background: 'rgba(103, 232, 249, 0.1)',
-                    border: '1px solid rgba(103, 232, 249, 0.3)',
-                    color: '#67e8f9',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(103, 232, 249, 0.15)';
-                    e.currentTarget.style.borderColor = 'rgba(103, 232, 249, 0.5)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(103, 232, 249, 0.1)';
-                    e.currentTarget.style.borderColor = 'rgba(103, 232, 249, 0.3)';
-                  }}
+                <p
+                  className="font-semibold text-lg break-all px-4"
+                  style={{ color: '#1e96fc' }}
                 >
-                  <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                  Back to Login
-                </Link>
+                  {email}
+                </p>
               </div>
             </div>
 
-            {/* Corner accents */}
-            <div className="absolute top-4 left-4 w-8 h-8 pointer-events-none" style={{ borderLeft: '2px solid rgba(103, 232, 249, 0.3)', borderTop: '2px solid rgba(103, 232, 249, 0.3)', borderRadius: '4px 0 0 0' }} />
-            <div className="absolute top-4 right-4 w-8 h-8 pointer-events-none" style={{ borderRight: '2px solid rgba(255, 216, 0, 0.3)', borderTop: '2px solid rgba(255, 216, 0, 0.3)', borderRadius: '0 4px 0 0' }} />
-            <div className="absolute bottom-4 left-4 w-8 h-8 pointer-events-none" style={{ borderLeft: '2px solid rgba(255, 216, 0, 0.3)', borderBottom: '2px solid rgba(255, 216, 0, 0.3)', borderRadius: '0 0 0 4px' }} />
-            <div className="absolute bottom-4 right-4 w-8 h-8 pointer-events-none" style={{ borderRight: '2px solid rgba(103, 232, 249, 0.3)', borderBottom: '2px solid rgba(103, 232, 249, 0.3)', borderRadius: '0 0 4px 0' }} />
+            {/* Instructions */}
+            <p className="text-[#71717a] text-sm text-center leading-relaxed" style={{ marginBottom: '20px' }}>
+              Click the link in the email to activate your celestial account and begin your cosmic journey.
+            </p>
+
+            {/* Back to login button */}
+            <button
+              onClick={() => router.push('/login')}
+              className="relative w-full h-12 rounded-xl font-medium text-sm overflow-hidden transition-all duration-300 group flex items-center justify-center"
+              style={{
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(103, 232, 249, 0.2)',
+                color: '#e8e8e8',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(103, 232, 249, 0.08)';
+                e.currentTarget.style.borderColor = 'rgba(103, 232, 249, 0.4)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)';
+                e.currentTarget.style.borderColor = 'rgba(103, 232, 249, 0.2)';
+              }}
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                <svg className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to Login
+              </span>
+            </button>
+
+            {/* Footer link */}
+            <div className="relative text-center" style={{ marginTop: '16px' }}>
+              <p className="text-[#71717a] text-sm">
+                Didn&apos;t receive the email?{' '}
+                <button
+                  onClick={() => setSuccess(false)}
+                  className="font-medium transition-all duration-300 relative group"
+                  style={{ color: '#67e8f9' }}
+                >
+                  <span className="relative z-10 group-hover:text-[#ffd800]">Try again</span>
+                </button>
+              </p>
+            </div>
           </div>
         </div>
       </>

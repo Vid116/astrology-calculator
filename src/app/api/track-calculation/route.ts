@@ -38,7 +38,7 @@ export async function POST() {
 
     // For free users, increment and check the count
     const { data: result, error: countError } = await supabaseAdmin
-      .rpc('increment_calculation_count', { user_uuid: user.id });
+      .rpc('increment_calculation_count', { p_user_id: user.id });
 
     if (countError) {
       console.error('Error incrementing count:', countError);
@@ -112,11 +112,11 @@ export async function GET() {
       });
     }
 
-    // Get current count
+    // Get current count from user_usage table
     const { data: userData } = await supabaseAdmin
-      .from('users')
+      .from('user_usage')
       .select('calculation_count, calculation_reset_date')
-      .eq('id', user.id)
+      .eq('user_id', user.id)
       .single();
 
     const today = new Date().toISOString().split('T')[0];

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { createClient } from '@/lib/supabase/client';
 import { STRIPE_CONFIG } from '@/lib/stripe/config';
+import { PLANET_AVATARS } from '@/lib/avatars';
 
 interface UserUsage {
   calculation_count: number;
@@ -17,6 +18,7 @@ function AccountContent() {
   const { user, subscription, isPremium, signOut, isLoading } = useAuth();
   const [usage, setUsage] = useState<UserUsage | null>(null);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [avatarSaving, setAvatarSaving] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const success = searchParams.get('success');
@@ -70,6 +72,27 @@ function AccountContent() {
   const handleSignOut = async () => {
     await signOut();
     router.push('/');
+  };
+
+  const handleAvatarChange = async (avatarPath: string) => {
+    if (!isPremium || avatarSaving) return;
+    if (avatarPath === avatarUrl) return;
+
+    setAvatarSaving(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: { avatar_url: avatarPath }
+      });
+
+      if (!error) {
+        // Refresh the page to update the user state
+        router.refresh();
+      }
+    } catch (err) {
+      console.error('Failed to update avatar:', err);
+    } finally {
+      setAvatarSaving(false);
+    }
   };
 
   if (isLoading) {
@@ -247,10 +270,14 @@ function AccountContent() {
                   </span>
                 ) : (
                   <span
-                    className="inline-flex items-center gap-3 px-8 py-3.5 rounded-full text-sm font-medium text-[#67e8f9] bg-[#67e8f9]/10 border border-[#67e8f9]/20"
+                    className="inline-flex items-center gap-3 py-3.5 rounded-full text-sm font-semibold text-[#67e8f9] bg-gradient-to-r from-[#67e8f9]/15 to-[#1e96fc]/10 border border-[#67e8f9]/30 shadow-[0_0_20px_rgba(103,232,249,0.15)]"
+                    style={{ paddingLeft: '10px', paddingRight: '14px' }}
                   >
-                    <span className="w-2 h-2 rounded-full bg-[#67e8f9] flex-shrink-0" />
-                    Free Tier
+                    <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <circle cx="12" cy="12" r="10" strokeWidth="2" />
+                      <path d="M12 6v6l4 2" strokeWidth="2" strokeLinecap="round" />
+                    </svg>
+                    Free Explorer
                   </span>
                 )}
               </div>
@@ -268,6 +295,130 @@ function AccountContent() {
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Avatar Picker Section */}
+      <div
+        className="relative rounded-2xl overflow-hidden"
+        style={{
+          marginTop: '20px',
+          marginLeft: '5px',
+          marginRight: '5px',
+          background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
+          border: '1px solid rgba(103, 232, 249, 0.15)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+        }}
+      >
+        <div className="p-8">
+          <h2
+            className="text-lg font-semibold tracking-wide mb-6"
+            style={{ color: '#67e8f9' }}
+          >
+            Choose Your Planet
+          </h2>
+
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-4">
+            {PLANET_AVATARS.map((planet) => {
+              const isSelected = avatarUrl === planet.path;
+              const canSelect = isPremium && !avatarSaving;
+
+              return (
+                <button
+                  key={planet.id}
+                  onClick={() => handleAvatarChange(planet.path)}
+                  disabled={!canSelect}
+                  className={`
+                    relative aspect-square rounded-xl overflow-hidden
+                    transition-all duration-300
+                    ${canSelect ? 'cursor-pointer hover:scale-105' : 'cursor-not-allowed'}
+                    ${isSelected ? 'ring-[3px] ring-offset-2 ring-offset-[#0a0e1a]' : ''}
+                    ${isSelected && isPremium ? 'ring-[#ffd800]' : isSelected ? 'ring-[#67e8f9]' : ''}
+                  `}
+                  style={{
+                    background: 'rgba(103, 232, 249, 0.05)',
+                    border: isSelected
+                      ? '2px solid transparent'
+                      : '1px solid rgba(103, 232, 249, 0.15)',
+                    boxShadow: isSelected
+                      ? isPremium
+                        ? '0 0 20px rgba(255, 216, 0, 0.3)'
+                        : '0 0 20px rgba(103, 232, 249, 0.3)'
+                      : 'none',
+                  }}
+                >
+                  <Image
+                    src={planet.path}
+                    alt={planet.name}
+                    fill
+                    className={`object-contain p-2 ${!isPremium ? 'opacity-50' : ''}`}
+                  />
+
+                  {/* Selected checkmark */}
+                  {isSelected && (
+                    <div
+                      className="absolute top-1 right-1 w-5 h-5 rounded-full flex items-center justify-center"
+                      style={{
+                        background: isPremium
+                          ? 'linear-gradient(135deg, #ffd800 0%, #ff9500 100%)'
+                          : 'linear-gradient(135deg, #67e8f9 0%, #1e96fc 100%)',
+                      }}
+                    >
+                      <svg className="w-3 h-3 text-[#0a0e1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Saving spinner */}
+                  {avatarSaving && avatarUrl !== planet.path && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <div className="w-6 h-6 border-2 border-[#67e8f9] border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  )}
+
+                  {/* Planet name tooltip */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 py-1 text-center text-[10px] font-medium"
+                    style={{
+                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
+                      color: isSelected ? (isPremium ? '#ffd800' : '#67e8f9') : '#a1a1aa',
+                    }}
+                  >
+                    {planet.name}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Upgrade prompt for free users */}
+          {!isPremium && (
+            <div
+              className="mt-6 p-4 rounded-xl flex items-center gap-4"
+              style={{
+                background: 'rgba(255, 216, 0, 0.05)',
+                border: '1px solid rgba(255, 216, 0, 0.2)',
+              }}
+            >
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#ffd800]/10 text-[#ffd800] flex-shrink-0">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <p className="text-[#ffd800] text-sm font-medium">Unlock Avatar Customization</p>
+                <p className="text-[#a1a1aa] text-xs mt-0.5">Upgrade to Pro to choose your planet avatar</p>
+              </div>
+              <Link
+                href="/pricing"
+                className="rounded-lg text-xs font-semibold text-[#0a0e1a] bg-gradient-to-r from-[#ffd800] to-[#ffb800] hover:shadow-[0_0_15px_rgba(255,216,0,0.4)] transition-all duration-300"
+                style={{ paddingLeft: '24px', paddingRight: '24px', paddingTop: '10px', paddingBottom: '10px' }}
+              >
+                Upgrade
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
@@ -354,84 +505,129 @@ function AccountContent() {
             marginTop: '20px',
             marginLeft: '5px',
             marginRight: '5px',
+            padding: '24px',
             background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
             border: '1px solid rgba(103, 232, 249, 0.15)',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
           }}
         >
-          <div className="p-8">
-            <div className="space-y-8">
-              {/* Daily Usage */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-[#67e8f9] text-xs font-medium uppercase tracking-wider">Daily Calculations</p>
-                  <p className="text-white text-sm font-medium">
-                    {Math.max(0, remainingCalculations)} / {STRIPE_CONFIG.freeTier.dailyCalculations}
-                  </p>
-                </div>
+          {/* Header */}
+          <h2
+            className="text-xl font-bold tracking-wide"
+            style={{
+              marginBottom: '28px',
+              background: 'linear-gradient(135deg, #67e8f9 0%, #1e96fc 100%)',
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}
+          >
+            Free Explorer Plan
+          </h2>
+
+          {/* Usage Stats */}
+          <div
+            className="rounded-xl p-5"
+            style={{
+              background: 'rgba(103, 232, 249, 0.03)',
+              border: '1px solid rgba(103, 232, 249, 0.1)',
+              marginBottom: '24px',
+            }}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
                 <div
-                  className="h-3 rounded-full overflow-hidden"
+                  className="w-10 h-10 rounded-lg flex items-center justify-center"
                   style={{
                     background: 'rgba(103, 232, 249, 0.1)',
-                    boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.2)',
                   }}
                 >
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{
-                      width: `${calculationPercentage}%`,
-                      background: calculationPercentage > 30
-                        ? 'linear-gradient(90deg, #1e96fc 0%, #67e8f9 100%)'
-                        : calculationPercentage > 10
-                        ? 'linear-gradient(90deg, #ffd800 0%, #ff9500 100%)'
-                        : 'linear-gradient(90deg, #e3170a 0%, #ff6b6b 100%)',
-                      boxShadow: calculationPercentage > 30
-                        ? '0 0 10px rgba(103, 232, 249, 0.4)'
-                        : calculationPercentage > 10
-                        ? '0 0 10px rgba(255, 216, 0, 0.4)'
-                        : '0 0 10px rgba(227, 23, 10, 0.4)',
-                    }}
-                  />
+                  <svg className="w-5 h-5 text-[#67e8f9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
                 </div>
-                <p className="text-[#4a5568] text-xs mt-2">
-                  Resets daily at midnight UTC
-                </p>
+                <span className="text-white font-medium">Daily Calculations</span>
               </div>
-
-              {/* Upgrade CTA */}
-              <div
-                className="p-8 rounded-xl"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255, 216, 0, 0.05) 0%, rgba(255, 184, 0, 0.02) 100%)',
-                  border: '1px solid rgba(255, 216, 0, 0.15)',
-                }}
-              >
-                <div className="flex flex-col sm:flex-row items-start gap-6">
-                  <div
-                    className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center bg-[#ffd800]/10 text-[#ffd800]"
-                  >
-                    <svg className="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
-                    </svg>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-[#ffd800] font-semibold text-lg mb-3">Unlock Unlimited Access</h3>
-                    <p className="text-[#a1a1aa] text-sm mb-6 leading-relaxed">
-                      Remove daily limits and explore the cosmos without restrictions.
-                    </p>
-                    <Link
-                      href="/pricing"
-                      className="inline-flex items-center gap-3 px-8 py-4 rounded-lg text-sm font-semibold text-[#0a0e1a] bg-gradient-to-r from-[#ffd800] to-[#ffb800] transition-all duration-300 hover:shadow-[0_0_25px_rgba(255,216,0,0.4)] hover:scale-[1.02] active:scale-[0.98]"
-                    >
-                      Upgrade to Pro
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-              </div>
+              <span className="text-2xl font-bold text-white">
+                {Math.max(0, remainingCalculations)}<span className="text-[#6b7a90] text-lg font-normal">/{STRIPE_CONFIG.freeTier.dailyCalculations}</span>
+              </span>
             </div>
+
+            {/* Progress bar */}
+            <div
+              className="h-2 rounded-full overflow-hidden"
+              style={{
+                background: 'rgba(103, 232, 249, 0.1)',
+              }}
+            >
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${calculationPercentage}%`,
+                  background: calculationPercentage > 30
+                    ? 'linear-gradient(90deg, #1e96fc 0%, #67e8f9 100%)'
+                    : calculationPercentage > 10
+                    ? 'linear-gradient(90deg, #ffd800 0%, #ff9500 100%)'
+                    : 'linear-gradient(90deg, #e3170a 0%, #ff6b6b 100%)',
+                  boxShadow: calculationPercentage > 30
+                    ? '0 0 10px rgba(103, 232, 249, 0.5)'
+                    : calculationPercentage > 10
+                    ? '0 0 10px rgba(255, 216, 0, 0.5)'
+                    : '0 0 10px rgba(227, 23, 10, 0.5)',
+                }}
+              />
+            </div>
+            <p className="text-[#6b7a90] text-xs mt-3 flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Resets daily at midnight UTC
+            </p>
+          </div>
+
+          {/* Upgrade CTA */}
+          <div
+            className="rounded-xl p-6 text-center"
+            style={{
+              background: 'linear-gradient(135deg, rgba(255, 216, 0, 0.08) 0%, rgba(255, 184, 0, 0.03) 100%)',
+              border: '1px solid rgba(255, 216, 0, 0.2)',
+            }}
+          >
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <svg className="w-5 h-5 text-[#ffd800]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+              </svg>
+              <h3 className="text-[#ffd800] font-bold text-lg">Unlock Unlimited Access</h3>
+            </div>
+            <p
+              className="text-sm mb-8"
+              style={{
+                background: 'linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #ffffff 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '0 0 20px rgba(255,255,255,0.3)',
+              }}
+            >
+              Remove daily limits and explore the cosmos without restrictions
+            </p>
+            <Link
+              href="/pricing"
+              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-xl text-base font-semibold text-[#0a0e1a] bg-gradient-to-r from-[#ffd800] to-[#ffb800] transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,216,0,0.4)] hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                marginTop: '10px',
+                marginBottom: '10px',
+                paddingTop: '16px',
+                paddingBottom: '16px',
+                paddingLeft: '40px',
+                paddingRight: '40px',
+              }}
+            >
+              Upgrade to Pro
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
           </div>
         </div>
       )}

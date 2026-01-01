@@ -5,6 +5,7 @@ import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { clearAuthCookies } from '@/lib/auth';
+import { getRandomAvatarPath } from '@/lib/avatars';
 import type { Subscription } from '@/types/supabase';
 
 interface AuthContextType {
@@ -27,6 +28,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
   const router = useRouter();
   const hasRefreshedRef = useRef(false);
+  const hasAssignedAvatarRef = useRef(false);
+
+  // Assign a random planet avatar if user doesn't have one
+  const assignRandomAvatar = async (currentUser: User) => {
+    if (hasAssignedAvatarRef.current) return;
+    if (currentUser.user_metadata?.avatar_url) return;
+
+    hasAssignedAvatarRef.current = true;
+    const randomAvatar = getRandomAvatarPath();
+
+    try {
+      const { data, error } = await supabase.auth.updateUser({
+        data: { avatar_url: randomAvatar }
+      });
+
+      if (!error && data.user) {
+        setUser(data.user);
+        console.log('[AuthProvider] Assigned random avatar:', randomAvatar);
+      }
+    } catch (err) {
+      console.error('[AuthProvider] Failed to assign avatar:', err);
+    }
+  };
 
   // Check if user has active premium subscription
   const isPremium = subscription?.status === 'active' || subscription?.status === 'trialing';
@@ -87,6 +111,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (newSession?.user) {
           // Load subscription in background - don't block
           fetchSubscription(newSession.user.id);
+
+          // Assign random avatar if user doesn't have one
+          assignRandomAvatar(newSession.user);
 
           // After OAuth redirect, force a router refresh to sync server state
           if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && !hasRefreshedRef.current) {
