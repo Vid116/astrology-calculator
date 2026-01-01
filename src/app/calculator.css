@@ -1542,6 +1542,95 @@ header h1 {
     user-select: none;
 }
 
+.profection-wheel-container {
+    position: relative;
+}
+
+.profection-expand-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    background: rgba(30, 150, 252, 0.2);
+    border: 1px solid var(--cyan-400);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cyan-400);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.profection-expand-btn:hover {
+    background: rgba(30, 150, 252, 0.4);
+    transform: scale(1.05);
+}
+
+.profection-expand-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.profection-fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.profection-fullscreen-content {
+    position: relative;
+    width: 90vmin;
+    height: 90vmin;
+    max-width: 800px;
+    max-height: 800px;
+}
+
+.profection-fullscreen-close {
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 36px;
+    height: 36px;
+    background: rgba(30, 150, 252, 0.2);
+    border: 1px solid var(--cyan-400);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cyan-400);
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.profection-fullscreen-close:hover {
+    background: rgba(227, 23, 10, 0.4);
+    border-color: var(--red-400);
+    color: var(--red-400);
+}
+
+.profection-wheel.fullscreen {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+}
+
 [data-theme="dark"] .profection-wheel-container {
     background: linear-gradient(135deg,
         rgba(103, 232, 249, 0.04) 0%,
@@ -1557,5 +1646,22 @@ header h1 {
 
     .profection-wheel {
         max-width: 100%;
+    }
+
+    .profection-expand-btn {
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+    }
+
+    .profection-fullscreen-close {
+        top: -30px;
+        right: 0;
+    }
+
+    .profection-fullscreen-content {
+        width: 95vmin;
+        height: 95vmin;
     }
 }

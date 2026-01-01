@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import type { ProfectionResult } from '@/types/astrology';
 
 interface ProfectionWheelProps {
@@ -117,13 +118,26 @@ const ZODIAC_ORDER = [
 const HOUSE_ORDER = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th'];
 
 export function ProfectionWheel({ result }: ProfectionWheelProps) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
   const centerX = 250;
   const centerY = 250;
   const houseRingInner = 25;
   const houseRingOuter = 50;
-  const numYearRings = 6; // Show 72 years (6 cycles of 12)
-  const yearRingWidth = 26;
-  const yearRingsOuter = houseRingOuter + (numYearRings * yearRingWidth); // 50 + 156 = 206
+
+  // Calculate current year position based on actual year, not age
+  const currentYear = new Date().getFullYear();
+  const yearsFromStart = currentYear - result.firstActivation;
+  const currentRing = Math.floor(yearsFromStart / 12);
+  const currentSegment = yearsFromStart % 12;
+
+  // Calculate rings needed: show complete cycles up to and including current year
+  const numYearRings = Math.max(1, currentRing + 1);
+
+  // Adjust ring width based on number of rings to keep wheel balanced
+  const baseYearRingWidth = numYearRings <= 3 ? 40 : numYearRings <= 5 ? 30 : 26;
+  const yearRingWidth = baseYearRingWidth;
+  const yearRingsOuter = houseRingOuter + (numYearRings * yearRingWidth);
   const zodiacRingInner = yearRingsOuter; // Zodiac ring starts where years end
   const zodiacRingOuter = zodiacRingInner + 30; // Zodiac ring is 30px wide
   const outerRadius = zodiacRingOuter;
@@ -131,10 +145,6 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
 
   // Find the starting index based on rising sign
   const risingIndex = ZODIAC_ORDER.indexOf(result.rising);
-
-  // Calculate which year ring and segment the current age falls into
-  const currentRing = Math.floor(result.age / 12);
-  const currentSegment = result.age % 12;
 
   // Generate year data for each ring and segment
   const getYearForRingSegment = (ring: number, segment: number) => {
@@ -184,8 +194,117 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
   const segmentAngle = 30;
 
   return (
-    <div className="profection-wheel-container">
-      <svg viewBox="0 0 500 500" className="profection-wheel">
+    <>
+      {/* Fullscreen overlay */}
+      {isFullscreen && (
+        <div className="profection-fullscreen-overlay" onClick={() => setIsFullscreen(false)}>
+          <div className="profection-fullscreen-content" onClick={e => e.stopPropagation()}>
+            <button className="profection-fullscreen-close" onClick={() => setIsFullscreen(false)}>
+              &#10005;
+            </button>
+            <svg viewBox="0 0 500 500" className="profection-wheel fullscreen">
+              {/* Draw segments */}
+              {Array.from({ length: 12 }).map((_, i) => {
+                const startAngle = i * segmentAngle + 90;
+                const endAngle = startAngle + segmentAngle;
+                const midAngle = startAngle + segmentAngle / 2;
+                const sign = getSignForHouse(i);
+                const houseNum = i + 1;
+                const isCurrentHouse = i === currentSegment && currentRing < numYearRings;
+
+                return (
+                  <g key={i}>
+                    <line
+                      x1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).x}
+                      y1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).y}
+                      x2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).x}
+                      y2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).y}
+                      stroke="var(--cyan-400)"
+                      strokeWidth="1"
+                      opacity="0.6"
+                    />
+                    <path
+                      d={describeSegment(centerX, centerY, houseRingInner, houseRingOuter, startAngle, endAngle)}
+                      fill={isCurrentHouse ? 'var(--gold-400)' : '#1a1a2e'}
+                      stroke="none"
+                    />
+                    <text
+                      x={polarToCartesian(centerX, centerY, (houseRingInner + houseRingOuter) / 2, midAngle).x}
+                      y={polarToCartesian(centerX, centerY, (houseRingInner + houseRingOuter) / 2, midAngle).y}
+                      fill={isCurrentHouse ? '#1a1a2e' : '#ffffff'}
+                      fontSize="9"
+                      fontWeight="bold"
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                    >
+                      {houseNum}
+                    </text>
+                    {Array.from({ length: numYearRings }).map((_, ring) => {
+                      const ringInner = houseRingOuter + ring * yearRingWidth;
+                      const ringOuter = ringInner + yearRingWidth;
+                      const year = getYearForRingSegment(ring, i);
+                      const isCurrentYear = year === currentYear;
+                      const isFutureYear = year > currentYear;
+                      return (
+                        <g key={`ring-${ring}`}>
+                          <path
+                            d={describeSegment(centerX, centerY, ringInner, ringOuter, startAngle, endAngle)}
+                            fill={isCurrentYear ? 'var(--gold-400)' : 'transparent'}
+                            stroke="none"
+                            opacity={isFutureYear ? 0.4 : 0.8}
+                          />
+                          <text
+                            x={polarToCartesian(centerX, centerY, (ringInner + ringOuter) / 2, midAngle).x}
+                            y={polarToCartesian(centerX, centerY, (ringInner + ringOuter) / 2, midAngle).y}
+                            fill={isCurrentYear ? '#1a1a2e' : '#ffffff'}
+                            fontSize="10"
+                            fontWeight={isCurrentYear ? 'bold' : 'normal'}
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                            opacity={isFutureYear ? 0.5 : 1}
+                          >
+                            {year}
+                          </text>
+                        </g>
+                      );
+                    })}
+                    <g
+                      transform={`translate(${polarToCartesian(centerX, centerY, zodiacRadius, midAngle).x - 10}, ${polarToCartesian(centerX, centerY, zodiacRadius, midAngle).y - 10}) scale(0.2)`}
+                      style={{ color: isCurrentHouse ? 'var(--gold-400)' : '#ffffff' }}
+                    >
+                      {ZODIAC_SVG_PATHS[sign]}
+                    </g>
+                  </g>
+                );
+              })}
+              <circle cx={centerX} cy={centerY} r={houseRingInner} fill="#0a0e1a" stroke="var(--cyan-400)" strokeWidth="1" />
+              <circle cx={centerX} cy={centerY} r={houseRingOuter} fill="none" stroke="var(--cyan-400)" strokeWidth="1" />
+              {Array.from({ length: numYearRings + 1 }).map((_, ring) => (
+                <circle
+                  key={`ring-circle-${ring}`}
+                  cx={centerX}
+                  cy={centerY}
+                  r={houseRingOuter + ring * yearRingWidth}
+                  fill="none"
+                  stroke="var(--cyan-400)"
+                  strokeWidth="0.5"
+                  opacity="0.5"
+                />
+              ))}
+              <circle cx={centerX} cy={centerY} r={zodiacRingInner} fill="none" stroke="var(--cyan-400)" strokeWidth="1" opacity="0.8" />
+              <circle cx={centerX} cy={centerY} r={zodiacRingOuter} fill="none" stroke="var(--cyan-400)" strokeWidth="2" />
+            </svg>
+          </div>
+        </div>
+      )}
+
+      <div className="profection-wheel-container">
+        <button className="profection-expand-btn" onClick={() => setIsFullscreen(true)} title="View fullscreen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+          </svg>
+        </button>
+        <svg viewBox="0 0 500 500" className="profection-wheel">
         {/* Draw segments */}
         {Array.from({ length: 12 }).map((_, i) => {
           const startAngle = i * segmentAngle + 90; // Start from bottom (House 1 at 6 o'clock)
@@ -233,8 +352,8 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
                 const ringInner = houseRingOuter + ring * yearRingWidth;
                 const ringOuter = ringInner + yearRingWidth;
                 const year = getYearForRingSegment(ring, i);
-                const isCurrentYear = ring === currentRing && i === currentSegment;
-                const isFutureYear = ring > currentRing || (ring === currentRing && i > currentSegment);
+                const isCurrentYear = year === currentYear;
+                const isFutureYear = year > currentYear;
 
                 return (
                   <g key={`ring-${ring}`}>
@@ -297,5 +416,6 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
         <circle cx={centerX} cy={centerY} r={zodiacRingOuter} fill="none" stroke="var(--cyan-400)" strokeWidth="2" />
       </svg>
     </div>
+    </>
   );
 }
