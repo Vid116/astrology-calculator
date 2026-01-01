@@ -56,11 +56,11 @@ export function CalculatorApp() {
       <button className="launch-btn">
         <svg viewBox="0 0 100 100" className="launch-icon" style={{ width: '1.5em', height: '1.5em', opacity: 0.5 }}>
           <path
-            fill="currentColor"
+            fill="var(--purple-300)"
             d="M 20 35 C 12 40 8 50 12 60 C 16 70 28 75 40 70 C 35 65 32 58 35 50 C 38 42 48 38 58 42 C 52 35 42 32 32 35 C 28 36 24 38 20 42"
           />
           <path
-            fill="currentColor"
+            fill="var(--purple-300)"
             d="M 80 65 C 88 60 92 50 88 40 C 84 30 72 25 60 30 C 65 35 68 42 65 50 C 62 58 52 62 42 58 C 48 65 58 68 68 65 C 72 64 76 62 80 58"
           />
         </svg>
@@ -89,11 +89,11 @@ export function CalculatorApp() {
       >
         <svg viewBox="0 0 100 100" className="launch-icon" style={{ width: '1.5em', height: '1.5em' }}>
           <path
-            fill="currentColor"
+            fill="var(--purple-300)"
             d="M 20 35 C 12 40 8 50 12 60 C 16 70 28 75 40 70 C 35 65 32 58 35 50 C 38 42 48 38 58 42 C 52 35 42 32 32 35 C 28 36 24 38 20 42"
           />
           <path
-            fill="currentColor"
+            fill="var(--purple-300)"
             d="M 80 65 C 88 60 92 50 88 40 C 84 30 72 25 60 30 C 65 35 68 42 65 50 C 62 58 52 62 42 58 C 48 65 58 68 68 65 C 72 64 76 62 80 58"
           />
         </svg>
