@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { ProfectionResult } from '@/types/astrology';
 
 interface ProfectionWheelProps {
@@ -119,6 +119,16 @@ const HOUSE_ORDER = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9t
 
 export function ProfectionWheel({ result }: ProfectionWheelProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const fullscreenWheelRef = useRef<SVGSVGElement>(null);
+
+  // Auto-scroll to wheel when fullscreen opens
+  useEffect(() => {
+    if (isFullscreen && fullscreenWheelRef.current) {
+      setTimeout(() => {
+        fullscreenWheelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 50);
+    }
+  }, [isFullscreen]);
 
   const centerX = 250;
   const centerY = 250;
@@ -202,7 +212,7 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
             <button className="profection-fullscreen-close" onClick={() => setIsFullscreen(false)}>
               &#10005;
             </button>
-            <svg viewBox="0 0 500 500" className="profection-wheel fullscreen">
+            <svg ref={fullscreenWheelRef} viewBox="0 0 500 500" className="profection-wheel fullscreen">
               {/* Draw segments */}
               {Array.from({ length: 12 }).map((_, i) => {
                 const startAngle = i * segmentAngle + 90;
