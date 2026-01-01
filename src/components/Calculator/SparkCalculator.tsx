@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { CosmicDropdown } from '@/components/ui/CosmicDropdown';
 import { calculateSpark } from '@/lib/calculations';
 import type { SparkEntry, SparkResult, Planet, ZodiacSign } from '@/types/astrology';
@@ -48,6 +48,7 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
   const [degree, setDegree] = useState('');
   const [result, setResult] = useState<SparkResult | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -83,6 +84,11 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
     const planetName = planet === 'OTHER' ? customPlanet.toUpperCase() : planet;
     const sparkResult = calculateSpark(planetName, sign, degree, sparkDatabase);
     setResult(sparkResult);
+
+    // Scroll to results after a brief delay for render
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   return (
@@ -98,7 +104,10 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
           <CosmicDropdown
             options={PLANETS}
             value={planet}
-            onChange={setPlanet}
+            onChange={(val) => {
+              setPlanet(val);
+              setErrors(prev => ({ ...prev, planet: '' }));
+            }}
             placeholder="Select a planet..."
             error={errors.planet}
           />
@@ -108,7 +117,10 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
               className={`custom-planet-input ${errors.customPlanet ? 'has-error' : ''}`}
               placeholder="Enter custom planet/point..."
               value={customPlanet}
-              onChange={e => setCustomPlanet(e.target.value)}
+              onChange={e => {
+                setCustomPlanet(e.target.value);
+                setErrors(prev => ({ ...prev, customPlanet: '' }));
+              }}
             />
           )}
         </div>
@@ -118,7 +130,10 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
           <CosmicDropdown
             options={SIGNS}
             value={sign}
-            onChange={setSign}
+            onChange={(val) => {
+              setSign(val);
+              setErrors(prev => ({ ...prev, sign: '' }));
+            }}
             placeholder="Select a sign..."
             error={errors.sign}
           />
@@ -131,7 +146,10 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
             min="0"
             max="29"
             value={degree}
-            onChange={e => setDegree(e.target.value)}
+            onChange={e => {
+              setDegree(e.target.value);
+              setErrors(prev => ({ ...prev, degree: '' }));
+            }}
             className={errors.degree ? 'has-error' : ''}
           />
           {errors.degree && <div className="validation-error show">{errors.degree}</div>}
@@ -143,7 +161,7 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
       </form>
 
       {result && (
-        <div className="result-section show">
+        <div ref={resultRef} className="result-section show">
           <h3>Spark Calculation Result</h3>
           <div className="result-item">
             <strong>Planet:</strong> <span>{result.planet}</span>

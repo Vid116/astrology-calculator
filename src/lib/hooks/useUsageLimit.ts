@@ -20,7 +20,7 @@ const ANON_LIMIT = STRIPE_CONFIG.freeTier.anonymousDailyCalculations;
 const LOGGED_IN_LIMIT = STRIPE_CONFIG.freeTier.dailyCalculations;
 
 export function useUsageLimit() {
-  const { user, isPremium } = useAuth();
+  const { user, isPremium: authIsPremium, isLoading: authLoading } = useAuth();
   const [state, setState] = useState<UsageState>({
     isLoading: true,
     canCalculate: true,
@@ -33,9 +33,14 @@ export function useUsageLimit() {
 
   // Fetch current usage on mount
   useEffect(() => {
+    // Wait for auth to finish loading before checking usage
+    if (authLoading) {
+      return;
+    }
+
     const fetchUsage = async () => {
-      // If logged in and premium, always allow
-      if (isPremium) {
+      // If logged in and premium (from auth context), always allow
+      if (authIsPremium) {
         setState({
           isLoading: false,
           canCalculate: true,
@@ -97,12 +102,12 @@ export function useUsageLimit() {
     };
 
     fetchUsage();
-  }, [user, isPremium]);
+  }, [user, authIsPremium, authLoading]);
 
   // Track a calculation
   const trackCalculation = useCallback(async (): Promise<boolean> => {
-    // Premium users always allowed
-    if (state.isPremium) {
+    // Premium users always allowed (check both state and auth context)
+    if (state.isPremium || authIsPremium) {
       return true;
     }
 
@@ -182,14 +187,19 @@ export function useUsageLimit() {
     }));
 
     return true;
-  }, [user, state.isPremium, state.remaining]);
+  }, [user, state.isPremium, state.remaining, authIsPremium]);
 
   const dismissUpgradePrompt = useCallback(() => {
     setState((prev) => ({ ...prev, showUpgradePrompt: false }));
   }, []);
 
+  // Combine state with auth context premium status for safety
+  const isPremium = state.isPremium || authIsPremium;
+
   return {
     ...state,
+    isPremium,
+    canCalculate: state.canCalculate || isPremium,
     trackCalculation,
     dismissUpgradePrompt,
   };

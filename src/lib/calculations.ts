@@ -109,7 +109,10 @@ export function calculateProfection(
 
   if (!houseMappings) return null;
 
-  const currentHouseIndex = age % 12;
+  // Use years from first activation (matches wheel calculation)
+  const currentYear = today.getFullYear();
+  const yearsFromStart = currentYear - firstActivation;
+  const currentHouseIndex = yearsFromStart % 12;
   const currentHouse = houseOrder[currentHouseIndex];
   const currentSign = houseMappings[currentHouse];
 
@@ -125,7 +128,7 @@ export function calculateProfection(
       year,
       house,
       sign,
-      isCurrent: i === age,
+      isCurrent: year === currentYear,
     });
   }
 

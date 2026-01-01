@@ -24,7 +24,7 @@ export async function POST() {
       .select('status')
       .eq('user_id', user.id)
       .in('status', ['active', 'trialing'])
-      .single();
+      .maybeSingle();
 
     // Premium users have unlimited calculations
     if (subscription) {
@@ -102,7 +102,7 @@ export async function GET() {
       .select('status')
       .eq('user_id', user.id)
       .in('status', ['active', 'trialing'])
-      .single();
+      .maybeSingle();
 
     if (subscription) {
       return NextResponse.json({

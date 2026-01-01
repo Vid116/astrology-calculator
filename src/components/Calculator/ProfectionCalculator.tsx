@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { CosmicDropdown } from '@/components/ui/CosmicDropdown';
 import { calculateProfection } from '@/lib/calculations';
 import { ProfectionWheel } from './ProfectionWheel';
@@ -33,6 +33,7 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
   const [rising, setRising] = useState('');
   const [result, setResult] = useState<ProfectionResult | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -65,6 +66,11 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
 
     const profectionResult = calculateProfection(birthDate, rising, profectionData);
     setResult(profectionResult);
+
+    // Scroll to results after a brief delay for render
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   return (
@@ -80,7 +86,10 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
           <input
             type="date"
             value={birthDate}
-            onChange={e => setBirthDate(e.target.value)}
+            onChange={e => {
+              setBirthDate(e.target.value);
+              setErrors(prev => ({ ...prev, birthDate: '' }));
+            }}
             className={errors.birthDate ? 'has-error' : ''}
           />
           {errors.birthDate && <div className="validation-error show">{errors.birthDate}</div>}
@@ -91,7 +100,10 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
           <CosmicDropdown
             options={SIGNS}
             value={rising}
-            onChange={setRising}
+            onChange={(val) => {
+              setRising(val);
+              setErrors(prev => ({ ...prev, rising: '' }));
+            }}
             placeholder="Select rising sign..."
             error={errors.rising}
           />
@@ -103,7 +115,7 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
       </form>
 
       {result && (
-        <div className="result-section show">
+        <div ref={resultRef} className="result-section show">
           <h3>Profection Years Result</h3>
           <div className="result-item">
             <strong>Current Age:</strong> <span>{result.age}</span>

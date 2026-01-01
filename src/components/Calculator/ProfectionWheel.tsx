@@ -125,7 +125,7 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
   const houseRingInner = 25;
   const houseRingOuter = 50;
 
-  // Calculate current year position based on actual year, not age
+  // Calculate current year position based on actual year
   const currentYear = new Date().getFullYear();
   const yearsFromStart = currentYear - result.firstActivation;
   const currentRing = Math.floor(yearsFromStart / 12);

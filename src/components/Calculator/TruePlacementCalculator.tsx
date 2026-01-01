@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { CosmicDropdown } from '@/components/ui/CosmicDropdown';
 import { SentenceBuilder } from './SentenceBuilder';
 import { calculateTruePlacement } from '@/lib/calculations';
@@ -67,6 +67,7 @@ export function TruePlacementCalculator({
   const [result, setResult] = useState<TruePlacementResult | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -113,6 +114,11 @@ export function TruePlacementCalculator({
       setResult(null);
       setNotFound(true);
     }
+
+    // Scroll to results after a brief delay for render
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   const buildInterpretation = () => {
@@ -142,7 +148,10 @@ export function TruePlacementCalculator({
           <CosmicDropdown
             options={PLANETS}
             value={planet}
-            onChange={setPlanet}
+            onChange={(val) => {
+              setPlanet(val);
+              setErrors(prev => ({ ...prev, planet: '' }));
+            }}
             placeholder="Select a planet..."
             error={errors.planet}
           />
@@ -153,7 +162,10 @@ export function TruePlacementCalculator({
           <CosmicDropdown
             options={SIGNS}
             value={sign}
-            onChange={setSign}
+            onChange={(val) => {
+              setSign(val);
+              setErrors(prev => ({ ...prev, sign: '' }));
+            }}
             placeholder="Select a sign..."
             error={errors.sign}
           />
@@ -168,7 +180,10 @@ export function TruePlacementCalculator({
             min="0"
             max="29"
             value={degree}
-            onChange={e => setDegree(e.target.value)}
+            onChange={e => {
+              setDegree(e.target.value);
+              setErrors(prev => ({ ...prev, degree: '' }));
+            }}
             placeholder="Enter degree (0-29)"
             className={errors.degree ? 'has-error' : ''}
           />
@@ -180,7 +195,10 @@ export function TruePlacementCalculator({
           <CosmicDropdown
             options={SIGNS}
             value={rising}
-            onChange={setRising}
+            onChange={(val) => {
+              setRising(val);
+              setErrors(prev => ({ ...prev, rising: '' }));
+            }}
             placeholder="Select a sign..."
             error={errors.rising}
           />
@@ -192,7 +210,7 @@ export function TruePlacementCalculator({
       </form>
 
       {result && (
-        <div className="result-section show">
+        <div ref={resultRef} className="result-section show">
           <h3>True Placement Result</h3>
           <div className="result-item">
             <strong>House:</strong>{' '}
