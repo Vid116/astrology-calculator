@@ -33,14 +33,43 @@ function useCountdown() {
 
 interface UsageLimitBannerProps {
   canCalculateOverride?: boolean;
+  remainingOverride?: number;
+  limitOverride?: number;
+  showUpgradePromptOverride?: boolean;
+  dismissUpgradePromptOverride?: () => void;
+  isLoggedInOverride?: boolean;
+  isPremiumOverride?: boolean;
 }
 
-export function UsageLimitBanner({ canCalculateOverride }: UsageLimitBannerProps = {}) {
-  const { remaining, limit, isPremium, canCalculate: canCalculateFromHook, isLoading, isLoggedIn, showUpgradePrompt, dismissUpgradePrompt } = useUsageLimit();
+export function UsageLimitBanner({
+  canCalculateOverride,
+  remainingOverride,
+  limitOverride,
+  showUpgradePromptOverride,
+  dismissUpgradePromptOverride,
+  isLoggedInOverride,
+  isPremiumOverride,
+}: UsageLimitBannerProps = {}) {
+  const {
+    remaining: remainingFromHook,
+    limit: limitFromHook,
+    isPremium: isPremiumFromHook,
+    canCalculate: canCalculateFromHook,
+    isLoading,
+    isLoggedIn: isLoggedInFromHook,
+    showUpgradePrompt: showUpgradePromptFromHook,
+    dismissUpgradePrompt: dismissUpgradePromptFromHook,
+  } = useUsageLimit();
   const timeLeft = useCountdown();
 
-  // Use override if provided, otherwise use hook value
+  // Use overrides if provided, otherwise use hook values
   const canCalculate = canCalculateOverride !== undefined ? canCalculateOverride : canCalculateFromHook;
+  const remaining = remainingOverride !== undefined ? remainingOverride : remainingFromHook;
+  const limit = limitOverride !== undefined ? limitOverride : limitFromHook;
+  const showUpgradePrompt = showUpgradePromptOverride !== undefined ? showUpgradePromptOverride : showUpgradePromptFromHook;
+  const dismissUpgradePrompt = dismissUpgradePromptOverride !== undefined ? dismissUpgradePromptOverride : dismissUpgradePromptFromHook;
+  const isLoggedIn = isLoggedInOverride !== undefined ? isLoggedInOverride : isLoggedInFromHook;
+  const isPremium = isPremiumOverride !== undefined ? isPremiumOverride : isPremiumFromHook;
 
   // Don't show for premium users
   if (isPremium || isLoading) {

@@ -20,7 +20,7 @@ export function CalculatorApp() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { remaining, limit, isPremium, trackCalculation, canCalculate } = useUsageLimit();
+  const { remaining, limit, isPremium, trackCalculation, canCalculate, showUpgradePrompt, dismissUpgradePrompt, isLoggedIn } = useUsageLimit();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
@@ -205,7 +205,15 @@ export function CalculatorApp() {
       </div>
 
       {/* Usage limit overlay/banner */}
-      <UsageLimitBanner canCalculateOverride={canCalculate} />
+      <UsageLimitBanner
+        canCalculateOverride={canCalculate}
+        remainingOverride={remaining}
+        limitOverride={limit}
+        showUpgradePromptOverride={showUpgradePrompt}
+        dismissUpgradePromptOverride={dismissUpgradePrompt}
+        isLoggedInOverride={isLoggedIn}
+        isPremiumOverride={isPremium}
+      />
     </>
   );
 }
