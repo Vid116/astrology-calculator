@@ -74,7 +74,7 @@ function AccountContent() {
         .from('profiles')
         .select('avatar_url')
         .eq('user_id', user.id)
-        .single();
+        .single() as { data: { avatar_url: string | null } | null };
 
       if (profileData?.avatar_url) {
         setAvatarUrl(profileData.avatar_url);
