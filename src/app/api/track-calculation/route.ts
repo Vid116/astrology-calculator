@@ -125,8 +125,12 @@ export async function GET() {
 
     // Compare dates properly using UTC (matches PostgreSQL CURRENT_DATE)
     const todayUTC = new Date().toISOString().split('T')[0]; // "2025-01-02"
-    const resetDateStr = userData?.calculation_reset_date?.toString().split('T')[0]; // Handle both "2025-01-02" and "2025-01-02T00:00:00"
-    const isToday = resetDateStr === todayUTC;
+    const resetDateStr = userData?.calculation_reset_date?.toString().split('T')[0];
+
+    // If date is NULL but count > 0, treat as today (don't give free calculations)
+    // If date is NULL and count = 0, treat as fresh (new user)
+    const hasCount = (userData?.calculation_count || 0) > 0;
+    const isToday = resetDateStr === todayUTC || (resetDateStr == null && hasCount);
 
     const count = isToday ? (userData?.calculation_count || 0) : 0;
     const remaining = Math.max(0, STRIPE_CONFIG.freeTier.dailyCalculations - count);
