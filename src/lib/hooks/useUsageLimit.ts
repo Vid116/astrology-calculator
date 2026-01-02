@@ -133,18 +133,20 @@ export function useUsageLimit() {
       fetch('/api/track-calculation', { method: 'POST' })
         .then((res) => res.json())
         .then((data) => {
-          if (data.limitReached) {
+          // Only lock out if explicitly at limit AND remaining is 0
+          if (data.limitReached === true && data.remaining === 0) {
             setState((prev) => ({
               ...prev,
               canCalculate: false,
               remaining: 0,
             }));
-          } else if (data.remaining !== undefined) {
+          } else if (data.success && data.remaining !== undefined) {
             // Sync with server count
+            // Only update canCalculate to false if remaining is 0, never block mid-session
             setState((prev) => ({
               ...prev,
               remaining: data.remaining,
-              showUpgradePrompt: data.remaining <= 2,
+              showUpgradePrompt: data.remaining <= 2 && data.remaining > 0,
             }));
           }
         })
