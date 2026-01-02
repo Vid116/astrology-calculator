@@ -24,7 +24,11 @@ export function createClient(): SupabaseClient<Database> {
           signInWithOAuth: async () => ({ data: { provider: '', url: '' }, error: null }),
         },
         from: () => ({
-          select: () => ({ eq: () => ({ in: () => ({ order: () => ({ limit: () => ({ single: async () => ({ data: null, error: null }) }) }) }) }) }),
+          select: () => ({ eq: () => ({ in: () => ({ order: () => ({ limit: () => ({ single: async () => ({ data: null, error: null }) }) }) }), single: async () => ({ data: null, error: null }) }) }),
+          upsert: async () => ({ data: null, error: null }),
+          insert: async () => ({ data: null, error: null }),
+          update: () => ({ eq: async () => ({ data: null, error: null }) }),
+          delete: () => ({ eq: async () => ({ data: null, error: null }) }),
         }),
       } as unknown as SupabaseClient<Database>;
     }
