@@ -111,7 +111,7 @@ export function useUsageLimit() {
       return true;
     }
 
-    // Logged in users - track on server
+    // Logged in users - check locally first, track in background
     if (user) {
       // Check if already at limit BEFORE trying to calculate
       if (state.remaining <= 0) {
@@ -122,33 +122,37 @@ export function useUsageLimit() {
         return false;
       }
 
-      try {
-        const response = await fetch('/api/track-calculation', { method: 'POST' });
-        const data = await response.json();
+      // Optimistically allow and decrement locally
+      setState((prev) => ({
+        ...prev,
+        remaining: prev.remaining - 1,
+        showUpgradePrompt: prev.remaining - 1 <= 2,
+      }));
 
-        if (data.limitReached) {
-          // They were already over limit - block now
-          setState((prev) => ({
-            ...prev,
-            canCalculate: false,
-            remaining: 0,
-          }));
-          return false;
-        }
+      // Track on server in background (don't await)
+      fetch('/api/track-calculation', { method: 'POST' })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.limitReached) {
+            setState((prev) => ({
+              ...prev,
+              canCalculate: false,
+              remaining: 0,
+            }));
+          } else if (data.remaining !== undefined) {
+            // Sync with server count
+            setState((prev) => ({
+              ...prev,
+              remaining: data.remaining,
+              showUpgradePrompt: data.remaining <= 2,
+            }));
+          }
+        })
+        .catch(() => {
+          // On error, don't block
+        });
 
-        // Calculation succeeded - update remaining but keep canCalculate true
-        // They'll be blocked on their NEXT attempt if remaining is 0
-        setState((prev) => ({
-          ...prev,
-          remaining: data.remaining,
-          showUpgradePrompt: data.remaining <= 2,
-        }));
-
-        return data.success;
-      } catch {
-        // On error, allow but don't update state
-        return true;
-      }
+      return true;
     }
 
     // Anonymous user - use localStorage
