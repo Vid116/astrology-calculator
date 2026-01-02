@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useAuth } from './AuthProvider';
 
 export function UserMenu() {
-  const { user, isPremium, isAdmin, isSuperuser, signOut, isLoading } = useAuth();
+  const { user, isPremium, isAdmin, isSuperuser, signOut, isLoading, avatarUrl } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -60,8 +60,8 @@ export function UserMenu() {
     }
   };
 
-  // Show skeleton while mounting or loading auth state
-  if (!mounted || isLoading) {
+  // Show skeleton while mounting, loading auth state, or waiting for avatar
+  if (!mounted || isLoading || (user && !avatarUrl)) {
     return (
       <div className="flex items-center gap-3">
         <div
@@ -126,7 +126,6 @@ export function UserMenu() {
     : user.email?.slice(0, 2).toUpperCase() || '??';
 
   const displayName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'User';
-  const avatarUrl = user.user_metadata?.avatar_url;
 
   return (
     <div className="relative" ref={menuRef}>

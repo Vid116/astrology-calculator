@@ -44,6 +44,7 @@ function useCountdown() {
 function AccountContent() {
   const { user, subscription, isPremium, signOut, isLoading } = useAuth();
   const [usage, setUsage] = useState<UserUsage | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const timeLeft = useCountdown();
   const [portalLoading, setPortalLoading] = useState(false);
   const [avatarSaving, setAvatarSaving] = useState(false);
@@ -54,21 +55,33 @@ function AccountContent() {
   const supabase = createClient();
 
   useEffect(() => {
-    const fetchUsage = async () => {
+    const fetchUserData = async () => {
       if (!user) return;
 
-      const { data } = await supabase
-        .from('user_usage')
-        .select('calculation_count, calculation_reset_date')
-        .eq('user_id', user.id)
-        .single();
+      // Fetch usage and profile in parallel
+      const [usageResult, profileResult] = await Promise.all([
+        supabase
+          .from('user_usage')
+          .select('calculation_count, calculation_reset_date')
+          .eq('user_id', user.id)
+          .single(),
+        supabase
+          .from('profiles')
+          .select('avatar_url')
+          .eq('user_id', user.id)
+          .single()
+      ]);
 
-      if (data) {
-        setUsage(data);
+      if (usageResult.data) {
+        setUsage(usageResult.data);
+      }
+
+      if (profileResult.data?.avatar_url) {
+        setAvatarUrl(profileResult.data.avatar_url);
       }
     };
 
-    fetchUsage();
+    fetchUserData();
   }, [user]);
 
   const handleManageSubscription = async () => {
@@ -103,18 +116,20 @@ function AccountContent() {
   };
 
   const handleAvatarChange = async (avatarPath: string) => {
-    if (!isPremium || avatarSaving) return;
+    if (!isPremium || avatarSaving || !user) return;
     if (avatarPath === avatarUrl) return;
 
     setAvatarSaving(true);
     try {
-      const { error } = await supabase.auth.updateUser({
-        data: { avatar_url: avatarPath }
-      });
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({
+          user_id: user.id,
+          avatar_url: avatarPath
+        });
 
       if (!error) {
-        // Force a full session refresh to sync the updated user_metadata
-        await supabase.auth.refreshSession();
+        setAvatarUrl(avatarPath);
       }
     } catch (err) {
       console.error('Failed to update avatar:', err);
@@ -159,7 +174,6 @@ function AccountContent() {
     : user?.email?.slice(0, 2).toUpperCase() || '??';
 
   const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Cosmic Traveler';
-  const avatarUrl = user?.user_metadata?.avatar_url;
 
   return (
     <div className="space-y-20">

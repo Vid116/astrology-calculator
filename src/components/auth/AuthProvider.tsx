@@ -13,6 +13,7 @@ interface AuthContextType {
   session: Session | null;
   subscription: Subscription | null;
   userRole: UserRole | null;
+  avatarUrl: string | null;
   isLoading: boolean;
   isPremium: boolean;
   isAdmin: boolean;
@@ -28,6 +29,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [userRole, setUserRole] = useState<UserRole | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const supabase = createClient();
   const router = useRouter();
@@ -111,6 +113,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const fetchAvatar = async (userId: string, retries = 3) => {
+    try {
+      const { data } = await supabase
+        .from('profiles')
+        .select('avatar_url')
+        .eq('user_id', userId)
+        .single();
+
+      if (data?.avatar_url) {
+        setAvatarUrl(data.avatar_url);
+      } else if (retries > 0) {
+        // Profile might not be created yet, retry after a short delay
+        setTimeout(() => fetchAvatar(userId, retries - 1), 500);
+      }
+    } catch {
+      if (retries > 0) {
+        // Profile might not be created yet, retry after a short delay
+        setTimeout(() => fetchAvatar(userId, retries - 1), 500);
+      }
+    }
+  };
+
   const refreshSubscription = async () => {
     if (user) {
       await fetchSubscription(user.id);
@@ -123,6 +147,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setSession(null);
     setSubscription(null);
     setUserRole(null);
+    setAvatarUrl(null);
     hasRefreshedRef.current = false;
     // Force a full page reload to clear server-side session state
     window.location.href = '/';
@@ -138,9 +163,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
 
         if (newSession?.user) {
-          // Load subscription and role in background - don't block
+          // Load subscription, role, and avatar in background - don't block
           fetchSubscription(newSession.user.id);
           fetchUserRole(newSession.user.id);
+          fetchAvatar(newSession.user.id);
 
           // Assign random avatar if user doesn't have one
           assignRandomAvatar(newSession.user);
@@ -178,9 +204,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (currentSession?.user) {
           setUser(currentSession.user);
           setSession(currentSession);
-          // Don't await subscription/role - let them load in background
+          // Don't await subscription/role/avatar - let them load in background
           fetchSubscription(currentSession.user.id);
           fetchUserRole(currentSession.user.id);
+          fetchAvatar(currentSession.user.id);
         } else {
           // No session - check for stale cookies
           const hasAuthCookies = document.cookie.split(';').some(c =>
@@ -217,6 +244,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         session,
         subscription,
         userRole,
+        avatarUrl,
         isLoading,
         isPremium,
         isAdmin,

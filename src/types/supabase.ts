@@ -230,6 +230,26 @@ export type Database = {
           updated_at?: string;
         };
       };
+      profiles: {
+        Row: {
+          user_id: string;
+          avatar_url: string | null;
+          created_at: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          user_id: string;
+          avatar_url?: string | null;
+          created_at?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          user_id?: string;
+          avatar_url?: string | null;
+          created_at?: string | null;
+          updated_at?: string | null;
+        };
+      };
     };
     Functions: {
       increment_calculation_count: {
@@ -257,6 +277,7 @@ export type Price = Tables<'prices'>;
 export type Subscription = Tables<'subscriptions'>;
 export type UserRole = Tables<'user_roles'>;
 export type Keyword = Tables<'keywords'>;
+export type Profile = Tables<'profiles'>;
 
 export type SubscriptionWithPrice = Subscription & {
   prices: Price | null;

@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { getRandomAvatarPath } from '@/lib/avatars';
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
@@ -42,6 +43,26 @@ export async function GET(request: Request) {
     if (error) {
       // Redirect to login with error
       return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(error.message)}`);
+    }
+
+    // For OAuth users, assign a random planet avatar if they don't have a profile yet
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('avatar_url')
+        .eq('user_id', user.id)
+        .single();
+
+      // New user - no profile yet, create one with random planet
+      if (!profile) {
+        await supabase
+          .from('profiles')
+          .insert({
+            user_id: user.id,
+            avatar_url: getRandomAvatarPath()
+          });
+      }
     }
   }
 
