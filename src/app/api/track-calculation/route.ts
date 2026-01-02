@@ -119,9 +119,12 @@ export async function GET() {
       .eq('user_id', user.id)
       .single();
 
-    const today = new Date().toISOString().split('T')[0];
-    const resetDate = userData?.calculation_reset_date;
-    const count = resetDate === today ? (userData?.calculation_count || 0) : 0;
+    // Compare dates properly using UTC (matches PostgreSQL CURRENT_DATE)
+    const todayUTC = new Date().toISOString().split('T')[0]; // "2025-01-02"
+    const resetDateStr = userData?.calculation_reset_date?.toString().split('T')[0]; // Handle both "2025-01-02" and "2025-01-02T00:00:00"
+    const isToday = resetDateStr === todayUTC;
+
+    const count = isToday ? (userData?.calculation_count || 0) : 0;
     const remaining = Math.max(0, STRIPE_CONFIG.freeTier.dailyCalculations - count);
 
     return NextResponse.json({

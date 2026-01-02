@@ -113,8 +113,8 @@ function AccountContent() {
       });
 
       if (!error) {
-        // Refresh the page to update the user state
-        router.refresh();
+        // Force a full session refresh to sync the updated user_metadata
+        await supabase.auth.refreshSession();
       }
     } catch (err) {
       console.error('Failed to update avatar:', err);
