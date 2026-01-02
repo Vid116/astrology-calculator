@@ -41,6 +41,7 @@ interface UsageLimitBannerProps {
   isPremiumOverride?: boolean;
   showLimitReachedOverlayOverride?: boolean;
   dismissLimitReachedOverlayOverride?: () => void;
+  isLoadingOverride?: boolean;
 }
 
 export function UsageLimitBanner({
@@ -53,13 +54,14 @@ export function UsageLimitBanner({
   isPremiumOverride,
   showLimitReachedOverlayOverride,
   dismissLimitReachedOverlayOverride,
+  isLoadingOverride,
 }: UsageLimitBannerProps = {}) {
   const {
     remaining: remainingFromHook,
     limit: limitFromHook,
     isPremium: isPremiumFromHook,
     canCalculate: canCalculateFromHook,
-    isLoading,
+    isLoading: isLoadingFromHook,
     isLoggedIn: isLoggedInFromHook,
     showUpgradePrompt: showUpgradePromptFromHook,
     dismissUpgradePrompt: dismissUpgradePromptFromHook,
@@ -78,6 +80,7 @@ export function UsageLimitBanner({
   const isPremium = isPremiumOverride !== undefined ? isPremiumOverride : isPremiumFromHook;
   const showLimitReachedOverlay = showLimitReachedOverlayOverride !== undefined ? showLimitReachedOverlayOverride : showLimitReachedOverlayFromHook;
   const dismissLimitReachedOverlay = dismissLimitReachedOverlayOverride !== undefined ? dismissLimitReachedOverlayOverride : dismissLimitReachedOverlayFromHook;
+  const isLoading = isLoadingOverride !== undefined ? isLoadingOverride : isLoadingFromHook;
 
   // Don't show for premium users
   if (isPremium || isLoading) {

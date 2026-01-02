@@ -230,6 +230,7 @@ export function CalculatorApp() {
         isPremiumOverride={isPremium}
         showLimitReachedOverlayOverride={showLimitReachedOverlay}
         dismissLimitReachedOverlayOverride={dismissLimitReachedOverlay}
+        isLoadingOverride={false}
       />
     </>
   );

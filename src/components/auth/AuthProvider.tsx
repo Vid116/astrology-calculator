@@ -119,7 +119,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .from('profiles')
         .select('avatar_url')
         .eq('user_id', userId)
-        .single();
+        .single() as { data: { avatar_url: string | null } | null };
 
       if (data?.avatar_url) {
         setAvatarUrl(data.avatar_url);

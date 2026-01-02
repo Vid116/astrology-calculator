@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { STRIPE_CONFIG } from '@/lib/stripe/config';
 
@@ -15,8 +15,6 @@ interface UsageState {
   showLimitReachedOverlay: boolean; // Only true after user tries to calculate at 0
 }
 
-const ANON_STORAGE_KEY = 'astro_anon_calculations_v3';
-const ANON_DATE_KEY = 'astro_anon_date_v3';
 const ANON_LIMIT = STRIPE_CONFIG.freeTier.anonymousDailyCalculations;
 const LOGGED_IN_LIMIT = STRIPE_CONFIG.freeTier.dailyCalculations;
 
@@ -33,12 +31,24 @@ export function useUsageLimit() {
     showLimitReachedOverlay: false,
   });
 
+  // Prevent multiple fetches
+  const hasFetched = useRef(false);
+  const lastUserId = useRef<string | null>(null);
+
   // Fetch current usage on mount
   useEffect(() => {
     // Wait for auth to finish loading before checking usage
     if (authLoading) {
       return;
     }
+
+    // Only refetch if user changed (login/logout)
+    const currentUserId = user?.id || null;
+    if (hasFetched.current && lastUserId.current === currentUserId) {
+      return;
+    }
+    hasFetched.current = true;
+    lastUserId.current = currentUserId;
 
     const fetchUsage = async () => {
       // If logged in and premium (from auth context), always allow
@@ -79,31 +89,35 @@ export function useUsageLimit() {
         return;
       }
 
-      // Anonymous user - use localStorage
-      const today = new Date().toISOString().split('T')[0];
-      const storedDate = localStorage.getItem(ANON_DATE_KEY);
-      let count = 0;
+      // Anonymous user - check server (IP-based tracking)
+      try {
+        const response = await fetch('/api/track-calculation');
+        const data = await response.json();
 
-      if (storedDate === today) {
-        count = parseInt(localStorage.getItem(ANON_STORAGE_KEY) || '0', 10);
-      } else {
-        // Reset for new day
-        localStorage.setItem(ANON_DATE_KEY, today);
-        localStorage.setItem(ANON_STORAGE_KEY, '0');
+        const remaining = data.remaining ?? ANON_LIMIT;
+        setState({
+          isLoading: false,
+          canCalculate: remaining > 0,
+          remaining,
+          limit: data.limit ?? ANON_LIMIT,
+          isPremium: false,
+          isLoggedIn: false,
+          showUpgradePrompt: remaining <= 1 && remaining > 0,
+          showLimitReachedOverlay: false,
+        });
+      } catch {
+        // On error, assume fresh
+        setState({
+          isLoading: false,
+          canCalculate: true,
+          remaining: ANON_LIMIT,
+          limit: ANON_LIMIT,
+          isPremium: false,
+          isLoggedIn: false,
+          showUpgradePrompt: false,
+          showLimitReachedOverlay: false,
+        });
       }
-
-      const remaining = Math.max(0, ANON_LIMIT - count);
-
-      setState({
-        isLoading: false,
-        canCalculate: remaining > 0,
-        remaining,
-        limit: ANON_LIMIT,
-        isPremium: false,
-        isLoggedIn: false,
-        showUpgradePrompt: remaining <= 1,
-        showLimitReachedOverlay: false,
-      });
     };
 
     fetchUsage();
@@ -164,41 +178,48 @@ export function useUsageLimit() {
       return true;
     }
 
-    // Anonymous user - use localStorage
-    const today = new Date().toISOString().split('T')[0];
-    const storedDate = localStorage.getItem(ANON_DATE_KEY);
-    let count = 0;
-
-    if (storedDate === today) {
-      count = parseInt(localStorage.getItem(ANON_STORAGE_KEY) || '0', 10);
-    } else {
-      localStorage.setItem(ANON_DATE_KEY, today);
-      count = 0;
-    }
-
+    // Anonymous user - check locally first, track via server (IP-based)
     // Check if already at limit BEFORE trying to calculate
-    if (count >= ANON_LIMIT) {
+    if (state.remaining <= 0) {
       setState((prev) => ({
         ...prev,
         canCalculate: false,
-        remaining: 0,
         showLimitReachedOverlay: true, // User tried to calculate at 0
       }));
       return false;
     }
 
-    // Allow the calculation
-    count += 1;
-    localStorage.setItem(ANON_STORAGE_KEY, count.toString());
-    const remaining = Math.max(0, ANON_LIMIT - count);
-
-    // Update remaining but keep canCalculate true
-    // They'll be blocked on their NEXT attempt if remaining is 0
+    // Optimistically allow and decrement locally
     setState((prev) => ({
       ...prev,
-      remaining,
-      showUpgradePrompt: remaining <= 1,
+      remaining: prev.remaining - 1,
+      showUpgradePrompt: prev.remaining - 1 <= 1,
     }));
+
+    // Track on server in background (don't await)
+    fetch('/api/track-calculation', { method: 'POST' })
+      .then((res) => res.json())
+      .then((data) => {
+        // Only lock out if explicitly at limit AND remaining is 0
+        if (data.limitReached === true && data.remaining === 0) {
+          setState((prev) => ({
+            ...prev,
+            canCalculate: false,
+            remaining: 0,
+            showLimitReachedOverlay: true, // Server confirmed limit reached
+          }));
+        } else if (data.success && data.remaining !== undefined) {
+          // Sync with server count
+          setState((prev) => ({
+            ...prev,
+            remaining: data.remaining,
+            showUpgradePrompt: data.remaining <= 1 && data.remaining > 0,
+          }));
+        }
+      })
+      .catch(() => {
+        // On error, don't block
+      });
 
     return true;
   }, [user, state.isPremium, state.remaining, authIsPremium]);
@@ -236,25 +257,26 @@ export function useUsageLimit() {
       }
     }
 
-    // Anonymous user - check localStorage
-    const today = new Date().toISOString().split('T')[0];
-    const storedDate = localStorage.getItem(ANON_DATE_KEY);
-    let count = 0;
+    // Anonymous user - check server (IP-based)
+    try {
+      const response = await fetch('/api/track-calculation');
+      const data = await response.json();
 
-    if (storedDate === today) {
-      count = parseInt(localStorage.getItem(ANON_STORAGE_KEY) || '0', 10);
+      const remaining = data.remaining ?? ANON_LIMIT;
+      const canCalc = remaining > 0;
+
+      setState((prev) => ({
+        ...prev,
+        remaining,
+        canCalculate: canCalc,
+        showUpgradePrompt: remaining <= 1 && remaining > 0,
+      }));
+
+      return canCalc;
+    } catch {
+      // On error, use local state
+      return state.remaining > 0;
     }
-
-    const remaining = Math.max(0, ANON_LIMIT - count);
-    const canCalc = remaining > 0;
-
-    setState((prev) => ({
-      ...prev,
-      remaining,
-      canCalculate: canCalc,
-    }));
-
-    return canCalc;
   }, [user, state.isPremium, state.remaining, authIsPremium]);
 
   const dismissLimitReachedOverlay = useCallback(() => {

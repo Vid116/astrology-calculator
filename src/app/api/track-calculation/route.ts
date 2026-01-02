@@ -2,6 +2,24 @@ import { createClient } from '@/lib/supabase/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { STRIPE_CONFIG } from '@/lib/stripe/config';
 import { NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+
+// Helper to get client IP from request headers
+async function getClientIP(): Promise<string> {
+  const headersList = await headers();
+  // Try various headers that might contain the real IP
+  const forwardedFor = headersList.get('x-forwarded-for');
+  if (forwardedFor) {
+    // x-forwarded-for can contain multiple IPs, take the first one
+    return forwardedFor.split(',')[0].trim();
+  }
+  const realIP = headersList.get('x-real-ip');
+  if (realIP) {
+    return realIP;
+  }
+  // Fallback - this shouldn't happen in production
+  return 'unknown';
+}
 
 export async function POST() {
   try {
@@ -9,12 +27,52 @@ export async function POST() {
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-    // If not logged in, allow calculation (anonymous users get limited by localStorage on client)
+    // If not logged in, track by IP address
     if (authError || !user) {
+      const ipAddress = await getClientIP();
+      const anonLimit = STRIPE_CONFIG.freeTier.anonymousDailyCalculations;
+
+      // Use admin client to call RPC (no auth needed for anonymous)
+      const { data: result, error: countError } = await supabaseAdmin
+        .rpc('increment_anonymous_calculation', { p_ip_address: ipAddress }) as {
+          data: { new_count: number; reset_date: string; is_reset: boolean }[] | null;
+          error: Error | null;
+        };
+
+      if (countError) {
+        console.error('Error incrementing anonymous count:', countError);
+        // On error, allow but don't track
+        return NextResponse.json({
+          success: true,
+          isAnonymous: true,
+          remaining: anonLimit,
+          limit: anonLimit,
+        });
+      }
+
+      const newCount = result?.[0]?.new_count ?? 0;
+      const remaining = Math.max(0, anonLimit - newCount);
+
+      // Check if over limit
+      if (newCount > anonLimit) {
+        return NextResponse.json({
+          success: false,
+          isAnonymous: true,
+          count: newCount,
+          remaining: 0,
+          limit: anonLimit,
+          limitReached: true,
+          message: 'Daily limit reached. Sign up for more calculations!',
+        });
+      }
+
       return NextResponse.json({
         success: true,
         isAnonymous: true,
-        message: 'Anonymous user - client-side limiting applies',
+        count: newCount,
+        remaining,
+        limit: anonLimit,
+        limitReached: false,
       });
     }
 
@@ -94,9 +152,36 @@ export async function GET() {
     const { data: { user }, error: authError } = await supabase.auth.getUser();
 
     if (authError || !user) {
+      // Anonymous user - check by IP
+      const ipAddress = await getClientIP();
+      const anonLimit = STRIPE_CONFIG.freeTier.anonymousDailyCalculations;
+
+      const { data: result, error: usageError } = await supabaseAdmin
+        .rpc('get_anonymous_usage', { p_ip_address: ipAddress }) as {
+          data: { calculation_count: number; calculation_reset_date: string }[] | null;
+          error: Error | null;
+        };
+
+      if (usageError) {
+        console.error('Error getting anonymous usage:', usageError);
+        // On error, assume fresh
+        return NextResponse.json({
+          isLoggedIn: false,
+          isAnonymous: true,
+          remaining: anonLimit,
+          limit: anonLimit,
+        });
+      }
+
+      const count = result?.[0]?.calculation_count ?? 0;
+      const remaining = Math.max(0, anonLimit - count);
+
       return NextResponse.json({
         isLoggedIn: false,
         isAnonymous: true,
+        count,
+        remaining,
+        limit: anonLimit,
       });
     }
 

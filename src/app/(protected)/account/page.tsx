@@ -74,7 +74,7 @@ function AccountContent() {
         .from('profiles')
         .select('avatar_url')
         .eq('user_id', user.id)
-        .single();
+        .single() as { data: { avatar_url: string | null } | null };
 
       if (profileData?.avatar_url) {
         setAvatarUrl(profileData.avatar_url);
@@ -121,12 +121,12 @@ function AccountContent() {
 
     setAvatarSaving(true);
     try {
-      const { error } = await supabase
-        .from('profiles')
+      const { error } = await (supabase
+        .from('profiles') as ReturnType<typeof supabase.from>)
         .upsert({
           user_id: user.id,
           avatar_url: avatarPath
-        });
+        } as { user_id: string; avatar_url: string });
 
       if (!error) {
         setAvatarUrl(avatarPath);
