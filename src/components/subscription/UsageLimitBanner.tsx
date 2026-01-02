@@ -76,11 +76,17 @@ export function UsageLimitBanner({
     return null;
   }
 
-  // Show warning when running low
-  if (showUpgradePrompt && canCalculate && remaining > 0) {
+  // Show warning when running low or at zero (before they try to calculate)
+  const isAtZero = remaining === 0 && canCalculate;
+  const showWarning = (showUpgradePrompt && canCalculate) || isAtZero;
+
+  if (showWarning) {
     return (
       <div className="fixed bottom-4 left-4 right-4 md:left-auto md:right-4 md:max-w-sm z-50">
-        <div className="bg-[rgba(255,216,0,0.15)] border border-[#ffd800] rounded-lg backdrop-blur-xl shadow-lg relative" style={{ padding: '24px' }}>
+        <div
+          className={`${isAtZero ? 'bg-[rgba(239,68,68,0.15)] border-[#ef4444]' : 'bg-[rgba(255,216,0,0.15)] border-[#ffd800]'} border rounded-lg backdrop-blur-xl shadow-lg relative`}
+          style={{ padding: '24px' }}
+        >
           <button
             onClick={dismissUpgradePrompt}
             className="absolute top-2 right-2 text-[#71717a] hover:text-[#e8e8e8] transition-colors"
@@ -88,15 +94,15 @@ export function UsageLimitBanner({
             ✕
           </button>
           <div>
-            <p className="text-[#ffd800] font-semibold text-sm">
-              Running low on calculations
+            <p className={`${isAtZero ? 'text-[#ef4444]' : 'text-[#ffd800]'} font-semibold text-sm`}>
+              {isAtZero ? 'No calculations remaining' : 'Running low on calculations'}
             </p>
             <p className="text-[#e8e8e8] text-xs mt-1">
               {remaining} of {limit} remaining today
             </p>
           </div>
           <Link href="/pricing">
-            <button className="mt-3 w-full px-4 py-2 bg-[#ffd800] text-[#0a0e1a] rounded-lg text-sm font-semibold hover:bg-[#e6c200] transition-all">
+            <button className={`mt-3 w-full px-4 py-2 ${isAtZero ? 'bg-[#ef4444] hover:bg-[#dc2626]' : 'bg-[#ffd800] hover:bg-[#e6c200]'} text-[#0a0e1a] rounded-lg text-sm font-semibold transition-all`}>
               Upgrade to Pro
             </button>
           </Link>
