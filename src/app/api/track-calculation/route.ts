@@ -37,8 +37,12 @@ export async function POST() {
     }
 
     // For free users, increment and check the count
-    const { data: result, error: countError } = await supabaseAdmin
-      .rpc('increment_calculation_count', { p_user_id: user.id });
+    // Use user's session so auth.uid() works in the RPC function
+    const { data: result, error: countError } = await supabase
+      .rpc('increment_calculation_count') as {
+        data: { new_count: number; reset_date: string; is_reset: boolean }[] | null;
+        error: Error | null;
+      };
 
     if (countError) {
       console.error('Error incrementing count:', countError);
@@ -48,7 +52,7 @@ export async function POST() {
       );
     }
 
-    const newCount = result?.[0]?.new_count || 0;
+    const newCount = result?.[0]?.new_count ?? 0;
     const dailyLimit = STRIPE_CONFIG.freeTier.dailyCalculations;
     const remaining = Math.max(0, dailyLimit - newCount);
 
