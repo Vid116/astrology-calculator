@@ -158,3 +158,22 @@ input.has-error,
 .animate-menu-close {
   animation: menuClose 150ms ease-in forwards;
 }
+
+/* Chevron flash animation - plays once on page load */
+@keyframes chevron-flash {
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(103, 232, 249, 0.9);
+  }
+  33% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 15px 8px rgba(103, 232, 249, 0.7);
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(103, 232, 249, 0);
+  }
+}

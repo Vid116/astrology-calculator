@@ -10,11 +10,15 @@ export function UserMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [hasFlashed, setHasFlashed] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setMounted(true);
+    // End flash animation after it completes
+    const timer = setTimeout(() => setHasFlashed(true), 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const closeMenu = useCallback(() => {
@@ -147,7 +151,7 @@ export function UserMenu() {
         {/* Avatar */}
         <div
           className={`
-            relative w-10 h-10 rounded-full overflow-hidden
+            relative w-10 h-10 rounded-full
             flex items-center justify-center text-sm font-bold
             transition-all duration-300
             ${isPremium
@@ -161,23 +165,13 @@ export function UserMenu() {
               : 'linear-gradient(135deg, rgba(103, 232, 249, 0.15) 0%, rgba(30, 150, 252, 0.1) 100%)',
           }}
         >
-          {/* Ring border */}
-          <div
-            className={`
-              absolute inset-0 rounded-full
-              ${isPremium
-                ? 'ring-2 ring-[#ffd800]/70'
-                : 'ring-2 ring-[#67e8f9]/60'
-              }
-            `}
-          />
-
           {avatarUrl ? (
             <Image
               src={avatarUrl}
               alt={displayName}
-              fill
-              className="object-cover"
+              width={52}
+              height={52}
+              className="object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             />
           ) : (
             <span
@@ -204,24 +198,40 @@ export function UserMenu() {
         </div>
 
         {/* Chevron */}
-        <svg
-          className={`
-            w-4 h-4 text-[#67e8f9]/70
-            transition-transform duration-300 ease-out
-            ${isOpen ? 'rotate-180' : ''}
-          `}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          aria-hidden="true"
+        <div
+          className="relative flex items-center justify-center w-5 h-5 rounded-full bg-[#67e8f9]/15 transition-all duration-300 ease-out"
+          style={{
+            boxShadow: isOpen ? 'none' : '0 0 6px rgba(103, 232, 249, 0.3)',
+          }}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+          {/* Flash ring - only shows once on load */}
+          {!hasFlashed && !isOpen && (
+            <span
+              className="absolute inset-0 rounded-full animate-[chevron-flash_1s_ease-out_forwards]"
+              style={{
+                background: 'rgba(103, 232, 249, 0.8)',
+              }}
+            />
+          )}
+          <svg
+            className={`
+              relative z-10 w-3 h-3 text-[#67e8f9]
+              transition-transform duration-300 ease-out
+              ${isOpen ? 'rotate-180' : ''}
+            `}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2.5}
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+        </div>
       </button>
 
       {/* Dropdown Menu */}
@@ -258,14 +268,7 @@ export function UserMenu() {
             <div className="flex items-start gap-3">
               {/* Mini Avatar */}
               <div
-                className={`
-                  w-11 h-11 rounded-full flex-shrink-0
-                  flex items-center justify-center text-xs font-bold
-                  ${isPremium
-                    ? 'ring-2 ring-[#ffd800]/50'
-                    : 'ring-2 ring-[#67e8f9]/40'
-                  }
-                `}
+                className="relative w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold"
                 style={{
                   background: isPremium
                     ? 'linear-gradient(135deg, rgba(255, 216, 0, 0.12) 0%, rgba(255, 184, 0, 0.08) 100%)'
@@ -276,9 +279,9 @@ export function UserMenu() {
                   <Image
                     src={avatarUrl}
                     alt={displayName}
-                    width={44}
-                    height={44}
-                    className="rounded-full object-cover"
+                    width={56}
+                    height={56}
+                    className="object-contain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
                   />
                 ) : (
                   <span className={isPremium ? 'text-[#ffd800]' : 'text-[#67e8f9]'}>

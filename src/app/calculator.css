@@ -14,10 +14,24 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
-    background: rgba(10, 14, 26, 0.3);
+    background:
+        linear-gradient(rgba(10, 14, 26, 0.5), rgba(10, 14, 26, 0.5)) padding-box,
+        linear-gradient(135deg,
+            transparent 0%,
+            rgba(103, 232, 249, 0.05) 5%,
+            rgba(103, 232, 249, 0.1) 10%,
+            rgba(103, 232, 249, 0.15) 15%,
+            rgba(103, 232, 249, 0.2) 25%,
+            transparent 50%,
+            rgba(255, 216, 0, 0.15) 75%,
+            rgba(255, 216, 0, 0.1) 85%,
+            rgba(255, 216, 0, 0.05) 90%,
+            rgba(255, 216, 0, 0.02) 95%,
+            transparent 100%
+        ) border-box;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 216, 0, 0.4);
+    border: 1px solid transparent;
     border-radius: 20px;
     padding: 24px 48px;
     cursor: pointer;
@@ -27,17 +41,46 @@
     gap: 12px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow:
-        0 0 30px rgba(255, 216, 0, 0.2),
-        inset 0 0 20px rgba(255, 216, 0, 0.05);
+        /* Dark - middle diagonal ~42% (render first so colors show on top) */
+        -3px -2px 30px 20px rgba(10, 14, 26, 0.8),
+        3px 2px 30px 20px rgba(10, 14, 26, 0.8),
+        0px 0px 40px 25px rgba(10, 14, 26, 0.6),
+        /* Cyan - top left corner */
+        -12px -10px 18px 4px rgba(103, 232, 249, 0.15),
+        -22px -18px 25px 6px rgba(103, 232, 249, 0.1),
+        /* Gold - bottom right corner */
+        12px 10px 18px 5px rgba(255, 216, 0, 0.22),
+        22px 18px 25px 8px rgba(255, 216, 0, 0.16);
 }
 
 .launch-btn:hover {
-    background: rgba(10, 14, 26, 0.5);
-    border-color: rgba(255, 216, 0, 0.7);
+    background:
+        linear-gradient(rgba(10, 14, 26, 0.6), rgba(10, 14, 26, 0.6)) padding-box,
+        linear-gradient(135deg,
+            transparent 0%,
+            rgba(103, 232, 249, 0.1) 5%,
+            rgba(103, 232, 249, 0.2) 10%,
+            rgba(103, 232, 249, 0.25) 15%,
+            rgba(103, 232, 249, 0.35) 25%,
+            transparent 50%,
+            rgba(255, 216, 0, 0.25) 75%,
+            rgba(255, 216, 0, 0.15) 85%,
+            rgba(255, 216, 0, 0.08) 90%,
+            rgba(255, 216, 0, 0.03) 95%,
+            transparent 100%
+        ) border-box;
     transform: translateX(-50%) scale(1.05);
     box-shadow:
-        0 0 50px rgba(255, 216, 0, 0.3),
-        inset 0 0 30px rgba(255, 216, 0, 0.1);
+        /* Dark - middle diagonal ~42% (render first so colors show on top) */
+        -4px -3px 35px 24px rgba(10, 14, 26, 0.85),
+        4px 3px 35px 24px rgba(10, 14, 26, 0.85),
+        0px 0px 50px 30px rgba(10, 14, 26, 0.65),
+        /* Cyan - top left corner */
+        -15px -12px 22px 6px rgba(103, 232, 249, 0.2),
+        -28px -22px 30px 10px rgba(103, 232, 249, 0.14),
+        /* Gold - bottom right corner */
+        15px 12px 22px 8px rgba(255, 216, 0, 0.28),
+        28px 22px 30px 12px rgba(255, 216, 0, 0.2);
 }
 
 .launch-btn .launch-icon {
