@@ -42,9 +42,9 @@ function useCountdown() {
 }
 
 function AccountContent() {
-  const { user, subscription, isPremium, signOut, isLoading } = useAuth();
+  const { user, subscription, isPremium, signOut, isLoading, setAvatarUrl: setContextAvatarUrl, avatarUrl: contextAvatarUrl } = useAuth();
   const [usage, setUsage] = useState<UserUsage | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(contextAvatarUrl);
   const timeLeft = useCountdown();
   const [portalLoading, setPortalLoading] = useState(false);
   const [avatarSaving, setAvatarSaving] = useState(false);
@@ -53,6 +53,13 @@ function AccountContent() {
   const success = searchParams.get('success');
 
   const supabase = createClient();
+
+  // Sync local avatar state with context when it loads
+  useEffect(() => {
+    if (contextAvatarUrl && !avatarUrl) {
+      setAvatarUrl(contextAvatarUrl);
+    }
+  }, [contextAvatarUrl]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -69,15 +76,17 @@ function AccountContent() {
         setUsage(usageData);
       }
 
-      // Fetch profile data
-      const { data: profileData } = await supabase
-        .from('profiles')
-        .select('avatar_url')
-        .eq('user_id', user.id)
-        .single() as { data: { avatar_url: string | null } | null };
+      // Fetch profile data (fallback if context doesn't have it yet)
+      if (!contextAvatarUrl) {
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('avatar_url')
+          .eq('user_id', user.id)
+          .single() as { data: { avatar_url: string | null } | null };
 
-      if (profileData?.avatar_url) {
-        setAvatarUrl(profileData.avatar_url);
+        if (profileData?.avatar_url) {
+          setAvatarUrl(profileData.avatar_url);
+        }
       }
     };
 
@@ -130,6 +139,7 @@ function AccountContent() {
 
       if (!error) {
         setAvatarUrl(avatarPath);
+        setContextAvatarUrl(avatarPath);
       }
     } catch (err) {
       console.error('Failed to update avatar:', err);

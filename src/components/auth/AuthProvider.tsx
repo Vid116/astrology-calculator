@@ -20,6 +20,7 @@ interface AuthContextType {
   isSuperuser: boolean;
   signOut: () => Promise<void>;
   refreshSubscription: () => Promise<void>;
+  setAvatarUrl: (url: string | null) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -251,6 +252,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isSuperuser,
         signOut,
         refreshSubscription,
+        setAvatarUrl,
       }}
     >
       {children}
