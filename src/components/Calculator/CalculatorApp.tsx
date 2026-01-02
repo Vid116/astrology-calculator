@@ -52,14 +52,12 @@ export function CalculatorApp() {
     return await trackCalculation();
   }, [trackCalculation]);
 
-  // Check usage from server before opening calculator
+  // Sync usage from server and open calculator (don't block here)
   const handleOpenCalculator = useCallback(async () => {
     setChecking(true);
-    const allowed = await checkUsage();
+    await checkUsage(); // Sync state but don't block
     setChecking(false);
-    if (allowed) {
-      setIsOpen(true);
-    }
+    setIsOpen(true); // Always open - blocking happens on Calculate
   }, [checkUsage, setIsOpen]);
 
   if (loading) {
@@ -93,10 +91,9 @@ export function CalculatorApp() {
   return (
     <>
       <button
-        className={`launch-btn ${isOpen ? 'hidden' : ''} ${!canCalculate ? 'disabled' : ''}`}
+        className={`launch-btn ${isOpen ? 'hidden' : ''}`}
         onClick={handleOpenCalculator}
-        disabled={!canCalculate || checking}
-        style={!canCalculate ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
+        disabled={checking}
       >
         <svg viewBox="0 0 100 100" className="launch-icon" style={{ width: '2em', height: '2em' }}>
           <path
@@ -108,7 +105,7 @@ export function CalculatorApp() {
             d="M 80 65 C 88 60 92 50 88 40 C 84 30 72 25 60 30 C 65 35 68 42 65 50 C 62 58 52 62 42 58 C 48 65 58 68 68 65 C 72 64 76 62 80 58"
           />
         </svg>
-        <span className="launch-text">{checking ? 'Checking...' : canCalculate ? 'Open Calculator' : 'Limit Reached'}</span>
+        <span className="launch-text">{checking ? 'Loading...' : 'Open Calculator'}</span>
       </button>
 
       <div className={`container ${isOpen ? 'visible' : 'hidden'}`}>
