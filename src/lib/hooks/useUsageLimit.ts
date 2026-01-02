@@ -12,6 +12,7 @@ interface UsageState {
   isPremium: boolean;
   isLoggedIn: boolean;
   showUpgradePrompt: boolean;
+  showLimitReachedOverlay: boolean; // Only true after user tries to calculate at 0
 }
 
 const ANON_STORAGE_KEY = 'astro_anon_calculations_v3';
@@ -29,6 +30,7 @@ export function useUsageLimit() {
     isPremium: false,
     isLoggedIn: false,
     showUpgradePrompt: false,
+    showLimitReachedOverlay: false,
   });
 
   // Fetch current usage on mount
@@ -49,6 +51,7 @@ export function useUsageLimit() {
           isPremium: true,
           isLoggedIn: true,
           showUpgradePrompt: false,
+          showLimitReachedOverlay: false,
         });
         return;
       }
@@ -67,6 +70,7 @@ export function useUsageLimit() {
             isPremium: data.isPremium || false,
             isLoggedIn: true,
             showUpgradePrompt: data.remaining <= 2 && !data.isPremium,
+            showLimitReachedOverlay: false,
           });
         } catch {
           // On error, allow but show warning
@@ -98,6 +102,7 @@ export function useUsageLimit() {
         isPremium: false,
         isLoggedIn: false,
         showUpgradePrompt: remaining <= 1,
+        showLimitReachedOverlay: false,
       });
     };
 
@@ -118,6 +123,7 @@ export function useUsageLimit() {
         setState((prev) => ({
           ...prev,
           canCalculate: false,
+          showLimitReachedOverlay: true, // User tried to calculate at 0
         }));
         return false;
       }
@@ -139,6 +145,7 @@ export function useUsageLimit() {
               ...prev,
               canCalculate: false,
               remaining: 0,
+              showLimitReachedOverlay: true, // Server confirmed limit reached
             }));
           } else if (data.success && data.remaining !== undefined) {
             // Sync with server count
@@ -175,6 +182,7 @@ export function useUsageLimit() {
         ...prev,
         canCalculate: false,
         remaining: 0,
+        showLimitReachedOverlay: true, // User tried to calculate at 0
       }));
       return false;
     }
@@ -249,6 +257,10 @@ export function useUsageLimit() {
     return canCalc;
   }, [user, state.isPremium, state.remaining, authIsPremium]);
 
+  const dismissLimitReachedOverlay = useCallback(() => {
+    setState((prev) => ({ ...prev, showLimitReachedOverlay: false }));
+  }, []);
+
   // Combine state with auth context premium status for safety
   const isPremium = state.isPremium || authIsPremium;
 
@@ -259,5 +271,6 @@ export function useUsageLimit() {
     trackCalculation,
     checkUsage,
     dismissUpgradePrompt,
+    dismissLimitReachedOverlay,
   };
 }

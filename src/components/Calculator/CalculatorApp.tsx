@@ -20,7 +20,7 @@ export function CalculatorApp() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { remaining, limit, isPremium, trackCalculation, checkUsage, canCalculate, showUpgradePrompt, dismissUpgradePrompt, isLoggedIn } = useUsageLimit();
+  const { remaining, limit, isPremium, trackCalculation, checkUsage, canCalculate, showUpgradePrompt, dismissUpgradePrompt, isLoggedIn, showLimitReachedOverlay, dismissLimitReachedOverlay } = useUsageLimit();
   const [checking, setChecking] = useState(false);
 
   useEffect(() => {
@@ -123,26 +123,33 @@ export function CalculatorApp() {
             </div>
             <div className="flex items-center gap-3">
               {/* Usage counter for free users */}
-              {!isPremium && (
-                <div
-                  className="hidden md:flex items-center justify-center gap-2 rounded-lg border border-[rgba(103,232,249,0.3)]"
-                  style={{
-                    paddingLeft: '12px',
-                    paddingRight: '12px',
-                    paddingTop: '8px',
-                    paddingBottom: '8px',
-                    background: 'linear-gradient(135deg, rgba(103,232,249,0.1) 0%, rgba(30,150,252,0.05) 100%)',
-                    boxShadow: '0 0 12px rgba(103,232,249,0.1)',
-                  }}
-                >
-                  <svg className="w-3.5 h-3.5 text-[#67e8f9]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span className="text-[#67e8f9] text-xs font-semibold">
-                    {remaining >= 0 ? `${remaining}/${limit}` : '∞'}
-                  </span>
-                </div>
-              )}
+              {!isPremium && (() => {
+                const isZero = remaining === 0;
+                const isLow = remaining === 1 || remaining === 2;
+                const color = isZero ? '#ef4444' : isLow ? '#ffd800' : '#67e8f9';
+                const colorRgb = isZero ? '239,68,68' : isLow ? '255,216,0' : '103,232,249';
+                return (
+                  <div
+                    className="hidden md:flex items-center justify-center gap-2 rounded-lg"
+                    style={{
+                      paddingLeft: '12px',
+                      paddingRight: '12px',
+                      paddingTop: '8px',
+                      paddingBottom: '8px',
+                      border: `1px solid rgba(${colorRgb},0.3)`,
+                      background: `linear-gradient(135deg, rgba(${colorRgb},0.1) 0%, rgba(${colorRgb},0.05) 100%)`,
+                      boxShadow: `0 0 12px rgba(${colorRgb},0.1)`,
+                    }}
+                  >
+                    <svg className="w-3.5 h-3.5" style={{ color }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-xs font-semibold" style={{ color }}>
+                      {remaining >= 0 ? `${remaining}/${limit}` : '∞'}
+                    </span>
+                  </div>
+                );
+              })()}
               {isPremium && (
                 <div
                     className="hidden md:flex items-center justify-center rounded-lg border border-[rgba(255,216,0,0.3)]"
@@ -221,6 +228,8 @@ export function CalculatorApp() {
         dismissUpgradePromptOverride={dismissUpgradePrompt}
         isLoggedInOverride={isLoggedIn}
         isPremiumOverride={isPremium}
+        showLimitReachedOverlayOverride={showLimitReachedOverlay}
+        dismissLimitReachedOverlayOverride={dismissLimitReachedOverlay}
       />
     </>
   );

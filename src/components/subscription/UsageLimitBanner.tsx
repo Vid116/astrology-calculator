@@ -39,6 +39,8 @@ interface UsageLimitBannerProps {
   dismissUpgradePromptOverride?: () => void;
   isLoggedInOverride?: boolean;
   isPremiumOverride?: boolean;
+  showLimitReachedOverlayOverride?: boolean;
+  dismissLimitReachedOverlayOverride?: () => void;
 }
 
 export function UsageLimitBanner({
@@ -49,6 +51,8 @@ export function UsageLimitBanner({
   dismissUpgradePromptOverride,
   isLoggedInOverride,
   isPremiumOverride,
+  showLimitReachedOverlayOverride,
+  dismissLimitReachedOverlayOverride,
 }: UsageLimitBannerProps = {}) {
   const {
     remaining: remainingFromHook,
@@ -59,6 +63,8 @@ export function UsageLimitBanner({
     isLoggedIn: isLoggedInFromHook,
     showUpgradePrompt: showUpgradePromptFromHook,
     dismissUpgradePrompt: dismissUpgradePromptFromHook,
+    showLimitReachedOverlay: showLimitReachedOverlayFromHook,
+    dismissLimitReachedOverlay: dismissLimitReachedOverlayFromHook,
   } = useUsageLimit();
   const timeLeft = useCountdown();
 
@@ -70,6 +76,8 @@ export function UsageLimitBanner({
   const dismissUpgradePrompt = dismissUpgradePromptOverride !== undefined ? dismissUpgradePromptOverride : dismissUpgradePromptFromHook;
   const isLoggedIn = isLoggedInOverride !== undefined ? isLoggedInOverride : isLoggedInFromHook;
   const isPremium = isPremiumOverride !== undefined ? isPremiumOverride : isPremiumFromHook;
+  const showLimitReachedOverlay = showLimitReachedOverlayOverride !== undefined ? showLimitReachedOverlayOverride : showLimitReachedOverlayFromHook;
+  const dismissLimitReachedOverlay = dismissLimitReachedOverlayOverride !== undefined ? dismissLimitReachedOverlayOverride : dismissLimitReachedOverlayFromHook;
 
   // Don't show for premium users
   if (isPremium || isLoading) {
@@ -111,11 +119,11 @@ export function UsageLimitBanner({
     );
   }
 
-  // Show limit reached
-  if (!canCalculate) {
+  // Show limit reached overlay - only after user tries to calculate at 0
+  if (showLimitReachedOverlay) {
     return (
       <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-8">
-        <div className="bg-[rgba(10,14,26,0.98)] border border-white/10 rounded-2xl p-12 max-w-md text-center shadow-[0_0_60px_rgba(0,0,0,0.5)]">
+        <div className="bg-[rgba(10,14,26,0.98)] border border-black rounded-2xl p-12 max-w-md text-center shadow-[0_0_60px_rgba(0,0,0,0.5)]">
           <h2 className="font-cinzel text-3xl text-[#ffd800] mb-4">
             Daily Limit Reached
           </h2>
