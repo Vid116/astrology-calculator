@@ -87,8 +87,8 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
 
     // Scroll to results after a brief delay for render
     setTimeout(() => {
-      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+      resultRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }, 50);
   };
 
   return (
