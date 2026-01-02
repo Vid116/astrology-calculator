@@ -58,26 +58,26 @@ function AccountContent() {
     const fetchUserData = async () => {
       if (!user) return;
 
-      // Fetch usage and profile in parallel
-      const [usageResult, profileResult] = await Promise.all([
-        supabase
-          .from('user_usage')
-          .select('calculation_count, calculation_reset_date')
-          .eq('user_id', user.id)
-          .single(),
-        supabase
-          .from('profiles')
-          .select('avatar_url')
-          .eq('user_id', user.id)
-          .single()
-      ]);
+      // Fetch usage data
+      const { data: usageData } = await supabase
+        .from('user_usage')
+        .select('calculation_count, calculation_reset_date')
+        .eq('user_id', user.id)
+        .single();
 
-      if (usageResult.data) {
-        setUsage(usageResult.data);
+      if (usageData) {
+        setUsage(usageData);
       }
 
-      if (profileResult.data?.avatar_url) {
-        setAvatarUrl(profileResult.data.avatar_url);
+      // Fetch profile data
+      const { data: profileData } = await supabase
+        .from('profiles')
+        .select('avatar_url')
+        .eq('user_id', user.id)
+        .single();
+
+      if (profileData?.avatar_url) {
+        setAvatarUrl(profileData.avatar_url);
       }
     };
 
