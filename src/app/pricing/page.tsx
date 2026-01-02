@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { STRIPE_CONFIG } from '@/lib/stripe/config';
@@ -10,6 +10,15 @@ export default function PricingPage() {
   const { user, isPremium } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch by only showing premium-dependent UI after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use false during SSR/hydration, actual value after mount
+  const showAsPremium = mounted && isPremium;
 
   const handleCheckout = async (priceKey: 'proMonthly' | 'proAnnual') => {
     if (!user) {
@@ -151,14 +160,14 @@ export default function PricingPage() {
                 border: '1px solid rgba(103, 232, 249, 0.2)',
               }}
             >
-              Current Plan
+              {showAsPremium ? 'Free Tier' : 'Current Plan'}
             </button>
           </div>
         </div>
 
         {/* Pro Monthly - Featured */}
         <div
-          className={`relative rounded-2xl overflow-hidden flex flex-col ${!isPremium && loading !== 'proMonthly' ? 'cursor-pointer transition-transform duration-200 hover:scale-[1.02]' : ''}`}
+          className={`relative rounded-2xl overflow-hidden flex flex-col ${!showAsPremium && loading !== 'proMonthly' ? 'cursor-pointer transition-transform duration-200 hover:scale-[1.02]' : ''}`}
           style={{
             background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.98) 0%, rgba(10, 14, 26, 0.98) 100%)',
             border: '2px solid rgba(255, 216, 0, 0.5)',
@@ -169,7 +178,7 @@ export default function PricingPage() {
               inset 0 1px 0 rgba(255, 255, 255, 0.05)
             `,
           }}
-          onClick={() => !isPremium && loading === null && handleCheckout('proMonthly')}
+          onClick={() => !showAsPremium && loading === null && handleCheckout('proMonthly')}
         >
           {/* Popular Badge */}
           <div
@@ -246,7 +255,7 @@ export default function PricingPage() {
             </ul>
 
             {/* Button */}
-            {isPremium ? (
+            {showAsPremium ? (
               <button
                 disabled
                 className="w-full py-4 rounded-xl text-sm font-semibold text-[#ffd800] cursor-not-allowed mt-auto"
@@ -290,7 +299,7 @@ export default function PricingPage() {
 
         {/* Pro Annual */}
         <div
-          className={`relative rounded-2xl overflow-hidden flex flex-col ${!isPremium && loading !== 'proAnnual' ? 'cursor-pointer transition-transform duration-200 hover:scale-[1.02]' : ''}`}
+          className={`relative rounded-2xl overflow-hidden flex flex-col ${!showAsPremium && loading !== 'proAnnual' ? 'cursor-pointer transition-transform duration-200 hover:scale-[1.02]' : ''}`}
           style={{
             background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
             border: '1px solid rgba(30, 150, 252, 0.25)',
@@ -301,7 +310,7 @@ export default function PricingPage() {
               inset 0 1px 0 rgba(255, 255, 255, 0.03)
             `,
           }}
-          onClick={() => !isPremium && loading === null && handleCheckout('proAnnual')}
+          onClick={() => !showAsPremium && loading === null && handleCheckout('proAnnual')}
         >
           {/* Savings Badge */}
           <div className="h-12 flex items-center justify-center">
@@ -359,7 +368,7 @@ export default function PricingPage() {
             </ul>
 
             {/* Button */}
-            {isPremium ? (
+            {showAsPremium ? (
               <button
                 disabled
                 className="w-full py-3.5 rounded-xl text-sm font-medium text-[#1e96fc] cursor-not-allowed mt-auto"
