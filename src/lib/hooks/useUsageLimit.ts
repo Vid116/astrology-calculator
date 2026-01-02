@@ -199,6 +199,56 @@ export function useUsageLimit() {
     setState((prev) => ({ ...prev, showUpgradePrompt: false }));
   }, []);
 
+  // Check usage from server (for opening calculator)
+  const checkUsage = useCallback(async (): Promise<boolean> => {
+    // Premium users always allowed
+    if (state.isPremium || authIsPremium) {
+      return true;
+    }
+
+    // For logged-in users, check server
+    if (user) {
+      try {
+        const response = await fetch('/api/track-calculation');
+        const data = await response.json();
+
+        const canCalc = data.remaining > 0 || data.isPremium;
+        setState((prev) => ({
+          ...prev,
+          remaining: data.remaining ?? prev.remaining,
+          canCalculate: canCalc,
+          isPremium: data.isPremium || prev.isPremium,
+          showUpgradePrompt: data.remaining <= 2 && !data.isPremium && data.remaining > 0,
+        }));
+
+        return canCalc;
+      } catch {
+        // On error, use local state
+        return state.remaining > 0;
+      }
+    }
+
+    // Anonymous user - check localStorage
+    const today = new Date().toISOString().split('T')[0];
+    const storedDate = localStorage.getItem(ANON_DATE_KEY);
+    let count = 0;
+
+    if (storedDate === today) {
+      count = parseInt(localStorage.getItem(ANON_STORAGE_KEY) || '0', 10);
+    }
+
+    const remaining = Math.max(0, ANON_LIMIT - count);
+    const canCalc = remaining > 0;
+
+    setState((prev) => ({
+      ...prev,
+      remaining,
+      canCalculate: canCalc,
+    }));
+
+    return canCalc;
+  }, [user, state.isPremium, state.remaining, authIsPremium]);
+
   // Combine state with auth context premium status for safety
   const isPremium = state.isPremium || authIsPremium;
 
@@ -207,6 +257,7 @@ export function useUsageLimit() {
     isPremium,
     canCalculate: state.canCalculate || isPremium,
     trackCalculation,
+    checkUsage,
     dismissUpgradePrompt,
   };
 }

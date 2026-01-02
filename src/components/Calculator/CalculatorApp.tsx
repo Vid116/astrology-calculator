@@ -20,7 +20,8 @@ export function CalculatorApp() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { remaining, limit, isPremium, trackCalculation, canCalculate, showUpgradePrompt, dismissUpgradePrompt, isLoggedIn } = useUsageLimit();
+  const { remaining, limit, isPremium, trackCalculation, checkUsage, canCalculate, showUpgradePrompt, dismissUpgradePrompt, isLoggedIn } = useUsageLimit();
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
@@ -50,6 +51,16 @@ export function CalculatorApp() {
   const onCalculate = useCallback(async (): Promise<boolean> => {
     return await trackCalculation();
   }, [trackCalculation]);
+
+  // Check usage from server before opening calculator
+  const handleOpenCalculator = useCallback(async () => {
+    setChecking(true);
+    const allowed = await checkUsage();
+    setChecking(false);
+    if (allowed) {
+      setIsOpen(true);
+    }
+  }, [checkUsage, setIsOpen]);
 
   if (loading) {
     return (
@@ -83,8 +94,8 @@ export function CalculatorApp() {
     <>
       <button
         className={`launch-btn ${isOpen ? 'hidden' : ''} ${!canCalculate ? 'disabled' : ''}`}
-        onClick={() => canCalculate && setIsOpen(true)}
-        disabled={!canCalculate}
+        onClick={handleOpenCalculator}
+        disabled={!canCalculate || checking}
         style={!canCalculate ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
       >
         <svg viewBox="0 0 100 100" className="launch-icon" style={{ width: '2em', height: '2em' }}>
@@ -97,7 +108,7 @@ export function CalculatorApp() {
             d="M 80 65 C 88 60 92 50 88 40 C 84 30 72 25 60 30 C 65 35 68 42 65 50 C 62 58 52 62 42 58 C 48 65 58 68 68 65 C 72 64 76 62 80 58"
           />
         </svg>
-        <span className="launch-text">{canCalculate ? 'Open Calculator' : 'Limit Reached'}</span>
+        <span className="launch-text">{checking ? 'Checking...' : canCalculate ? 'Open Calculator' : 'Limit Reached'}</span>
       </button>
 
       <div className={`container ${isOpen ? 'visible' : 'hidden'}`}>
