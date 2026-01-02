@@ -85,10 +85,10 @@ export function SparkCalculator({ sparkDatabase, isActive, onCalculate, canCalcu
     const sparkResult = calculateSpark(planetName, sign, degree, sparkDatabase);
     setResult(sparkResult);
 
-    // Scroll to results after a brief delay for render
-    setTimeout(() => {
-      resultRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }, 50);
+    // Scroll to results immediately
+    requestAnimationFrame(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   };
 
   return (

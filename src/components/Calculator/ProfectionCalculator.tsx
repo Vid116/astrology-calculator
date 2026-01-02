@@ -67,10 +67,10 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
     const profectionResult = calculateProfection(birthDate, rising, profectionData);
     setResult(profectionResult);
 
-    // Scroll to results after a brief delay for render
-    setTimeout(() => {
-      resultRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }, 50);
+    // Scroll to results immediately
+    requestAnimationFrame(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   };
 
   return (

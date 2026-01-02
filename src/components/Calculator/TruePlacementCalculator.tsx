@@ -115,10 +115,10 @@ export function TruePlacementCalculator({
       setNotFound(true);
     }
 
-    // Scroll to results after a brief delay for render
-    setTimeout(() => {
-      resultRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
-    }, 50);
+    // Scroll to results immediately
+    requestAnimationFrame(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   };
 
   const buildInterpretation = () => {
