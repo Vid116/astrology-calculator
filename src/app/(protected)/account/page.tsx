@@ -14,9 +14,37 @@ interface UserUsage {
   calculation_reset_date: string;
 }
 
+function useCountdown() {
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+      tomorrow.setUTCHours(0, 0, 0, 0);
+
+      const diff = tomorrow.getTime() - now.getTime();
+
+      return {
+        hours: Math.floor(diff / (1000 * 60 * 60)),
+        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((diff % (1000 * 60)) / 1000),
+      };
+    };
+
+    setTimeLeft(calculateTimeLeft());
+    const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return timeLeft;
+}
+
 function AccountContent() {
   const { user, subscription, isPremium, signOut, isLoading } = useAuth();
   const [usage, setUsage] = useState<UserUsage | null>(null);
+  const timeLeft = useCountdown();
   const [portalLoading, setPortalLoading] = useState(false);
   const [avatarSaving, setAvatarSaving] = useState(false);
   const router = useRouter();
@@ -581,7 +609,10 @@ function AccountContent() {
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              Resets daily at midnight UTC
+              Resets in{' '}
+              <span className="text-[#67e8f9] font-medium">
+                {String(timeLeft.hours).padStart(2, '0')}:{String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
+              </span>
             </p>
           </div>
 
