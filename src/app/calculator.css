@@ -105,6 +105,55 @@
     transform: translateX(-50%) scale(0.8);
 }
 
+/* Orbiting star with tail effect */
+.launch-btn::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    background: conic-gradient(
+        from var(--orbit-angle, 0deg),
+        transparent 0%,
+        transparent 70%,
+        rgba(103, 232, 249, 0.1) 80%,
+        rgba(103, 232, 249, 0.4) 88%,
+        rgba(255, 216, 0, 0.8) 94%,
+        #ffd800 97%,
+        rgba(255, 216, 0, 0.8) 98%,
+        rgba(103, 232, 249, 0.4) 99%,
+        transparent 100%
+    );
+    animation: orbitStar 4s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Inner mask to create border effect */
+.launch-btn::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 18px;
+    background: rgba(10, 14, 26, 0.95);
+    pointer-events: none;
+    z-index: -1;
+}
+
+@property --orbit-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes orbitStar {
+    0% {
+        --orbit-angle: 0deg;
+    }
+    100% {
+        --orbit-angle: 360deg;
+    }
+}
+
 /* ============================================
    CLOSE BUTTON
    ============================================ */
