@@ -367,6 +367,46 @@ export function UserMenu() {
               <span>My Account</span>
             </Link>
 
+            <Link
+              href="/suggestions"
+              role="menuitem"
+              onClick={() => closeMenu()}
+              className="
+                flex items-center gap-3 px-5 py-3
+                text-sm text-[#b8c4d4]
+                transition-all duration-200
+                hover:text-white hover:bg-white/[0.04]
+                focus:outline-none focus-visible:bg-white/[0.04]
+                group
+              "
+            >
+              <span
+                className="
+                  w-8 h-8 rounded-lg flex items-center justify-center
+                  bg-[#67e8f9]/10 text-[#67e8f9]
+                  transition-all duration-200
+                  group-hover:bg-[#67e8f9]/15
+                  group-hover:shadow-[0_0_12px_rgba(103,232,249,0.2)]
+                "
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.75}
+                    d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
+                  />
+                </svg>
+              </span>
+              <span>Suggestions</span>
+            </Link>
+
             {isAdmin && (
               <Link
                 href="/admin"
