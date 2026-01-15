@@ -144,8 +144,8 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
   // Calculate rings needed: show complete cycles up to and including current year
   const numYearRings = Math.max(1, currentRing + 1);
 
-  // Adjust ring width based on number of rings to keep wheel balanced
-  const baseYearRingWidth = numYearRings <= 3 ? 40 : numYearRings <= 5 ? 30 : 26;
+  // Adjust ring width based on number of rings to keep wheel balanced (compact spacing)
+  const baseYearRingWidth = numYearRings <= 3 ? 28 : numYearRings <= 5 ? 22 : 18;
   const yearRingWidth = baseYearRingWidth;
   const yearRingsOuter = houseRingOuter + (numYearRings * yearRingWidth);
   const zodiacRingInner = yearRingsOuter; // Zodiac ring starts where years end
@@ -157,8 +157,11 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
   const risingIndex = ZODIAC_ORDER.indexOf(result.rising);
 
   // Generate year data for each ring and segment
+  // Birth year (age 0) should be at House 12 (beside House 1), not House 1
   const getYearForRingSegment = (ring: number, segment: number) => {
-    const age = ring * 12 + segment;
+    // Shift so House 12 (segment 11) gets age 0, House 1 gets age 1, etc.
+    const shiftedSegment = (segment + 1) % 12;
+    const age = ring * 12 + shiftedSegment;
     return result.firstActivation + age;
   };
 
@@ -215,8 +218,9 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
             <svg ref={fullscreenWheelRef} viewBox="0 0 500 500" className="profection-wheel fullscreen">
               {/* Draw segments */}
               {Array.from({ length: 12 }).map((_, i) => {
-                const startAngle = i * segmentAngle + 90;
-                const endAngle = startAngle + segmentAngle;
+                // Counterclockwise from left: subtract angles so House 1 is at 9 o'clock, House 2 above it, etc.
+                const startAngle = 270 - (i + 1) * segmentAngle;
+                const endAngle = 270 - i * segmentAngle;
                 const midAngle = startAngle + segmentAngle / 2;
                 const sign = getSignForHouse(i);
                 const houseNum = i + 1;
@@ -224,15 +228,18 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
 
                 return (
                   <g key={i}>
-                    <line
-                      x1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).x}
-                      y1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).y}
-                      x2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).x}
-                      y2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).y}
-                      stroke="var(--cyan-400)"
-                      strokeWidth="1"
-                      opacity="0.6"
-                    />
+                    {/* Segment divider lines - skip i=11 (House 1/12 boundary) here, draw it last */}
+                    {i !== 11 && (
+                      <line
+                        x1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).x}
+                        y1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).y}
+                        x2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).x}
+                        y2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).y}
+                        stroke="var(--cyan-400)"
+                        strokeWidth="2"
+                        opacity="1"
+                      />
+                    )}
                     <path
                       d={describeSegment(centerX, centerY, houseRingInner, houseRingOuter, startAngle, endAngle)}
                       fill={isCurrentHouse ? 'var(--gold-400)' : '#1a1a2e'}
@@ -297,12 +304,23 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
                   r={houseRingOuter + ring * yearRingWidth}
                   fill="none"
                   stroke="var(--cyan-400)"
-                  strokeWidth="0.5"
-                  opacity="0.5"
+                  strokeWidth="1"
+                  opacity="1"
                 />
               ))}
               <circle cx={centerX} cy={centerY} r={zodiacRingInner} fill="none" stroke="var(--cyan-400)" strokeWidth="1" opacity="0.8" />
               <circle cx={centerX} cy={centerY} r={zodiacRingOuter} fill="none" stroke="var(--cyan-400)" strokeWidth="2" />
+
+              {/* House 1/12 boundary line - drawn last for consistent thickness on top of circles */}
+              <line
+                x1={polarToCartesian(centerX, centerY, houseRingInner, 270 - 12 * segmentAngle).x}
+                y1={polarToCartesian(centerX, centerY, houseRingInner, 270 - 12 * segmentAngle).y}
+                x2={polarToCartesian(centerX, centerY, zodiacRingInner, 270 - 12 * segmentAngle).x}
+                y2={polarToCartesian(centerX, centerY, zodiacRingInner, 270 - 12 * segmentAngle).y}
+                stroke="#ffffff"
+                strokeWidth="2"
+                opacity="1"
+              />
             </svg>
           </div>
         </div>
@@ -317,8 +335,9 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
         <svg viewBox="0 0 500 500" className="profection-wheel">
         {/* Draw segments */}
         {Array.from({ length: 12 }).map((_, i) => {
-          const startAngle = i * segmentAngle + 90; // Start from bottom (House 1 at 6 o'clock)
-          const endAngle = startAngle + segmentAngle;
+          // Counterclockwise from left: subtract angles so House 1 is at 9 o'clock, House 2 above it, etc.
+          const startAngle = 270 - (i + 1) * segmentAngle;
+          const endAngle = 270 - i * segmentAngle;
           const midAngle = startAngle + segmentAngle / 2;
           const sign = getSignForHouse(i);
           const houseNum = i + 1;
@@ -326,16 +345,18 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
 
           return (
             <g key={i}>
-              {/* Segment divider lines - stop at zodiac ring */}
-              <line
-                x1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).x}
-                y1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).y}
-                x2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).x}
-                y2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).y}
-                stroke="var(--cyan-400)"
-                strokeWidth="1"
-                opacity="0.6"
-              />
+              {/* Segment divider lines - skip i=11 (House 1/12 boundary) here, draw it last */}
+              {i !== 11 && (
+                <line
+                  x1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).x}
+                  y1={polarToCartesian(centerX, centerY, houseRingInner, startAngle).y}
+                  x2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).x}
+                  y2={polarToCartesian(centerX, centerY, zodiacRingInner, startAngle).y}
+                  stroke="var(--cyan-400)"
+                  strokeWidth="2"
+                  opacity="1"
+                />
+              )}
 
               {/* House number ring (inner dark ring) */}
               <path
@@ -424,6 +445,17 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
         {/* Zodiac ring boundaries - inner and outer circles only */}
         <circle cx={centerX} cy={centerY} r={zodiacRingInner} fill="none" stroke="var(--cyan-400)" strokeWidth="1" opacity="0.8" />
         <circle cx={centerX} cy={centerY} r={zodiacRingOuter} fill="none" stroke="var(--cyan-400)" strokeWidth="2" />
+
+        {/* House 1/12 boundary line - drawn last for consistent thickness on top of circles */}
+        <line
+          x1={polarToCartesian(centerX, centerY, houseRingInner, 270 - 12 * segmentAngle).x}
+          y1={polarToCartesian(centerX, centerY, houseRingInner, 270 - 12 * segmentAngle).y}
+          x2={polarToCartesian(centerX, centerY, zodiacRingInner, 270 - 12 * segmentAngle).x}
+          y2={polarToCartesian(centerX, centerY, zodiacRingInner, 270 - 12 * segmentAngle).y}
+          stroke="#ffffff"
+          strokeWidth="2"
+          opacity="1"
+        />
       </svg>
     </div>
     </>
