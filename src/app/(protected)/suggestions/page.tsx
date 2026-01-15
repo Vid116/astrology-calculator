@@ -224,35 +224,35 @@ export default function SuggestionsPage() {
                 Category
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat.value}
-                    type="button"
-                    onClick={() => setCategory(cat.value)}
-                    className={`
-                      flex items-center justify-center gap-2.5 py-4 px-5 rounded-xl
-                      text-sm font-medium transition-all duration-300
-                      ${category === cat.value
-                        ? 'text-[#ffd800] scale-[1.02]'
-                        : 'text-[#a1a1aa] hover:text-white'
-                      }
-                    `}
-                    style={{
-                      background: category === cat.value
-                        ? 'linear-gradient(135deg, rgba(255, 216, 0, 0.15) 0%, rgba(255, 184, 0, 0.08) 100%)'
-                        : 'rgba(103, 232, 249, 0.05)',
-                      border: category === cat.value
-                        ? '1px solid rgba(255, 216, 0, 0.4)'
-                        : '1px solid rgba(103, 232, 249, 0.15)',
-                      boxShadow: category === cat.value
-                        ? '0 0 15px rgba(255, 216, 0, 0.15)'
-                        : 'none',
-                    }}
-                  >
-                    {cat.icon}
-                    {cat.label}
-                  </button>
-                ))}
+                {CATEGORIES.map((cat) => {
+                  const isSelected = category === cat.value;
+                  const colors = {
+                    feature: { text: '#ffd800', bg: 'rgba(255, 216, 0, 0.15)', border: 'rgba(255, 216, 0, 0.4)', shadow: 'rgba(255, 216, 0, 0.15)' },
+                    bug: { text: '#f87171', bg: 'rgba(248, 113, 113, 0.15)', border: 'rgba(248, 113, 113, 0.4)', shadow: 'rgba(248, 113, 113, 0.15)' },
+                    improvement: { text: '#67e8f9', bg: 'rgba(103, 232, 249, 0.15)', border: 'rgba(103, 232, 249, 0.4)', shadow: 'rgba(103, 232, 249, 0.15)' },
+                    other: { text: '#a855f7', bg: 'rgba(168, 85, 247, 0.15)', border: 'rgba(168, 85, 247, 0.4)', shadow: 'rgba(168, 85, 247, 0.15)' },
+                  }[cat.value];
+
+                  return (
+                    <button
+                      key={cat.value}
+                      type="button"
+                      onClick={() => setCategory(cat.value)}
+                      className="flex items-center justify-center gap-2.5 rounded-xl text-sm font-medium transition-all duration-300"
+                      style={{
+                        padding: '18px 20px',
+                        color: isSelected ? colors.text : '#a1a1aa',
+                        background: isSelected ? colors.bg : 'rgba(103, 232, 249, 0.05)',
+                        border: isSelected ? `1px solid ${colors.border}` : '1px solid rgba(103, 232, 249, 0.15)',
+                        boxShadow: isSelected ? `0 0 15px ${colors.shadow}` : 'none',
+                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
+                      }}
+                    >
+                      {cat.icon}
+                      {cat.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
