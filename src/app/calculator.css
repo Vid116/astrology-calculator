@@ -1066,6 +1066,42 @@ header h1 {
     80% { transform: translateX(3px); }
 }
 
+.activation-year-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.activation-year-btn {
+    padding: 12px 20px;
+    background: rgba(30, 150, 252, 0.1);
+    color: var(--cyan-400);
+    border: 1px solid var(--cyan-400);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.activation-year-btn:hover {
+    background: rgba(30, 150, 252, 0.2);
+    transform: translateY(-2px);
+}
+
+.activation-year-btn.selected {
+    background: var(--cyan-400);
+    color: #0a0e1a;
+    font-weight: 600;
+}
+
+.hint-text {
+    color: var(--cyan-400);
+    opacity: 0.6;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
 .calculate-btn {
     padding: 25px 50px;
     background: transparent;
@@ -1608,6 +1644,47 @@ header h1 {
 /* ============================================
    PROFECTION WHEEL
    ============================================ */
+
+.profection-cycle-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: rgba(30, 150, 252, 0.1);
+    border-radius: 8px;
+    flex-wrap: wrap;
+}
+
+.profection-cycle-controls label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--cyan-400);
+    font-size: 0.95rem;
+}
+
+.profection-cycle-controls input[type="range"] {
+    width: 120px;
+    cursor: pointer;
+    accent-color: var(--cyan-400);
+}
+
+.till-current-btn {
+    padding: 8px 16px;
+    background: transparent;
+    color: var(--cyan-400);
+    border: 1px solid var(--cyan-400);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.till-current-btn:hover {
+    background: var(--cyan-400);
+    color: #0a0e1a;
+}
 
 .profection-wheel-container {
     margin-top: 24px;

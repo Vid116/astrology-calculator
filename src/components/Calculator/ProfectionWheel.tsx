@@ -121,6 +121,18 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const fullscreenWheelRef = useRef<SVGSVGElement>(null);
 
+  // Calculate current year position based on actual year
+  const currentYear = new Date().getFullYear();
+  const yearsFromStart = currentYear - result.firstActivation;
+  const currentRing = Math.floor(yearsFromStart / 12);
+  const currentSegment = yearsFromStart % 12;
+
+  // Number of cycles to show till current year
+  const tillCurrentCycles = Math.max(1, currentRing + 1);
+
+  // State for number of cycles to display (default to till current)
+  const [numCycles, setNumCycles] = useState(tillCurrentCycles);
+
   // Auto-scroll to wheel when fullscreen opens
   useEffect(() => {
     if (isFullscreen && fullscreenWheelRef.current) {
@@ -135,16 +147,10 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
   const houseRingInner = 25;
   const houseRingOuter = 50;
 
-  // Calculate current year position based on actual year
-  const currentYear = new Date().getFullYear();
-  const yearsFromStart = currentYear - result.firstActivation;
-  const currentRing = Math.floor(yearsFromStart / 12);
-  const currentSegment = yearsFromStart % 12;
+  // Use numCycles from state
+  const numYearRings = numCycles;
 
-  // Calculate rings needed: show complete cycles up to and including current year
-  const numYearRings = Math.max(1, currentRing + 1);
-
-  // Adjust ring width based on number of rings to keep wheel balanced (compact spacing)
+  // Adjust ring width based on number of cycles
   const baseYearRingWidth = numYearRings <= 3 ? 28 : numYearRings <= 5 ? 22 : 18;
   const yearRingWidth = baseYearRingWidth;
   const yearRingsOuter = houseRingOuter + (numYearRings * yearRingWidth);
@@ -156,13 +162,19 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
   // Find the starting index based on rising sign
   const risingIndex = ZODIAC_ORDER.indexOf(result.rising);
 
+  // Get birth year from birthDate
+  const birthYear = new Date(result.birthDate).getFullYear();
+
   // Generate year data for each ring and segment
-  // Birth year (age 0) should be at House 12 (beside House 1), not House 1
+  // House 1 = First Activation Year, House 12 = Birth Year
   const getYearForRingSegment = (ring: number, segment: number) => {
-    // Shift so House 12 (segment 11) gets age 0, House 1 gets age 1, etc.
-    const shiftedSegment = (segment + 1) % 12;
-    const age = ring * 12 + shiftedSegment;
-    return result.firstActivation + age;
+    if (segment === 11) {
+      // House 12: shows birth year + cycles
+      return birthYear + ring * 12;
+    } else {
+      // Houses 1-11: shows firstActivation + segment + cycles
+      return result.firstActivation + segment + ring * 12;
+    }
   };
 
   // Get sign for a given house position (0-11)
@@ -325,6 +337,27 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
           </div>
         </div>
       )}
+
+      {/* Cycle controls */}
+      <div className="profection-cycle-controls">
+        <label>
+          Cycles: {numCycles}
+          <input
+            type="range"
+            min="1"
+            max="10"
+            value={numCycles}
+            onChange={(e) => setNumCycles(parseInt(e.target.value, 10))}
+          />
+        </label>
+        <button
+          type="button"
+          className="till-current-btn"
+          onClick={() => setNumCycles(tillCurrentCycles)}
+        >
+          Till Current Year
+        </button>
+      </div>
 
       <div className="profection-wheel-container">
         <button className="profection-expand-btn" onClick={() => setIsFullscreen(true)} title="View fullscreen">

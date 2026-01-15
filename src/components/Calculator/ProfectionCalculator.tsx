@@ -31,6 +31,7 @@ interface ProfectionCalculatorProps {
 export function ProfectionCalculator({ profectionData, isActive, onCalculate, canCalculate = true }: ProfectionCalculatorProps) {
   const [birthDate, setBirthDate] = useState('');
   const [rising, setRising] = useState('');
+  const [firstActivationYear, setFirstActivationYear] = useState('');
   const [result, setResult] = useState<ProfectionResult | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const resultRef = useRef<HTMLDivElement>(null);
@@ -50,6 +51,15 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
 
     if (!rising) newErrors.rising = 'Please select a rising sign';
 
+    if (!firstActivationYear) {
+      newErrors.firstActivationYear = 'Please enter your first activation year';
+    } else {
+      const year = parseInt(firstActivationYear, 10);
+      if (isNaN(year) || year < 1900 || year > new Date().getFullYear() + 1) {
+        newErrors.firstActivationYear = 'Please enter a valid year';
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -64,7 +74,7 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
       if (!allowed) return; // Usage limit reached
     }
 
-    const profectionResult = calculateProfection(birthDate, rising, profectionData);
+    const profectionResult = calculateProfection(birthDate, rising, parseInt(firstActivationYear, 10), profectionData);
     setResult(profectionResult);
 
     // Scroll to results immediately
@@ -107,6 +117,37 @@ export function ProfectionCalculator({ profectionData, isActive, onCalculate, ca
             placeholder="Select rising sign..."
             error={errors.rising}
           />
+        </div>
+
+        <div className="form-group">
+          <label>First Activation Year:</label>
+          {birthDate ? (
+            <div className="activation-year-buttons">
+              <button
+                type="button"
+                className={`activation-year-btn ${firstActivationYear === new Date(birthDate).getFullYear().toString() ? 'selected' : ''}`}
+                onClick={() => {
+                  setFirstActivationYear(new Date(birthDate).getFullYear().toString());
+                  setErrors(prev => ({ ...prev, firstActivationYear: '' }));
+                }}
+              >
+                Same Year ({new Date(birthDate).getFullYear()})
+              </button>
+              <button
+                type="button"
+                className={`activation-year-btn ${firstActivationYear === (new Date(birthDate).getFullYear() + 1).toString() ? 'selected' : ''}`}
+                onClick={() => {
+                  setFirstActivationYear((new Date(birthDate).getFullYear() + 1).toString());
+                  setErrors(prev => ({ ...prev, firstActivationYear: '' }));
+                }}
+              >
+                Next Year ({new Date(birthDate).getFullYear() + 1})
+              </button>
+            </div>
+          ) : (
+            <p className="hint-text">Select birth date first</p>
+          )}
+          {errors.firstActivationYear && <div className="validation-error show">{errors.firstActivationYear}</div>}
         </div>
 
         <button type="submit" className="calculate-btn">

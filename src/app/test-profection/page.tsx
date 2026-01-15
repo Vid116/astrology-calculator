@@ -23,12 +23,16 @@ const signs = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', '
 const risingIndex = signs.indexOf(TEST_RISING);
 const currentSignIndex = (risingIndex + (houseNum - 1)) % 12;
 
+const TEST_FIRST_ACTIVATION = 1995;
+
 const testResult: ProfectionResult = {
+  birthDate: TEST_BIRTH_DATE,
   age,
   currentHouse: houses[houseNum - 1],
   currentSign: signs[currentSignIndex] as ProfectionResult['currentSign'],
   rising: TEST_RISING,
-  firstActivation: birthDate.getFullYear(),
+  firstActivation: TEST_FIRST_ACTIVATION,
+  cycles: [], // Empty for test - wheel doesn't use this
 };
 
 export default function TestProfectionPage() {

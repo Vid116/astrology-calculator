@@ -81,6 +81,7 @@ export function calculateTruePlacement(
 export function calculateProfection(
   birthDate: string,
   rising: string,
+  firstActivation: number,
   profectionData: ProfectionData
 ): ProfectionResult | null {
   const birth = new Date(birthDate);
@@ -95,13 +96,6 @@ export function calculateProfection(
 
   if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
     age--;
-  }
-
-  let firstActivation = birthYear;
-  if (birthMonth <= 2 || (birthMonth === 3 && birthDay <= 15)) {
-    firstActivation = birthYear;
-  } else {
-    firstActivation = birthYear + 1;
   }
 
   const houseMappings = profectionData.house_mappings[rising];
