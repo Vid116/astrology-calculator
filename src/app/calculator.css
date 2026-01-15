@@ -1686,6 +1686,59 @@ header h1 {
     color: #0a0e1a;
 }
 
+.year-lookup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.year-lookup label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--cyan-400);
+    font-size: 0.95rem;
+}
+
+.year-lookup input[type="number"] {
+    width: 80px;
+    padding: 6px 10px;
+    background: rgba(10, 14, 26, 0.6);
+    border: 1px solid var(--cyan-400);
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    -moz-appearance: textfield;
+}
+
+.year-lookup input[type="number"]::-webkit-outer-spin-button,
+.year-lookup input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.year-lookup input[type="number"]:focus {
+    outline: none;
+    border-color: var(--purple-300);
+    box-shadow: 0 0 8px rgba(201, 97, 154, 0.4);
+}
+
+.clear-lookup-btn {
+    padding: 6px 12px;
+    background: transparent;
+    color: var(--purple-300);
+    border: 1px solid var(--purple-300);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clear-lookup-btn:hover {
+    background: var(--purple-300);
+    color: #0a0e1a;
+}
+
 .profection-wheel-container {
     margin-top: 24px;
     display: flex;

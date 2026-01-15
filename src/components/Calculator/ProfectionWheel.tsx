@@ -120,6 +120,7 @@ const HOUSE_ORDER = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9t
 export function ProfectionWheel({ result }: ProfectionWheelProps) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const fullscreenWheelRef = useRef<SVGSVGElement>(null);
+  const lookupInputRef = useRef<HTMLInputElement>(null);
 
   // Calculate current year position based on actual year
   const currentYear = new Date().getFullYear();
@@ -132,6 +133,9 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
 
   // State for number of cycles to display (default to till current)
   const [numCycles, setNumCycles] = useState(tillCurrentCycles);
+
+  // State for year lookup/highlight
+  const [lookupYear, setLookupYear] = useState<string>('');
 
   // Auto-scroll to wheel when fullscreen opens
   useEffect(() => {
@@ -273,24 +277,25 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
                       const ringOuter = ringInner + yearRingWidth;
                       const year = getYearForRingSegment(ring, i);
                       const isCurrentYear = year === currentYear;
+                      const isLookupYear = lookupYear && year === parseInt(lookupYear, 10);
                       const isFutureYear = year > currentYear;
                       return (
                         <g key={`ring-${ring}`}>
                           <path
                             d={describeSegment(centerX, centerY, ringInner, ringOuter, startAngle, endAngle)}
-                            fill={isCurrentYear ? 'var(--gold-400)' : 'transparent'}
+                            fill={isLookupYear ? 'var(--purple-300)' : isCurrentYear ? 'var(--gold-400)' : 'transparent'}
                             stroke="none"
-                            opacity={isFutureYear ? 0.4 : 0.8}
+                            opacity={isFutureYear && !isLookupYear ? 0.4 : 0.8}
                           />
                           <text
                             x={polarToCartesian(centerX, centerY, (ringInner + ringOuter) / 2, midAngle).x}
                             y={polarToCartesian(centerX, centerY, (ringInner + ringOuter) / 2, midAngle).y}
-                            fill={isCurrentYear ? '#1a1a2e' : '#ffffff'}
+                            fill={isLookupYear || isCurrentYear ? '#1a1a2e' : '#ffffff'}
                             fontSize="10"
-                            fontWeight={isCurrentYear ? 'bold' : 'normal'}
+                            fontWeight={isLookupYear || isCurrentYear ? 'bold' : 'normal'}
                             textAnchor="middle"
                             dominantBaseline="middle"
-                            opacity={isFutureYear ? 0.5 : 1}
+                            opacity={isFutureYear && !isLookupYear ? 0.5 : 1}
                           >
                             {year}
                           </text>
@@ -357,6 +362,35 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
         >
           Till Current Year
         </button>
+        <div className="year-lookup">
+          <label>
+            Lookup:
+            <input
+              ref={lookupInputRef}
+              type="number"
+              value={lookupYear}
+              onChange={(e) => setLookupYear(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && lookupYear) {
+                  setLookupYear('');
+                }
+              }}
+              placeholder="Year"
+            />
+          </label>
+          {lookupYear && (
+            <button
+              type="button"
+              className="clear-lookup-btn"
+              onClick={() => {
+                setLookupYear('');
+                lookupInputRef.current?.focus();
+              }}
+            >
+              Clear
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="profection-wheel-container">
@@ -417,25 +451,26 @@ export function ProfectionWheel({ result }: ProfectionWheelProps) {
                 const ringOuter = ringInner + yearRingWidth;
                 const year = getYearForRingSegment(ring, i);
                 const isCurrentYear = year === currentYear;
+                const isLookupYear = lookupYear && year === parseInt(lookupYear, 10);
                 const isFutureYear = year > currentYear;
 
                 return (
                   <g key={`ring-${ring}`}>
                     <path
                       d={describeSegment(centerX, centerY, ringInner, ringOuter, startAngle, endAngle)}
-                      fill={isCurrentYear ? 'var(--gold-400)' : 'transparent'}
+                      fill={isLookupYear ? 'var(--purple-300)' : isCurrentYear ? 'var(--gold-400)' : 'transparent'}
                       stroke="none"
-                      opacity={isFutureYear ? 0.4 : 0.8}
+                      opacity={isFutureYear && !isLookupYear ? 0.4 : 0.8}
                     />
                     <text
                       x={polarToCartesian(centerX, centerY, (ringInner + ringOuter) / 2, midAngle).x}
                       y={polarToCartesian(centerX, centerY, (ringInner + ringOuter) / 2, midAngle).y}
-                      fill={isCurrentYear ? '#1a1a2e' : '#ffffff'}
+                      fill={isLookupYear || isCurrentYear ? '#1a1a2e' : '#ffffff'}
                       fontSize="10"
-                      fontWeight={isCurrentYear ? 'bold' : 'normal'}
+                      fontWeight={isLookupYear || isCurrentYear ? 'bold' : 'normal'}
                       textAnchor="middle"
                       dominantBaseline="middle"
-                      opacity={isFutureYear ? 0.5 : 1}
+                      opacity={isFutureYear && !isLookupYear ? 0.5 : 1}
                     >
                       {year}
                     </text>
