@@ -1,12 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { toast } from 'sonner';
 
 type Category = 'feature' | 'bug' | 'improvement' | 'other';
 
-const CATEGORIES: { value: Category; label: string; icon: JSX.Element }[] = [
+const CATEGORIES: { value: Category; label: string; icon: ReactNode }[] = [
   {
     value: 'feature',
     label: 'New Feature',
