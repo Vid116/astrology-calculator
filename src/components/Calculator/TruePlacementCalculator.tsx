@@ -168,6 +168,22 @@ export function TruePlacementCalculator({
     signWord: '',
   });
 
+  // Sign to house number mapping (natural zodiac order)
+  const SIGN_TO_HOUSE: Record<string, string> = {
+    'Aries': '1st',
+    'Taurus': '2nd',
+    'Gemini': '3rd',
+    'Cancer': '4th',
+    'Leo': '5th',
+    'Virgo': '6th',
+    'Libra': '7th',
+    'Scorpio': '8th',
+    'Sagittarius': '9th',
+    'Capricorn': '10th',
+    'Aquarius': '11th',
+    'Pisces': '12th',
+  };
+
   // Connector options
   const CONNECTOR_OPTIONS = [
     'direct through',
@@ -1070,7 +1086,7 @@ export function TruePlacementCalculator({
 
                 <div className="yoyo-row">
                   <div className="yoyo-label">House:</div>
-                  <div className="yoyo-value">{yoyoHouse}</div>
+                  <div className="yoyo-value">{SIGN_TO_HOUSE[yoyoHouse]} {yoyoHouse}</div>
                   <div className="yoyo-keyword">
                     <select
                       value={yoyoKeywords.house1}
@@ -1125,7 +1141,7 @@ export function TruePlacementCalculator({
 
                 <div className="yoyo-row">
                   <div className="yoyo-label">House:</div>
-                  <div className="yoyo-value">{yoyoHouse}</div>
+                  <div className="yoyo-value">{SIGN_TO_HOUSE[yoyoHouse]} {yoyoHouse}</div>
                   <div className="yoyo-keyword">
                     <select
                       value={yoyoKeywords.house2}
@@ -1272,21 +1288,17 @@ export function TruePlacementCalculator({
                   {phsWords.planetWord || '[Planet]'}
                 </span>
                 {' '}
-                <span className="word-label">in</span>
+                <span className={phsWords.connector ? 'word-connector' : 'word-empty'}>
+                  {phsWords.connector || 'expressed through'}
+                </span>
                 {' '}
                 <span className={phsWords.houseWord ? 'word-filled' : 'word-empty'}>
                   {phsWords.houseWord || '[House]'}
                 </span>
-                {phsWords.planetWord && phsWords.houseWord && (
-                  <>
-                    {' '}
-                    <span className={phsWords.connector ? 'word-connector' : 'word-empty'}>
-                      {phsWords.connector || 'expressed through'}
-                    </span>
-                  </>
-                )}
                 {phsWords.signWord && (
                   <>
+                    {' '}
+                    <span className="word-label">expressed through</span>
                     {' '}
                     <span className="word-filled">{phsWords.signWord}</span>
                   </>
@@ -1377,21 +1389,17 @@ export function TruePlacementCalculator({
                   {phsWords.planetWord || '[Planet]'}
                 </span>
                 {' '}
-                <span className="word-label">in</span>
+                <span className={phsWords.connector ? 'word-connector' : 'word-empty'}>
+                  {phsWords.connector || 'expressed through'}
+                </span>
                 {' '}
                 <span className={phsWords.houseWord ? 'word-filled' : 'word-empty'}>
                   {phsWords.houseWord || '[House]'}
                 </span>
-                {phsWords.planetWord && phsWords.houseWord && (
-                  <>
-                    {' '}
-                    <span className={phsWords.connector ? 'word-connector' : 'word-empty'}>
-                      {phsWords.connector || 'expressed through'}
-                    </span>
-                  </>
-                )}
                 {phsWords.signWord && (
                   <>
+                    {' '}
+                    <span className="word-label">expressed through</span>
                     {' '}
                     <span className="word-filled">{phsWords.signWord}</span>
                   </>
@@ -1540,21 +1548,17 @@ export function TruePlacementCalculator({
                   {phsrWords.planetWord || '[Planet]'}
                 </span>
                 {' '}
-                <span className="word-label">in</span>
+                <span className={phsrWords.connector1 ? 'word-connector' : 'word-empty'}>
+                  {phsrWords.connector1 || '[connector]'}
+                </span>
                 {' '}
                 <span className={phsrWords.houseWord ? 'word-filled' : 'word-empty'}>
                   {phsrWords.houseWord || '[House]'}
                 </span>
-                {phsrWords.planetWord && phsrWords.houseWord && (
-                  <>
-                    {' '}
-                    <span className={phsrWords.connector1 ? 'word-connector' : 'word-empty'}>
-                      {phsrWords.connector1 || '[connector]'}
-                    </span>
-                  </>
-                )}
                 {phsrWords.signWord && (
                   <>
+                    {' '}
+                    <span className="word-label">in</span>
                     {' '}
                     <span className="word-filled">{phsrWords.signWord}</span>
                     <span className="word-label">, expressed through</span>
@@ -1564,22 +1568,22 @@ export function TruePlacementCalculator({
                   <>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerWord}</span>
-                    {' '}
-                    <span className="word-label">in</span>
                   </>
                 )}
                 {phsrWords.rulerHouseWord && (
                   <>
                     {' '}
-                    <span className="word-filled">{phsrWords.rulerHouseWord}</span>
-                    {' '}
                     <span className={phsrWords.connector2 ? 'word-connector' : 'word-empty'}>
                       {phsrWords.connector2 || 'going into'}
                     </span>
+                    {' '}
+                    <span className="word-filled">{phsrWords.rulerHouseWord}</span>
                   </>
                 )}
                 {phsrWords.rulerSignWord && (
                   <>
+                    {' '}
+                    <span className="word-label">expressed through</span>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerSignWord}</span>
                   </>
@@ -1754,21 +1758,17 @@ export function TruePlacementCalculator({
                   {phsrWords.planetWord || '[Planet]'}
                 </span>
                 {' '}
-                <span className="word-label">in</span>
+                <span className={phsrWords.connector1 ? 'word-connector' : 'word-empty'}>
+                  {phsrWords.connector1 || '[connector]'}
+                </span>
                 {' '}
                 <span className={phsrWords.houseWord ? 'word-filled' : 'word-empty'}>
                   {phsrWords.houseWord || '[House]'}
                 </span>
-                {phsrWords.planetWord && phsrWords.houseWord && (
-                  <>
-                    {' '}
-                    <span className={phsrWords.connector1 ? 'word-connector' : 'word-empty'}>
-                      {phsrWords.connector1 || '[connector]'}
-                    </span>
-                  </>
-                )}
                 {phsrWords.signWord && (
                   <>
+                    {' '}
+                    <span className="word-label">in</span>
                     {' '}
                     <span className="word-filled">{phsrWords.signWord}</span>
                     <span className="word-label">, expressed through</span>
@@ -1778,22 +1778,22 @@ export function TruePlacementCalculator({
                   <>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerWord}</span>
-                    {' '}
-                    <span className="word-label">in</span>
                   </>
                 )}
                 {phsrWords.rulerHouseWord && (
                   <>
                     {' '}
-                    <span className="word-filled">{phsrWords.rulerHouseWord}</span>
-                    {' '}
                     <span className={phsrWords.connector2 ? 'word-connector' : 'word-empty'}>
                       {phsrWords.connector2 || 'going into'}
                     </span>
+                    {' '}
+                    <span className="word-filled">{phsrWords.rulerHouseWord}</span>
                   </>
                 )}
                 {phsrWords.rulerSignWord && (
                   <>
+                    {' '}
+                    <span className="word-label">expressed through</span>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerSignWord}</span>
                   </>
