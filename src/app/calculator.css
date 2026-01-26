@@ -358,7 +358,7 @@ body:not(:has(.space-background)):not(:has(#celestial-canvas)) {
 .container {
     max-width: 900px;
     margin: 0 auto;
-    background: rgba(10, 14, 26, 0.15);
+    background: rgba(10, 14, 26, 0.72);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 16px;
