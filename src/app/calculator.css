@@ -1887,3 +1887,872 @@ header h1 {
         height: 95vmin;
     }
 }
+
+/* ============================================
+   SUB-TABS (Nested within calculator sections)
+   ============================================ */
+
+.sub-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    padding: 4px;
+    background: rgba(10, 14, 26, 0.4);
+    border-radius: 10px;
+    border: 1px solid rgba(103, 232, 249, 0.15);
+}
+
+.sub-tab-button {
+    flex: 1;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--silver-400);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.sub-tab-button:hover {
+    color: var(--cyan-300);
+    background: rgba(103, 232, 249, 0.08);
+}
+
+.sub-tab-button.active {
+    color: var(--gold-400);
+    background: rgba(255, 216, 0, 0.1);
+    text-shadow: 0 0 10px var(--gold-glow);
+}
+
+.sub-tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--gold-400);
+    border-radius: 1px;
+    box-shadow: 0 0 6px var(--gold-glow);
+}
+
+/* Sub-tab content area */
+.sub-tab-content {
+    animation: fadeIn 0.3s ease;
+}
+
+.sub-tab-content h3 {
+    font-family: 'Cinzel', serif;
+    color: var(--cyan-300);
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-shadow: 0 0 15px var(--cyan-glow);
+}
+
+.sub-tab-content .description {
+    color: var(--silver-400);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+/* Placeholder content for coming soon features */
+.placeholder-content {
+    padding: 40px;
+    text-align: center;
+    background: rgba(10, 14, 26, 0.3);
+    border-radius: 12px;
+    border: 1px dashed rgba(103, 232, 249, 0.2);
+}
+
+.placeholder-content p {
+    color: var(--silver-500);
+    font-style: italic;
+    font-size: 1rem;
+}
+
+/* Dark theme adjustments for sub-tabs */
+[data-theme="dark"] .sub-tabs {
+    background: rgba(5, 8, 16, 0.5);
+    border-color: rgba(103, 232, 249, 0.12);
+}
+
+[data-theme="dark"] .sub-tab-button.active {
+    background: rgba(255, 216, 0, 0.08);
+}
+
+[data-theme="dark"] .placeholder-content {
+    background: rgba(5, 8, 16, 0.4);
+}
+
+/* Mobile styles for sub-tabs */
+@media (max-width: 768px) {
+    .sub-tabs {
+        flex-wrap: wrap;
+        gap: 2px;
+        padding: 3px;
+    }
+
+    .sub-tab-button {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-width: 0;
+    }
+
+    .placeholder-content {
+        padding: 30px 20px;
+    }
+}
+
+/* ============================================
+   RULER CALCULATOR SECTION
+   ============================================ */
+
+.ruler-planet-section {
+    margin-top: 8px;
+    padding: 20px;
+    background: rgba(95, 15, 64, 0.15);
+    border-radius: 12px;
+    border: 1px solid rgba(95, 15, 64, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ruler-planet-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(95, 15, 64, 0.3);
+}
+
+.ruler-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--silver-300);
+}
+
+.ruler-planet-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--purple-300);
+    text-shadow: 0 0 10px var(--purple-glow);
+}
+
+/* Result subsections for grouped results */
+.result-subsection {
+    padding: 16px;
+    background: rgba(10, 14, 26, 0.3);
+    border-radius: 10px;
+    margin-bottom: 16px;
+}
+
+.result-subsection:last-child {
+    margin-bottom: 0;
+}
+
+.result-subsection h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--cyan-300);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(103, 232, 249, 0.2);
+    text-shadow: 0 0 10px var(--cyan-glow);
+}
+
+.result-subsection.ruler-result {
+    background: rgba(95, 15, 64, 0.15);
+    border: 1px solid rgba(95, 15, 64, 0.25);
+}
+
+.result-subsection.ruler-result h4 {
+    color: var(--purple-300);
+    border-bottom-color: rgba(95, 15, 64, 0.3);
+    text-shadow: 0 0 10px var(--purple-glow);
+}
+
+/* Dark theme adjustments for ruler section */
+[data-theme="dark"] .ruler-planet-section {
+    background: rgba(95, 15, 64, 0.12);
+    border-color: rgba(95, 15, 64, 0.25);
+}
+
+[data-theme="dark"] .result-subsection {
+    background: rgba(5, 8, 16, 0.4);
+}
+
+[data-theme="dark"] .result-subsection.ruler-result {
+    background: rgba(95, 15, 64, 0.1);
+}
+
+/* Mobile styles for ruler section */
+@media (max-width: 768px) {
+    .ruler-planet-section {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .ruler-planet-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .result-subsection {
+        padding: 12px;
+    }
+
+    .result-subsection h4 {
+        font-size: 1rem;
+    }
+}
+
+/* ============================================
+   YOYO CALCULATOR TABLE
+   ============================================ */
+
+.yoyo-table {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(10, 14, 26, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(103, 232, 249, 0.2);
+    overflow: hidden;
+}
+
+.yoyo-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 16px;
+    padding: 14px 20px;
+    align-items: center;
+    border-bottom: 1px solid rgba(103, 232, 249, 0.1);
+    transition: background 0.2s ease;
+}
+
+.yoyo-row:hover {
+    background: rgba(103, 232, 249, 0.05);
+}
+
+.yoyo-row:last-child {
+    border-bottom: none;
+}
+
+.yoyo-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--silver-400);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.yoyo-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cyan-300);
+    text-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.yoyo-keyword {
+    display: flex;
+    align-items: center;
+}
+
+.yoyo-select {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(30, 40, 60, 0.7);
+    border: 1px solid rgba(103, 232, 249, 0.35);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2367e8f9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 12px) center;
+    background-size: 16px 16px;
+    padding-right: 36px;
+}
+
+.yoyo-select:hover {
+    border-color: rgba(103, 232, 249, 0.6);
+    box-shadow: 0 0 12px rgba(103, 232, 249, 0.2);
+}
+
+.yoyo-select:focus {
+    outline: none;
+    border-color: var(--cyan-400);
+    box-shadow: 0 0 15px rgba(103, 232, 249, 0.3);
+}
+
+.yoyo-select option {
+    background: #0a0e1a;
+    color: var(--text-primary);
+    padding: 10px;
+}
+
+/* Divider between top and bottom halves */
+.yoyo-divider {
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        var(--purple-400) 20%,
+        var(--gold-400) 50%,
+        var(--purple-400) 80%,
+        transparent 100%
+    );
+    margin: 4px 20px;
+    border-radius: 1px;
+    box-shadow: 0 0 10px var(--gold-glow);
+}
+
+/* Dark theme adjustments for YoYo */
+[data-theme="dark"] .yoyo-table {
+    background: rgba(5, 8, 16, 0.4);
+    border-color: rgba(103, 232, 249, 0.15);
+}
+
+[data-theme="dark"] .yoyo-select {
+    background-color: rgba(25, 35, 55, 0.8);
+    border-color: rgba(103, 232, 249, 0.3);
+}
+
+/* Mobile styles for YoYo */
+@media (max-width: 768px) {
+    .yoyo-row {
+        grid-template-columns: 70px 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+
+    .yoyo-keyword {
+        grid-column: 1 / -1;
+        margin-top: 4px;
+    }
+
+    .yoyo-label {
+        font-size: 0.8rem;
+    }
+
+    .yoyo-value {
+        font-size: 0.95rem;
+    }
+
+    .yoyo-select {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+
+    .yoyo-divider {
+        margin: 4px 14px;
+    }
+}
+
+/* ============================================
+   PHSR CALCULATOR
+   ============================================ */
+
+.phsr-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.phsr-input-panel {
+    background: rgba(10, 14, 26, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(103, 232, 249, 0.2);
+    padding: 20px;
+}
+
+.phsr-input-panel .calculator-form {
+    gap: 16px;
+}
+
+.phsr-ruler-panel {
+    background: rgba(95, 15, 64, 0.15);
+    border-radius: 12px;
+    border: 1px solid rgba(95, 15, 64, 0.3);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.phsr-ruler-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(95, 15, 64, 0.3);
+}
+
+.phsr-calculate-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+/* PHS Results Row */
+.phs-results-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.phs-result-box {
+    padding: 16px 24px;
+    background: rgba(10, 14, 26, 0.3);
+    border: 1px solid rgba(103, 232, 249, 0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.phs-result-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.phs-result-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--silver-400);
+}
+
+.phs-result-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--cyan-300);
+    text-decoration: underline;
+}
+
+.phs-result-extra {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--silver-300);
+    margin-left: 16px;
+}
+
+.phs-summary-box {
+    padding: 16px 24px;
+    background: rgba(10, 14, 26, 0.3);
+    border: 1px solid rgba(103, 232, 249, 0.2);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.phs-summary-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.phs-summary-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--silver-400);
+    text-transform: uppercase;
+    min-width: 70px;
+}
+
+.phs-summary-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+/* Mobile styles for PHS results */
+@media (max-width: 768px) {
+    .phs-results-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .phs-result-box,
+    .phs-summary-box {
+        padding: 12px 16px;
+    }
+}
+
+/* PHSR Results Grid */
+.phsr-result-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.phsr-result-row {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 12px;
+    padding: 10px 16px;
+    background: rgba(10, 14, 26, 0.2);
+    border-radius: 8px;
+    align-items: center;
+    border: 1px solid rgba(103, 232, 249, 0.1);
+    transition: all 0.2s ease;
+}
+
+.phsr-result-row:hover {
+    border-color: rgba(103, 232, 249, 0.25);
+    background: rgba(10, 14, 26, 0.3);
+}
+
+.phsr-result-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--silver-400);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.phsr-result-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cyan-300);
+    text-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.phsr-result-extra {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--silver-300);
+    text-align: right;
+}
+
+/* Ruler Results Section */
+.phsr-ruler-results {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid rgba(95, 15, 64, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.phsr-ruler-results .phsr-result-row {
+    background: rgba(95, 15, 64, 0.1);
+    border-color: rgba(95, 15, 64, 0.2);
+}
+
+.phsr-ruler-results .phsr-result-row:hover {
+    border-color: rgba(95, 15, 64, 0.4);
+    background: rgba(95, 15, 64, 0.15);
+}
+
+.phsr-ruler-results .phsr-result-value {
+    color: var(--purple-300);
+    text-shadow: 0 0 8px var(--purple-glow);
+}
+
+/* Dark theme adjustments for PHSR */
+[data-theme="dark"] .phsr-input-panel {
+    background: rgba(5, 8, 16, 0.4);
+    border-color: rgba(103, 232, 249, 0.15);
+}
+
+[data-theme="dark"] .phsr-ruler-panel {
+    background: rgba(95, 15, 64, 0.1);
+    border-color: rgba(95, 15, 64, 0.25);
+}
+
+[data-theme="dark"] .phsr-result-row {
+    background: rgba(5, 8, 16, 0.3);
+}
+
+/* PHSR Sentence Builder */
+.phsr-sentence-title {
+    font-family: 'Cinzel', serif;
+    color: var(--cyan-400);
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.phsr-sentence-preview {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid rgba(103, 232, 249, 0.3);
+    border-radius: 8px;
+    margin-bottom: 24px;
+    min-height: 60px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.phsr-sentence-preview.bottom {
+    margin-bottom: 0;
+    margin-top: 24px;
+}
+
+.phsr-sentence-preview .word-filled {
+    color: var(--gold-500);
+    font-weight: 600;
+}
+
+.phsr-sentence-preview .word-empty {
+    color: #999;
+    font-style: italic;
+}
+
+.phsr-sentence-preview .word-connector {
+    color: var(--cyan-600);
+    font-weight: 500;
+}
+
+.phsr-sentence-preview .word-label {
+    color: #666;
+    font-style: italic;
+}
+
+/* Word Step Container */
+.phsr-word-step {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(10, 14, 26, 0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(103, 232, 249, 0.15);
+    animation: fadeIn 0.3s ease;
+}
+
+.phsr-word-step.ruler-step {
+    background: rgba(95, 15, 64, 0.1);
+    border-color: rgba(95, 15, 64, 0.25);
+}
+
+.phsr-word-arrow {
+    text-align: center;
+    font-size: 1.5rem;
+    color: var(--cyan-400);
+    margin-bottom: 12px;
+}
+
+.phsr-word-step.ruler-step .phsr-word-arrow {
+    color: var(--purple-300);
+}
+
+/* Word Row */
+.phsr-word-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    justify-content: center;
+}
+
+.phsr-word-row.single {
+    justify-content: center;
+}
+
+.phsr-word-plus {
+    font-size: 1.5rem;
+    color: var(--silver-400);
+    padding-top: 30px;
+}
+
+/* Word Group */
+.phsr-word-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 150px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(103, 232, 249, 0.2);
+    border-radius: 8px;
+}
+
+.phsr-word-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--silver-400);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.phsr-word-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cyan-300);
+    text-shadow: 0 0 8px var(--cyan-glow);
+}
+
+.phsr-word-step.ruler-step .phsr-word-value {
+    color: var(--purple-300);
+    text-shadow: 0 0 8px var(--purple-glow);
+}
+
+.phsr-word-select {
+    width: 100%;
+    padding: 8px 12px;
+    background: rgba(30, 40, 60, 0.7);
+    border: 1px solid rgba(103, 232, 249, 0.35);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.phsr-word-select:hover {
+    border-color: rgba(103, 232, 249, 0.6);
+}
+
+.phsr-word-select:focus {
+    outline: none;
+    border-color: var(--cyan-400);
+    box-shadow: 0 0 10px rgba(103, 232, 249, 0.25);
+}
+
+.phsr-word-select option {
+    background: #0a0e1a;
+    color: var(--text-primary);
+}
+
+/* Description Hint */
+.phsr-description-hint {
+    text-align: center;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    color: var(--silver-300);
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.phsr-description-hint strong {
+    color: var(--gold-400);
+}
+
+/* Connector Options */
+.phsr-connector-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(103, 232, 249, 0.2);
+    align-items: center;
+}
+
+.phsr-connector-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #e3170a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 8px;
+}
+
+.phsr-connector-btn {
+    padding: 6px 12px;
+    background: transparent;
+    border: 1px solid var(--silver-500);
+    border-radius: 4px;
+    color: var(--silver-300);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.phsr-connector-btn:hover {
+    border-color: var(--cyan-400);
+    color: var(--cyan-300);
+}
+
+.phsr-connector-btn.active {
+    background: var(--cyan-400);
+    border-color: var(--cyan-400);
+    color: #0a0e1a;
+    font-weight: 600;
+}
+
+/* Dark theme for sentence preview */
+[data-theme="dark"] .phsr-sentence-preview {
+    background: rgba(5, 8, 16, 0.8);
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .phsr-sentence-preview .word-filled {
+    color: var(--gold-400);
+}
+
+[data-theme="dark"] .phsr-sentence-preview .word-empty {
+    color: var(--silver-500);
+}
+
+[data-theme="dark"] .phsr-sentence-preview .word-label {
+    color: var(--silver-400);
+}
+
+/* Mobile styles for PHSR */
+@media (max-width: 768px) {
+    .phsr-inputs {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .phsr-input-panel,
+    .phsr-ruler-panel {
+        padding: 16px;
+    }
+
+    .phsr-word-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .phsr-word-plus {
+        padding-top: 0;
+        transform: rotate(90deg);
+    }
+
+    .phsr-word-group {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .phsr-connector-options {
+        justify-content: center;
+    }
+
+    .phsr-connector-btn {
+        font-size: 0.8rem;
+        padding: 5px 10px;
+    }
+}
