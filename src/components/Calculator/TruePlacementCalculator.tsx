@@ -1554,9 +1554,9 @@ export function TruePlacementCalculator({
                 )}
               </div>
 
-              {/* Step 1: Planet + House */}
+              {/* Step 1: Planet + Connector + House */}
               <div className="phsr-word-step">
-                <div className="phsr-word-row">
+                <div className="phsr-word-row three-col">
                   <div className="phsr-word-group">
                     <div className="phsr-word-label">PLANET:</div>
                     <div className="phsr-word-value">{getPhsPlanetLabel()}</div>
@@ -1571,7 +1571,19 @@ export function TruePlacementCalculator({
                       ))}
                     </select>
                   </div>
-                  <span className="phsr-word-plus">+</span>
+                  <div className="phsr-word-group connector-group">
+                    <div className="phsr-word-label">CONNECTOR:</div>
+                    <select
+                      value={phsWords.connector}
+                      onChange={(e) => setPhsWords(prev => ({ ...prev, connector: e.target.value }))}
+                      className="phsr-word-select connector-select"
+                    >
+                      <option value="">Select...</option>
+                      {CONNECTOR_OPTIONS.map((opt, idx) => (
+                        <option key={idx} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
                   <div className="phsr-word-group">
                     <div className="phsr-word-label">HOUSE:</div>
                     <div className="phsr-word-value">{phsResult.isSign}</div>
@@ -1587,27 +1599,10 @@ export function TruePlacementCalculator({
                     </select>
                   </div>
                 </div>
-
-                {/* Connector options */}
-                {phsWords.planetWord && phsWords.houseWord && (
-                  <div className="phsr-connector-options">
-                    <span className="phsr-connector-label">Connector:</span>
-                    {CONNECTOR_OPTIONS.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className={`phsr-connector-btn ${phsWords.connector === opt ? 'active' : ''}`}
-                        onClick={() => setPhsWords(prev => ({ ...prev, connector: opt }))}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
 
-              {/* Step 2: Sign (unlocks after Planet + House selected) */}
-              {phsWords.planetWord && phsWords.houseWord && (
+              {/* Step 2: Sign (unlocks after Planet + Connector + House selected) */}
+              {phsWords.planetWord && phsWords.connector && phsWords.houseWord && (
                 <div className="phsr-word-step">
                   <div className="phsr-word-arrow">↓</div>
                   <div className="phsr-word-row single">
@@ -1839,9 +1834,9 @@ export function TruePlacementCalculator({
                 )}
               </div>
 
-              {/* Step 1: Planet + House */}
+              {/* Step 1: Planet + Connector + House */}
               <div className="phsr-word-step">
-                <div className="phsr-word-row">
+                <div className="phsr-word-row three-col">
                   <div className="phsr-word-group">
                     <div className="phsr-word-label">PLANET:</div>
                     <div className="phsr-word-value">{getPhsrPlanetLabel()}</div>
@@ -1856,7 +1851,19 @@ export function TruePlacementCalculator({
                       ))}
                     </select>
                   </div>
-                  <span className="phsr-word-plus">+</span>
+                  <div className="phsr-word-group connector-group">
+                    <div className="phsr-word-label">CONNECTOR:</div>
+                    <select
+                      value={phsrWords.connector1}
+                      onChange={(e) => setPhsrWords(prev => ({ ...prev, connector1: e.target.value }))}
+                      className="phsr-word-select connector-select"
+                    >
+                      <option value="">Select...</option>
+                      {CONNECTOR_OPTIONS.map((opt, idx) => (
+                        <option key={idx} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
                   <div className="phsr-word-group">
                     <div className="phsr-word-label">HOUSE:</div>
                     <div className="phsr-word-value">{phsrResult.isSign}</div>
@@ -1872,27 +1879,10 @@ export function TruePlacementCalculator({
                     </select>
                   </div>
                 </div>
-
-                {/* Connector options */}
-                {phsrWords.planetWord && phsrWords.houseWord && (
-                  <div className="phsr-connector-options">
-                    <span className="phsr-connector-label">Connector:</span>
-                    {CONNECTOR_OPTIONS.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className={`phsr-connector-btn ${phsrWords.connector1 === opt ? 'active' : ''}`}
-                        onClick={() => setPhsrWords(prev => ({ ...prev, connector1: opt }))}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                )}
               </div>
 
-              {/* Step 2: Sign (unlocks after Planet + House selected) */}
-              {phsrWords.planetWord && phsrWords.houseWord && (
+              {/* Step 2: Sign (unlocks after Planet + Connector + House selected) */}
+              {phsrWords.planetWord && phsrWords.connector1 && phsrWords.houseWord && (
                 <div className="phsr-word-step">
                   <div className="phsr-word-arrow">↓</div>
                   <div className="phsr-word-row single">

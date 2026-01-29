@@ -2574,6 +2574,40 @@ header h1 {
     justify-content: center;
 }
 
+.phsr-word-row.three-col {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    justify-content: center;
+}
+
+.phsr-word-row.three-col .connector-group {
+    min-width: 120px;
+    justify-content: flex-end;
+    background: rgba(147, 51, 234, 0.1);
+    border-color: rgba(147, 51, 234, 0.3);
+}
+
+.phsr-word-row.three-col .connector-group .phsr-word-label {
+    text-align: center;
+    color: var(--purple-300);
+}
+
+.connector-select {
+    text-align: center;
+    border-color: rgba(147, 51, 234, 0.4) !important;
+}
+
+.connector-select:hover {
+    border-color: rgba(147, 51, 234, 0.6) !important;
+    box-shadow: 0 0 12px rgba(147, 51, 234, 0.2);
+}
+
+.connector-select:focus {
+    border-color: var(--purple-400) !important;
+    box-shadow: 0 0 15px rgba(147, 51, 234, 0.3);
+}
+
 .phsr-word-plus {
     font-size: 1.5rem;
     color: var(--silver-400);
@@ -2745,6 +2779,17 @@ header h1 {
     .phsr-word-group {
         width: 100%;
         min-width: auto;
+    }
+
+    .phsr-word-row.three-col {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .phsr-word-row.three-col .connector-group {
+        padding-top: 0;
+        min-width: auto;
+        width: 100%;
     }
 
     .phsr-connector-options {
