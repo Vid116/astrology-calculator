@@ -41,6 +41,21 @@ const SIGNS: { value: ZodiacSign; label: string }[] = [
   { value: 'Pisces', label: 'Pisces' },
 ];
 
+const HOUSES: { value: ZodiacSign; label: string }[] = [
+  { value: 'Aries', label: '1st' },
+  { value: 'Taurus', label: '2nd' },
+  { value: 'Gemini', label: '3rd' },
+  { value: 'Cancer', label: '4th' },
+  { value: 'Leo', label: '5th' },
+  { value: 'Virgo', label: '6th' },
+  { value: 'Libra', label: '7th' },
+  { value: 'Scorpio', label: '8th' },
+  { value: 'Sagittarius', label: '9th' },
+  { value: 'Capricorn', label: '10th' },
+  { value: 'Aquarius', label: '11th' },
+  { value: 'Pisces', label: '12th' },
+];
+
 // Traditional rulers for each sign
 const SIGN_RULERS: Record<string, string> = {
   Aries: 'MARS',
@@ -1264,14 +1279,14 @@ export function TruePlacementCalculator({
             <div className="form-group">
               <label>House:</label>
               <CosmicDropdown
-                options={SIGNS}
+                options={HOUSES}
                 value={yoyoHouse}
                 onChange={(val) => {
                   setYoyoHouse(val);
                   setYoyoErrors(prev => ({ ...prev, yoyoHouse: '' }));
                   setYoyoSubmitted(false);
                 }}
-                placeholder="Select a house (sign)..."
+                placeholder="Select a house..."
                 error={yoyoErrors.yoyoHouse}
               />
             </div>
@@ -1307,7 +1322,7 @@ export function TruePlacementCalculator({
                   <div className="yoyo-keyword">
                     <select
                       value={yoyoKeywords.planet1}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet1: e.target.value }))}
+                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet1: e.target.value, planet2: e.target.value }))}
                       className="yoyo-select"
                     >
                       <option value="">Select keyword...</option>
@@ -1324,7 +1339,7 @@ export function TruePlacementCalculator({
                   <div className="yoyo-keyword">
                     <select
                       value={yoyoKeywords.house1}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house1: e.target.value }))}
+                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house1: e.target.value, house2: e.target.value }))}
                       className="yoyo-select"
                     >
                       <option value="">Select keyword...</option>
@@ -1341,7 +1356,7 @@ export function TruePlacementCalculator({
                   <div className="yoyo-keyword">
                     <select
                       value={yoyoKeywords.sign1}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign1: e.target.value }))}
+                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign1: e.target.value, sign2: e.target.value }))}
                       className="yoyo-select"
                     >
                       <option value="">Select keyword...</option>
