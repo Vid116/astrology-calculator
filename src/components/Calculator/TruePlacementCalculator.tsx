@@ -2256,38 +2256,46 @@ export function TruePlacementCalculator({
               {mixWords.planetWord && mixWords.connector1 && mixWords.houseWord && (
                 <div className="phsr-word-step">
                   <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row">
+                  <div className={`phsr-word-row ${mixResult.hasDualBase ? '' : 'single'}`}>
                     <div className="phsr-word-group">
                       <div className="phsr-word-label">Bi-Ruler:</div>
-                      <div className="phsr-word-value">Who knows</div>
+                      <div className="phsr-word-value">{mixResult.baseSign}</div>
                       <select
                         value={mixWords.biRulerWord}
                         onChange={(e) => setMixWords(prev => ({ ...prev, biRulerWord: e.target.value }))}
                         className="phsr-word-select"
                       >
                         <option value="">Select word...</option>
-                        <option value="(placeholder)">(placeholder)</option>
+                        {(signKeywords[mixResult.baseSign] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
                       </select>
                     </div>
-                    <span className="phsr-word-plus">+</span>
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">2nd Bi-Ruler:</div>
-                      <div className="phsr-word-value">Who knows</div>
-                      <select
-                        value={mixWords.biRuler2Word}
-                        onChange={(e) => setMixWords(prev => ({ ...prev, biRuler2Word: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        <option value="(placeholder)">(placeholder)</option>
-                      </select>
-                    </div>
+                    {mixResult.hasDualBase && mixResult.secondBaseSign && (
+                      <>
+                        <span className="phsr-word-plus">+</span>
+                        <div className="phsr-word-group">
+                          <div className="phsr-word-label">2nd Bi-Ruler:</div>
+                          <div className="phsr-word-value">{mixResult.secondBaseSign}</div>
+                          <select
+                            value={mixWords.biRuler2Word}
+                            onChange={(e) => setMixWords(prev => ({ ...prev, biRuler2Word: e.target.value }))}
+                            className="phsr-word-select"
+                          >
+                            <option value="">Select word...</option>
+                            {(signKeywords[mixResult.secondBaseSign] || []).map((kw, idx) => (
+                              <option key={idx} value={kw}>{kw}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
 
               {/* Step 3: Sign (unlocks after Bi-Rulers) */}
-              {mixWords.biRulerWord && mixWords.biRuler2Word && (
+              {mixWords.biRulerWord && (!mixResult.hasDualBase || mixWords.biRuler2Word) && (
                 <div className="phsr-word-step">
                   <div className="phsr-description-hint">
                     <strong>, expressed through</strong> (connects to Ruler)
