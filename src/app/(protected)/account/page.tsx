@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { createClient } from '@/lib/supabase/client';
 import { STRIPE_CONFIG } from '@/lib/stripe/config';
-import { PLANET_AVATARS, ZODIAC_AVATARS } from '@/lib/avatars';
+import { PLANET_AVATARS, ZODIAC_ICON_AVATARS } from '@/lib/avatars';
 
 interface UserUsage {
   calculation_count: number;
@@ -444,16 +444,16 @@ function AccountContent() {
             })}
           </div>
 
-          {/* Zodiac Signs Section */}
+          {/* Sign Icons Section (SVG) */}
           <h2
             className="text-lg font-semibold tracking-wide mb-6 mt-10"
-            style={{ color: '#a855f7' }}
+            style={{ color: '#22d3ee' }}
           >
-            Choose Your Sign
+            Sign Icons
           </h2>
 
-          <div className="grid grid-cols-4 sm:grid-cols-6 gap-4">
-            {ZODIAC_AVATARS.map((sign) => {
+          <div className="grid grid-cols-5 sm:grid-cols-5 gap-4">
+            {ZODIAC_ICON_AVATARS.map((sign) => {
               const isSelected = avatarUrl === sign.path;
               const canSelect = isPremium && !avatarSaving;
 
@@ -467,15 +467,17 @@ function AccountContent() {
                     transition-all duration-300
                     ${canSelect ? 'cursor-pointer hover:scale-105' : 'cursor-not-allowed'}
                     ${isSelected ? 'ring-[3px] ring-offset-2 ring-offset-[#0a0e1a]' : ''}
-                    ${isSelected ? 'ring-[#a855f7]' : ''}
+                    ${isSelected ? 'ring-[#22d3ee]' : ''}
                   `}
                   style={{
-                    background: 'rgba(168, 85, 247, 0.05)',
+                    background: isSelected
+                      ? 'linear-gradient(135deg, rgba(34, 211, 238, 0.2) 0%, rgba(34, 211, 238, 0.1) 100%)'
+                      : 'rgba(34, 211, 238, 0.05)',
                     border: isSelected
                       ? '2px solid transparent'
-                      : '1px solid rgba(168, 85, 247, 0.15)',
+                      : '1px solid rgba(34, 211, 238, 0.15)',
                     boxShadow: isSelected
-                      ? '0 0 20px rgba(168, 85, 247, 0.3)'
+                      ? '0 0 20px rgba(34, 211, 238, 0.3)'
                       : 'none',
                   }}
                 >
@@ -483,7 +485,7 @@ function AccountContent() {
                     src={sign.path}
                     alt={sign.name}
                     fill
-                    className={`object-contain p-1 ${!isPremium ? 'opacity-50' : ''}`}
+                    className={`object-contain p-3 ${!isPremium ? 'opacity-50' : ''}`}
                   />
 
                   {/* Selected checkmark */}
@@ -491,10 +493,10 @@ function AccountContent() {
                     <div
                       className="absolute top-1 right-1 w-5 h-5 rounded-full flex items-center justify-center"
                       style={{
-                        background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                        background: 'linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)',
                       }}
                     >
-                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3 text-[#0a0e1a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
@@ -503,20 +505,9 @@ function AccountContent() {
                   {/* Saving spinner */}
                   {avatarSaving && avatarUrl !== sign.path && (
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                      <div className="w-6 h-6 border-2 border-[#a855f7] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-6 h-6 border-2 border-[#22d3ee] border-t-transparent rounded-full animate-spin" />
                     </div>
                   )}
-
-                  {/* Sign name tooltip */}
-                  <div
-                    className="absolute bottom-0 left-0 right-0 py-1 text-center text-[9px] font-medium"
-                    style={{
-                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
-                      color: isSelected ? '#a855f7' : '#a1a1aa',
-                    }}
-                  >
-                    {sign.name}
-                  </div>
                 </button>
               );
             })}

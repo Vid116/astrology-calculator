@@ -11,27 +11,25 @@ export const PLANET_AVATARS = [
   { id: 'venus', name: 'Venus', path: '/assets/Venus.png' },
 ] as const;
 
-// Zodiac sign avatars for user profiles
-export const ZODIAC_AVATARS = [
-  { id: 'aries', name: 'Aries', path: '/signs/1.PNG' },
-  { id: 'taurus', name: 'Taurus', path: '/signs/2.PNG' },
-  { id: 'gemini', name: 'Gemini', path: '/signs/3.PNG' },
-  { id: 'cancer', name: 'Cancer', path: '/signs/4.PNG' },
-  { id: 'leo', name: 'Leo', path: '/signs/5.PNG' },
-  { id: 'virgo', name: 'Virgo', path: '/signs/6.PNG' },
-  { id: 'libra', name: 'Libra', path: '/signs/7.PNG' },
-  { id: 'scorpio', name: 'Scorpio', path: '/signs/8.PNG' },
-  { id: 'sagittarius', name: 'Sagittarius', path: '/signs/9.PNG' },
-  { id: 'capricorn', name: 'Capricorn', path: '/signs/10.PNG' },
-  { id: 'aquarius', name: 'Aquarius', path: '/signs/11.PNG' },
-  { id: 'pisces', name: 'Pisces', path: '/signs/12.PNG' },
+// Zodiac sign icon avatars (minimal SVG style)
+export const ZODIAC_ICON_AVATARS = [
+  { id: 'sign-icon-1', name: 'Sign 1', path: '/signs-svg/1.svg' },
+  { id: 'sign-icon-2', name: 'Sign 2', path: '/signs-svg/2.svg' },
+  { id: 'sign-icon-3', name: 'Sign 3', path: '/signs-svg/3.svg' },
+  { id: 'sign-icon-4', name: 'Sign 4', path: '/signs-svg/4.svg' },
+  { id: 'sign-icon-5', name: 'Sign 5', path: '/signs-svg/5.svg' },
+  { id: 'sign-icon-6', name: 'Sign 6', path: '/signs-svg/6.svg' },
+  { id: 'sign-icon-7', name: 'Sign 7', path: '/signs-svg/7.svg' },
+  { id: 'sign-icon-8', name: 'Sign 8', path: '/signs-svg/8.svg' },
+  { id: 'sign-icon-9', name: 'Sign 9', path: '/signs-svg/9.svg' },
+  { id: 'sign-icon-10', name: 'Sign 10', path: '/signs-svg/10.svg' },
 ] as const;
 
 // All avatars combined
-export const ALL_AVATARS = [...PLANET_AVATARS, ...ZODIAC_AVATARS] as const;
+export const ALL_AVATARS = [...PLANET_AVATARS, ...ZODIAC_ICON_AVATARS] as const;
 
 export type PlanetAvatar = typeof PLANET_AVATARS[number];
-export type ZodiacAvatar = typeof ZODIAC_AVATARS[number];
+export type ZodiacIconAvatar = typeof ZODIAC_ICON_AVATARS[number];
 export type Avatar = typeof ALL_AVATARS[number];
 
 // Get a random avatar path (from all avatars)
@@ -44,9 +42,4 @@ export function getRandomAvatarPath(): string {
 export function isPlanetAvatar(path: string | null | undefined): boolean {
   if (!path) return false;
   return ALL_AVATARS.some(avatar => avatar.path === path);
-}
-
-// Get sign image path by index (1-12) for Profection Wheel
-export function getSignImagePath(signIndex: number): string {
-  return `/signs/${signIndex}.PNG`;
 }
