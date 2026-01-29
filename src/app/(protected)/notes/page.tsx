@@ -63,6 +63,20 @@ function NoteCard({
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isViewing, setIsViewing] = useState(false);
+  const [zoom, setZoom] = useState(1);
+
+  const handleZoomIn = () => setZoom((z) => Math.min(z + 0.25, 3));
+  const handleZoomOut = () => setZoom((z) => Math.max(z - 0.25, 0.5));
+  const handleResetZoom = () => setZoom(1);
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = note.image_url;
+    link.download = `${note.title.replace(/\s+/g, '_')}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <>
@@ -232,40 +246,103 @@ function NoteCard({
       {/* Fullscreen Image Modal */}
       {isViewing && isPremium && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
-          style={{ background: 'rgba(0, 0, 0, 0.9)' }}
-          onClick={() => setIsViewing(false)}
+          className="fixed inset-0 z-[100] overflow-y-auto"
+          style={{ background: 'rgba(0, 0, 0, 0.95)' }}
+          onClick={() => { setIsViewing(false); setZoom(1); }}
         >
+          {/* Top right controls - fixed position */}
+          <div className="fixed top-6 right-6 z-[110] flex items-center gap-3">
+            {/* Zoom controls */}
+            <div
+              className="flex items-center gap-1 px-2 py-1.5 rounded-full"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-all disabled:opacity-40"
+                onClick={handleZoomOut}
+                disabled={zoom <= 0.5}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                </svg>
+              </button>
+              <button
+                className="px-3 py-1 text-white text-sm font-medium hover:bg-white/10 rounded-full transition-all"
+                onClick={handleResetZoom}
+              >
+                {Math.round(zoom * 100)}%
+              </button>
+              <button
+                className="w-9 h-9 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-all disabled:opacity-40"
+                onClick={handleZoomIn}
+                disabled={zoom >= 3}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Close button */}
+            <button
+              className="w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-white/10"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+              }}
+              onClick={() => { setIsViewing(false); setZoom(1); }}
+            >
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Download button - bottom right */}
           <button
-            className="absolute top-6 right-6 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-white/10"
+            className="fixed bottom-6 right-6 z-[110] flex items-center gap-2 px-5 py-3 rounded-full transition-all duration-200 hover:bg-white/15"
             style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'rgba(255, 255, 255, 0.08)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
             }}
-            onClick={() => setIsViewing(false)}
+            onClick={(e) => { e.stopPropagation(); handleDownload(); }}
           >
-            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
+            <span className="text-white text-sm font-medium">Download</span>
           </button>
 
+          {/* Scrollable content */}
           <div
-            className="relative max-w-5xl max-h-[85vh] w-full"
+            className="min-h-full pt-24 pb-20 px-4 overflow-x-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              src={note.image_url}
-              alt={note.title}
-              width={1200}
-              height={900}
-              className="w-full h-auto object-contain rounded-xl"
-              style={{
-                boxShadow: '0 0 60px rgba(103, 232, 249, 0.2)',
-              }}
-            />
-            <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
-              <h3 className="text-white font-semibold text-xl">{note.title}</h3>
-              <p className="text-[#67e8f9] text-sm mt-1">{note.category}</p>
+            {/* Title */}
+            <div className="text-center mb-6">
+              <h3 className="text-white font-semibold text-2xl">{note.title}</h3>
+              <p className="text-[#67e8f9] text-sm mt-2">{note.category}</p>
+            </div>
+
+            {/* Image with zoom */}
+            <div className="flex justify-center">
+              <Image
+                src={note.image_url}
+                alt={note.title}
+                width={1200}
+                height={1600}
+                className="rounded-xl"
+                style={{
+                  width: `${zoom * 100}%`,
+                  maxWidth: `${zoom * 900}px`,
+                  height: 'auto',
+                  boxShadow: '0 0 60px rgba(103, 232, 249, 0.15)',
+                }}
+              />
             </div>
           </div>
         </div>
@@ -599,9 +676,11 @@ export default function NotesPage() {
             {isSuperuser && (
               <button
                 onClick={() => setShowAddModal(true)}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
+                className="flex items-center gap-2 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
                 style={{
                   marginRight: '12px',
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
                   background: 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)',
                 }}
               >
@@ -634,8 +713,10 @@ export default function NotesPage() {
             </div>
           ) : (
             <div
-              className="rounded-xl p-5 mt-4"
+              className="rounded-xl"
               style={{
+                marginTop: '24px',
+                padding: '20px 28px',
                 background: 'linear-gradient(135deg, rgba(255, 216, 0, 0.08) 0%, rgba(255, 184, 0, 0.03) 100%)',
                 border: '1px solid rgba(255, 216, 0, 0.2)',
               }}
@@ -654,7 +735,8 @@ export default function NotesPage() {
                 </div>
                 <Link
                   href="/pricing"
-                  className="flex-shrink-0 px-6 py-3 rounded-lg text-sm font-semibold text-[#0a0e1a] bg-gradient-to-r from-[#ffd800] to-[#ffb800] transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,216,0,0.4)] hover:scale-[1.02]"
+                  className="flex-shrink-0 py-3 rounded-lg text-sm font-semibold text-[#0a0e1a] bg-gradient-to-r from-[#ffd800] to-[#ffb800] transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,216,0,0.4)] hover:scale-[1.02]"
+                  style={{ paddingLeft: '28px', paddingRight: '28px' }}
                 >
                   View Plans
                 </Link>
