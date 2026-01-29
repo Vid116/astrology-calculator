@@ -427,14 +427,14 @@ export function TruePlacementCalculator({
     const decanArticle = res.spark ? getArticle(res.spark.decan) : 'a';
 
     const sparkPart = res.spark
-      ? `, has a <strong>${res.spark.spark}</strong> <strong>Spark</strong> with ${decanArticle} <strong>${res.spark.decan}</strong> <strong>Pulse</strong>,`
+      ? `, has a <strong>${res.spark.spark}</strong> <span style="color: #ffffff; font-weight: bold;">Spark</span> with ${decanArticle} <strong>${res.spark.decan}</strong> <span style="color: #ffffff; font-weight: bold;">Pulse</span>,`
       : ',';
 
     if (res.hasDualBase && res.secondBaseSign) {
-      return `My <strong>${res.planet}</strong> <strong>Focus</strong>, in the <strong>${res.sign}</strong> <strong>Field</strong>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <strong>Tone</strong> with <strong>${res.baseSign}</strong> and <strong>${res.secondBaseSign}</strong> base.`;
+      return `My <strong>${res.planet}</strong> <span style="color: #ffffff; font-weight: bold;">Focus</span>, in the <strong>${res.sign}</strong> <span style="color: #ffffff; font-weight: bold;">Field</span>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <span style="color: #ffffff; font-weight: bold;">Tone</span> with <strong>${res.baseSign}</strong> and <strong>${res.secondBaseSign}</strong> base.`;
     }
 
-    return `My <strong>${res.planet}</strong> <strong>Focus</strong>, in the <strong>${res.sign}</strong> <strong>Field</strong>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <strong>Tone</strong> with <strong>${res.baseSign}</strong> base.`;
+    return `My <strong>${res.planet}</strong> <span style="color: #ffffff; font-weight: bold;">Focus</span>, in the <strong>${res.sign}</strong> <span style="color: #ffffff; font-weight: bold;">Field</span>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <span style="color: #ffffff; font-weight: bold;">Tone</span> with <strong>${res.baseSign}</strong> base.`;
   };
 
   // YoYo calculator validation
