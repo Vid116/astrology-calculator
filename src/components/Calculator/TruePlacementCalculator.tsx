@@ -56,7 +56,7 @@ const HOUSES: { value: ZodiacSign; label: string }[] = [
   { value: 'Pisces', label: '12th' },
 ];
 
-// Traditional rulers for each sign
+// Modern rulers for each sign
 const SIGN_RULERS: Record<string, string> = {
   Aries: 'MARS',
   Taurus: 'VENUS',
@@ -65,11 +65,11 @@ const SIGN_RULERS: Record<string, string> = {
   Leo: 'SUN',
   Virgo: 'MERCURY',
   Libra: 'VENUS',
-  Scorpio: 'MARS',
+  Scorpio: 'PLUTO',
   Sagittarius: 'JUPITER',
   Capricorn: 'SATURN',
-  Aquarius: 'SATURN',
-  Pisces: 'JUPITER',
+  Aquarius: 'URANUS',
+  Pisces: 'NEPTUNE',
 };
 
 interface TruePlacementCalculatorProps {
@@ -1802,14 +1802,15 @@ export function TruePlacementCalculator({
                 {phsrWords.signWord && (
                   <>
                     {' '}
-                    <span className="word-label">in</span>
+                    <span className="word-label">, expressed through</span>
                     {' '}
                     <span className="word-filled">{phsrWords.signWord}</span>
-                    <span className="word-label">, expressed through</span>
                   </>
                 )}
                 {phsrWords.rulerWord && (
                   <>
+                    {' '}
+                    <span className="word-label">going into</span>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerWord}</span>
                   </>
@@ -1818,7 +1819,7 @@ export function TruePlacementCalculator({
                   <>
                     {' '}
                     <span className={phsrWords.connector2 ? 'word-connector' : 'word-empty'}>
-                      {phsrWords.connector2 || 'going into'}
+                      {phsrWords.connector2 || '[connector]'}
                     </span>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerHouseWord}</span>
@@ -1884,6 +1885,9 @@ export function TruePlacementCalculator({
               {/* Step 2: Sign (unlocks after Planet + Connector + House selected) */}
               {phsrWords.planetWord && phsrWords.connector1 && phsrWords.houseWord && (
                 <div className="phsr-word-step">
+                  <div className="phsr-description-hint">
+                    <strong>, expressed through</strong> (connects to Ruler)
+                  </div>
                   <div className="phsr-word-arrow">↓</div>
                   <div className="phsr-word-row single">
                     <div className="phsr-word-group">
@@ -1901,17 +1905,17 @@ export function TruePlacementCalculator({
                       </select>
                     </div>
                   </div>
-                  <div className="phsr-description-hint">
-                    <strong>, expressed through</strong> (connects to Ruler)
-                  </div>
                 </div>
               )}
 
               {/* Step 3: Ruler + House (unlocks after Sign selected) */}
               {phsrWords.signWord && phsrRulerResult && (
                 <div className="phsr-word-step ruler-step">
+                  <div className="phsr-description-hint">
+                    <strong>going into</strong>
+                  </div>
                   <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row">
+                  <div className="phsr-word-row three-col">
                     <div className="phsr-word-group">
                       <div className="phsr-word-label">Ruler:</div>
                       <div className="phsr-word-value">{phsrRulerLabel}</div>
@@ -1926,7 +1930,19 @@ export function TruePlacementCalculator({
                         ))}
                       </select>
                     </div>
-                    <span className="phsr-word-plus">+</span>
+                    <div className="phsr-word-group connector-group connector-blue">
+                      <div className="phsr-word-label">CONNECTOR:</div>
+                      <select
+                        value={phsrWords.connector2}
+                        onChange={(e) => setPhsrWords(prev => ({ ...prev, connector2: e.target.value }))}
+                        className="phsr-word-select connector-select connector-select-blue"
+                      >
+                        <option value="">Select...</option>
+                        {CONNECTOR_OPTIONS.map((opt, idx) => (
+                          <option key={idx} value={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    </div>
                     <div className="phsr-word-group">
                       <div className="phsr-word-label">HOUSE:</div>
                       <div className="phsr-word-value">{phsrRulerResult.isSign}</div>
@@ -1942,31 +1958,11 @@ export function TruePlacementCalculator({
                       </select>
                     </div>
                   </div>
-                  <div className="phsr-description-hint">
-                    Select <strong>Connector</strong> to connect to Ruler Sign
-                  </div>
-
-                  {/* Connector options for ruler */}
-                  {phsrWords.rulerWord && phsrWords.rulerHouseWord && (
-                    <div className="phsr-connector-options">
-                      <span className="phsr-connector-label">Connector:</span>
-                      {CONNECTOR_OPTIONS.map((opt, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          className={`phsr-connector-btn ${phsrWords.connector2 === opt ? 'active' : ''}`}
-                          onClick={() => setPhsrWords(prev => ({ ...prev, connector2: opt }))}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  )}
                 </div>
               )}
 
-              {/* Step 4: Ruler Sign (unlocks after Ruler + House selected) */}
-              {phsrWords.rulerWord && phsrWords.rulerHouseWord && phsrRulerResult && (
+              {/* Step 4: Ruler Sign (unlocks after Ruler + Connector + House selected) */}
+              {phsrWords.rulerWord && phsrWords.connector2 && phsrWords.rulerHouseWord && phsrRulerResult && (
                 <div className="phsr-word-step">
                   <div className="phsr-word-arrow">↓</div>
                   <div className="phsr-word-row single">
@@ -2007,14 +2003,15 @@ export function TruePlacementCalculator({
                 {phsrWords.signWord && (
                   <>
                     {' '}
-                    <span className="word-label">in</span>
+                    <span className="word-label">, expressed through</span>
                     {' '}
                     <span className="word-filled">{phsrWords.signWord}</span>
-                    <span className="word-label">, expressed through</span>
                   </>
                 )}
                 {phsrWords.rulerWord && (
                   <>
+                    {' '}
+                    <span className="word-label">going into</span>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerWord}</span>
                   </>
@@ -2023,7 +2020,7 @@ export function TruePlacementCalculator({
                   <>
                     {' '}
                     <span className={phsrWords.connector2 ? 'word-connector' : 'word-empty'}>
-                      {phsrWords.connector2 || 'going into'}
+                      {phsrWords.connector2 || '[connector]'}
                     </span>
                     {' '}
                     <span className="word-filled">{phsrWords.rulerHouseWord}</span>
