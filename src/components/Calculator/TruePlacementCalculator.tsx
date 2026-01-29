@@ -2278,14 +2278,6 @@ export function TruePlacementCalculator({
                 <span className={mixWords.planetWord ? 'word-filled' : 'word-empty'}>
                   {mixWords.planetWord || '[Planet]'}
                 </span>
-                {' '}
-                <span className={mixWords.connector1 ? 'word-connector' : 'word-empty'}>
-                  {mixWords.connector1 || '[connector]'}
-                </span>
-                {' '}
-                <span className={mixWords.houseWord ? 'word-filled' : 'word-empty'}>
-                  {mixWords.houseWord || '[House]'}
-                </span>
                 {mixWords.biRulerWord && (
                   <>
                     {' '}
@@ -2295,9 +2287,19 @@ export function TruePlacementCalculator({
                 {mixWords.biRuler2Word && (
                   <>
                     {' '}
+                    <span className="word-label">and</span>
+                    {' '}
                     <span className="word-filled">{mixWords.biRuler2Word}</span>
                   </>
                 )}
+                {' '}
+                <span className={mixWords.connector1 ? 'word-connector' : 'word-empty'}>
+                  {mixWords.connector1 || '[connector]'}
+                </span>
+                {' '}
+                <span className={mixWords.houseWord ? 'word-filled' : 'word-empty'}>
+                  {mixWords.houseWord || '[House]'}
+                </span>
                 {mixWords.signWord && (
                   <>
                     {' '}
@@ -2533,14 +2535,6 @@ export function TruePlacementCalculator({
                 <span className={mixWords.planetWord ? 'word-filled' : 'word-empty'}>
                   {mixWords.planetWord || '[Planet]'}
                 </span>
-                {' '}
-                <span className={mixWords.connector1 ? 'word-connector' : 'word-empty'}>
-                  {mixWords.connector1 || '[connector]'}
-                </span>
-                {' '}
-                <span className={mixWords.houseWord ? 'word-filled' : 'word-empty'}>
-                  {mixWords.houseWord || '[House]'}
-                </span>
                 {mixWords.biRulerWord && (
                   <>
                     {' '}
@@ -2550,9 +2544,19 @@ export function TruePlacementCalculator({
                 {mixWords.biRuler2Word && (
                   <>
                     {' '}
+                    <span className="word-label">and</span>
+                    {' '}
                     <span className="word-filled">{mixWords.biRuler2Word}</span>
                   </>
                 )}
+                {' '}
+                <span className={mixWords.connector1 ? 'word-connector' : 'word-empty'}>
+                  {mixWords.connector1 || '[connector]'}
+                </span>
+                {' '}
+                <span className={mixWords.houseWord ? 'word-filled' : 'word-empty'}>
+                  {mixWords.houseWord || '[House]'}
+                </span>
                 {mixWords.signWord && (
                   <>
                     {' '}
