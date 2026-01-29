@@ -184,9 +184,9 @@ export default function SuggestionsPage() {
       >
         {submitted ? (
           /* Success State */
-          <div className="p-10 md:p-14 text-center">
+          <div className="p-10 md:p-14 flex flex-col items-center justify-center">
             <div
-              className="w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6"
+              className="w-20 h-20 rounded-full flex items-center justify-center mb-6"
               style={{
                 background: 'linear-gradient(135deg, rgba(117, 142, 79, 0.2) 0%, rgba(117, 142, 79, 0.1) 100%)',
                 boxShadow: '0 0 30px rgba(117, 142, 79, 0.3)',
@@ -196,20 +196,24 @@ export default function SuggestionsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h2 className="text-2xl font-semibold text-white mb-4">Thank You!</h2>
-            <p className="text-[#a1a1aa] mb-10 max-w-md mx-auto leading-relaxed">
+            <h2 className="text-2xl font-semibold text-white mb-4 text-center">Thank You!</h2>
+            <p className="text-[#a1a1aa] mb-10 max-w-md leading-relaxed text-center">
               Your feedback has been received. We appreciate you taking the time to help us improve.
             </p>
             <button
               onClick={handleReset}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl text-sm font-semibold transition-all duration-300 hover:scale-[1.02]"
+              className="inline-flex items-center gap-3 px-12 py-6 rounded-xl text-lg font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(103,232,249,0.3)]"
               style={{
+                marginTop: '7px',
+                marginBottom: '7px',
+                paddingRight: '7px',
                 background: 'linear-gradient(135deg, rgba(103, 232, 249, 0.15) 0%, rgba(30, 150, 252, 0.1) 100%)',
                 border: '1px solid rgba(103, 232, 249, 0.3)',
                 color: '#67e8f9',
+                boxShadow: '0 0 20px rgba(103, 232, 249, 0.15)',
               }}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>
               Submit Another
@@ -327,26 +331,26 @@ export default function SuggestionsPage() {
             <button
               type="submit"
               disabled={isSubmitting || !subject.trim() || !message.trim()}
-              className="w-full py-6 rounded-xl text-base font-semibold transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(255,216,0,0.3)] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
+              className="w-full py-8 rounded-xl text-lg font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(255,216,0,0.4)] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
               style={{
-                marginTop: '5px',
+                marginTop: '10px',
                 background: 'linear-gradient(135deg, #ffd800 0%, #ffb800 100%)',
                 color: '#0a0e1a',
-                boxShadow: '0 0 20px rgba(255, 216, 0, 0.2)',
+                boxShadow: '0 0 25px rgba(255, 216, 0, 0.25)',
               }}
             >
               {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                <span className="flex items-center justify-center gap-3">
+                  <svg className="w-6 h-6 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
                   Sending...
                 </span>
               ) : (
-                <span className="flex items-center justify-center gap-2">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                <span className="flex items-center justify-center gap-3">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
                   </svg>
                   Send Feedback
                 </span>

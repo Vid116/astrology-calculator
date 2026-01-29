@@ -15,7 +15,6 @@ type Tab = 'spark' | 'true-placement' | 'profection-years';
 export function CalculatorApp() {
   const { isOpen, setIsOpen } = useCalculator();
   const [activeTab, setActiveTab] = useState<Tab>('spark');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [data, setData] = useState<AstrologyData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,10 +23,7 @@ export function CalculatorApp() {
   const [checking, setChecking] = useState(false);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const initialTheme = savedTheme || 'light';
-    setTheme(initialTheme);
-    document.documentElement.setAttribute('data-theme', initialTheme);
+    document.documentElement.setAttribute('data-theme', 'dark');
   }, []);
 
   useEffect(() => {
@@ -39,13 +35,6 @@ export function CalculatorApp() {
       })
       .finally(() => setLoading(false));
   }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-  };
 
   // Wrapper to track calculations before executing
   const onCalculate = useCallback(async (): Promise<boolean> => {
@@ -164,9 +153,6 @@ export function CalculatorApp() {
                   <span className="text-[#ffd800] text-xs font-semibold">★ PRO</span>
                 </div>
               )}
-              <button className="theme-toggle" onClick={toggleTheme}>
-                <span>{theme === 'dark' ? '🌙' : '☀️'}</span>
-              </button>
               <UserMenu />
             </div>
           </div>
