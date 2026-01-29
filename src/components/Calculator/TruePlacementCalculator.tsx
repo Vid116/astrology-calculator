@@ -11,7 +11,7 @@ import type {
   ZodiacSign,
 } from '@/types/astrology';
 
-type SubTab = 'basic' | 'ruler' | 'yoyo' | 'phs' | 'phsr' | 'bphdds' | 'bphddsr' | 'mixmatch';
+type SubTab = 'basic' | 'ruler' | 'yoyo' | 'phs' | 'phsr' | 'mixmatch';
 
 const PLANETS = [
   { value: 'SUN', label: 'Sun' },
@@ -116,6 +116,7 @@ export function TruePlacementCalculator({
   const [rulerNotFound, setRulerNotFound] = useState(false);
   const [rulerErrors, setRulerErrors] = useState<Record<string, string>>({});
   const rulerResultRef = useRef<HTMLDivElement>(null);
+  const [rulerPanelEnabled, setRulerPanelEnabled] = useState(true);
 
   // YoYo calculator state
   const [yoyoPlanet, setYoyoPlanet] = useState('');
@@ -183,57 +184,6 @@ export function TruePlacementCalculator({
     signWord: '',
   });
 
-  // BPHDDS calculator state
-  const [bphddsPlanet, setBphddsPlanet] = useState('');
-  const [bphddsSign, setBphddsSign] = useState('');
-  const [bphddsRising, setBphddsRising] = useState('');
-  const [bphddsDegree, setBphddsDegree] = useState('');
-  const [bphddsResult, setBphddsResult] = useState<TruePlacementResult | null>(null);
-  const [bphddsNotFound, setBphddsNotFound] = useState(false);
-  const [bphddsErrors, setBphddsErrors] = useState<Record<string, string>>({});
-  const bphddsResultRef = useRef<HTMLDivElement>(null);
-
-  // BPHDDS word selection state
-  const [bphddsWords, setBphddsWords] = useState({
-    baseWord: '',
-    planetWord: '',
-    connector1: '',
-    houseWord: '',
-    connector2: '',
-    decanWord: '',
-    degreeWord: '',
-    signWord: '',
-  });
-
-  // BPHDDSR calculator state
-  const [bphddsrPlanet, setBphddsrPlanet] = useState('');
-  const [bphddsrSign, setBphddsrSign] = useState('');
-  const [bphddsrRising, setBphddsrRising] = useState('');
-  const [bphddsrDegree, setBphddsrDegree] = useState('');
-  const [bphddsrRulerSign, setBphddsrRulerSign] = useState('');
-  const [bphddsrRulerDegree, setBphddsrRulerDegree] = useState('');
-  const [bphddsrResult, setBphddsrResult] = useState<TruePlacementResult | null>(null);
-  const [bphddsrRulerResult, setBphddsrRulerResult] = useState<TruePlacementResult | null>(null);
-  const [bphddsrNotFound, setBphddsrNotFound] = useState(false);
-  const [bphddsrErrors, setBphddsrErrors] = useState<Record<string, string>>({});
-  const bphddsrResultRef = useRef<HTMLDivElement>(null);
-
-  // BPHDDSR word selection state
-  const [bphddsrWords, setBphddsrWords] = useState({
-    baseWord: '',
-    planetWord: '',
-    connector1: '',
-    houseWord: '',
-    connector2: '',
-    decanWord: '',
-    degreeWord: '',
-    signWord: '',
-    rulerWord: '',
-    rulerHouseWord: '',
-    connector3: '',
-    rulerSignWord: '',
-  });
-
   // Mix & Match calculator state
   const [mixPlanet, setMixPlanet] = useState('');
   const [mixSign, setMixSign] = useState('');
@@ -297,12 +247,6 @@ export function TruePlacementCalculator({
   const phsrDerivedRuler = phsrSign ? SIGN_RULERS[phsrSign] : '';
   const phsrRulerLabel = phsrDerivedRuler
     ? PLANETS.find(p => p.value === phsrDerivedRuler)?.label || ''
-    : '';
-
-  // Get the ruler planet based on the selected sign (for BPHDDSR tab)
-  const bphddsrDerivedRuler = bphddsrSign ? SIGN_RULERS[bphddsrSign] : '';
-  const bphddsrRulerLabel = bphddsrDerivedRuler
-    ? PLANETS.find(p => p.value === bphddsrDerivedRuler)?.label || ''
     : '';
 
   // Get the ruler planet based on the selected sign (for Mix & Match tab)
@@ -375,7 +319,11 @@ export function TruePlacementCalculator({
     if (!rulerPlanet) newErrors.rulerPlanet = 'Please select a planet';
     if (!rulerSign) newErrors.rulerSign = 'Please select a sign';
     if (!rulerRising) newErrors.rulerRising = 'Please select a rising sign';
-    if (!rulerPlanetSign) newErrors.rulerPlanetSign = 'Please select the ruler planet sign';
+
+    // Only validate ruler fields if ruler panel is enabled
+    if (rulerPanelEnabled && !rulerPlanetSign) {
+      newErrors.rulerPlanetSign = 'Please select the ruler planet sign';
+    }
 
     if (rulerDegree) {
       const degreeNum = parseInt(rulerDegree);
@@ -384,7 +332,7 @@ export function TruePlacementCalculator({
       }
     }
 
-    if (rulerPlanetDegree) {
+    if (rulerPanelEnabled && rulerPlanetDegree) {
       const degreeNum = parseInt(rulerPlanetDegree);
       if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
         newErrors.rulerPlanetDegree = 'Degree must be between 0 and 29';
@@ -417,25 +365,30 @@ export function TruePlacementCalculator({
       sparkDatabase
     );
 
-    // Calculate the ruler planet placement
-    const rulerPlacementResult = calculateTruePlacement(
-      derivedRulerPlanet,
-      rulerPlanetSign,
-      rulerRising,
-      rulerPlanetDegree || null,
-      truePlacementDB1,
-      truePlacementDB2,
-      sparkDatabase
-    );
+    // Calculate the ruler planet placement only if ruler panel is enabled
+    let rulerPlacementResult = null;
+    if (rulerPanelEnabled) {
+      rulerPlacementResult = calculateTruePlacement(
+        derivedRulerPlanet,
+        rulerPlanetSign,
+        rulerRising,
+        rulerPlanetDegree || null,
+        truePlacementDB1,
+        truePlacementDB2,
+        sparkDatabase
+      );
+    }
 
-    if (mainResult && rulerPlacementResult) {
-      // Combine results - add ruler info to main result
+    if (mainResult) {
+      // Combine results - add ruler info to main result only if enabled
       const combinedResult = {
         ...mainResult,
-        rulerPlanet: rulerPlanetLabel,
-        rulerPlanetSign: rulerPlanetSign,
-        rulerPlanetDegree: rulerPlanetDegree || null,
-        rulerPlacement: rulerPlacementResult,
+        ...(rulerPanelEnabled && rulerPlacementResult ? {
+          rulerPlanet: rulerPlanetLabel,
+          rulerPlanetSign: rulerPlanetSign,
+          rulerPlanetDegree: rulerPlanetDegree || null,
+          rulerPlacement: rulerPlacementResult,
+        } : {}),
       };
       setRulerResult(combinedResult as TruePlacementResult);
       setRulerNotFound(false);
@@ -667,171 +620,6 @@ export function TruePlacementCalculator({
     return PLANETS.find(p => p.value === phsrPlanet)?.label || phsrPlanet;
   };
 
-  // BPHDDS calculator validation
-  const validateBphdds = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!bphddsPlanet) newErrors.bphddsPlanet = 'Please select a planet';
-    if (!bphddsSign) newErrors.bphddsSign = 'Please select a sign';
-    if (!bphddsRising) newErrors.bphddsRising = 'Please select a rising sign';
-
-    if (bphddsDegree) {
-      const degreeNum = parseInt(bphddsDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.bphddsDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
-    setBphddsErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // BPHDDS calculator submit
-  const handleBphddsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateBphdds()) return;
-
-    // Track calculation usage
-    if (onCalculate) {
-      const allowed = await onCalculate();
-      if (!allowed) return;
-    }
-
-    // Calculate the planet placement
-    const result = calculateTruePlacement(
-      bphddsPlanet,
-      bphddsSign,
-      bphddsRising,
-      bphddsDegree || null,
-      truePlacementDB1,
-      truePlacementDB2,
-      sparkDatabase
-    );
-
-    if (result) {
-      setBphddsResult(result);
-      setBphddsNotFound(false);
-      // Reset words for new calculation
-      setBphddsWords({
-        baseWord: '',
-        planetWord: '',
-        connector1: '',
-        houseWord: '',
-        connector2: '',
-        decanWord: '',
-        degreeWord: '',
-        signWord: '',
-      });
-    } else {
-      setBphddsResult(null);
-      setBphddsNotFound(true);
-    }
-
-    requestAnimationFrame(() => {
-      bphddsResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  };
-
-  // Get planet label for BPHDDS
-  const getBphddsPlanetLabel = () => {
-    return PLANETS.find(p => p.value === bphddsPlanet)?.label || bphddsPlanet;
-  };
-
-  // BPHDDSR calculator validation
-  const validateBphddsr = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!bphddsrPlanet) newErrors.bphddsrPlanet = 'Please select a planet';
-    if (!bphddsrSign) newErrors.bphddsrSign = 'Please select a sign';
-    if (!bphddsrRising) newErrors.bphddsrRising = 'Please select a rising sign';
-    if (!bphddsrRulerSign) newErrors.bphddsrRulerSign = 'Please select the ruler planet sign';
-
-    if (bphddsrDegree) {
-      const degreeNum = parseInt(bphddsrDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.bphddsrDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
-    if (bphddsrRulerDegree) {
-      const degreeNum = parseInt(bphddsrRulerDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.bphddsrRulerDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
-    setBphddsrErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  // BPHDDSR calculator submit
-  const handleBphddsrSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateBphddsr()) return;
-
-    // Track calculation usage
-    if (onCalculate) {
-      const allowed = await onCalculate();
-      if (!allowed) return;
-    }
-
-    // Calculate the main planet placement
-    const mainResult = calculateTruePlacement(
-      bphddsrPlanet,
-      bphddsrSign,
-      bphddsrRising,
-      bphddsrDegree || null,
-      truePlacementDB1,
-      truePlacementDB2,
-      sparkDatabase
-    );
-
-    // Calculate the ruler planet placement
-    const rulerPlacementResult = calculateTruePlacement(
-      bphddsrDerivedRuler,
-      bphddsrRulerSign,
-      bphddsrRising,
-      bphddsrRulerDegree || null,
-      truePlacementDB1,
-      truePlacementDB2,
-      sparkDatabase
-    );
-
-    if (mainResult) {
-      setBphddsrResult(mainResult);
-      setBphddsrRulerResult(rulerPlacementResult);
-      setBphddsrNotFound(false);
-      // Reset words for new calculation
-      setBphddsrWords({
-        baseWord: '',
-        planetWord: '',
-        connector1: '',
-        houseWord: '',
-        connector2: '',
-        decanWord: '',
-        degreeWord: '',
-        signWord: '',
-        rulerWord: '',
-        rulerHouseWord: '',
-        connector3: '',
-        rulerSignWord: '',
-      });
-    } else {
-      setBphddsrResult(null);
-      setBphddsrRulerResult(null);
-      setBphddsrNotFound(true);
-    }
-
-    requestAnimationFrame(() => {
-      bphddsrResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  };
-
-  // Get planet label for BPHDDSR
-  const getBphddsrPlanetLabel = () => {
-    return PLANETS.find(p => p.value === bphddsrPlanet)?.label || bphddsrPlanet;
-  };
-
   // Mix & Match calculator validation
   const validateMix = () => {
     const newErrors: Record<string, string> = {};
@@ -939,7 +727,7 @@ export function TruePlacementCalculator({
           className={`sub-tab-button ${activeSubTab === 'ruler' ? 'active' : ''}`}
           onClick={() => setActiveSubTab('ruler')}
         >
-          Ruler
+          BPHDDS / R
         </button>
         <button
           className={`sub-tab-button ${activeSubTab === 'yoyo' ? 'active' : ''}`}
@@ -958,18 +746,6 @@ export function TruePlacementCalculator({
           onClick={() => setActiveSubTab('phsr')}
         >
           PHSR
-        </button>
-        <button
-          className={`sub-tab-button ${activeSubTab === 'bphdds' ? 'active' : ''}`}
-          onClick={() => setActiveSubTab('bphdds')}
-        >
-          BPHDDS
-        </button>
-        <button
-          className={`sub-tab-button ${activeSubTab === 'bphddsr' ? 'active' : ''}`}
-          onClick={() => setActiveSubTab('bphddsr')}
-        >
-          BPHDDSR
         </button>
         <button
           className={`sub-tab-button ${activeSubTab === 'mixmatch' ? 'active' : ''}`}
@@ -1142,115 +918,136 @@ export function TruePlacementCalculator({
       {/* Ruler Calculator */}
       {activeSubTab === 'ruler' && (
         <>
-          <form onSubmit={handleRulerSubmit} className="calculator-form" noValidate>
-            <div className="form-group">
-              <label>Planet:</label>
-              <CosmicDropdown
-                options={PLANETS}
-                value={rulerPlanet}
-                onChange={(val) => {
-                  setRulerPlanet(val);
-                  setRulerErrors(prev => ({ ...prev, rulerPlanet: '' }));
-                }}
-                placeholder="Select a planet..."
-                error={rulerErrors.rulerPlanet}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Planet Sign:</label>
-              <CosmicDropdown
-                options={SIGNS}
-                value={rulerSign}
-                onChange={(val) => {
-                  setRulerSign(val);
-                  setRulerErrors(prev => ({ ...prev, rulerSign: '' }));
-                }}
-                placeholder="Select a sign..."
-                error={rulerErrors.rulerSign}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>
-                Degree (0-29): <span className="optional">(optional)</span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                max="29"
-                value={rulerDegree}
-                onChange={e => {
-                  setRulerDegree(e.target.value);
-                  setRulerErrors(prev => ({ ...prev, rulerDegree: '' }));
-                }}
-                placeholder="Enter degree (0-29)"
-                className={rulerErrors.rulerDegree ? 'has-error' : ''}
-              />
-              {rulerErrors.rulerDegree && <div className="validation-error show">{rulerErrors.rulerDegree}</div>}
-            </div>
-
-            <div className="form-group">
-              <label>Rising Sign (Ascendant):</label>
-              <CosmicDropdown
-                options={SIGNS}
-                value={rulerRising}
-                onChange={(val) => {
-                  setRulerRising(val);
-                  setRulerErrors(prev => ({ ...prev, rulerRising: '' }));
-                }}
-                placeholder="Select a sign..."
-                error={rulerErrors.rulerRising}
-              />
-            </div>
-
-            {/* Ruler Planet Section */}
-            {rulerSign && (
-              <div className="ruler-planet-section">
-                <div className="ruler-planet-header">
-                  <span className="ruler-label">Ruler of {rulerSign}:</span>
-                  <span className="ruler-planet-name">{rulerPlanetLabel}</span>
+          <div className="phsr-inputs">
+            {/* Left Input Panel */}
+            <div className="phsr-input-panel">
+              <form onSubmit={handleRulerSubmit} className="calculator-form" noValidate>
+                <div className="form-group">
+                  <label>Planet:</label>
+                  <CosmicDropdown
+                    options={PLANETS}
+                    value={rulerPlanet}
+                    onChange={(val) => {
+                      setRulerPlanet(val);
+                      setRulerErrors(prev => ({ ...prev, rulerPlanet: '' }));
+                    }}
+                    placeholder="Select a planet..."
+                    error={rulerErrors.rulerPlanet}
+                  />
                 </div>
 
                 <div className="form-group">
-                  <label>{rulerPlanetLabel} Sign:</label>
+                  <label>Sign:</label>
                   <CosmicDropdown
                     options={SIGNS}
-                    value={rulerPlanetSign}
+                    value={rulerSign}
                     onChange={(val) => {
-                      setRulerPlanetSign(val);
-                      setRulerErrors(prev => ({ ...prev, rulerPlanetSign: '' }));
+                      setRulerSign(val);
+                      setRulerErrors(prev => ({ ...prev, rulerSign: '' }));
                     }}
-                    placeholder={`Select ${rulerPlanetLabel}'s sign...`}
-                    error={rulerErrors.rulerPlanetSign}
+                    placeholder="Select a sign..."
+                    error={rulerErrors.rulerSign}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Rising:</label>
+                  <CosmicDropdown
+                    options={SIGNS}
+                    value={rulerRising}
+                    onChange={(val) => {
+                      setRulerRising(val);
+                      setRulerErrors(prev => ({ ...prev, rulerRising: '' }));
+                    }}
+                    placeholder="Select rising sign..."
+                    error={rulerErrors.rulerRising}
                   />
                 </div>
 
                 <div className="form-group">
                   <label>
-                    {rulerPlanetLabel} Degree (0-29): <span className="optional">(optional)</span>
+                    Degree: <span className="optional">(optional)</span>
                   </label>
                   <input
                     type="number"
                     min="0"
                     max="29"
-                    value={rulerPlanetDegree}
+                    value={rulerDegree}
                     onChange={e => {
-                      setRulerPlanetDegree(e.target.value);
-                      setRulerErrors(prev => ({ ...prev, rulerPlanetDegree: '' }));
+                      setRulerDegree(e.target.value);
+                      setRulerErrors(prev => ({ ...prev, rulerDegree: '' }));
                     }}
-                    placeholder="Enter degree (0-29)"
-                    className={rulerErrors.rulerPlanetDegree ? 'has-error' : ''}
+                    placeholder="0-29"
+                    className={rulerErrors.rulerDegree ? 'has-error' : ''}
                   />
-                  {rulerErrors.rulerPlanetDegree && <div className="validation-error show">{rulerErrors.rulerPlanetDegree}</div>}
+                  {rulerErrors.rulerDegree && <div className="validation-error show">{rulerErrors.rulerDegree}</div>}
                 </div>
+              </form>
+            </div>
+
+            {/* Ruler Input Panel */}
+            {rulerSign && (
+              <div className={`phsr-ruler-panel ${!rulerPanelEnabled ? 'disabled' : ''}`}>
+                <div className="phsr-ruler-header">
+                  <div className="ruler-header-left">
+                    <span className="ruler-label">Ruler:</span>
+                    <span className="ruler-planet-name">{rulerPlanetLabel}</span>
+                  </div>
+                  <button
+                    type="button"
+                    className={`ruler-toggle-btn ${rulerPanelEnabled ? 'active' : ''}`}
+                    onClick={() => setRulerPanelEnabled(!rulerPanelEnabled)}
+                    title={rulerPanelEnabled ? 'Disable ruler' : 'Enable ruler'}
+                  >
+                    {rulerPanelEnabled ? 'ON' : 'OFF'}
+                  </button>
+                </div>
+
+                {rulerPanelEnabled && (
+                  <>
+                    <div className="form-group">
+                      <label>Sign:</label>
+                      <CosmicDropdown
+                        options={SIGNS}
+                        value={rulerPlanetSign}
+                        onChange={(val) => {
+                          setRulerPlanetSign(val);
+                          setRulerErrors(prev => ({ ...prev, rulerPlanetSign: '' }));
+                        }}
+                        placeholder={`Select ${rulerPlanetLabel}'s sign...`}
+                        error={rulerErrors.rulerPlanetSign}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>
+                        Degree: <span className="optional">(optional)</span>
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        max="29"
+                        value={rulerPlanetDegree}
+                        onChange={e => {
+                          setRulerPlanetDegree(e.target.value);
+                          setRulerErrors(prev => ({ ...prev, rulerPlanetDegree: '' }));
+                        }}
+                        placeholder="0-29"
+                        className={rulerErrors.rulerPlanetDegree ? 'has-error' : ''}
+                      />
+                      {rulerErrors.rulerPlanetDegree && <div className="validation-error show">{rulerErrors.rulerPlanetDegree}</div>}
+                    </div>
+                  </>
+                )}
               </div>
             )}
+          </div>
 
-            <button type="submit" className="calculate-btn">
-              Calculate Ruler Placement
+          <div className="phsr-calculate-wrapper">
+            <button type="button" onClick={handleRulerSubmit} className="calculate-btn">
+              Calculate
             </button>
-          </form>
+          </div>
 
           {rulerResult && (
             <div ref={rulerResultRef} className="result-section show">
@@ -1297,6 +1094,11 @@ export function TruePlacementCalculator({
                   className="interpretation"
                   dangerouslySetInnerHTML={{ __html: buildInterpretationFor(rulerResult) }}
                 />
+
+                {/* Coming Soon Section */}
+                <div className="coming-soon-container">
+                  <span className="coming-soon-text">Coming soon...</span>
+                </div>
 
                 <SentenceBuilder
                   planet={rulerResult.planet}
@@ -1355,6 +1157,11 @@ export function TruePlacementCalculator({
                       className="interpretation"
                       dangerouslySetInnerHTML={{ __html: buildInterpretationFor(rp) }}
                     />
+
+                    {/* Coming Soon Section */}
+                    <div className="coming-soon-container">
+                      <span className="coming-soon-text">Coming soon...</span>
+                    </div>
 
                     <SentenceBuilder
                       planet={rp.planet}
@@ -2180,908 +1987,6 @@ export function TruePlacementCalculator({
         </>
       )}
 
-      {/* BPHDDS Calculator */}
-      {activeSubTab === 'bphdds' && (
-        <>
-          <form onSubmit={handleBphddsSubmit} className="calculator-form" noValidate>
-            <div className="form-group">
-              <label>Planet:</label>
-              <CosmicDropdown
-                options={PLANETS}
-                value={bphddsPlanet}
-                onChange={(val) => {
-                  setBphddsPlanet(val);
-                  setBphddsErrors(prev => ({ ...prev, bphddsPlanet: '' }));
-                }}
-                placeholder="Select a planet..."
-                error={bphddsErrors.bphddsPlanet}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Sign:</label>
-              <CosmicDropdown
-                options={SIGNS}
-                value={bphddsSign}
-                onChange={(val) => {
-                  setBphddsSign(val);
-                  setBphddsErrors(prev => ({ ...prev, bphddsSign: '' }));
-                }}
-                placeholder="Select a sign..."
-                error={bphddsErrors.bphddsSign}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>Rising:</label>
-              <CosmicDropdown
-                options={SIGNS}
-                value={bphddsRising}
-                onChange={(val) => {
-                  setBphddsRising(val);
-                  setBphddsErrors(prev => ({ ...prev, bphddsRising: '' }));
-                }}
-                placeholder="Select rising sign..."
-                error={bphddsErrors.bphddsRising}
-              />
-            </div>
-
-            <div className="form-group">
-              <label>
-                Degree: <span className="optional">(optional)</span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                max="29"
-                value={bphddsDegree}
-                onChange={e => {
-                  setBphddsDegree(e.target.value);
-                  setBphddsErrors(prev => ({ ...prev, bphddsDegree: '' }));
-                }}
-                placeholder="0-29"
-                className={bphddsErrors.bphddsDegree ? 'has-error' : ''}
-              />
-              {bphddsErrors.bphddsDegree && <div className="validation-error show">{bphddsErrors.bphddsDegree}</div>}
-            </div>
-
-            <button type="submit" className="calculate-btn">
-              Calculate
-            </button>
-          </form>
-
-          {bphddsResult && (
-            <div ref={bphddsResultRef} className="result-section show">
-              {/* Calculation Results */}
-              <div className="phs-results-row">
-                <div className="phs-result-box">
-                  <div className="phs-result-item">
-                    <span className="phs-result-label">Planet:</span>
-                    <span className="phs-result-value">{getBphddsPlanetLabel()}</span>
-                  </div>
-                  <div className="phs-result-item">
-                    <span className="phs-result-label">House:</span>
-                    <span className="phs-result-value">{bphddsResult.isHouse}</span>
-                    <span className="phs-result-extra">{bphddsResult.isSign}</span>
-                  </div>
-                  <div className="phs-result-item">
-                    <span className="phs-result-label">Base:</span>
-                    <span className="phs-result-value">{bphddsResult.baseSign}</span>
-                  </div>
-                  {bphddsResult.spark && (
-                    <div className="phs-result-item">
-                      <span className="phs-result-label">Decan:</span>
-                      <span className="phs-result-value">{bphddsResult.spark.decan}</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="phs-summary-box">
-                  <div className="phs-summary-item">
-                    <span className="phs-summary-label">BASE:</span>
-                    <span className="phs-summary-value">{bphddsResult.baseSign}</span>
-                  </div>
-                  <div className="phs-summary-item">
-                    <span className="phs-summary-label">PLANET:</span>
-                    <span className="phs-summary-value">{getBphddsPlanetLabel()}</span>
-                  </div>
-                  <div className="phs-summary-item">
-                    <span className="phs-summary-label">HOUSE:</span>
-                    <span className="phs-summary-value">{bphddsResult.isHouse}</span>
-                  </div>
-                  {bphddsResult.spark && (
-                    <>
-                      <div className="phs-summary-item">
-                        <span className="phs-summary-label">DECAN:</span>
-                        <span className="phs-summary-value">{bphddsResult.spark.decan}</span>
-                      </div>
-                      <div className="phs-summary-item">
-                        <span className="phs-summary-label">DEGREE:</span>
-                        <span className="phs-summary-value">{bphddsDegree || 'N/A'}</span>
-                      </div>
-                    </>
-                  )}
-                  <div className="phs-summary-item">
-                    <span className="phs-summary-label">SIGN:</span>
-                    <span className="phs-summary-value">{bphddsSign}</span>
-                  </div>
-                </div>
-              </div>
-
-              <h3 className="phsr-sentence-title">Make your sentence:</h3>
-
-              {/* Live Sentence Preview */}
-              <div className="phsr-sentence-preview">
-                <span className={bphddsWords.baseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsWords.baseWord || '[Base]'}
-                </span>
-                {' '}
-                <span className={bphddsWords.planetWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsWords.planetWord || '[Planet]'}
-                </span>
-                {' '}
-                <span className={bphddsWords.connector1 ? 'word-connector' : 'word-empty'}>
-                  {bphddsWords.connector1 || '[connector]'}
-                </span>
-                {' '}
-                <span className={bphddsWords.houseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsWords.houseWord || '[House]'}
-                </span>
-                {bphddsWords.decanWord && (
-                  <>
-                    {' '}
-                    <span className={bphddsWords.connector2 ? 'word-connector' : 'word-empty'}>
-                      {bphddsWords.connector2 || '[connector]'}
-                    </span>
-                    {' '}
-                    <span className="word-filled">{bphddsWords.decanWord}</span>
-                  </>
-                )}
-                {bphddsWords.degreeWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">at</span>
-                    {' '}
-                    <span className="word-filled">{bphddsWords.degreeWord}</span>
-                  </>
-                )}
-                {bphddsWords.signWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">expressed through</span>
-                    {' '}
-                    <span className="word-filled">{bphddsWords.signWord}</span>
-                  </>
-                )}
-              </div>
-
-              {/* Step 1: Base + Planet */}
-              <div className="phsr-word-step">
-                <div className="phsr-word-row">
-                  <div className="phsr-word-group">
-                    <div className="phsr-word-label">BASE:</div>
-                    <div className="phsr-word-value">{bphddsResult.baseSign}</div>
-                    <select
-                      value={bphddsWords.baseWord}
-                      onChange={(e) => setBphddsWords(prev => ({ ...prev, baseWord: e.target.value }))}
-                      className="phsr-word-select"
-                    >
-                      <option value="">Select word...</option>
-                      {(signKeywords[bphddsResult.baseSign] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <span className="phsr-word-plus">+</span>
-                  <div className="phsr-word-group">
-                    <div className="phsr-word-label">PLANET:</div>
-                    <div className="phsr-word-value">{getBphddsPlanetLabel()}</div>
-                    <select
-                      value={bphddsWords.planetWord}
-                      onChange={(e) => setBphddsWords(prev => ({ ...prev, planetWord: e.target.value }))}
-                      className="phsr-word-select"
-                    >
-                      <option value="">Select word...</option>
-                      {(planetKeywords[bphddsPlanet] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 2: House (unlocks after Base + Planet selected) */}
-              {bphddsWords.baseWord && bphddsWords.planetWord && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">HOUSE:</div>
-                      <div className="phsr-word-value">{bphddsResult.isSign}</div>
-                      <select
-                        value={bphddsWords.houseWord}
-                        onChange={(e) => setBphddsWords(prev => ({ ...prev, houseWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsResult.isSign] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Connector options */}
-                  <div className="phsr-connector-options">
-                    <span className="phsr-connector-label">Connector:</span>
-                    {CONNECTOR_OPTIONS.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className={`phsr-connector-btn ${bphddsWords.connector1 === opt ? 'active' : ''}`}
-                        onClick={() => setBphddsWords(prev => ({ ...prev, connector1: opt }))}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Decan (unlocks after House selected) */}
-              {bphddsWords.houseWord && bphddsResult.spark && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">DECAN:</div>
-                      <div className="phsr-word-value">{bphddsResult.spark.decan}</div>
-                      <select
-                        value={bphddsWords.decanWord}
-                        onChange={(e) => setBphddsWords(prev => ({ ...prev, decanWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsResult.spark.decan] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Connector options for decan */}
-                  <div className="phsr-connector-options">
-                    <span className="phsr-connector-label">Connector:</span>
-                    {CONNECTOR_OPTIONS.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className={`phsr-connector-btn ${bphddsWords.connector2 === opt ? 'active' : ''}`}
-                        onClick={() => setBphddsWords(prev => ({ ...prev, connector2: opt }))}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 4: Degree (unlocks after Decan selected) */}
-              {bphddsWords.decanWord && bphddsDegree && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">DEGREE:</div>
-                      <div className="phsr-word-value">{bphddsDegree}°</div>
-                      <input
-                        type="text"
-                        value={bphddsWords.degreeWord}
-                        onChange={(e) => setBphddsWords(prev => ({ ...prev, degreeWord: e.target.value }))}
-                        className="phsr-word-select"
-                        placeholder="Enter degree meaning..."
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 5: Sign (unlocks after House or Decan selected) */}
-              {(bphddsWords.houseWord && (!bphddsResult.spark || bphddsWords.decanWord)) && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">SIGN:</div>
-                      <div className="phsr-word-value">{bphddsSign}</div>
-                      <select
-                        value={bphddsWords.signWord}
-                        onChange={(e) => setBphddsWords(prev => ({ ...prev, signWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsSign] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="phsr-description-hint">
-                    <strong>(end of sentence)</strong>
-                  </div>
-                </div>
-              )}
-
-              {/* Bottom Sentence Preview */}
-              <div className="phsr-sentence-preview bottom">
-                <span className={bphddsWords.baseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsWords.baseWord || '[Base]'}
-                </span>
-                {' '}
-                <span className={bphddsWords.planetWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsWords.planetWord || '[Planet]'}
-                </span>
-                {' '}
-                <span className={bphddsWords.connector1 ? 'word-connector' : 'word-empty'}>
-                  {bphddsWords.connector1 || '[connector]'}
-                </span>
-                {' '}
-                <span className={bphddsWords.houseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsWords.houseWord || '[House]'}
-                </span>
-                {bphddsWords.decanWord && (
-                  <>
-                    {' '}
-                    <span className={bphddsWords.connector2 ? 'word-connector' : 'word-empty'}>
-                      {bphddsWords.connector2 || '[connector]'}
-                    </span>
-                    {' '}
-                    <span className="word-filled">{bphddsWords.decanWord}</span>
-                  </>
-                )}
-                {bphddsWords.degreeWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">at</span>
-                    {' '}
-                    <span className="word-filled">{bphddsWords.degreeWord}</span>
-                  </>
-                )}
-                {bphddsWords.signWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">expressed through</span>
-                    {' '}
-                    <span className="word-filled">{bphddsWords.signWord}</span>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-
-          {bphddsNotFound && (
-            <div className="result-section show">
-              <div className="error-message">
-                No matching data found. Please check your inputs.
-              </div>
-            </div>
-          )}
-        </>
-      )}
-
-      {/* BPHDDSR Calculator */}
-      {activeSubTab === 'bphddsr' && (
-        <>
-          <div className="phsr-inputs">
-            {/* Left Input Panel */}
-            <div className="phsr-input-panel">
-              <form onSubmit={handleBphddsrSubmit} className="calculator-form" noValidate>
-                <div className="form-group">
-                  <label>Planet:</label>
-                  <CosmicDropdown
-                    options={PLANETS}
-                    value={bphddsrPlanet}
-                    onChange={(val) => {
-                      setBphddsrPlanet(val);
-                      setBphddsrErrors(prev => ({ ...prev, bphddsrPlanet: '' }));
-                    }}
-                    placeholder="Select a planet..."
-                    error={bphddsrErrors.bphddsrPlanet}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Sign:</label>
-                  <CosmicDropdown
-                    options={SIGNS}
-                    value={bphddsrSign}
-                    onChange={(val) => {
-                      setBphddsrSign(val);
-                      setBphddsrErrors(prev => ({ ...prev, bphddsrSign: '' }));
-                    }}
-                    placeholder="Select a sign..."
-                    error={bphddsrErrors.bphddsrSign}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>Rising:</label>
-                  <CosmicDropdown
-                    options={SIGNS}
-                    value={bphddsrRising}
-                    onChange={(val) => {
-                      setBphddsrRising(val);
-                      setBphddsrErrors(prev => ({ ...prev, bphddsrRising: '' }));
-                    }}
-                    placeholder="Select rising sign..."
-                    error={bphddsrErrors.bphddsrRising}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>
-                    Degree: <span className="optional">(optional)</span>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="29"
-                    value={bphddsrDegree}
-                    onChange={e => {
-                      setBphddsrDegree(e.target.value);
-                      setBphddsrErrors(prev => ({ ...prev, bphddsrDegree: '' }));
-                    }}
-                    placeholder="0-29"
-                    className={bphddsrErrors.bphddsrDegree ? 'has-error' : ''}
-                  />
-                  {bphddsrErrors.bphddsrDegree && <div className="validation-error show">{bphddsrErrors.bphddsrDegree}</div>}
-                </div>
-              </form>
-            </div>
-
-            {/* Ruler Input Panel */}
-            {bphddsrSign && (
-              <div className="phsr-ruler-panel">
-                <div className="phsr-ruler-header">
-                  <span className="ruler-label">Ruler:</span>
-                  <span className="ruler-planet-name">{bphddsrRulerLabel}</span>
-                </div>
-
-                <div className="form-group">
-                  <label>Sign:</label>
-                  <CosmicDropdown
-                    options={SIGNS}
-                    value={bphddsrRulerSign}
-                    onChange={(val) => {
-                      setBphddsrRulerSign(val);
-                      setBphddsrErrors(prev => ({ ...prev, bphddsrRulerSign: '' }));
-                    }}
-                    placeholder={`Select ${bphddsrRulerLabel}'s sign...`}
-                    error={bphddsrErrors.bphddsrRulerSign}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label>
-                    Degree: <span className="optional">(optional)</span>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="29"
-                    value={bphddsrRulerDegree}
-                    onChange={e => {
-                      setBphddsrRulerDegree(e.target.value);
-                      setBphddsrErrors(prev => ({ ...prev, bphddsrRulerDegree: '' }));
-                    }}
-                    placeholder="0-29"
-                    className={bphddsrErrors.bphddsrRulerDegree ? 'has-error' : ''}
-                  />
-                  {bphddsrErrors.bphddsrRulerDegree && <div className="validation-error show">{bphddsrErrors.bphddsrRulerDegree}</div>}
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="phsr-calculate-wrapper">
-            <button type="button" onClick={handleBphddsrSubmit} className="calculate-btn">
-              Calculate
-            </button>
-          </div>
-
-          {bphddsrResult && (
-            <div ref={bphddsrResultRef} className="result-section show">
-              <h3 className="phsr-sentence-title">Make your sentence:</h3>
-
-              {/* Live Sentence Preview */}
-              <div className="phsr-sentence-preview">
-                <span className={bphddsrWords.baseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsrWords.baseWord || '[Base]'}
-                </span>
-                {' '}
-                <span className={bphddsrWords.planetWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsrWords.planetWord || '[Planet]'}
-                </span>
-                {' '}
-                <span className={bphddsrWords.connector1 ? 'word-connector' : 'word-empty'}>
-                  {bphddsrWords.connector1 || '[connector]'}
-                </span>
-                {' '}
-                <span className={bphddsrWords.houseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsrWords.houseWord || '[House]'}
-                </span>
-                {bphddsrWords.decanWord && (
-                  <>
-                    {' '}
-                    <span className={bphddsrWords.connector2 ? 'word-connector' : 'word-empty'}>
-                      {bphddsrWords.connector2 || '[connector]'}
-                    </span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.decanWord}</span>
-                  </>
-                )}
-                {bphddsrWords.degreeWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">at</span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.degreeWord}</span>
-                  </>
-                )}
-                {bphddsrWords.signWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">expressed through</span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.signWord}</span>
-                    <span className="word-label">, ruled by</span>
-                  </>
-                )}
-                {bphddsrWords.rulerWord && (
-                  <>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.rulerWord}</span>
-                  </>
-                )}
-                {bphddsrWords.rulerHouseWord && (
-                  <>
-                    {' '}
-                    <span className={bphddsrWords.connector3 ? 'word-connector' : 'word-empty'}>
-                      {bphddsrWords.connector3 || '[connector]'}
-                    </span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.rulerHouseWord}</span>
-                  </>
-                )}
-                {bphddsrWords.rulerSignWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">expressed through</span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.rulerSignWord}</span>
-                  </>
-                )}
-              </div>
-
-              {/* Step 1: Base + Planet */}
-              <div className="phsr-word-step">
-                <div className="phsr-word-row">
-                  <div className="phsr-word-group">
-                    <div className="phsr-word-label">BASE:</div>
-                    <div className="phsr-word-value">{bphddsrResult.baseSign}</div>
-                    <select
-                      value={bphddsrWords.baseWord}
-                      onChange={(e) => setBphddsrWords(prev => ({ ...prev, baseWord: e.target.value }))}
-                      className="phsr-word-select"
-                    >
-                      <option value="">Select word...</option>
-                      {(signKeywords[bphddsrResult.baseSign] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <span className="phsr-word-plus">+</span>
-                  <div className="phsr-word-group">
-                    <div className="phsr-word-label">PLANET:</div>
-                    <div className="phsr-word-value">{getBphddsrPlanetLabel()}</div>
-                    <select
-                      value={bphddsrWords.planetWord}
-                      onChange={(e) => setBphddsrWords(prev => ({ ...prev, planetWord: e.target.value }))}
-                      className="phsr-word-select"
-                    >
-                      <option value="">Select word...</option>
-                      {(planetKeywords[bphddsrPlanet] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              {/* Step 2: House (unlocks after Base + Planet selected) */}
-              {bphddsrWords.baseWord && bphddsrWords.planetWord && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">HOUSE:</div>
-                      <div className="phsr-word-value">{bphddsrResult.isSign}</div>
-                      <select
-                        value={bphddsrWords.houseWord}
-                        onChange={(e) => setBphddsrWords(prev => ({ ...prev, houseWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsrResult.isSign] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Connector options */}
-                  <div className="phsr-connector-options">
-                    <span className="phsr-connector-label">Connector:</span>
-                    {CONNECTOR_OPTIONS.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className={`phsr-connector-btn ${bphddsrWords.connector1 === opt ? 'active' : ''}`}
-                        onClick={() => setBphddsrWords(prev => ({ ...prev, connector1: opt }))}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3: Decan (unlocks after House selected) */}
-              {bphddsrWords.houseWord && bphddsrResult.spark && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">DECAN:</div>
-                      <div className="phsr-word-value">{bphddsrResult.spark.decan}</div>
-                      <select
-                        value={bphddsrWords.decanWord}
-                        onChange={(e) => setBphddsrWords(prev => ({ ...prev, decanWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsrResult.spark.decan] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Connector options for decan */}
-                  <div className="phsr-connector-options">
-                    <span className="phsr-connector-label">Connector:</span>
-                    {CONNECTOR_OPTIONS.map((opt, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className={`phsr-connector-btn ${bphddsrWords.connector2 === opt ? 'active' : ''}`}
-                        onClick={() => setBphddsrWords(prev => ({ ...prev, connector2: opt }))}
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 4: Degree (unlocks after Decan selected) */}
-              {bphddsrWords.decanWord && bphddsrDegree && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">DEGREE:</div>
-                      <div className="phsr-word-value">{bphddsrDegree}°</div>
-                      <input
-                        type="text"
-                        value={bphddsrWords.degreeWord}
-                        onChange={(e) => setBphddsrWords(prev => ({ ...prev, degreeWord: e.target.value }))}
-                        className="phsr-word-select"
-                        placeholder="Enter degree meaning..."
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 5: Sign (unlocks after House or Decan selected) */}
-              {(bphddsrWords.houseWord && (!bphddsrResult.spark || bphddsrWords.decanWord)) && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">SIGN:</div>
-                      <div className="phsr-word-value">{bphddsrSign}</div>
-                      <select
-                        value={bphddsrWords.signWord}
-                        onChange={(e) => setBphddsrWords(prev => ({ ...prev, signWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsrSign] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="phsr-description-hint">
-                    <strong>, ruled by</strong> (connects to Ruler)
-                  </div>
-                </div>
-              )}
-
-              {/* Step 6: Ruler + House (unlocks after Sign selected) */}
-              {bphddsrWords.signWord && bphddsrRulerResult && (
-                <div className="phsr-word-step ruler-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">Ruler:</div>
-                      <div className="phsr-word-value">{bphddsrRulerLabel}</div>
-                      <select
-                        value={bphddsrWords.rulerWord}
-                        onChange={(e) => setBphddsrWords(prev => ({ ...prev, rulerWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(planetKeywords[bphddsrDerivedRuler] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <span className="phsr-word-plus">+</span>
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">HOUSE:</div>
-                      <div className="phsr-word-value">{bphddsrRulerResult.isSign}</div>
-                      <select
-                        value={bphddsrWords.rulerHouseWord}
-                        onChange={(e) => setBphddsrWords(prev => ({ ...prev, rulerHouseWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsrRulerResult.isSign] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Connector options for ruler */}
-                  {bphddsrWords.rulerWord && bphddsrWords.rulerHouseWord && (
-                    <div className="phsr-connector-options">
-                      <span className="phsr-connector-label">Connector:</span>
-                      {CONNECTOR_OPTIONS.map((opt, idx) => (
-                        <button
-                          key={idx}
-                          type="button"
-                          className={`phsr-connector-btn ${bphddsrWords.connector3 === opt ? 'active' : ''}`}
-                          onClick={() => setBphddsrWords(prev => ({ ...prev, connector3: opt }))}
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* Step 7: Ruler Sign (unlocks after Ruler + House selected) */}
-              {bphddsrWords.rulerWord && bphddsrWords.rulerHouseWord && bphddsrRulerResult && (
-                <div className="phsr-word-step">
-                  <div className="phsr-word-arrow">↓</div>
-                  <div className="phsr-word-row single">
-                    <div className="phsr-word-group">
-                      <div className="phsr-word-label">Sign:</div>
-                      <div className="phsr-word-value">{bphddsrRulerSign}</div>
-                      <select
-                        value={bphddsrWords.rulerSignWord}
-                        onChange={(e) => setBphddsrWords(prev => ({ ...prev, rulerSignWord: e.target.value }))}
-                        className="phsr-word-select"
-                      >
-                        <option value="">Select word...</option>
-                        {(signKeywords[bphddsrRulerSign] || []).map((kw, idx) => (
-                          <option key={idx} value={kw}>{kw}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="phsr-description-hint">
-                    <strong>(end of sentence)</strong>
-                  </div>
-                </div>
-              )}
-
-              {/* Bottom Sentence Preview */}
-              <div className="phsr-sentence-preview bottom">
-                <span className={bphddsrWords.baseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsrWords.baseWord || '[Base]'}
-                </span>
-                {' '}
-                <span className={bphddsrWords.planetWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsrWords.planetWord || '[Planet]'}
-                </span>
-                {' '}
-                <span className={bphddsrWords.connector1 ? 'word-connector' : 'word-empty'}>
-                  {bphddsrWords.connector1 || '[connector]'}
-                </span>
-                {' '}
-                <span className={bphddsrWords.houseWord ? 'word-filled' : 'word-empty'}>
-                  {bphddsrWords.houseWord || '[House]'}
-                </span>
-                {bphddsrWords.decanWord && (
-                  <>
-                    {' '}
-                    <span className={bphddsrWords.connector2 ? 'word-connector' : 'word-empty'}>
-                      {bphddsrWords.connector2 || '[connector]'}
-                    </span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.decanWord}</span>
-                  </>
-                )}
-                {bphddsrWords.degreeWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">at</span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.degreeWord}</span>
-                  </>
-                )}
-                {bphddsrWords.signWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">expressed through</span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.signWord}</span>
-                    <span className="word-label">, ruled by</span>
-                  </>
-                )}
-                {bphddsrWords.rulerWord && (
-                  <>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.rulerWord}</span>
-                  </>
-                )}
-                {bphddsrWords.rulerHouseWord && (
-                  <>
-                    {' '}
-                    <span className={bphddsrWords.connector3 ? 'word-connector' : 'word-empty'}>
-                      {bphddsrWords.connector3 || '[connector]'}
-                    </span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.rulerHouseWord}</span>
-                  </>
-                )}
-                {bphddsrWords.rulerSignWord && (
-                  <>
-                    {' '}
-                    <span className="word-label">expressed through</span>
-                    {' '}
-                    <span className="word-filled">{bphddsrWords.rulerSignWord}</span>
-                  </>
-                )}
-              </div>
-            </div>
-          )}
-
-          {bphddsrNotFound && (
-            <div className="result-section show">
-              <div className="error-message">
-                No matching data found. Please check your inputs.
-              </div>
-            </div>
-          )}
-        </>
-      )}
 
       {/* Mix & Match Calculator */}
       {activeSubTab === 'mixmatch' && (
