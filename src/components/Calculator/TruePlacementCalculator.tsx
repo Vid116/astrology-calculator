@@ -743,7 +743,6 @@ export function TruePlacementCalculator({
     setPhsrRulerResult(null);
     setPhsrErrors({});
     setPhsrNotFound(false);
-    setPhsrRulerNotFound(false);
   };
 
   const resetMix = () => {
@@ -755,7 +754,6 @@ export function TruePlacementCalculator({
     setMixRulerResult(null);
     setMixErrors({});
     setMixNotFound(false);
-    setMixRulerNotFound(false);
     setMixWords({
       planetWord: '',
       connector1: '',
