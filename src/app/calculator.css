@@ -2370,7 +2370,7 @@ header h1 {
 
 .yoyo-clickable-word {
     background: linear-gradient(135deg, var(--astro-glow-cyan) 0%, var(--astro-glow-pink) 100%);
-    color: #000;
+    color: var(--gold-400);
     font-weight: 700;
     font-size: 1.2rem;
     padding: 12px 28px;
@@ -2379,6 +2379,7 @@ header h1 {
     transition: all 0.3s ease;
     box-shadow: 0 0 20px rgba(103, 232, 249, 0.4);
     text-transform: capitalize;
+    text-shadow: 0 0 10px var(--gold-glow);
 }
 
 .yoyo-clickable-word:hover {
