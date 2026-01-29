@@ -11,7 +11,7 @@ import type {
   ZodiacSign,
 } from '@/types/astrology';
 
-type SubTab = 'basic' | 'ruler' | 'yoyo' | 'phs' | 'phsr' | 'bphdds' | 'bphddsr';
+type SubTab = 'basic' | 'ruler' | 'yoyo' | 'phs' | 'phsr' | 'bphdds' | 'bphddsr' | 'mixmatch';
 
 const PLANETS = [
   { value: 'SUN', label: 'Sun' },
@@ -234,6 +234,33 @@ export function TruePlacementCalculator({
     rulerSignWord: '',
   });
 
+  // Mix & Match calculator state
+  const [mixPlanet, setMixPlanet] = useState('');
+  const [mixSign, setMixSign] = useState('');
+  const [mixRising, setMixRising] = useState('');
+  const [mixDegree, setMixDegree] = useState('');
+  const [mixRulerSign, setMixRulerSign] = useState('');
+  const [mixRulerDegree, setMixRulerDegree] = useState('');
+  const [mixResult, setMixResult] = useState<TruePlacementResult | null>(null);
+  const [mixRulerResult, setMixRulerResult] = useState<TruePlacementResult | null>(null);
+  const [mixNotFound, setMixNotFound] = useState(false);
+  const [mixErrors, setMixErrors] = useState<Record<string, string>>({});
+  const mixResultRef = useRef<HTMLDivElement>(null);
+
+  // Mix & Match word selection state
+  const [mixWords, setMixWords] = useState({
+    planetWord: '',
+    connector1: '',
+    houseWord: '',
+    biRulerWord: '',
+    biRuler2Word: '',
+    signWord: '',
+    rulerWord: '',
+    connector2: '',
+    rulerHouseWord: '',
+    rulerSignWord: '',
+  });
+
   // Sign to house number mapping (natural zodiac order)
   const SIGN_TO_HOUSE: Record<string, string> = {
     'Aries': '1st',
@@ -277,6 +304,17 @@ export function TruePlacementCalculator({
   const bphddsrRulerLabel = bphddsrDerivedRuler
     ? PLANETS.find(p => p.value === bphddsrDerivedRuler)?.label || ''
     : '';
+
+  // Get the ruler planet based on the selected sign (for Mix & Match tab)
+  const mixDerivedRuler = mixSign ? SIGN_RULERS[mixSign] : '';
+  const mixRulerLabel = mixDerivedRuler
+    ? PLANETS.find(p => p.value === mixDerivedRuler)?.label || ''
+    : '';
+
+  // Get planet label for Mix & Match
+  const getMixPlanetLabel = () => {
+    return PLANETS.find(p => p.value === mixPlanet)?.label || mixPlanet;
+  };
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -794,6 +832,94 @@ export function TruePlacementCalculator({
     return PLANETS.find(p => p.value === bphddsrPlanet)?.label || bphddsrPlanet;
   };
 
+  // Mix & Match calculator validation
+  const validateMix = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!mixPlanet) newErrors.mixPlanet = 'Please select a planet';
+    if (!mixSign) newErrors.mixSign = 'Please select a sign';
+    if (!mixRising) newErrors.mixRising = 'Please select a rising sign';
+    if (!mixRulerSign) newErrors.mixRulerSign = 'Please select the ruler planet sign';
+
+    if (mixDegree) {
+      const degreeNum = parseInt(mixDegree);
+      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
+        newErrors.mixDegree = 'Degree must be between 0 and 29';
+      }
+    }
+
+    if (mixRulerDegree) {
+      const degreeNum = parseInt(mixRulerDegree);
+      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
+        newErrors.mixRulerDegree = 'Degree must be between 0 and 29';
+      }
+    }
+
+    setMixErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Mix & Match calculator submit
+  const handleMixSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateMix()) return;
+
+    // Track calculation usage
+    if (onCalculate) {
+      const allowed = await onCalculate();
+      if (!allowed) return;
+    }
+
+    // Calculate the main planet placement
+    const mainResult = calculateTruePlacement(
+      mixPlanet,
+      mixSign,
+      mixRising,
+      mixDegree || null,
+      truePlacementDB1,
+      truePlacementDB2,
+      sparkDatabase
+    );
+
+    // Calculate the ruler planet placement
+    const rulerPlacementResult = calculateTruePlacement(
+      mixDerivedRuler,
+      mixRulerSign,
+      mixRising,
+      mixRulerDegree || null,
+      truePlacementDB1,
+      truePlacementDB2,
+      sparkDatabase
+    );
+
+    if (mainResult) {
+      setMixResult(mainResult);
+      setMixRulerResult(rulerPlacementResult);
+      setMixNotFound(false);
+      // Reset words for new calculation
+      setMixWords({
+        planetWord: '',
+        connector1: '',
+        houseWord: '',
+        biRulerWord: '',
+        biRuler2Word: '',
+        signWord: '',
+        rulerWord: '',
+        connector2: '',
+        rulerHouseWord: '',
+        rulerSignWord: '',
+      });
+    } else {
+      setMixResult(null);
+      setMixRulerResult(null);
+      setMixNotFound(true);
+    }
+
+    requestAnimationFrame(() => {
+      mixResultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  };
+
   return (
     <div className={`calculator-section ${isActive ? 'active' : ''}`}>
       <h2>True Placement Calculator</h2>
@@ -844,6 +970,12 @@ export function TruePlacementCalculator({
           onClick={() => setActiveSubTab('bphddsr')}
         >
           BPHDDSR
+        </button>
+        <button
+          className={`sub-tab-button ${activeSubTab === 'mixmatch' ? 'active' : ''}`}
+          onClick={() => setActiveSubTab('mixmatch')}
+        >
+          Mix & Match
         </button>
       </div>
 
@@ -2942,6 +3074,477 @@ export function TruePlacementCalculator({
           )}
 
           {bphddsrNotFound && (
+            <div className="result-section show">
+              <div className="error-message">
+                No matching data found. Please check your inputs.
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
+      {/* Mix & Match Calculator */}
+      {activeSubTab === 'mixmatch' && (
+        <>
+          <div className="phsr-inputs">
+            {/* Left Input Panel */}
+            <div className="phsr-input-panel">
+              <form onSubmit={handleMixSubmit} className="calculator-form" noValidate>
+                <div className="form-group">
+                  <label>Planet:</label>
+                  <CosmicDropdown
+                    options={PLANETS}
+                    value={mixPlanet}
+                    onChange={(val) => {
+                      setMixPlanet(val);
+                      setMixErrors(prev => ({ ...prev, mixPlanet: '' }));
+                    }}
+                    placeholder="Select a planet..."
+                    error={mixErrors.mixPlanet}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Sign:</label>
+                  <CosmicDropdown
+                    options={SIGNS}
+                    value={mixSign}
+                    onChange={(val) => {
+                      setMixSign(val);
+                      setMixErrors(prev => ({ ...prev, mixSign: '' }));
+                    }}
+                    placeholder="Select a sign..."
+                    error={mixErrors.mixSign}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Rising:</label>
+                  <CosmicDropdown
+                    options={SIGNS}
+                    value={mixRising}
+                    onChange={(val) => {
+                      setMixRising(val);
+                      setMixErrors(prev => ({ ...prev, mixRising: '' }));
+                    }}
+                    placeholder="Select rising sign..."
+                    error={mixErrors.mixRising}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Degree (optional):</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="29"
+                    value={mixDegree}
+                    onChange={(e) => {
+                      setMixDegree(e.target.value);
+                      setMixErrors(prev => ({ ...prev, mixDegree: '' }));
+                    }}
+                    placeholder="0-29"
+                    className={`degree-input ${mixErrors.mixDegree ? 'error' : ''}`}
+                  />
+                  {mixErrors.mixDegree && <span className="error-text">{mixErrors.mixDegree}</span>}
+                </div>
+              </form>
+            </div>
+
+            {/* Ruler Input Panel */}
+            {mixSign && (
+              <div className="phsr-ruler-panel">
+                <div className="phsr-ruler-header">
+                  <span className="ruler-label">Ruler:</span>
+                  <span className="ruler-planet-name">{mixRulerLabel}</span>
+                </div>
+
+                <div className="form-group">
+                  <label>Sign:</label>
+                  <CosmicDropdown
+                    options={SIGNS}
+                    value={mixRulerSign}
+                    onChange={(val) => {
+                      setMixRulerSign(val);
+                      setMixErrors(prev => ({ ...prev, mixRulerSign: '' }));
+                    }}
+                    placeholder={`Select ${mixRulerLabel}'s sign...`}
+                    error={mixErrors.mixRulerSign}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Degree (optional):</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="29"
+                    value={mixRulerDegree}
+                    onChange={(e) => {
+                      setMixRulerDegree(e.target.value);
+                      setMixErrors(prev => ({ ...prev, mixRulerDegree: '' }));
+                    }}
+                    placeholder="0-29"
+                    className={`degree-input ${mixErrors.mixRulerDegree ? 'error' : ''}`}
+                  />
+                  {mixErrors.mixRulerDegree && <span className="error-text">{mixErrors.mixRulerDegree}</span>}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="phsr-calculate-wrapper">
+            <button type="button" onClick={handleMixSubmit} className="calculate-btn">
+              Calculate
+            </button>
+          </div>
+
+          {mixResult && (
+            <div ref={mixResultRef} className="result-section show">
+              <h3>Mix & Match Result</h3>
+
+              <div className="phs-results-row">
+                <div className="phs-result-box">
+                  <div className="phs-result-item">
+                    <span className="phs-result-label">Planet:</span>
+                    <span className="phs-result-value">{getMixPlanetLabel()}</span>
+                  </div>
+                  <div className="phs-result-item">
+                    <span className="phs-result-label">House:</span>
+                    <span className="phs-result-value">{mixResult.isHouse}</span>
+                    <span className="phs-result-extra">{mixResult.isSign}</span>
+                  </div>
+                </div>
+
+                <div className="phs-summary-box">
+                  <div className="phs-summary-item">
+                    <span className="phs-summary-label">PLANET:</span>
+                    <span className="phs-summary-value">{getMixPlanetLabel()}</span>
+                  </div>
+                  <div className="phs-summary-item">
+                    <span className="phs-summary-label">HOUSE:</span>
+                    <span className="phs-summary-value">{mixResult.isHouse}</span>
+                  </div>
+                  <div className="phs-summary-item">
+                    <span className="phs-summary-label">SIGN:</span>
+                    <span className="phs-summary-value">{mixSign}</span>
+                  </div>
+                </div>
+              </div>
+
+              <h3 className="phsr-sentence-title">Make your sentence:</h3>
+
+              {/* Live Sentence Preview */}
+              <div className="phsr-sentence-preview">
+                <span className={mixWords.planetWord ? 'word-filled' : 'word-empty'}>
+                  {mixWords.planetWord || '[Planet]'}
+                </span>
+                {' '}
+                <span className={mixWords.connector1 ? 'word-connector' : 'word-empty'}>
+                  {mixWords.connector1 || '[connector]'}
+                </span>
+                {' '}
+                <span className={mixWords.houseWord ? 'word-filled' : 'word-empty'}>
+                  {mixWords.houseWord || '[House]'}
+                </span>
+                {mixWords.biRulerWord && (
+                  <>
+                    {' '}
+                    <span className="word-filled">{mixWords.biRulerWord}</span>
+                  </>
+                )}
+                {mixWords.biRuler2Word && (
+                  <>
+                    {' '}
+                    <span className="word-filled">{mixWords.biRuler2Word}</span>
+                  </>
+                )}
+                {mixWords.signWord && (
+                  <>
+                    {' '}
+                    <span className="word-label">, expressed through</span>
+                    {' '}
+                    <span className="word-filled">{mixWords.signWord}</span>
+                  </>
+                )}
+                {mixWords.rulerWord && (
+                  <>
+                    {' '}
+                    <span className="word-label">going into</span>
+                    {' '}
+                    <span className="word-filled">{mixWords.rulerWord}</span>
+                  </>
+                )}
+                {mixWords.rulerHouseWord && (
+                  <>
+                    {' '}
+                    <span className={mixWords.connector2 ? 'word-connector' : 'word-empty'}>
+                      {mixWords.connector2 || '[connector]'}
+                    </span>
+                    {' '}
+                    <span className="word-filled">{mixWords.rulerHouseWord}</span>
+                  </>
+                )}
+                {mixWords.rulerSignWord && (
+                  <>
+                    {' '}
+                    <span className="word-label">expressed through</span>
+                    {' '}
+                    <span className="word-filled">{mixWords.rulerSignWord}</span>
+                  </>
+                )}
+              </div>
+
+              {/* Step 1: Planet + Connector + House */}
+              <div className="phsr-word-step">
+                <div className="phsr-word-row three-col">
+                  <div className="phsr-word-group">
+                    <div className="phsr-word-label">PLANET:</div>
+                    <div className="phsr-word-value">{getMixPlanetLabel()}</div>
+                    <select
+                      value={mixWords.planetWord}
+                      onChange={(e) => setMixWords(prev => ({ ...prev, planetWord: e.target.value }))}
+                      className="phsr-word-select"
+                    >
+                      <option value="">Select word...</option>
+                      {(planetKeywords[mixPlanet] || []).map((kw, idx) => (
+                        <option key={idx} value={kw}>{kw}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="phsr-word-group connector-group">
+                    <div className="phsr-word-label">CONNECTOR:</div>
+                    <select
+                      value={mixWords.connector1}
+                      onChange={(e) => setMixWords(prev => ({ ...prev, connector1: e.target.value }))}
+                      className="phsr-word-select connector-select"
+                    >
+                      <option value="">Select...</option>
+                      {CONNECTOR_OPTIONS.map((opt, idx) => (
+                        <option key={idx} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="phsr-word-group">
+                    <div className="phsr-word-label">HOUSE:</div>
+                    <div className="phsr-word-value">{mixResult.isSign}</div>
+                    <select
+                      value={mixWords.houseWord}
+                      onChange={(e) => setMixWords(prev => ({ ...prev, houseWord: e.target.value }))}
+                      className="phsr-word-select"
+                    >
+                      <option value="">Select word...</option>
+                      {(signKeywords[mixResult.isSign] || []).map((kw, idx) => (
+                        <option key={idx} value={kw}>{kw}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 2: Bi-Ruler + 2nd Bi-Ruler (unlocks after Planet + Connector + House) */}
+              {mixWords.planetWord && mixWords.connector1 && mixWords.houseWord && (
+                <div className="phsr-word-step">
+                  <div className="phsr-word-arrow">↓</div>
+                  <div className="phsr-word-row">
+                    <div className="phsr-word-group">
+                      <div className="phsr-word-label">Bi-Ruler:</div>
+                      <div className="phsr-word-value">Who knows</div>
+                      <select
+                        value={mixWords.biRulerWord}
+                        onChange={(e) => setMixWords(prev => ({ ...prev, biRulerWord: e.target.value }))}
+                        className="phsr-word-select"
+                      >
+                        <option value="">Select word...</option>
+                        <option value="(placeholder)">(placeholder)</option>
+                      </select>
+                    </div>
+                    <span className="phsr-word-plus">+</span>
+                    <div className="phsr-word-group">
+                      <div className="phsr-word-label">2nd Bi-Ruler:</div>
+                      <div className="phsr-word-value">Who knows</div>
+                      <select
+                        value={mixWords.biRuler2Word}
+                        onChange={(e) => setMixWords(prev => ({ ...prev, biRuler2Word: e.target.value }))}
+                        className="phsr-word-select"
+                      >
+                        <option value="">Select word...</option>
+                        <option value="(placeholder)">(placeholder)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 3: Sign (unlocks after Bi-Rulers) */}
+              {mixWords.biRulerWord && mixWords.biRuler2Word && (
+                <div className="phsr-word-step">
+                  <div className="phsr-description-hint">
+                    <strong>, expressed through</strong> (connects to Ruler)
+                  </div>
+                  <div className="phsr-word-arrow">↓</div>
+                  <div className="phsr-word-row single">
+                    <div className="phsr-word-group">
+                      <div className="phsr-word-label">Sign:</div>
+                      <div className="phsr-word-value">{mixSign}</div>
+                      <select
+                        value={mixWords.signWord}
+                        onChange={(e) => setMixWords(prev => ({ ...prev, signWord: e.target.value }))}
+                        className="phsr-word-select"
+                      >
+                        <option value="">Select word...</option>
+                        {(signKeywords[mixSign] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Ruler + Connector + House (unlocks after Sign selected) */}
+              {mixWords.signWord && mixRulerResult && (
+                <div className="phsr-word-step ruler-step">
+                  <div className="phsr-description-hint">
+                    <strong>going into</strong>
+                  </div>
+                  <div className="phsr-word-arrow">↓</div>
+                  <div className="phsr-word-row three-col">
+                    <div className="phsr-word-group">
+                      <div className="phsr-word-label">Ruler:</div>
+                      <div className="phsr-word-value">{mixRulerLabel}</div>
+                      <select
+                        value={mixWords.rulerWord}
+                        onChange={(e) => setMixWords(prev => ({ ...prev, rulerWord: e.target.value }))}
+                        className="phsr-word-select"
+                      >
+                        <option value="">Select word...</option>
+                        {(planetKeywords[mixDerivedRuler] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="phsr-word-group connector-group connector-blue">
+                      <div className="phsr-word-label">CONNECTOR:</div>
+                      <select
+                        value={mixWords.connector2}
+                        onChange={(e) => setMixWords(prev => ({ ...prev, connector2: e.target.value }))}
+                        className="phsr-word-select connector-select connector-select-blue"
+                      >
+                        <option value="">Select...</option>
+                        {CONNECTOR_OPTIONS.map((opt, idx) => (
+                          <option key={idx} value={opt}>{opt}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="phsr-word-group">
+                      <div className="phsr-word-label">HOUSE:</div>
+                      <div className="phsr-word-value">{mixRulerResult.isSign}</div>
+                      <select
+                        value={mixWords.rulerHouseWord}
+                        onChange={(e) => setMixWords(prev => ({ ...prev, rulerHouseWord: e.target.value }))}
+                        className="phsr-word-select"
+                      >
+                        <option value="">Select word...</option>
+                        {(signKeywords[mixRulerResult.isSign] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Step 5: Ruler Sign (unlocks after Ruler + Connector + House selected) */}
+              {mixWords.rulerWord && mixWords.connector2 && mixWords.rulerHouseWord && mixRulerResult && (
+                <div className="phsr-word-step">
+                  <div className="phsr-description-hint">
+                    <strong>expressed through</strong>
+                  </div>
+                  <div className="phsr-word-arrow">↓</div>
+                  <div className="phsr-word-row single">
+                    <div className="phsr-word-group">
+                      <div className="phsr-word-label">Sign:</div>
+                      <div className="phsr-word-value">{mixRulerSign}</div>
+                      <select
+                        value={mixWords.rulerSignWord}
+                        onChange={(e) => setMixWords(prev => ({ ...prev, rulerSignWord: e.target.value }))}
+                        className="phsr-word-select"
+                      >
+                        <option value="">Select word...</option>
+                        {(signKeywords[mixRulerSign] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Bottom Sentence Preview */}
+              <div className="phsr-sentence-preview bottom">
+                <span className={mixWords.planetWord ? 'word-filled' : 'word-empty'}>
+                  {mixWords.planetWord || '[Planet]'}
+                </span>
+                {' '}
+                <span className={mixWords.connector1 ? 'word-connector' : 'word-empty'}>
+                  {mixWords.connector1 || '[connector]'}
+                </span>
+                {' '}
+                <span className={mixWords.houseWord ? 'word-filled' : 'word-empty'}>
+                  {mixWords.houseWord || '[House]'}
+                </span>
+                {mixWords.biRulerWord && (
+                  <>
+                    {' '}
+                    <span className="word-filled">{mixWords.biRulerWord}</span>
+                  </>
+                )}
+                {mixWords.biRuler2Word && (
+                  <>
+                    {' '}
+                    <span className="word-filled">{mixWords.biRuler2Word}</span>
+                  </>
+                )}
+                {mixWords.signWord && (
+                  <>
+                    {' '}
+                    <span className="word-label">, expressed through</span>
+                    {' '}
+                    <span className="word-filled">{mixWords.signWord}</span>
+                  </>
+                )}
+                {mixWords.rulerWord && (
+                  <>
+                    {' '}
+                    <span className="word-label">going into</span>
+                    {' '}
+                    <span className="word-filled">{mixWords.rulerWord}</span>
+                  </>
+                )}
+                {mixWords.rulerHouseWord && (
+                  <>
+                    {' '}
+                    <span className={mixWords.connector2 ? 'word-connector' : 'word-empty'}>
+                      {mixWords.connector2 || '[connector]'}
+                    </span>
+                    {' '}
+                    <span className="word-filled">{mixWords.rulerHouseWord}</span>
+                  </>
+                )}
+                {mixWords.rulerSignWord && (
+                  <>
+                    {' '}
+                    <span className="word-label">expressed through</span>
+                    {' '}
+                    <span className="word-filled">{mixWords.rulerSignWord}</span>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+
+          {mixNotFound && (
             <div className="result-section show">
               <div className="error-message">
                 No matching data found. Please check your inputs.
