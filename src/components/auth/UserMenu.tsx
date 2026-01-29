@@ -407,6 +407,59 @@ export function UserMenu() {
               <span>Suggestions</span>
             </Link>
 
+            <Link
+              href="/notes"
+              role="menuitem"
+              onClick={() => closeMenu()}
+              className={`
+                flex items-center gap-3 px-5 py-3
+                text-sm transition-all duration-200
+                focus:outline-none group
+                ${isPremium
+                  ? 'text-[#b8c4d4] hover:text-white hover:bg-white/[0.04] focus-visible:bg-white/[0.04]'
+                  : 'text-[#b8c4d4] hover:text-white hover:bg-[#ffd800]/[0.04] focus-visible:bg-[#ffd800]/[0.04]'
+                }
+              `}
+            >
+              <span
+                className={`
+                  w-8 h-8 rounded-lg flex items-center justify-center
+                  transition-all duration-200
+                  ${isPremium
+                    ? 'bg-[#67e8f9]/10 text-[#67e8f9] group-hover:bg-[#67e8f9]/15 group-hover:shadow-[0_0_12px_rgba(103,232,249,0.2)]'
+                    : 'bg-[#ffd800]/10 text-[#ffd800] group-hover:bg-[#ffd800]/15 group-hover:shadow-[0_0_12px_rgba(255,216,0,0.2)]'
+                  }
+                `}
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.75}
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
+              </span>
+              <span className="flex-1">Study Notes</span>
+              {!isPremium && (
+                <span
+                  className="
+                    px-2 py-0.5 text-[9px] font-bold uppercase tracking-wide
+                    rounded bg-[#ffd800]/15 text-[#ffd800]
+                    border border-[#ffd800]/25
+                  "
+                >
+                  Pro
+                </span>
+              )}
+            </Link>
+
             {isAdmin && (
               <Link
                 href="/admin"

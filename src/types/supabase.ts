@@ -250,6 +250,38 @@ export type Database = {
           updated_at?: string | null;
         };
       };
+      study_notes: {
+        Row: {
+          id: string;
+          title: string;
+          description: string;
+          category: string;
+          image_url: string;
+          sort_order: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          title: string;
+          description: string;
+          category: string;
+          image_url: string;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          title?: string;
+          description?: string;
+          category?: string;
+          image_url?: string;
+          sort_order?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
     };
     Functions: {
       increment_calculation_count: {
@@ -278,6 +310,7 @@ export type Subscription = Tables<'subscriptions'>;
 export type UserRole = Tables<'user_roles'>;
 export type Keyword = Tables<'keywords'>;
 export type Profile = Tables<'profiles'>;
+export type StudyNote = Tables<'study_notes'>;
 
 export type SubscriptionWithPrice = Subscription & {
   prices: Price | null;
