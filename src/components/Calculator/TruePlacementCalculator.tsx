@@ -145,9 +145,7 @@ export function TruePlacementCalculator({
   const [phsrPlanet, setPhsrPlanet] = useState('');
   const [phsrSign, setPhsrSign] = useState('');
   const [phsrRising, setPhsrRising] = useState('');
-  const [phsrDegree, setPhsrDegree] = useState('');
   const [phsrRulerSign, setPhsrRulerSign] = useState('');
-  const [phsrRulerDegree, setPhsrRulerDegree] = useState('');
   const [phsrResult, setPhsrResult] = useState<TruePlacementResult | null>(null);
   const [phsrRulerResult, setPhsrRulerResult] = useState<TruePlacementResult | null>(null);
   const [phsrNotFound, setPhsrNotFound] = useState(false);
@@ -170,7 +168,6 @@ export function TruePlacementCalculator({
   const [phsPlanet, setPhsPlanet] = useState('');
   const [phsSign, setPhsSign] = useState('');
   const [phsRising, setPhsRising] = useState('');
-  const [phsDegree, setPhsDegree] = useState('');
   const [phsResult, setPhsResult] = useState<TruePlacementResult | null>(null);
   const [phsNotFound, setPhsNotFound] = useState(false);
   const [phsErrors, setPhsErrors] = useState<Record<string, string>>({});
@@ -188,9 +185,7 @@ export function TruePlacementCalculator({
   const [mixPlanet, setMixPlanet] = useState('');
   const [mixSign, setMixSign] = useState('');
   const [mixRising, setMixRising] = useState('');
-  const [mixDegree, setMixDegree] = useState('');
   const [mixRulerSign, setMixRulerSign] = useState('');
-  const [mixRulerDegree, setMixRulerDegree] = useState('');
   const [mixResult, setMixResult] = useState<TruePlacementResult | null>(null);
   const [mixRulerResult, setMixRulerResult] = useState<TruePlacementResult | null>(null);
   const [mixNotFound, setMixNotFound] = useState(false);
@@ -407,7 +402,7 @@ export function TruePlacementCalculator({
     if (!res) return '';
 
     const sparkPart = res.spark
-      ? `, with <strong>${res.spark.spark}</strong> spark in <strong>${res.spark.decan}</strong> decan,`
+      ? `, with <strong>${res.spark.spark}</strong> degree in <strong>${res.spark.decan}</strong> decan,`
       : ',';
 
     if (res.hasDualBase && res.secondBaseSign && res.secondThroughSign) {
@@ -418,6 +413,29 @@ export function TruePlacementCalculator({
   };
 
   const buildInterpretation = () => buildInterpretationFor(result);
+
+  // Helper to build cosmological sentence for any result
+  const buildCosmologicalSentenceFor = (res: TruePlacementResult | null) => {
+    if (!res) return '';
+
+    // Determine a/an based on decan starting with vowel
+    const getArticle = (word: string) => {
+      const vowels = ['A', 'E', 'I', 'O', 'U'];
+      return vowels.includes(word.charAt(0).toUpperCase()) ? 'an' : 'a';
+    };
+
+    const decanArticle = res.spark ? getArticle(res.spark.decan) : 'a';
+
+    const sparkPart = res.spark
+      ? `, has a <strong>${res.spark.spark}</strong> Spark with ${decanArticle} <strong>${res.spark.decan}</strong> Pulse,`
+      : ',';
+
+    if (res.hasDualBase && res.secondBaseSign) {
+      return `My <strong>${res.planet}</strong> Focus, in the <strong>${res.sign}</strong> Field${sparkPart} expressing through <strong>${res.expressingSign}</strong> Tone with <strong>${res.baseSign}</strong> and <strong>${res.secondBaseSign}</strong> base.`;
+    }
+
+    return `My <strong>${res.planet}</strong> Focus, in the <strong>${res.sign}</strong> Field${sparkPart} expressing through <strong>${res.expressingSign}</strong> Tone with <strong>${res.baseSign}</strong> base.`;
+  };
 
   // YoYo calculator validation
   const validateYoyo = () => {
@@ -471,13 +489,6 @@ export function TruePlacementCalculator({
     if (!phsSign) newErrors.phsSign = 'Please select a sign';
     if (!phsRising) newErrors.phsRising = 'Please select a rising sign';
 
-    if (phsDegree) {
-      const degreeNum = parseInt(phsDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.phsDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
     setPhsErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -498,7 +509,7 @@ export function TruePlacementCalculator({
       phsPlanet,
       phsSign,
       phsRising,
-      phsDegree || null,
+      null,
       truePlacementDB1,
       truePlacementDB2,
       sparkDatabase
@@ -538,20 +549,6 @@ export function TruePlacementCalculator({
     if (!phsrRising) newErrors.phsrRising = 'Please select a rising sign';
     if (!phsrRulerSign) newErrors.phsrRulerSign = 'Please select the ruler planet sign';
 
-    if (phsrDegree) {
-      const degreeNum = parseInt(phsrDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.phsrDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
-    if (phsrRulerDegree) {
-      const degreeNum = parseInt(phsrRulerDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.phsrRulerDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
     setPhsrErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -572,7 +569,7 @@ export function TruePlacementCalculator({
       phsrPlanet,
       phsrSign,
       phsrRising,
-      phsrDegree || null,
+      null,
       truePlacementDB1,
       truePlacementDB2,
       sparkDatabase
@@ -583,7 +580,7 @@ export function TruePlacementCalculator({
       phsrDerivedRuler,
       phsrRulerSign,
       phsrRising,
-      phsrRulerDegree || null,
+      null,
       truePlacementDB1,
       truePlacementDB2,
       sparkDatabase
@@ -629,20 +626,6 @@ export function TruePlacementCalculator({
     if (!mixRising) newErrors.mixRising = 'Please select a rising sign';
     if (!mixRulerSign) newErrors.mixRulerSign = 'Please select the ruler planet sign';
 
-    if (mixDegree) {
-      const degreeNum = parseInt(mixDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.mixDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
-    if (mixRulerDegree) {
-      const degreeNum = parseInt(mixRulerDegree);
-      if (isNaN(degreeNum) || degreeNum < 0 || degreeNum > 29) {
-        newErrors.mixRulerDegree = 'Degree must be between 0 and 29';
-      }
-    }
-
     setMixErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -663,7 +646,7 @@ export function TruePlacementCalculator({
       mixPlanet,
       mixSign,
       mixRising,
-      mixDegree || null,
+      null,
       truePlacementDB1,
       truePlacementDB2,
       sparkDatabase
@@ -674,7 +657,7 @@ export function TruePlacementCalculator({
       mixDerivedRuler,
       mixRulerSign,
       mixRising,
-      mixRulerDegree || null,
+      null,
       truePlacementDB1,
       truePlacementDB2,
       sparkDatabase
@@ -1095,10 +1078,11 @@ export function TruePlacementCalculator({
                   dangerouslySetInnerHTML={{ __html: buildInterpretationFor(rulerResult) }}
                 />
 
-                {/* Coming Soon Section */}
-                <div className="coming-soon-container">
-                  <span className="coming-soon-text">Coming soon...</span>
-                </div>
+                {/* Cosmological Sentence */}
+                <div
+                  className="interpretation cosmological-sentence"
+                  dangerouslySetInnerHTML={{ __html: buildCosmologicalSentenceFor(rulerResult) }}
+                />
 
                 <SentenceBuilder
                   planet={rulerResult.planet}
@@ -1158,10 +1142,11 @@ export function TruePlacementCalculator({
                       dangerouslySetInnerHTML={{ __html: buildInterpretationFor(rp) }}
                     />
 
-                    {/* Coming Soon Section */}
-                    <div className="coming-soon-container">
-                      <span className="coming-soon-text">Coming soon...</span>
-                    </div>
+                    {/* Cosmological Sentence */}
+                    <div
+                      className="interpretation cosmological-sentence"
+                      dangerouslySetInnerHTML={{ __html: buildCosmologicalSentenceFor(rp) }}
+                    />
 
                     <SentenceBuilder
                       planet={rp.planet}
@@ -1251,114 +1236,151 @@ export function TruePlacementCalculator({
           </form>
 
           {yoyoSubmitted && yoyoPlanet && yoyoHouse && yoyoSign && (
-            <div ref={yoyoResultRef} className="result-section show">
-              <h3>YoYo Result</h3>
-              <div className="yoyo-table">
-                {/* Top half */}
-                <div className="yoyo-row">
-                  <div className="yoyo-label">Planet:</div>
-                  <div className="yoyo-value">{getYoyoPlanetLabel()}</div>
-                  <div className="yoyo-keyword">
-                    <select
-                      value={yoyoKeywords.planet1}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet1: e.target.value, planet2: e.target.value }))}
-                      className="yoyo-select"
-                    >
-                      <option value="">Select keyword...</option>
-                      {(planetKeywords[yoyoPlanet] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
+            <div className="yoyo-results-wrapper">
+              <div ref={yoyoResultRef} className="result-section show">
+                <h3>YoYo Result</h3>
+                <div className="yoyo-table">
+                  {/* Top half */}
+                  <div className="yoyo-row">
+                    <div className="yoyo-label">Planet:</div>
+                    <div className="yoyo-value">{getYoyoPlanetLabel()}</div>
+                    <div className="yoyo-keyword">
+                      <select
+                        value={yoyoKeywords.planet1}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet1: e.target.value, planet2: e.target.value }))}
+                        className="yoyo-select"
+                      >
+                        <option value="">Select keyword...</option>
+                        {(planetKeywords[yoyoPlanet] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="yoyo-row">
+                    <div className="yoyo-label">House:</div>
+                    <div className="yoyo-value">{SIGN_TO_HOUSE[yoyoHouse]} {yoyoHouse}</div>
+                    <div className="yoyo-keyword">
+                      <select
+                        value={yoyoKeywords.house1}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house1: e.target.value, house2: e.target.value }))}
+                        className="yoyo-select"
+                      >
+                        <option value="">Select keyword...</option>
+                        {(signKeywords[yoyoHouse] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="yoyo-row">
+                    <div className="yoyo-label">Sign:</div>
+                    <div className="yoyo-value">{yoyoSign}</div>
+                    <div className="yoyo-keyword">
+                      <select
+                        value={yoyoKeywords.sign1}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign1: e.target.value, sign2: e.target.value }))}
+                        className="yoyo-select"
+                      >
+                        <option value="">Select keyword...</option>
+                        {(signKeywords[yoyoSign] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="yoyo-divider"></div>
+
+                  {/* Bottom half (mirrored) */}
+                  <div className="yoyo-row">
+                    <div className="yoyo-label">Sign:</div>
+                    <div className="yoyo-value">{yoyoSign}</div>
+                    <div className="yoyo-keyword">
+                      <select
+                        value={yoyoKeywords.sign2}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign2: e.target.value }))}
+                        className="yoyo-select"
+                      >
+                        <option value="">Select keyword...</option>
+                        {(signKeywords[yoyoSign] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="yoyo-row">
+                    <div className="yoyo-label">House:</div>
+                    <div className="yoyo-value">{SIGN_TO_HOUSE[yoyoHouse]} {yoyoHouse}</div>
+                    <div className="yoyo-keyword">
+                      <select
+                        value={yoyoKeywords.house2}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house2: e.target.value }))}
+                        className="yoyo-select"
+                      >
+                        <option value="">Select keyword...</option>
+                        {(signKeywords[yoyoHouse] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="yoyo-row">
+                    <div className="yoyo-label">Planet:</div>
+                    <div className="yoyo-value">{getYoyoPlanetLabel()}</div>
+                    <div className="yoyo-keyword">
+                      <select
+                        value={yoyoKeywords.planet2}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet2: e.target.value }))}
+                        className="yoyo-select"
+                      >
+                        <option value="">Select keyword...</option>
+                        {(planetKeywords[yoyoPlanet] || []).map((kw, idx) => (
+                          <option key={idx} value={kw}>{kw}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="yoyo-row">
-                  <div className="yoyo-label">House:</div>
-                  <div className="yoyo-value">{SIGN_TO_HOUSE[yoyoHouse]} {yoyoHouse}</div>
-                  <div className="yoyo-keyword">
-                    <select
-                      value={yoyoKeywords.house1}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house1: e.target.value, house2: e.target.value }))}
-                      className="yoyo-select"
-                    >
-                      <option value="">Select keyword...</option>
-                      {(signKeywords[yoyoHouse] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
+              {/* Example Section */}
+              <div className="yoyo-example">
+                <div className="yoyo-example-header">Example: Moon in 7th house Aquarius</div>
+                <div className="yoyo-example-rows">
+                  <div className="yoyo-example-row">
+                    <span className="yoyo-example-label">Moon:</span>
+                    <span className="yoyo-example-text">"my family's"</span>
+                  </div>
+                  <div className="yoyo-example-row">
+                    <span className="yoyo-example-label">7th house:</span>
+                    <span className="yoyo-example-text">"sense of design"</span>
+                  </div>
+                  <div className="yoyo-example-row">
+                    <span className="yoyo-example-label">Aquarius:</span>
+                    <span className="yoyo-example-text">"is detached"</span>
+                  </div>
+                  <div className="yoyo-example-divider"></div>
+                  <div className="yoyo-example-row">
+                    <span className="yoyo-example-label">Aquarius:</span>
+                    <span className="yoyo-example-text">"and that detachment"</span>
+                  </div>
+                  <div className="yoyo-example-row">
+                    <span className="yoyo-example-label">7th house:</span>
+                    <span className="yoyo-example-text">"by design"</span>
+                  </div>
+                  <div className="yoyo-example-row">
+                    <span className="yoyo-example-label">Moon:</span>
+                    <span className="yoyo-example-text">"because of my family"</span>
                   </div>
                 </div>
-
-                <div className="yoyo-row">
-                  <div className="yoyo-label">Sign:</div>
-                  <div className="yoyo-value">{yoyoSign}</div>
-                  <div className="yoyo-keyword">
-                    <select
-                      value={yoyoKeywords.sign1}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign1: e.target.value, sign2: e.target.value }))}
-                      className="yoyo-select"
-                    >
-                      <option value="">Select keyword...</option>
-                      {(signKeywords[yoyoSign] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                {/* Divider */}
-                <div className="yoyo-divider"></div>
-
-                {/* Bottom half (mirrored) */}
-                <div className="yoyo-row">
-                  <div className="yoyo-label">Sign:</div>
-                  <div className="yoyo-value">{yoyoSign}</div>
-                  <div className="yoyo-keyword">
-                    <select
-                      value={yoyoKeywords.sign2}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign2: e.target.value }))}
-                      className="yoyo-select"
-                    >
-                      <option value="">Select keyword...</option>
-                      {(signKeywords[yoyoSign] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="yoyo-row">
-                  <div className="yoyo-label">House:</div>
-                  <div className="yoyo-value">{SIGN_TO_HOUSE[yoyoHouse]} {yoyoHouse}</div>
-                  <div className="yoyo-keyword">
-                    <select
-                      value={yoyoKeywords.house2}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house2: e.target.value }))}
-                      className="yoyo-select"
-                    >
-                      <option value="">Select keyword...</option>
-                      {(signKeywords[yoyoHouse] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="yoyo-row">
-                  <div className="yoyo-label">Planet:</div>
-                  <div className="yoyo-value">{getYoyoPlanetLabel()}</div>
-                  <div className="yoyo-keyword">
-                    <select
-                      value={yoyoKeywords.planet2}
-                      onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet2: e.target.value }))}
-                      className="yoyo-select"
-                    >
-                      <option value="">Select keyword...</option>
-                      {(planetKeywords[yoyoPlanet] || []).map((kw, idx) => (
-                        <option key={idx} value={kw}>{kw}</option>
-                      ))}
-                    </select>
-                  </div>
+                <div className="yoyo-example-sentence">
+                  <strong>Result:</strong> "My family's sense of design is detached, and that detachment by design because of my family."
                 </div>
               </div>
             </div>
@@ -1410,25 +1432,6 @@ export function TruePlacementCalculator({
                 placeholder="Select rising sign..."
                 error={phsErrors.phsRising}
               />
-            </div>
-
-            <div className="form-group">
-              <label>
-                Degree: <span className="optional">(optional)</span>
-              </label>
-              <input
-                type="number"
-                min="0"
-                max="29"
-                value={phsDegree}
-                onChange={e => {
-                  setPhsDegree(e.target.value);
-                  setPhsErrors(prev => ({ ...prev, phsDegree: '' }));
-                }}
-                placeholder="0-29"
-                className={phsErrors.phsDegree ? 'has-error' : ''}
-              />
-              {phsErrors.phsDegree && <div className="validation-error show">{phsErrors.phsDegree}</div>}
             </div>
 
             <button type="submit" className="calculate-btn">
@@ -1649,25 +1652,6 @@ export function TruePlacementCalculator({
                     error={phsrErrors.phsrRising}
                   />
                 </div>
-
-                <div className="form-group">
-                  <label>
-                    Degree: <span className="optional">(optional)</span>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="29"
-                    value={phsrDegree}
-                    onChange={e => {
-                      setPhsrDegree(e.target.value);
-                      setPhsrErrors(prev => ({ ...prev, phsrDegree: '' }));
-                    }}
-                    placeholder="0-29"
-                    className={phsrErrors.phsrDegree ? 'has-error' : ''}
-                  />
-                  {phsrErrors.phsrDegree && <div className="validation-error show">{phsrErrors.phsrDegree}</div>}
-                </div>
               </form>
             </div>
 
@@ -1691,25 +1675,6 @@ export function TruePlacementCalculator({
                     placeholder={`Select ${phsrRulerLabel}'s sign...`}
                     error={phsrErrors.phsrRulerSign}
                   />
-                </div>
-
-                <div className="form-group">
-                  <label>
-                    Degree: <span className="optional">(optional)</span>
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="29"
-                    value={phsrRulerDegree}
-                    onChange={e => {
-                      setPhsrRulerDegree(e.target.value);
-                      setPhsrErrors(prev => ({ ...prev, phsrRulerDegree: '' }));
-                    }}
-                    placeholder="0-29"
-                    className={phsrErrors.phsrRulerDegree ? 'has-error' : ''}
-                  />
-                  {phsrErrors.phsrRulerDegree && <div className="validation-error show">{phsrErrors.phsrRulerDegree}</div>}
                 </div>
               </div>
             )}
@@ -2036,23 +2001,6 @@ export function TruePlacementCalculator({
                     error={mixErrors.mixRising}
                   />
                 </div>
-
-                <div className="form-group">
-                  <label>Degree (optional):</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="29"
-                    value={mixDegree}
-                    onChange={(e) => {
-                      setMixDegree(e.target.value);
-                      setMixErrors(prev => ({ ...prev, mixDegree: '' }));
-                    }}
-                    placeholder="0-29"
-                    className={`degree-input ${mixErrors.mixDegree ? 'error' : ''}`}
-                  />
-                  {mixErrors.mixDegree && <span className="error-text">{mixErrors.mixDegree}</span>}
-                </div>
               </form>
             </div>
 
@@ -2076,23 +2024,6 @@ export function TruePlacementCalculator({
                     placeholder={`Select ${mixRulerLabel}'s sign...`}
                     error={mixErrors.mixRulerSign}
                   />
-                </div>
-
-                <div className="form-group">
-                  <label>Degree (optional):</label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="29"
-                    value={mixRulerDegree}
-                    onChange={(e) => {
-                      setMixRulerDegree(e.target.value);
-                      setMixErrors(prev => ({ ...prev, mixRulerDegree: '' }));
-                    }}
-                    placeholder="0-29"
-                    className={`degree-input ${mixErrors.mixRulerDegree ? 'error' : ''}`}
-                  />
-                  {mixErrors.mixRulerDegree && <span className="error-text">{mixErrors.mixRulerDegree}</span>}
                 </div>
               </div>
             )}

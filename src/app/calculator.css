@@ -2267,6 +2267,94 @@ header h1 {
     }
 }
 
+/* YoYo Results Wrapper with Example */
+.yoyo-results-wrapper {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.yoyo-results-wrapper .result-section {
+    flex: 1;
+}
+
+.yoyo-example {
+    width: 320px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(103, 232, 249, 0.08) 0%, rgba(95, 15, 64, 0.08) 100%);
+    border: 1px solid rgba(103, 232, 249, 0.25);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.yoyo-example-header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--astro-glow-cyan);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(103, 232, 249, 0.2);
+}
+
+.yoyo-example-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.yoyo-example-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.yoyo-example-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    min-width: 80px;
+}
+
+.yoyo-example-text {
+    font-size: 0.85rem;
+    color: var(--astro-glow-pink);
+    font-style: italic;
+}
+
+.yoyo-example-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(103, 232, 249, 0.3), transparent);
+    margin: 8px 0;
+}
+
+.yoyo-example-sentence {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+    line-height: 1.5;
+}
+
+.yoyo-example-sentence strong {
+    color: var(--astro-glow-cyan);
+}
+
+@media (max-width: 900px) {
+    .yoyo-results-wrapper {
+        flex-direction: column;
+    }
+
+    .yoyo-example {
+        width: 100%;
+    }
+}
+
+[data-theme="dark"] .yoyo-example {
+    background: linear-gradient(135deg, rgba(103, 232, 249, 0.05) 0%, rgba(95, 15, 64, 0.05) 100%);
+}
+
 /* ============================================
    PHSR CALCULATOR
    ============================================ */
