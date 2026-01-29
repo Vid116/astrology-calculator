@@ -14,42 +14,6 @@ interface StudyNote {
   sort_order: number;
 }
 
-// Fallback notes if database is empty (for initial setup)
-const FALLBACK_NOTES: StudyNote[] = [
-  {
-    id: 'elements',
-    title: 'The Four Elements',
-    description: 'Fire, Earth, Air & Water - The foundational energies that shape the zodiac signs.',
-    image_url: '/notes/Elements.png',
-    category: 'Fundamentals',
-    sort_order: 1,
-  },
-  {
-    id: 'modality',
-    title: 'Modalities',
-    description: 'Cardinal, Fixed & Mutable - How the signs express their elemental energy.',
-    image_url: '/notes/Modality.png',
-    category: 'Fundamentals',
-    sort_order: 2,
-  },
-  {
-    id: 'quadrants',
-    title: 'The Quadrants',
-    description: 'Understanding the four quadrants of the birth chart and their meanings.',
-    image_url: '/notes/Quadrants.png',
-    category: 'Chart Structure',
-    sort_order: 3,
-  },
-  {
-    id: 'sextile',
-    title: 'Sextile Aspect',
-    description: 'The harmonious 60° aspect - opportunities and talents in your chart.',
-    image_url: '/notes/Sextile.png',
-    category: 'Aspects',
-    sort_order: 4,
-  },
-];
-
 function NoteCard({
   note,
   isPremium,
@@ -365,6 +329,36 @@ function AddNoteModal({
   const [category, setCategory] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('/api/notes/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.url) {
+        setImageUrl(data.url);
+      } else {
+        alert(data.error || 'Failed to upload file');
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      alert('Failed to upload file');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -399,8 +393,8 @@ function AddNoteModal({
       >
         {/* Header */}
         <div
-          className="px-6 py-5 border-b flex items-center justify-between"
-          style={{ borderColor: 'rgba(168, 85, 247, 0.2)' }}
+          className="py-6 border-b flex items-center justify-between"
+          style={{ paddingLeft: '28px', paddingRight: '28px', borderColor: 'rgba(168, 85, 247, 0.2)' }}
         >
           <h2
             className="text-xl font-bold"
@@ -424,55 +418,85 @@ function AddNoteModal({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-6" style={{ padding: '28px' }}>
           <div>
-            <label className="block text-[#a855f7] text-sm font-medium mb-2">Title</label>
+            <label className="block text-[#a855f7] text-sm font-medium mb-3">Title</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g., The Four Elements"
-              className="w-full px-4 py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors"
+              className="w-full py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors"
+              style={{ paddingLeft: '7px', paddingRight: '7px' }}
               required
             />
           </div>
 
           <div>
-            <label className="block text-[#a855f7] text-sm font-medium mb-2">Description</label>
+            <label className="block text-[#a855f7] text-sm font-medium mb-3">Description</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Brief description of the study material..."
               rows={3}
-              className="w-full px-4 py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors resize-none"
+              className="w-full py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors resize-none"
+              style={{ paddingLeft: '7px', paddingRight: '7px' }}
               required
             />
           </div>
 
           <div>
-            <label className="block text-[#a855f7] text-sm font-medium mb-2">Category</label>
+            <label className="block text-[#a855f7] text-sm font-medium mb-3">Category</label>
             <input
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="e.g., Fundamentals, Aspects, Houses"
-              className="w-full px-4 py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors"
+              className="w-full py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors"
+              style={{ paddingLeft: '7px', paddingRight: '7px' }}
               required
             />
           </div>
 
           <div>
-            <label className="block text-[#a855f7] text-sm font-medium mb-2">Image URL</label>
+            <label className="block text-[#a855f7] text-sm font-medium mb-3">Image</label>
+
+            {/* File Upload Button */}
+            <label
+              className={`flex items-center justify-center gap-2 py-3 rounded-xl font-medium cursor-pointer transition-all duration-200 mb-3 ${
+                uploading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#a855f7]/20'
+              }`}
+              style={{
+                background: 'rgba(168, 85, 247, 0.1)',
+                border: '1px solid rgba(168, 85, 247, 0.3)',
+                color: '#a855f7',
+              }}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              </svg>
+              {uploading ? 'Uploading...' : 'Choose File from PC'}
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleFileUpload}
+                disabled={uploading}
+                className="hidden"
+              />
+            </label>
+
+            {/* Manual URL Input */}
             <input
               type="text"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="/notes/filename.png or https://..."
-              className="w-full px-4 py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors"
+              placeholder="Or paste image URL..."
+              className="w-full py-3 rounded-xl bg-[#0a0e1a] border border-[#a855f7]/20 text-white placeholder-[#4a5568] focus:outline-none focus:border-[#a855f7]/50 transition-colors"
+              style={{ paddingLeft: '7px', paddingRight: '7px' }}
               required
             />
             <p className="text-[#6b7a90] text-xs mt-2">
-              Upload images to /public/notes/ folder, then enter /notes/filename.png
+              Upload an image or enter a URL manually
             </p>
           </div>
 
@@ -494,7 +518,7 @@ function AddNoteModal({
           )}
 
           {/* Actions */}
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-4 pt-4">
             <button
               type="button"
               onClick={onClose}
@@ -536,14 +560,13 @@ export default function NotesPage() {
         const response = await fetch('/api/notes');
         if (response.ok) {
           const data = await response.json();
-          // Use fetched notes if available, otherwise fall back to default
-          setNotes(data.notes?.length > 0 ? data.notes : FALLBACK_NOTES);
+          setNotes(data.notes || []);
         } else {
-          setNotes(FALLBACK_NOTES);
+          setNotes([]);
         }
       } catch (error) {
         console.error('Failed to fetch notes:', error);
-        setNotes(FALLBACK_NOTES);
+        setNotes([]);
       } finally {
         setLoadingNotes(false);
       }
