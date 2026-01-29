@@ -552,6 +552,31 @@ header h1 {
     line-height: 1.5;
 }
 
+/* Calculator Header with Reset Button */
+.calculator-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.reset-calc-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(103, 232, 249, 0.4);
+    background: rgba(103, 232, 249, 0.1);
+    color: var(--astro-glow-cyan);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.reset-calc-btn:hover {
+    background: rgba(103, 232, 249, 0.2);
+    border-color: var(--astro-glow-cyan);
+    box-shadow: 0 0 15px rgba(103, 232, 249, 0.3);
+}
+
 .calculator-form {
     display: flex;
     flex-direction: column;

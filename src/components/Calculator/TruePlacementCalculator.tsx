@@ -693,6 +693,83 @@ export function TruePlacementCalculator({
     });
   };
 
+  // Reset functions for each calculator
+  const resetBasic = () => {
+    setPlanet('');
+    setSign('');
+    setDegree('');
+    setRising('');
+    setResult(null);
+    setErrors({});
+  };
+
+  const resetRuler = () => {
+    setRulerPlanet('');
+    setRulerSign('');
+    setRulerDegree('');
+    setRulerRising('');
+    setRulerPlanetSign('');
+    setRulerPlanetDegree('');
+    setRulerResult(null);
+    setRulerErrors({});
+  };
+
+  const resetYoyo = () => {
+    setYoyoPlanet('');
+    setYoyoHouse('');
+    setYoyoSign('');
+    setYoyoKeywords({ planet1: '', house1: '', sign1: '', sign2: '', house2: '', planet2: '' });
+    setYoyoSentenceIndex(0);
+    setYoyoSentenceText('');
+    setYoyoErrors({});
+    setYoyoSubmitted(false);
+  };
+
+  const resetPhs = () => {
+    setPhsPlanet('');
+    setPhsSign('');
+    setPhsRising('');
+    setPhsResult(null);
+    setPhsErrors({});
+    setPhsNotFound(false);
+  };
+
+  const resetPhsr = () => {
+    setPhsrPlanet('');
+    setPhsrSign('');
+    setPhsrRising('');
+    setPhsrRulerSign('');
+    setPhsrResult(null);
+    setPhsrRulerResult(null);
+    setPhsrErrors({});
+    setPhsrNotFound(false);
+    setPhsrRulerNotFound(false);
+  };
+
+  const resetMix = () => {
+    setMixPlanet('');
+    setMixSign('');
+    setMixRising('');
+    setMixRulerSign('');
+    setMixResult(null);
+    setMixRulerResult(null);
+    setMixErrors({});
+    setMixNotFound(false);
+    setMixRulerNotFound(false);
+    setMixWords({
+      planetWord: '',
+      connector1: '',
+      houseWord: '',
+      biRulerWord: '',
+      biRuler2Word: '',
+      signWord: '',
+      rulerWord: '',
+      connector2: '',
+      rulerHouseWord: '',
+      rulerSignWord: '',
+    });
+  };
+
   return (
     <div className={`calculator-section ${isActive ? 'active' : ''}`}>
       <h2>True Placement Calculator</h2>
@@ -743,6 +820,11 @@ export function TruePlacementCalculator({
       {/* Basic Calculator */}
       {activeSubTab === 'basic' && (
         <>
+          <div className="calculator-header">
+            <button type="button" className="reset-calc-btn" onClick={resetBasic}>
+              Reset
+            </button>
+          </div>
           <form onSubmit={handleSubmit} className="calculator-form" noValidate>
             <div className="form-group">
               <label>Planet:</label>
@@ -903,6 +985,11 @@ export function TruePlacementCalculator({
       {/* Ruler Calculator */}
       {activeSubTab === 'ruler' && (
         <>
+          <div className="calculator-header">
+            <button type="button" className="reset-calc-btn" onClick={resetRuler}>
+              Reset
+            </button>
+          </div>
           <div className="phsr-inputs">
             {/* Left Input Panel */}
             <div className="phsr-input-panel">
@@ -1186,6 +1273,11 @@ export function TruePlacementCalculator({
       {/* YoYo Calculator */}
       {activeSubTab === 'yoyo' && (
         <>
+          <div className="calculator-header">
+            <button type="button" className="reset-calc-btn" onClick={resetYoyo}>
+              Reset
+            </button>
+          </div>
           <form onSubmit={handleYoyoSubmit} className="calculator-form" noValidate>
             <div className="form-group">
               <label>Planet:</label>
@@ -1465,6 +1557,11 @@ export function TruePlacementCalculator({
       {/* PHS Calculator */}
       {activeSubTab === 'phs' && (
         <>
+          <div className="calculator-header">
+            <button type="button" className="reset-calc-btn" onClick={resetPhs}>
+              Reset
+            </button>
+          </div>
           <form onSubmit={handlePhsSubmit} className="calculator-form" noValidate>
             <div className="form-group">
               <label>Planet:</label>
@@ -1681,6 +1778,11 @@ export function TruePlacementCalculator({
       {/* PHSR Calculator */}
       {activeSubTab === 'phsr' && (
         <>
+          <div className="calculator-header">
+            <button type="button" className="reset-calc-btn" onClick={resetPhsr}>
+              Reset
+            </button>
+          </div>
           <div className="phsr-inputs">
             {/* Left Input Panel */}
             <div className="phsr-input-panel">
@@ -2030,6 +2132,11 @@ export function TruePlacementCalculator({
       {/* Mix & Match Calculator */}
       {activeSubTab === 'mixmatch' && (
         <>
+          <div className="calculator-header">
+            <button type="button" className="reset-calc-btn" onClick={resetMix}>
+              Reset
+            </button>
+          </div>
           <div className="phsr-inputs">
             {/* Left Input Panel */}
             <div className="phsr-input-panel">
