@@ -2271,11 +2271,13 @@ header h1 {
 .yoyo-results-wrapper {
     display: flex;
     gap: 24px;
-    align-items: flex-start;
+    align-items: stretch;
+    margin-top: 30px;
 }
 
 .yoyo-results-wrapper .result-section {
     flex: 1;
+    margin-top: 0;
 }
 
 .yoyo-example {
@@ -2284,7 +2286,7 @@ header h1 {
     background: linear-gradient(135deg, rgba(103, 232, 249, 0.08) 0%, rgba(95, 15, 64, 0.08) 100%);
     border: 1px solid rgba(103, 232, 249, 0.25);
     border-radius: 12px;
-    padding: 20px;
+    padding: 28px;
 }
 
 .yoyo-example-header {
