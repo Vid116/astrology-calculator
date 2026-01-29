@@ -780,34 +780,17 @@ export function TruePlacementCalculator({
           return;
         }
 
-        // Trigger the appropriate calculator based on active tab
-        const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
-        switch (activeSubTab) {
-          case 'basic':
-            handleSubmit(fakeEvent);
-            break;
-          case 'ruler':
-            handleRulerSubmit(fakeEvent);
-            break;
-          case 'yoyo':
-            handleYoyoSubmit(fakeEvent);
-            break;
-          case 'phs':
-            handlePhsSubmit(fakeEvent);
-            break;
-          case 'phsr':
-            handlePhsrSubmit(fakeEvent);
-            break;
-          case 'mixmatch':
-            handleMixSubmit(fakeEvent);
-            break;
+        // Find and click the calculate button in the active section
+        const calcButton = document.querySelector('.calculator-section.active .calculate-btn') as HTMLButtonElement;
+        if (calcButton) {
+          calcButton.click();
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeSubTab]);
+  }, []);
 
   return (
     <div className={`calculator-section ${isActive ? 'active' : ''}`}>
