@@ -894,6 +894,26 @@ header h1 {
     color: var(--gold-400);
 }
 
+/* Highlighted state for keyboard navigation */
+.cosmic-dropdown-option.highlighted {
+    background: linear-gradient(135deg,
+        rgba(103, 232, 249, 0.1) 0%,
+        rgba(30, 150, 252, 0.15) 100%);
+    color: var(--cyan-300);
+    padding-left: 28px;
+}
+
+.cosmic-dropdown-option.highlighted::before {
+    content: '✦';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6rem;
+    color: var(--cyan-400);
+    animation: starPulse 0.8s ease-in-out infinite;
+}
+
 /* Error state for custom dropdown */
 .form-group.has-error .cosmic-dropdown-toggle {
     border: 2px solid var(--red-400);
