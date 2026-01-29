@@ -139,6 +139,8 @@ export function TruePlacementCalculator({
     house2: '',
     planet2: '',
   });
+  const [yoyoSentenceIndex, setYoyoSentenceIndex] = useState(0);
+  const [yoyoSentenceText, setYoyoSentenceText] = useState('');
   const yoyoResultRef = useRef<HTMLDivElement>(null);
 
   // PHSR calculator state
@@ -1347,6 +1349,62 @@ export function TruePlacementCalculator({
                     </div>
                   </div>
                 </div>
+
+                {/* Sentence Builder */}
+                {yoyoKeywords.planet1 && yoyoKeywords.house1 && yoyoKeywords.sign1 &&
+                 yoyoKeywords.sign2 && yoyoKeywords.house2 && yoyoKeywords.planet2 && (
+                  <div className="yoyo-sentence-builder">
+                    {yoyoSentenceIndex < 6 && (
+                      <div
+                        className="yoyo-clickable-word"
+                        onClick={() => {
+                          const keywords = [
+                            yoyoKeywords.planet1,
+                            yoyoKeywords.house1,
+                            yoyoKeywords.sign1,
+                            yoyoKeywords.sign2,
+                            yoyoKeywords.house2,
+                            yoyoKeywords.planet2,
+                          ];
+                          const currentWord = keywords[yoyoSentenceIndex];
+                          setYoyoSentenceText(prev => prev ? `${prev} ${currentWord}` : currentWord);
+                          setYoyoSentenceIndex(prev => prev + 1);
+                        }}
+                      >
+                        {[
+                          yoyoKeywords.planet1,
+                          yoyoKeywords.house1,
+                          yoyoKeywords.sign1,
+                          yoyoKeywords.sign2,
+                          yoyoKeywords.house2,
+                          yoyoKeywords.planet2,
+                        ][yoyoSentenceIndex]}
+                      </div>
+                    )}
+                    {yoyoSentenceIndex >= 6 && (
+                      <div className="yoyo-sentence-complete">All words added!</div>
+                    )}
+                    <textarea
+                      className="yoyo-sentence-input"
+                      value={yoyoSentenceText}
+                      onChange={(e) => setYoyoSentenceText(e.target.value)}
+                      placeholder="Click the word above to add it, then write around it..."
+                      rows={3}
+                    />
+                    {yoyoSentenceIndex > 0 && (
+                      <button
+                        type="button"
+                        className="yoyo-reset-btn"
+                        onClick={() => {
+                          setYoyoSentenceIndex(0);
+                          setYoyoSentenceText('');
+                        }}
+                      >
+                        Reset
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Example Section */}

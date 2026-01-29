@@ -2357,6 +2357,81 @@ header h1 {
     background: linear-gradient(135deg, rgba(103, 232, 249, 0.05) 0%, rgba(95, 15, 64, 0.05) 100%);
 }
 
+/* YoYo Sentence Builder */
+.yoyo-sentence-builder {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(103, 232, 249, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.yoyo-clickable-word {
+    background: linear-gradient(135deg, var(--astro-glow-cyan) 0%, var(--astro-glow-pink) 100%);
+    color: #000;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 12px 28px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(103, 232, 249, 0.4);
+    text-transform: capitalize;
+}
+
+.yoyo-clickable-word:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(103, 232, 249, 0.6);
+}
+
+.yoyo-sentence-complete {
+    color: var(--astro-glow-cyan);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.yoyo-sentence-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(103, 232, 249, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+    font-family: inherit;
+}
+
+.yoyo-sentence-input:focus {
+    outline: none;
+    border-color: var(--astro-glow-cyan);
+    box-shadow: 0 0 15px rgba(103, 232, 249, 0.3);
+}
+
+.yoyo-sentence-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.yoyo-reset-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: 1px solid rgba(103, 232, 249, 0.4);
+    background: transparent;
+    color: var(--astro-glow-cyan);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.yoyo-reset-btn:hover {
+    background: rgba(103, 232, 249, 0.1);
+    border-color: var(--astro-glow-cyan);
+}
+
 /* ============================================
    PHSR CALCULATOR
    ============================================ */
