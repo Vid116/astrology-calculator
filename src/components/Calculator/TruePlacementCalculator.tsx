@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { CosmicDropdown } from '@/components/ui/CosmicDropdown';
 import { SentenceBuilder } from './SentenceBuilder';
 import { calculateTruePlacement } from '@/lib/calculations';
@@ -769,6 +769,47 @@ export function TruePlacementCalculator({
       rulerSignWord: '',
     });
   };
+
+  // Global Enter key to trigger calculate
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        const activeElement = document.activeElement;
+        const tagName = activeElement?.tagName.toLowerCase();
+
+        // Don't trigger if focused on input, textarea, select, or button
+        if (tagName === 'input' || tagName === 'textarea' || tagName === 'select' || tagName === 'button') {
+          return;
+        }
+
+        // Trigger the appropriate calculator based on active tab
+        const fakeEvent = { preventDefault: () => {} } as React.FormEvent;
+        switch (activeSubTab) {
+          case 'basic':
+            handleSubmit(fakeEvent);
+            break;
+          case 'ruler':
+            handleRulerSubmit(fakeEvent);
+            break;
+          case 'yoyo':
+            handleYoyoSubmit(fakeEvent);
+            break;
+          case 'phs':
+            handlePhsSubmit(fakeEvent);
+            break;
+          case 'phsr':
+            handlePhsrSubmit(fakeEvent);
+            break;
+          case 'mixmatch':
+            handleMixSubmit(fakeEvent);
+            break;
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeSubTab]);
 
   return (
     <div className={`calculator-section ${isActive ? 'active' : ''}`}>
