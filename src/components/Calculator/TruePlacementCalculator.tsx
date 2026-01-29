@@ -1388,6 +1388,22 @@ export function TruePlacementCalculator({
                       className="yoyo-sentence-input"
                       value={yoyoSentenceText}
                       onChange={(e) => setYoyoSentenceText(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey && yoyoSentenceIndex < 6) {
+                          e.preventDefault();
+                          const keywords = [
+                            yoyoKeywords.planet1,
+                            yoyoKeywords.house1,
+                            yoyoKeywords.sign1,
+                            yoyoKeywords.sign2,
+                            yoyoKeywords.house2,
+                            yoyoKeywords.planet2,
+                          ];
+                          const currentWord = keywords[yoyoSentenceIndex];
+                          setYoyoSentenceText(prev => prev ? `${prev} ${currentWord}` : currentWord);
+                          setYoyoSentenceIndex(prev => prev + 1);
+                        }
+                      }}
                       placeholder="Click the word above to add it, then write around it..."
                       rows={3}
                     />
