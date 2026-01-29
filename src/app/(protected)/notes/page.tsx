@@ -601,6 +601,7 @@ export default function NotesPage() {
                 onClick={() => setShowAddModal(true)}
                 className="flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] hover:scale-[1.02]"
                 style={{
+                  marginRight: '12px',
                   background: 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)',
                 }}
               >
