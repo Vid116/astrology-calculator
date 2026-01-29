@@ -1247,7 +1247,7 @@ export function TruePlacementCalculator({
                     <div className="yoyo-keyword">
                       <select
                         value={yoyoKeywords.planet1}
-                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet1: e.target.value, planet2: e.target.value }))}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet1: e.target.value }))}
                         className="yoyo-select"
                       >
                         <option value="">Select keyword...</option>
@@ -1264,8 +1264,9 @@ export function TruePlacementCalculator({
                     <div className="yoyo-keyword">
                       <select
                         value={yoyoKeywords.house1}
-                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house1: e.target.value, house2: e.target.value }))}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house1: e.target.value }))}
                         className="yoyo-select"
+                        disabled={!yoyoKeywords.planet1}
                       >
                         <option value="">Select keyword...</option>
                         {(signKeywords[yoyoHouse] || []).map((kw, idx) => (
@@ -1281,8 +1282,9 @@ export function TruePlacementCalculator({
                     <div className="yoyo-keyword">
                       <select
                         value={yoyoKeywords.sign1}
-                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign1: e.target.value, sign2: e.target.value }))}
+                        onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign1: e.target.value }))}
                         className="yoyo-select"
+                        disabled={!yoyoKeywords.house1}
                       >
                         <option value="">Select keyword...</option>
                         {(signKeywords[yoyoSign] || []).map((kw, idx) => (
@@ -1304,6 +1306,7 @@ export function TruePlacementCalculator({
                         value={yoyoKeywords.sign2}
                         onChange={(e) => setYoyoKeywords(prev => ({ ...prev, sign2: e.target.value }))}
                         className="yoyo-select"
+                        disabled={!yoyoKeywords.sign1}
                       >
                         <option value="">Select keyword...</option>
                         {(signKeywords[yoyoSign] || []).map((kw, idx) => (
@@ -1321,6 +1324,7 @@ export function TruePlacementCalculator({
                         value={yoyoKeywords.house2}
                         onChange={(e) => setYoyoKeywords(prev => ({ ...prev, house2: e.target.value }))}
                         className="yoyo-select"
+                        disabled={!yoyoKeywords.sign2}
                       >
                         <option value="">Select keyword...</option>
                         {(signKeywords[yoyoHouse] || []).map((kw, idx) => (
@@ -1338,6 +1342,7 @@ export function TruePlacementCalculator({
                         value={yoyoKeywords.planet2}
                         onChange={(e) => setYoyoKeywords(prev => ({ ...prev, planet2: e.target.value }))}
                         className="yoyo-select"
+                        disabled={!yoyoKeywords.house2}
                       >
                         <option value="">Select keyword...</option>
                         {(planetKeywords[yoyoPlanet] || []).map((kw, idx) => (
@@ -1347,6 +1352,16 @@ export function TruePlacementCalculator({
                     </div>
                   </div>
                 </div>
+
+                {/* Sentence Builder - shows when all keywords selected */}
+                {yoyoKeywords.planet1 && yoyoKeywords.house1 && yoyoKeywords.sign1 &&
+                 yoyoKeywords.sign2 && yoyoKeywords.house2 && yoyoKeywords.planet2 && (
+                  <div className="yoyo-sentence-builder">
+                    <div className="yoyo-sentence-output">
+                      <strong>{yoyoKeywords.planet1}</strong> {yoyoKeywords.house1} {yoyoKeywords.sign1}, {yoyoKeywords.sign2} {yoyoKeywords.house2} <strong>{yoyoKeywords.planet2}</strong>.
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Example Section */}
