@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { createClient } from '@/lib/supabase/client';
 import { STRIPE_CONFIG } from '@/lib/stripe/config';
-import { PLANET_AVATARS } from '@/lib/avatars';
+import { PLANET_AVATARS, ZODIAC_AVATARS } from '@/lib/avatars';
 
 interface UserUsage {
   calculation_count: number;
@@ -438,6 +438,84 @@ function AccountContent() {
                     }}
                   >
                     {planet.name}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Zodiac Signs Section */}
+          <h2
+            className="text-lg font-semibold tracking-wide mb-6 mt-10"
+            style={{ color: '#a855f7' }}
+          >
+            Choose Your Sign
+          </h2>
+
+          <div className="grid grid-cols-4 sm:grid-cols-6 gap-4">
+            {ZODIAC_AVATARS.map((sign) => {
+              const isSelected = avatarUrl === sign.path;
+              const canSelect = isPremium && !avatarSaving;
+
+              return (
+                <button
+                  key={sign.id}
+                  onClick={() => handleAvatarChange(sign.path)}
+                  disabled={!canSelect}
+                  className={`
+                    relative aspect-square rounded-xl overflow-hidden
+                    transition-all duration-300
+                    ${canSelect ? 'cursor-pointer hover:scale-105' : 'cursor-not-allowed'}
+                    ${isSelected ? 'ring-[3px] ring-offset-2 ring-offset-[#0a0e1a]' : ''}
+                    ${isSelected ? 'ring-[#a855f7]' : ''}
+                  `}
+                  style={{
+                    background: 'rgba(168, 85, 247, 0.05)',
+                    border: isSelected
+                      ? '2px solid transparent'
+                      : '1px solid rgba(168, 85, 247, 0.15)',
+                    boxShadow: isSelected
+                      ? '0 0 20px rgba(168, 85, 247, 0.3)'
+                      : 'none',
+                  }}
+                >
+                  <Image
+                    src={sign.path}
+                    alt={sign.name}
+                    fill
+                    className={`object-contain p-1 ${!isPremium ? 'opacity-50' : ''}`}
+                  />
+
+                  {/* Selected checkmark */}
+                  {isSelected && (
+                    <div
+                      className="absolute top-1 right-1 w-5 h-5 rounded-full flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+                      }}
+                    >
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                  )}
+
+                  {/* Saving spinner */}
+                  {avatarSaving && avatarUrl !== sign.path && (
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                      <div className="w-6 h-6 border-2 border-[#a855f7] border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  )}
+
+                  {/* Sign name tooltip */}
+                  <div
+                    className="absolute bottom-0 left-0 right-0 py-1 text-center text-[9px] font-medium"
+                    style={{
+                      background: 'linear-gradient(transparent, rgba(0,0,0,0.8))',
+                      color: isSelected ? '#a855f7' : '#a1a1aa',
+                    }}
+                  >
+                    {sign.name}
                   </div>
                 </button>
               );
