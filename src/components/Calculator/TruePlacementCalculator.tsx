@@ -411,7 +411,7 @@ export function TruePlacementCalculator({
       return `<strong>${res.planet}</strong> in <strong>${res.sign}</strong>${sparkPart} expressed through <strong>${res.expressingSign}</strong> with <strong>${res.baseSign}</strong> and <strong>${res.secondBaseSign}</strong> base (through <strong>${res.throughSign}</strong> and <strong>${res.secondThroughSign}</strong>).`;
     }
 
-    return `<strong>${res.planet}</strong> in <strong>${res.sign}</strong>${sparkPart} expressed through <strong>${res.expressingSign}</strong> with <strong>${res.baseSign}</strong> base (through <strong>${res.throughSign}</strong>).`;
+    return `<strong>${res.planet}</strong> in <strong>${res.isSign}</strong>${sparkPart} expressed through <strong>${res.expressingSign}</strong> with <strong>${res.baseSign}</strong> base (through <strong>${res.throughSign}</strong>).`;
   };
 
   const buildInterpretation = () => buildInterpretationFor(result);
@@ -433,10 +433,10 @@ export function TruePlacementCalculator({
       : ',';
 
     if (res.hasDualBase && res.secondBaseSign) {
-      return `My <strong>${res.planet}</strong> <span style="color: #ffffff; font-weight: bold;">Focus</span>, in the <strong>${res.sign}</strong> <span style="color: #ffffff; font-weight: bold;">Field</span>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <span style="color: #ffffff; font-weight: bold;">Tone</span> with <strong>${res.baseSign}</strong> and <strong>${res.secondBaseSign}</strong> base.`;
+      return `My <strong>${res.planet}</strong> <span style="color: #ffffff; font-weight: bold;">Focus</span>, in the <strong>${res.isSign}</strong> <span style="color: #ffffff; font-weight: bold;">Field</span>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <span style="color: #ffffff; font-weight: bold;">Tone</span> with <strong>${res.baseSign}</strong> and <strong>${res.secondBaseSign}</strong> base.`;
     }
 
-    return `My <strong>${res.planet}</strong> <span style="color: #ffffff; font-weight: bold;">Focus</span>, in the <strong>${res.sign}</strong> <span style="color: #ffffff; font-weight: bold;">Field</span>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <span style="color: #ffffff; font-weight: bold;">Tone</span> with <strong>${res.baseSign}</strong> base.`;
+    return `My <strong>${res.planet}</strong> <span style="color: #ffffff; font-weight: bold;">Focus</span>, in the <strong>${res.isSign}</strong> <span style="color: #ffffff; font-weight: bold;">Field</span>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <span style="color: #ffffff; font-weight: bold;">Tone</span> with <strong>${res.baseSign}</strong> base.`;
   };
 
   // YoYo calculator validation
