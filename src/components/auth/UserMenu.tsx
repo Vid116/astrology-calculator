@@ -408,6 +408,40 @@ export function UserMenu() {
             </Link>
 
             <Link
+              href="/good-vibes-astrology"
+              role="menuitem"
+              onClick={() => closeMenu()}
+              className="
+                flex items-center gap-3 px-5 py-3
+                text-sm text-[#b8c4d4]
+                transition-all duration-200
+                hover:text-white hover:bg-white/[0.04]
+                focus:outline-none focus-visible:bg-white/[0.04]
+                group
+              "
+            >
+              <span
+                className="
+                  w-8 h-8 rounded-lg flex items-center justify-center
+                  bg-[#67e8f9]/10
+                  transition-all duration-200
+                  group-hover:bg-[#67e8f9]/15
+                  group-hover:shadow-[0_0_12px_rgba(103,232,249,0.2)]
+                  overflow-hidden
+                "
+              >
+                <Image
+                  src="/signs-svg/Renata-good-vibes-LOGO-05-Blu.png"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="object-contain"
+                />
+              </span>
+              <span>Good Vibes Astrology</span>
+            </Link>
+
+            <Link
               href="/notes"
               role="menuitem"
               onClick={() => closeMenu()}
