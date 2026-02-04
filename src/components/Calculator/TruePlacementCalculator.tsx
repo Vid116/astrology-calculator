@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { CosmicDropdown } from '@/components/ui/CosmicDropdown';
-import { SentenceBuilder } from './SentenceBuilder';
+import { SentenceBuilder, type KeywordSelections } from './SentenceBuilder';
 import { calculateTruePlacement } from '@/lib/calculations';
 import type {
   SparkEntry,
@@ -117,6 +117,92 @@ export function TruePlacementCalculator({
   const [rulerErrors, setRulerErrors] = useState<Record<string, string>>({});
   const rulerResultRef = useRef<HTMLDivElement>(null);
   const [rulerPanelEnabled, setRulerPanelEnabled] = useState(true);
+
+  // Main planet keyword selections (for combined sentence in ruler section)
+  const [mainKeywords, setMainKeywords] = useState<KeywordSelections>({
+    planet: '',
+    base: '',
+    base2: '',
+    through: '',
+    through2: '',
+    house: '',
+    sign: '',
+  });
+
+  // Build parent sentence from main keywords for ruler section
+  const buildMainSentenceNode = () => {
+    if (!mainKeywords.planet && !mainKeywords.base && !mainKeywords.through && !mainKeywords.house && !mainKeywords.sign) {
+      return null;
+    }
+
+    const hasDual = rulerResult?.hasDualBase || false;
+
+    return (
+      <>
+        {mainKeywords.planet ? (
+          <strong className="kw-filled">{mainKeywords.planet}</strong>
+        ) : (
+          <span className="kw-empty">[Planet]</span>
+        )}
+        <span className="kw-connector"> based on </span>
+        {hasDual ? (
+          <>
+            <span className="kw-paren">(</span>
+            {mainKeywords.base ? (
+              <strong className="kw-filled">{mainKeywords.base}</strong>
+            ) : (
+              <span className="kw-empty">[Base]</span>
+            )}
+            <span className="kw-connector"> and </span>
+            {mainKeywords.base2 ? (
+              <strong className="kw-filled">{mainKeywords.base2}</strong>
+            ) : (
+              <span className="kw-empty">[Base 2]</span>
+            )}
+            <span className="kw-paren">)</span>
+          </>
+        ) : mainKeywords.base ? (
+          <strong className="kw-filled">{mainKeywords.base}</strong>
+        ) : (
+          <span className="kw-empty">[Base]</span>
+        )}
+        <span className="kw-connector"> through </span>
+        {hasDual ? (
+          <>
+            <span className="kw-paren">(</span>
+            {mainKeywords.through ? (
+              <strong className="kw-filled">{mainKeywords.through}</strong>
+            ) : (
+              <span className="kw-empty">[Through]</span>
+            )}
+            <span className="kw-connector"> and </span>
+            {mainKeywords.through2 ? (
+              <strong className="kw-filled">{mainKeywords.through2}</strong>
+            ) : (
+              <span className="kw-empty">[Through 2]</span>
+            )}
+            <span className="kw-paren">)</span>
+          </>
+        ) : mainKeywords.through ? (
+          <strong className="kw-filled">{mainKeywords.through}</strong>
+        ) : (
+          <span className="kw-empty">[Through]</span>
+        )}
+        <span className="kw-connector"> directed into </span>
+        {mainKeywords.house ? (
+          <strong className="kw-filled">{mainKeywords.house}</strong>
+        ) : (
+          <span className="kw-empty">[House]</span>
+        )}
+        <span className="kw-connector"> expressed through </span>
+        {mainKeywords.sign ? (
+          <strong className="kw-filled">{mainKeywords.sign}</strong>
+        ) : (
+          <span className="kw-empty">[Sign]</span>
+        )}
+      </>
+    );
+  };
 
   // YoYo calculator state
   const [yoyoPlanet, setYoyoPlanet] = useState('');
@@ -437,6 +523,32 @@ export function TruePlacementCalculator({
     }
 
     return `My <strong>${res.planet}</strong> <span style="color: #ffffff; font-weight: bold;">Focus</span>, in the <strong>${res.isSign}</strong> <span style="color: #ffffff; font-weight: bold;">Field</span>${sparkPart} expressing through <strong>${res.expressingSign}</strong> <span style="color: #ffffff; font-weight: bold;">Tone</span> with <strong>${res.baseSign}</strong> base.`;
+  };
+
+  // Helper to build combined sentence (Main Planet + Ruler)
+  const buildCombinedRulerSentence = (
+    mainRes: TruePlacementResult | null,
+    rulerRes: TruePlacementResult | null
+  ) => {
+    if (!mainRes || !rulerRes) return '';
+
+    const mainSentence = buildInterpretationFor(mainRes);
+    const rulerSentence = buildInterpretationFor(rulerRes);
+
+    return `${mainSentence}<span class="sentence-connector">going into</span>${rulerSentence}`;
+  };
+
+  // Helper to build combined cosmological sentence (Main Planet + Ruler)
+  const buildCombinedCosmologicalSentence = (
+    mainRes: TruePlacementResult | null,
+    rulerRes: TruePlacementResult | null
+  ) => {
+    if (!mainRes || !rulerRes) return '';
+
+    const mainSentence = buildCosmologicalSentenceFor(mainRes);
+    const rulerSentence = buildCosmologicalSentenceFor(rulerRes);
+
+    return `${mainSentence}<span class="sentence-connector">going into</span>${rulerSentence}`;
   };
 
   // YoYo calculator validation
@@ -1213,6 +1325,8 @@ export function TruePlacementCalculator({
                   inputSign={rulerResult.sign}
                   inputSignKeywords={signKeywords[rulerResult.sign] || []}
                   hasDualBase={rulerResult.hasDualBase}
+                  selections={mainKeywords}
+                  onSelectionsChange={setMainKeywords}
                 />
               </div>
 
@@ -1248,6 +1362,23 @@ export function TruePlacementCalculator({
                       </div>
                     )}
 
+                    {/* Combined Sentence Output */}
+                    <div className="combined-sentence-section">
+                      <h4>Combined Interpretation</h4>
+                      <div
+                        className="interpretation combined-interpretation"
+                        dangerouslySetInnerHTML={{
+                          __html: buildCombinedRulerSentence(rulerResult, rp)
+                        }}
+                      />
+                      <div
+                        className="interpretation cosmological-sentence combined-cosmological"
+                        dangerouslySetInnerHTML={{
+                          __html: buildCombinedCosmologicalSentence(rulerResult, rp)
+                        }}
+                      />
+                    </div>
+
                     <div
                       className="interpretation"
                       dangerouslySetInnerHTML={{ __html: buildInterpretationFor(rp) }}
@@ -1275,6 +1406,7 @@ export function TruePlacementCalculator({
                       inputSign={rp.sign}
                       inputSignKeywords={signKeywords[rp.sign] || []}
                       hasDualBase={rp.hasDualBase}
+                      parentSentence={buildMainSentenceNode()}
                     />
                   </div>
                 );
@@ -2281,15 +2413,15 @@ export function TruePlacementCalculator({
                 {mixWords.biRulerWord && (
                   <>
                     {' '}
+                    <span className="word-label">(</span>
                     <span className="word-filled">{mixWords.biRulerWord}</span>
-                  </>
-                )}
-                {mixWords.biRuler2Word && (
-                  <>
-                    {' '}
-                    <span className="word-label">and</span>
-                    {' '}
-                    <span className="word-filled">{mixWords.biRuler2Word}</span>
+                    {mixWords.biRuler2Word && (
+                      <>
+                        <span className="word-label"> & </span>
+                        <span className="word-filled">{mixWords.biRuler2Word}</span>
+                      </>
+                    )}
+                    <span className="word-label">)</span>
                   </>
                 )}
                 {' '}
@@ -2386,6 +2518,9 @@ export function TruePlacementCalculator({
               {/* Step 2: Bi-Ruler + 2nd Bi-Ruler (unlocks after Planet + Connector + House) */}
               {mixWords.planetWord && mixWords.connector1 && mixWords.houseWord && (
                 <div className="phsr-word-step">
+                  <div className="phsr-description-hint">
+                    <strong>Add to the description of planet:</strong>
+                  </div>
                   <div className="phsr-word-arrow">↓</div>
                   <div className={`phsr-word-row ${mixResult.hasDualBase ? '' : 'single'}`}>
                     <div className="phsr-word-group">
@@ -2538,15 +2673,15 @@ export function TruePlacementCalculator({
                 {mixWords.biRulerWord && (
                   <>
                     {' '}
+                    <span className="word-label">(</span>
                     <span className="word-filled">{mixWords.biRulerWord}</span>
-                  </>
-                )}
-                {mixWords.biRuler2Word && (
-                  <>
-                    {' '}
-                    <span className="word-label">and</span>
-                    {' '}
-                    <span className="word-filled">{mixWords.biRuler2Word}</span>
+                    {mixWords.biRuler2Word && (
+                      <>
+                        <span className="word-label"> & </span>
+                        <span className="word-filled">{mixWords.biRuler2Word}</span>
+                      </>
+                    )}
+                    <span className="word-label">)</span>
                   </>
                 )}
                 {' '}
