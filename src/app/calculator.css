@@ -1314,6 +1314,50 @@ header h1 {
     text-shadow: 0 0 6px var(--gold-glow);
 }
 
+/* Combined Sentence Styles */
+.combined-sentence-section {
+    margin: 24px 0;
+    padding: 20px 0;
+    border-top: 1px solid var(--cyan-700);
+    border-bottom: 1px solid var(--cyan-700);
+}
+
+.combined-sentence-section h4 {
+    color: var(--gold-400);
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    margin-bottom: 16px;
+    text-shadow: 0 0 8px var(--gold-glow);
+}
+
+.combined-interpretation,
+.combined-cosmological {
+    line-height: 1.9;
+}
+
+.sentence-connector {
+    display: block;
+    color: var(--cyan-400);
+    font-weight: 700;
+    font-style: italic;
+    padding: 8px 0;
+    text-shadow: 0 0 10px var(--cyan-glow);
+    text-align: center;
+}
+
+.parent-sentence,
+.child-sentence {
+    display: block;
+}
+
+.sentence-text .parent-sentence {
+    padding-bottom: 4px;
+}
+
+.sentence-text .child-sentence {
+    padding-top: 4px;
+}
+
 .error-message {
     background: rgba(227, 23, 10, 0.15);
     color: var(--red-400);

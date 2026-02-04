@@ -3,6 +3,16 @@
 import { useState } from 'react';
 import { KeywordDropdown } from './KeywordDropdown';
 
+export interface KeywordSelections {
+  planet: string;
+  base: string;
+  base2: string;
+  through: string;
+  through2: string;
+  house: string;
+  sign: string;
+}
+
 interface SentenceBuilderProps {
   planet: string;
   planetKeywords: string[];
@@ -19,6 +29,11 @@ interface SentenceBuilderProps {
   inputSign: string;
   inputSignKeywords: string[];
   hasDualBase: boolean;
+  // Optional parent sentence for combined view
+  parentSentence?: React.ReactNode;
+  // Optional controlled mode
+  selections?: KeywordSelections;
+  onSelectionsChange?: (selections: KeywordSelections) => void;
 }
 
 export function SentenceBuilder({
@@ -37,14 +52,40 @@ export function SentenceBuilder({
   inputSign,
   inputSignKeywords,
   hasDualBase,
+  parentSentence,
+  selections,
+  onSelectionsChange,
 }: SentenceBuilderProps) {
-  const [selectedPlanet, setSelectedPlanet] = useState('');
-  const [selectedBase, setSelectedBase] = useState('');
-  const [selectedBase2, setSelectedBase2] = useState('');
-  const [selectedThrough, setSelectedThrough] = useState('');
-  const [selectedThrough2, setSelectedThrough2] = useState('');
-  const [selectedIs, setSelectedIs] = useState('');
-  const [selectedSign, setSelectedSign] = useState('');
+  // Internal state for uncontrolled mode
+  const [internalSelections, setInternalSelections] = useState<KeywordSelections>({
+    planet: '',
+    base: '',
+    base2: '',
+    through: '',
+    through2: '',
+    house: '',
+    sign: '',
+  });
+
+  // Use controlled or internal state
+  const isControlled = selections !== undefined && onSelectionsChange !== undefined;
+  const currentSelections = isControlled ? selections : internalSelections;
+
+  const updateSelection = (key: keyof KeywordSelections, value: string) => {
+    if (isControlled) {
+      onSelectionsChange({ ...selections, [key]: value });
+    } else {
+      setInternalSelections(prev => ({ ...prev, [key]: value }));
+    }
+  };
+
+  const selectedPlanet = currentSelections.planet;
+  const selectedBase = currentSelections.base;
+  const selectedBase2 = currentSelections.base2;
+  const selectedThrough = currentSelections.through;
+  const selectedThrough2 = currentSelections.through2;
+  const selectedIs = currentSelections.house;
+  const selectedSign = currentSelections.sign;
 
   const hasAnySelection =
     selectedPlanet || selectedBase || selectedThrough || selectedIs || selectedSign;
@@ -244,7 +285,7 @@ export function SentenceBuilder({
           signName={planet}
           keywords={planetKeywords}
           value={selectedPlanet}
-          onChange={setSelectedPlanet}
+          onChange={(val) => updateSelection('planet', val)}
         />
 
         <div className={`keyword-row ${hasDualBase ? 'dual-row' : ''}`}>
@@ -253,7 +294,7 @@ export function SentenceBuilder({
             signName={baseSign}
             keywords={baseKeywords}
             value={selectedBase}
-            onChange={setSelectedBase}
+            onChange={(val) => updateSelection('base', val)}
           />
           {hasDualBase && base2Sign && (
             <KeywordDropdown
@@ -261,7 +302,7 @@ export function SentenceBuilder({
               signName={base2Sign}
               keywords={base2Keywords}
               value={selectedBase2}
-              onChange={setSelectedBase2}
+              onChange={(val) => updateSelection('base2', val)}
             />
           )}
         </div>
@@ -272,7 +313,7 @@ export function SentenceBuilder({
             signName={throughSign}
             keywords={throughKeywords}
             value={selectedThrough}
-            onChange={setSelectedThrough}
+            onChange={(val) => updateSelection('through', val)}
           />
           {hasDualBase && through2Sign && (
             <KeywordDropdown
@@ -280,7 +321,7 @@ export function SentenceBuilder({
               signName={through2Sign}
               keywords={through2Keywords}
               value={selectedThrough2}
-              onChange={setSelectedThrough2}
+              onChange={(val) => updateSelection('through2', val)}
             />
           )}
         </div>
@@ -290,7 +331,7 @@ export function SentenceBuilder({
           signName={isSign}
           keywords={isSignKeywords}
           value={selectedIs}
-          onChange={setSelectedIs}
+          onChange={(val) => updateSelection('house', val)}
         />
 
         <KeywordDropdown
@@ -298,13 +339,21 @@ export function SentenceBuilder({
           signName={inputSign}
           keywords={inputSignKeywords}
           value={selectedSign}
-          onChange={setSelectedSign}
+          onChange={(val) => updateSelection('sign', val)}
         />
       </div>
 
       <div className="sentence-output">
         <div className="sentence-label">Your Interpretation:</div>
-        <div className="sentence-text">{renderSentence()}</div>
+        <div className="sentence-text">
+          {parentSentence && (
+            <>
+              <div className="parent-sentence">{parentSentence}</div>
+              <span className="sentence-connector">going into</span>
+            </>
+          )}
+          <div className={parentSentence ? 'child-sentence' : ''}>{renderSentence()}</div>
+        </div>
       </div>
     </div>
   );
