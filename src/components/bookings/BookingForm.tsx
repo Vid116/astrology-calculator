@@ -110,11 +110,15 @@ export function BookingForm({
   };
 
   const inputStyle = {
+    paddingLeft: '4px',
+    paddingRight: '4px',
     background: 'rgba(103, 232, 249, 0.05)',
     border: '1px solid rgba(103, 232, 249, 0.2)',
   };
 
   const errorInputStyle = {
+    paddingLeft: '4px',
+    paddingRight: '4px',
     background: 'rgba(248, 113, 113, 0.05)',
     border: '1px solid rgba(248, 113, 113, 0.3)',
   };
@@ -132,6 +136,7 @@ export function BookingForm({
       <div
         className="p-5 border-b"
         style={{
+          paddingLeft: '32px',
           background: 'linear-gradient(180deg, rgba(103, 232, 249, 0.05) 0%, transparent 100%)',
           borderColor: 'rgba(103, 232, 249, 0.1)',
         }}
@@ -143,10 +148,10 @@ export function BookingForm({
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="p-5 space-y-5">
+      <form onSubmit={handleSubmit} className="p-5 space-y-5" style={{ paddingLeft: '7px' }}>
         {/* Contact Information */}
         <div>
-          <p className="text-[#67e8f9] text-xs font-semibold uppercase tracking-wide mb-4">
+          <p className="text-[#67e8f9] text-xs font-semibold uppercase tracking-wide mb-4" style={{ paddingTop: '12px' }}>
             Contact Information
           </p>
 
@@ -163,7 +168,7 @@ export function BookingForm({
                 value={formData.user_name}
                 onChange={handleChange}
                 placeholder="Your name"
-                className="w-full px-4 py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
+                className="w-full py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
                 style={errors.user_name ? errorInputStyle : inputStyle}
               />
               {errors.user_name && (
@@ -183,7 +188,7 @@ export function BookingForm({
                 value={formData.user_email}
                 onChange={handleChange}
                 placeholder="your@email.com"
-                className="w-full px-4 py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
+                className="w-full py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
                 style={errors.user_email ? errorInputStyle : inputStyle}
               />
               {errors.user_email && (
@@ -203,7 +208,7 @@ export function BookingForm({
                 value={formData.user_phone}
                 onChange={handleChange}
                 placeholder="+1 (555) 123-4567"
-                className="w-full px-4 py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
+                className="w-full py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
                 style={inputStyle}
               />
             </div>
@@ -212,7 +217,7 @@ export function BookingForm({
 
         {/* Birth Information */}
         <div>
-          <p className="text-[#ffd800] text-xs font-semibold uppercase tracking-wide mb-4">
+          <p className="text-[#ffd800] text-xs font-semibold uppercase tracking-wide mb-4" style={{ paddingTop: '7px' }}>
             Birth Information (Optional)
           </p>
 
@@ -228,7 +233,7 @@ export function BookingForm({
                 name="birth_date"
                 value={formData.birth_date}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg text-white outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
+                className="w-full py-3 rounded-lg text-white outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
                 style={inputStyle}
               />
             </div>
@@ -244,7 +249,7 @@ export function BookingForm({
                 name="birth_time"
                 value={formData.birth_time}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg text-white outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
+                className="w-full py-3 rounded-lg text-white outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
                 style={inputStyle}
               />
             </div>
@@ -262,7 +267,7 @@ export function BookingForm({
               value={formData.birth_place}
               onChange={handleChange}
               placeholder="City, Country"
-              className="w-full px-4 py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
+              className="w-full py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
               style={inputStyle}
             />
           </div>
@@ -270,7 +275,7 @@ export function BookingForm({
 
         {/* Consultation Details */}
         <div>
-          <p className="text-[#67e8f9] text-xs font-semibold uppercase tracking-wide mb-4">
+          <p className="text-[#67e8f9] text-xs font-semibold uppercase tracking-wide mb-4" style={{ paddingTop: '7px' }}>
             Consultation Details
           </p>
 
@@ -284,7 +289,7 @@ export function BookingForm({
               name="consultation_topic"
               value={formData.consultation_topic}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg text-white outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
+              className="w-full py-3 rounded-lg text-white outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50"
               style={inputStyle}
             >
               {CONSULTATION_TOPICS.map(topic => (
@@ -297,7 +302,7 @@ export function BookingForm({
 
           {/* Additional Notes */}
           <div>
-            <label htmlFor="additional_notes" className="block text-[#a1a1aa] text-sm mb-2">
+            <label htmlFor="additional_notes" className="block text-[#a1a1aa] text-sm mb-2" style={{ paddingTop: '7px' }}>
               Additional Notes
             </label>
             <textarea
@@ -308,7 +313,7 @@ export function BookingForm({
               placeholder="Any specific questions or areas you'd like to focus on..."
               rows={4}
               maxLength={500}
-              className="w-full px-4 py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50 resize-none"
+              className="w-full py-3 rounded-lg text-white placeholder-[#4a5568] outline-none transition-all duration-200 focus:ring-2 focus:ring-[#67e8f9]/50 resize-none"
               style={inputStyle}
             />
             <p className="text-[#4a5568] text-xs mt-1 text-right">
@@ -318,7 +323,7 @@ export function BookingForm({
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 pt-2">
+        <div className="flex gap-3 pt-2" style={{ paddingBottom: '16px' }}>
           <button
             type="button"
             onClick={onCancel}
