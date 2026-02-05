@@ -84,9 +84,11 @@ export function SlotPicker({
 
   // Group times by date
   const timesByDate = useMemo(() => {
+    const today = new Date().toISOString().split('T')[0];
     const grouped: Record<string, SelectedTimeSlot[]> = {};
     times.forEach(time => {
       const dateKey = getDateKey(time.start_time);
+      if (dateKey <= today) return; // Skip today and past dates
       if (!grouped[dateKey]) {
         grouped[dateKey] = [];
       }
@@ -139,7 +141,7 @@ export function SlotPicker({
             </button>
           ))}
         </div>
-        <p className="text-white text-xs mt-4 mb-3">
+        <p className="text-white text-xs" style={{ marginTop: '7px', marginBottom: '12px' }}>
           Times shown in your timezone ({getUserTimezone()})
         </p>
       </div>
