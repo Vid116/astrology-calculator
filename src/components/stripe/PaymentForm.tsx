@@ -36,10 +36,8 @@ export function PaymentForm({
     setIsProcessing(true);
 
     try {
-      // Required for Stripe.js v8+: validate and collect payment details first
       const { error: submitError } = await elements.submit();
       if (submitError) {
-        onError(submitError.message || 'Payment validation failed');
         setIsProcessing(false);
         return;
       }
@@ -70,29 +68,39 @@ export function PaymentForm({
   const busy = isProcessing || isSubmitting;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit}>
+      {/* Authorization hold info */}
       <div
-        className="rounded-lg"
         style={{
-          padding: '16px',
-          paddingLeft: '19px',
+          padding: '18px 16px 18px 20px',
+          marginBottom: '20px',
+          borderRadius: '8px',
           background: 'rgba(255, 216, 0, 0.05)',
           border: '1px solid rgba(255, 216, 0, 0.2)',
         }}
       >
-        <div className="flex items-center justify-between">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span className="text-[#a1a1aa] text-sm">Authorization hold</span>
           <span className="text-[#ffd800] font-semibold text-lg">
             {formatAmount(amount_cents, currency)}
           </span>
         </div>
-        <p className="text-[#6b7a90] text-xs mt-2">
+        <p className="text-[#6b7a90] text-xs" style={{ marginTop: '8px' }}>
           Your card will be authorized but not charged until the consultation is approved.
         </p>
       </div>
 
-      <PaymentElement />
+      {/* Stripe card input */}
+      <div
+        style={{
+          padding: '4px 8px 4px 8px',
+          marginBottom: '20px',
+        }}
+      >
+        <PaymentElement />
+      </div>
 
+      {/* Submit button */}
       <button
         type="submit"
         disabled={!stripe || busy}
