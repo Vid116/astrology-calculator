@@ -35,27 +35,36 @@ export function PaymentForm({
 
     setIsProcessing(true);
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: window.location.href,
-      },
-      redirect: 'if_required',
-    });
+    try {
+      // Required for Stripe.js v8+: validate and collect payment details first
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        onError(submitError.message || 'Payment validation failed');
+        setIsProcessing(false);
+        return;
+      }
 
-    if (error) {
-      onError(error.message || 'Payment failed');
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: window.location.href,
+        },
+        redirect: 'if_required',
+      });
+
+      if (result.error) {
+        onError(result.error.message || 'Payment failed');
+      } else if (result.paymentIntent?.status === 'requires_capture') {
+        onSuccess(result.paymentIntent.id);
+      } else {
+        onError(`Unexpected payment status: ${result.paymentIntent?.status || 'unknown'}`);
+      }
+    } catch (err) {
+      console.error('Payment confirmation error:', err);
+      onError(err instanceof Error ? err.message : 'Payment failed unexpectedly');
+    } finally {
       setIsProcessing(false);
-      return;
     }
-
-    if (paymentIntent && paymentIntent.status === 'requires_capture') {
-      onSuccess(paymentIntent.id);
-    } else {
-      onError(`Unexpected payment status: ${paymentIntent?.status}`);
-    }
-
-    setIsProcessing(false);
   };
 
   const busy = isProcessing || isSubmitting;

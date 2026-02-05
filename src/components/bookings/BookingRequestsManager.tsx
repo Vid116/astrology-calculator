@@ -32,14 +32,15 @@ export function BookingRequestsManager() {
   const updateBookingStatus = async (
     bookingId: string,
     status: string,
-    rejection_reason?: string
+    rejection_reason?: string,
+    superuser_note?: string
   ) => {
     setIsUpdating(true);
     try {
       const res = await fetch(`/api/bookings/${bookingId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status, rejection_reason }),
+        body: JSON.stringify({ status, rejection_reason, superuser_note }),
       });
 
       const data = await res.json();
@@ -71,7 +72,8 @@ export function BookingRequestsManager() {
         return;
       }
     }
-    updateBookingStatus(id, 'approved');
+    const note = prompt('Paste the Zoom link for this consultation (optional):');
+    updateBookingStatus(id, 'approved', undefined, note || undefined);
   };
 
   const handleReject = (id: string, reason: string) => {

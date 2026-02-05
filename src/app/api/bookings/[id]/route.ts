@@ -66,7 +66,7 @@ export async function PATCH(
     }
 
     const body = await request.json();
-    const { status, rejection_reason } = body;
+    const { status, rejection_reason, superuser_note } = body;
 
     // Validate status
     const validStatuses = ['pending', 'approved', 'rejected', 'cancelled', 'completed'];
@@ -88,19 +88,8 @@ export async function PATCH(
     const isSuperuser = await canManageBookings(user.id);
 
     // Determine allowed actions based on role
-    if (booking.user_id === user.id) {
-      // User can only cancel their own pending bookings
-      if (status !== 'cancelled') {
-        return NextResponse.json({
-          error: 'You can only cancel your own bookings'
-        }, { status: 403 });
-      }
-      if (booking.status !== 'pending') {
-        return NextResponse.json({
-          error: 'You can only cancel pending bookings'
-        }, { status: 400 });
-      }
-    } else if (isSuperuser && booking.superuser_id === user.id) {
+    // Superuser check first (they may also be the booking user in testing)
+    if (isSuperuser && booking.superuser_id === user.id) {
       // Superuser can approve, reject, or mark as completed
       if (!['approved', 'rejected', 'completed', 'cancelled'].includes(status)) {
         return NextResponse.json({
@@ -112,6 +101,18 @@ export async function PATCH(
       if (status === 'rejected' && !rejection_reason) {
         return NextResponse.json({
           error: 'Rejection reason is required'
+        }, { status: 400 });
+      }
+    } else if (booking.user_id === user.id) {
+      // User can only cancel their own pending bookings
+      if (status !== 'cancelled') {
+        return NextResponse.json({
+          error: 'You can only cancel your own bookings'
+        }, { status: 403 });
+      }
+      if (booking.status !== 'pending') {
+        return NextResponse.json({
+          error: 'You can only cancel pending bookings'
         }, { status: 400 });
       }
     } else {
@@ -127,6 +128,10 @@ export async function PATCH(
 
     if (status === 'rejected' && rejection_reason) {
       updateData.rejection_reason = rejection_reason;
+    }
+
+    if (superuser_note) {
+      updateData.superuser_note = superuser_note;
     }
 
     // Handle Stripe payment operations

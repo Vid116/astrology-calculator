@@ -168,6 +168,18 @@ export function BookingCard({
         </div>
       )}
 
+      {/* Superuser note */}
+      {booking.superuser_note && (
+        <div className="p-4 rounded-lg" style={{ marginBottom: '12px', background: 'rgba(103, 232, 249, 0.05)' }}>
+          <p className="text-[#67e8f9] text-xs font-semibold uppercase tracking-wide mb-1.5">Zoom Link</p>
+          <p className="text-[#a1a1aa] text-sm break-all">
+            <a href={booking.superuser_note!} target="_blank" rel="noopener noreferrer" className="hover:text-[#67e8f9] transition-colors underline">
+              {booking.superuser_note}
+            </a>
+          </p>
+        </div>
+      )}
+
       {/* Rejection reason */}
       {booking.status === 'rejected' && booking.rejection_reason && (
         <div className="p-4 rounded-lg" style={{ marginBottom: '12px', background: 'rgba(248, 113, 113, 0.05)' }}>

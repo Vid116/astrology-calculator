@@ -333,6 +333,7 @@ export type Database = {
           consultation_topic: string | null;
           additional_notes: string | null;
           rejection_reason: string | null;
+          superuser_note: string | null;
           created_at: string;
           updated_at: string;
           approved_at: string | null;
@@ -359,6 +360,7 @@ export type Database = {
           consultation_topic?: string | null;
           additional_notes?: string | null;
           rejection_reason?: string | null;
+          superuser_note?: string | null;
           created_at?: string;
           updated_at?: string;
           approved_at?: string | null;
@@ -385,6 +387,7 @@ export type Database = {
           consultation_topic?: string | null;
           additional_notes?: string | null;
           rejection_reason?: string | null;
+          superuser_note?: string | null;
           created_at?: string;
           updated_at?: string;
           approved_at?: string | null;
