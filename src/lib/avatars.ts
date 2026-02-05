@@ -23,6 +23,8 @@ export const ZODIAC_ICON_AVATARS = [
   { id: 'sign-icon-8', name: 'Sign 8', path: '/signs-svg/8.svg' },
   { id: 'sign-icon-9', name: 'Sign 9', path: '/signs-svg/9.svg' },
   { id: 'sign-icon-10', name: 'Sign 10', path: '/signs-svg/10.svg' },
+  { id: 'sign-icon-11', name: 'Sign 11', path: '/signs-svg/11.svg' },
+  { id: 'sign-icon-12', name: 'Sign 12', path: '/signs-svg/12.svg' },
 ] as const;
 
 // All avatars combined
