@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
+import { AvailabilityManager } from '@/components/bookings/AvailabilityManager';
+import { BookingRequestsManager } from '@/components/bookings/BookingRequestsManager';
 
 interface KeywordSet {
   id: string;
@@ -11,29 +13,35 @@ interface KeywordSet {
   keywords: string[];
 }
 
+type MainSection = 'keywords' | 'availability' | 'bookings';
+
 export default function SuperuserPage() {
-  const { user, userRole, isSuperuser, isLoading } = useAuth();
+  const { user, userRole, isSuperuser, isAdmin, isLoading } = useAuth();
   const [keywordSets, setKeywordSets] = useState<KeywordSet[]>([]);
   const [loadingKeywords, setLoadingKeywords] = useState(true);
   const [selectedSet, setSelectedSet] = useState<KeywordSet | null>(null);
   const [newKeyword, setNewKeyword] = useState('');
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState<'planet' | 'sign'>('planet');
+  const [mainSection, setMainSection] = useState<MainSection>('keywords');
   const router = useRouter();
 
-  // Redirect non-superusers (wait for role to actually load)
+  // Allow both admins and superusers
+  const hasAccess = isAdmin || isSuperuser;
+
+  // Redirect non-authorized users (wait for role to actually load)
   const isRoleLoaded = !isLoading && (userRole !== null || !user);
 
   useEffect(() => {
-    if (isRoleLoaded && !isSuperuser) {
+    if (isRoleLoaded && !hasAccess) {
       router.push('/');
     }
-  }, [isRoleLoaded, isSuperuser, router]);
+  }, [isRoleLoaded, hasAccess, router]);
 
   // Fetch keywords
   useEffect(() => {
     const fetchKeywords = async () => {
-      if (!isSuperuser) return;
+      if (!hasAccess) return;
 
       try {
         const response = await fetch('/api/keywords');
@@ -48,10 +56,10 @@ export default function SuperuserPage() {
       }
     };
 
-    if (isSuperuser) {
+    if (hasAccess) {
       fetchKeywords();
     }
-  }, [isSuperuser]);
+  }, [hasAccess]);
 
   const handleAddKeyword = async () => {
     if (!selectedSet || !newKeyword.trim()) return;
@@ -146,7 +154,7 @@ export default function SuperuserPage() {
     );
   }
 
-  if (!isSuperuser) {
+  if (!hasAccess) {
     return null;
   }
 
@@ -185,13 +193,103 @@ export default function SuperuserPage() {
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              Keywords Editor
+              Superuser Dashboard
             </h1>
-            <p className="text-[#6b7a90] text-sm mt-1">Manage calculator keywords for planets and signs</p>
+            <p className="text-[#6b7a90] text-sm mt-1">Manage keywords, availability, and consultation bookings</p>
           </div>
         </div>
       </div>
 
+      {/* Main Section Tabs */}
+      <div
+        className="inline-flex p-2 rounded-2xl"
+        style={{
+          background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
+          border: '1px solid rgba(168, 85, 247, 0.2)',
+          boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.3)',
+        }}
+      >
+        <button
+          onClick={() => setMainSection('keywords')}
+          className={`relative px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            mainSection === 'keywords' ? 'text-white' : 'text-[#6b7a90] hover:text-white'
+          }`}
+        >
+          {mainSection === 'keywords' && (
+            <div
+              className="absolute inset-0 rounded-xl"
+              style={{
+                background: 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)',
+                boxShadow: '0 4px 15px rgba(168, 85, 247, 0.4)',
+              }}
+            />
+          )}
+          <span className="relative z-10 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+            Keywords
+          </span>
+        </button>
+        <button
+          onClick={() => setMainSection('availability')}
+          className={`relative px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            mainSection === 'availability' ? 'text-white' : 'text-[#6b7a90] hover:text-white'
+          }`}
+        >
+          {mainSection === 'availability' && (
+            <div
+              className="absolute inset-0 rounded-xl"
+              style={{
+                background: 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)',
+                boxShadow: '0 4px 15px rgba(168, 85, 247, 0.4)',
+              }}
+            />
+          )}
+          <span className="relative z-10 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            My Availability
+          </span>
+        </button>
+        <button
+          onClick={() => setMainSection('bookings')}
+          className={`relative px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
+            mainSection === 'bookings' ? 'text-white' : 'text-[#6b7a90] hover:text-white'
+          }`}
+        >
+          {mainSection === 'bookings' && (
+            <div
+              className="absolute inset-0 rounded-xl"
+              style={{
+                background: 'linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%)',
+                boxShadow: '0 4px 15px rgba(168, 85, 247, 0.4)',
+              }}
+            />
+          )}
+          <span className="relative z-10 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
+            Booking Requests
+          </span>
+        </button>
+      </div>
+
+      {/* Availability Section */}
+      {mainSection === 'availability' && user && (
+        <AvailabilityManager userId={user.id} />
+      )}
+
+      {/* Bookings Section */}
+      {mainSection === 'bookings' && (
+        <BookingRequestsManager />
+      )}
+
+      {/* Keywords Section */}
+      {mainSection === 'keywords' && (
+        <>
       {/* Toggle Buttons */}
       <div
         className="inline-flex p-2 rounded-2xl"
@@ -410,6 +508,8 @@ export default function SuperuserPage() {
           </div>
         </div>
       </div>
+        </>
+      )}
     </div>
   );
 }

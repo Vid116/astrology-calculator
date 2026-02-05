@@ -282,6 +282,106 @@ export type Database = {
           updated_at?: string;
         };
       };
+      availability_slots: {
+        Row: {
+          id: string;
+          superuser_id: string;
+          start_time: string;
+          end_time: string;
+          duration_minutes: number | null;
+          is_available: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          superuser_id: string;
+          start_time: string;
+          end_time: string;
+          duration_minutes?: number | null;
+          is_available?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          superuser_id?: string;
+          start_time?: string;
+          end_time?: string;
+          duration_minutes?: number;
+          is_available?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      consultation_bookings: {
+        Row: {
+          id: string;
+          slot_id: string;
+          user_id: string;
+          superuser_id: string;
+          scheduled_start: string;
+          scheduled_end: string;
+          duration_minutes: number;
+          status: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'completed';
+          user_name: string;
+          user_email: string;
+          user_phone: string | null;
+          birth_date: string | null;
+          birth_time: string | null;
+          birth_place: string | null;
+          consultation_topic: string | null;
+          additional_notes: string | null;
+          rejection_reason: string | null;
+          created_at: string;
+          updated_at: string;
+          approved_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          slot_id: string;
+          user_id: string;
+          superuser_id: string;
+          scheduled_start: string;
+          scheduled_end: string;
+          duration_minutes: number;
+          status?: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'completed';
+          user_name: string;
+          user_email: string;
+          user_phone?: string | null;
+          birth_date?: string | null;
+          birth_time?: string | null;
+          birth_place?: string | null;
+          consultation_topic?: string | null;
+          additional_notes?: string | null;
+          rejection_reason?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          approved_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          slot_id?: string;
+          user_id?: string;
+          superuser_id?: string;
+          scheduled_start?: string;
+          scheduled_end?: string;
+          duration_minutes?: number;
+          status?: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'completed';
+          user_name?: string;
+          user_email?: string;
+          user_phone?: string | null;
+          birth_date?: string | null;
+          birth_time?: string | null;
+          birth_place?: string | null;
+          consultation_topic?: string | null;
+          additional_notes?: string | null;
+          rejection_reason?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          approved_at?: string | null;
+        };
+      };
     };
     Functions: {
       increment_calculation_count: {
@@ -311,6 +411,19 @@ export type UserRole = Tables<'user_roles'>;
 export type Keyword = Tables<'keywords'>;
 export type Profile = Tables<'profiles'>;
 export type StudyNote = Tables<'study_notes'>;
+export type AvailabilitySlot = Tables<'availability_slots'>;
+export type ConsultationBooking = Tables<'consultation_bookings'>;
+
+export type BookingStatus = ConsultationBooking['status'];
+
+// A computed time slot within an availability window
+export type SelectedTimeSlot = {
+  slot_id: string;
+  superuser_id: string;
+  start_time: string;
+  end_time: string;
+  duration_minutes: number;
+};
 
 export type SubscriptionWithPrice = Subscription & {
   prices: Price | null;
