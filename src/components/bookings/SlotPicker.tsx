@@ -56,7 +56,7 @@ export function SlotPicker({
   const [duration, setDuration] = useState(60);
   const [times, setTimes] = useState<SelectedTimeSlot[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [expandedDate, setExpandedDate] = useState<string | null>(null);
+  const [expandedDate, setExpandedDate] = useState<string | null | undefined>(undefined);
 
   const fetchTimes = useCallback(async (dur: number) => {
     setIsLoading(true);
@@ -107,7 +107,7 @@ export function SlotPicker({
     return Object.keys(timesByDate).sort();
   }, [timesByDate]);
 
-  const effectiveExpandedDate = expandedDate || sortedDates[0] || null;
+  const effectiveExpandedDate = expandedDate === undefined ? (sortedDates[0] || null) : expandedDate;
 
   const loading = externalLoading || isLoading;
 
@@ -139,7 +139,7 @@ export function SlotPicker({
             </button>
           ))}
         </div>
-        <p className="text-[#4a5568] text-xs mt-2">
+        <p className="text-white text-xs mt-4 mb-3">
           Times shown in your timezone ({getUserTimezone()})
         </p>
       </div>
@@ -183,7 +183,7 @@ export function SlotPicker({
 
       {/* Time Slots by Date */}
       {!loading && times.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-6">
           {sortedDates.map(dateKey => {
             const dateSlots = timesByDate[dateKey];
             const isExpanded = effectiveExpandedDate === dateKey;
@@ -194,6 +194,7 @@ export function SlotPicker({
                 key={dateKey}
                 className="rounded-xl overflow-hidden transition-all duration-200"
                 style={{
+                  marginTop: '12px',
                   background: 'linear-gradient(180deg, rgba(15, 20, 35, 0.95) 0%, rgba(10, 14, 26, 0.95) 100%)',
                   border: isExpanded
                     ? '1px solid rgba(103, 232, 249, 0.25)'
@@ -240,7 +241,7 @@ export function SlotPicker({
                         <button
                           key={`${time.slot_id}-${i}`}
                           onClick={() => onSelectTime(isSelected ? null : time)}
-                          className="p-3 rounded-lg text-left transition-all duration-200"
+                          className="p-3 rounded-lg text-left transition-all duration-200 hover:!bg-[rgba(103,232,249,0.2)] active:scale-[0.97] cursor-pointer"
                           style={{
                             background: isSelected
                               ? 'rgba(103, 232, 249, 0.15)'

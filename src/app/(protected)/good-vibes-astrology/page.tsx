@@ -163,8 +163,8 @@ export default function GoodVibesAstrologyPage() {
             <div
               className="w-14 h-14 rounded-xl flex items-center justify-center overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, rgba(103, 232, 249, 0.15) 0%, rgba(30, 150, 252, 0.1) 100%)',
-                boxShadow: '0 0 20px rgba(103, 232, 249, 0.2)',
+                background: '#67e8f9',
+                boxShadow: '0 0 25px rgba(103, 232, 249, 0.4)',
               }}
             >
               <Image
