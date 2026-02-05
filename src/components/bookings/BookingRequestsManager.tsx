@@ -61,6 +61,16 @@ export function BookingRequestsManager() {
   };
 
   const handleApprove = (id: string) => {
+    const booking = bookings.find(b => b.id === id);
+    if (booking?.amount_cents) {
+      const amount = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: booking.currency || 'usd',
+      }).format(booking.amount_cents / 100);
+      if (!confirm(`This will charge ${amount} to the client's card. Continue?`)) {
+        return;
+      }
+    }
     updateBookingStatus(id, 'approved');
   };
 

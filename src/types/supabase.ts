@@ -336,6 +336,10 @@ export type Database = {
           created_at: string;
           updated_at: string;
           approved_at: string | null;
+          payment_intent_id: string | null;
+          payment_status: 'none' | 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'authorized' | 'captured' | 'cancelled' | 'failed';
+          amount_cents: number | null;
+          currency: string | null;
         };
         Insert: {
           id?: string;
@@ -358,6 +362,10 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
           approved_at?: string | null;
+          payment_intent_id?: string | null;
+          payment_status?: 'none' | 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'authorized' | 'captured' | 'cancelled' | 'failed';
+          amount_cents?: number | null;
+          currency?: string | null;
         };
         Update: {
           id?: string;
@@ -380,6 +388,10 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
           approved_at?: string | null;
+          payment_intent_id?: string | null;
+          payment_status?: 'none' | 'requires_payment_method' | 'requires_confirmation' | 'requires_action' | 'authorized' | 'captured' | 'cancelled' | 'failed';
+          amount_cents?: number | null;
+          currency?: string | null;
         };
       };
     };

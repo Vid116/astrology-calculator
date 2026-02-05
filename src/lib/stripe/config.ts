@@ -41,6 +41,15 @@ export const STRIPE_CONFIG = {
     },
   },
 
+  // Consultation pricing (server-side source of truth)
+  consultation: {
+    prices: {
+      30: { amount_cents: 3000, currency: 'usd', label: '30 min - $30' },
+      60: { amount_cents: 4000, currency: 'usd', label: '60 min - $40' },
+      90: { amount_cents: 5500, currency: 'usd', label: '90 min - $55' },
+    } as Record<number, { amount_cents: number; currency: string; label: string }>,
+  },
+
   // Free tier limits
   freeTier: {
     dailyCalculations: parseInt(process.env.FREE_TIER_DAILY_LIMIT || '10', 10),

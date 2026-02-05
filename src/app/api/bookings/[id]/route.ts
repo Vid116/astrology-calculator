@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { stripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 
 // Check if user is admin or superuser (can manage bookings)
@@ -126,6 +127,49 @@ export async function PATCH(
 
     if (status === 'rejected' && rejection_reason) {
       updateData.rejection_reason = rejection_reason;
+    }
+
+    // Handle Stripe payment operations
+    if (booking.payment_intent_id && booking.payment_status === 'authorized') {
+      if (status === 'approved') {
+        // Capture the payment (charge the card)
+        try {
+          const captured = await stripe.paymentIntents.capture(booking.payment_intent_id);
+          if (captured.status !== 'succeeded') {
+            return NextResponse.json({
+              error: 'Payment capture failed. The authorization may have expired.'
+            }, { status: 400 });
+          }
+          updateData.payment_status = 'captured';
+        } catch (stripeError) {
+          console.error('Stripe capture error:', stripeError);
+          return NextResponse.json({
+            error: 'Failed to capture payment. The card hold may have expired. Consider rejecting this booking.'
+          }, { status: 400 });
+        }
+      }
+
+      if (status === 'rejected' || status === 'cancelled') {
+        // Cancel the authorization (release the hold)
+        try {
+          await stripe.paymentIntents.cancel(booking.payment_intent_id);
+          updateData.payment_status = 'cancelled';
+        } catch (stripeError) {
+          console.error('Stripe cancel error:', stripeError);
+          // Auth will expire naturally; still update booking status
+          updateData.payment_status = 'failed';
+        }
+      }
+    }
+
+    // Prevent operations on already-processed payments
+    if (status === 'approved' && booking.payment_status === 'captured') {
+      return NextResponse.json({ error: 'Payment already captured' }, { status: 400 });
+    }
+    if (status === 'approved' && booking.payment_status === 'cancelled') {
+      return NextResponse.json({
+        error: 'Cannot approve: payment authorization was already cancelled'
+      }, { status: 400 });
     }
 
     // Update the booking

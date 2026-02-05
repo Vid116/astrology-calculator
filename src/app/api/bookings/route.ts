@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { stripe } from '@/lib/stripe/client';
+import { STRIPE_CONFIG } from '@/lib/stripe/config';
 import { NextResponse } from 'next/server';
 
 // Check if user is admin or superuser (can manage bookings)
@@ -84,6 +86,7 @@ export async function POST(request: Request) {
       birth_place,
       consultation_topic,
       additional_notes,
+      payment_intent_id,
     } = body;
 
     // Validate required fields
@@ -91,6 +94,11 @@ export async function POST(request: Request) {
       return NextResponse.json({
         error: 'slot_id, scheduled_start, scheduled_end, duration_minutes, user_name, and user_email are required'
       }, { status: 400 });
+    }
+
+    // Validate payment_intent_id
+    if (!payment_intent_id) {
+      return NextResponse.json({ error: 'payment_intent_id is required' }, { status: 400 });
     }
 
     // Validate duration
@@ -146,6 +154,38 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
 
+    // Verify PaymentIntent with Stripe
+    const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent_id);
+
+    // Security: PaymentIntent must belong to this user
+    if (paymentIntent.metadata.supabase_user_id !== user.id) {
+      return NextResponse.json({ error: 'Payment intent does not belong to this user' }, { status: 403 });
+    }
+
+    // Security: PaymentIntent must be authorized (requires_capture)
+    if (paymentIntent.status !== 'requires_capture') {
+      return NextResponse.json({
+        error: `Payment not authorized. Status: ${paymentIntent.status}`
+      }, { status: 400 });
+    }
+
+    // Security: Amount must match duration price
+    const expectedPrice = STRIPE_CONFIG.consultation.prices[duration_minutes];
+    if (!expectedPrice || paymentIntent.amount !== expectedPrice.amount_cents) {
+      return NextResponse.json({ error: 'Payment amount mismatch' }, { status: 400 });
+    }
+
+    // Security: PaymentIntent not already used for another booking
+    const { data: existingBooking } = await supabaseAdmin
+      .from('consultation_bookings')
+      .select('id')
+      .eq('payment_intent_id', payment_intent_id)
+      .single();
+
+    if (existingBooking) {
+      return NextResponse.json({ error: 'Payment intent already used' }, { status: 400 });
+    }
+
     // Create the booking
     const { data: booking, error: bookingError } = await supabaseAdmin
       .from('consultation_bookings')
@@ -165,6 +205,10 @@ export async function POST(request: Request) {
         birth_place: birth_place || null,
         consultation_topic: consultation_topic || null,
         additional_notes: additional_notes || null,
+        payment_intent_id,
+        payment_status: 'authorized',
+        amount_cents: paymentIntent.amount,
+        currency: paymentIntent.currency,
       })
       .select()
       .single();

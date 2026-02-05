@@ -67,8 +67,12 @@ export function BookingList({
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+              className="rounded-lg text-sm font-medium transition-all duration-200"
               style={{
+                paddingLeft: '24px',
+                paddingRight: '24px',
+                paddingTop: '8px',
+                paddingBottom: '8px',
                 background: isActive
                   ? 'rgba(103, 232, 249, 0.15)'
                   : 'rgba(103, 232, 249, 0.05)',
@@ -81,12 +85,8 @@ export function BookingList({
               {tab.label}
               {count > 0 && (
                 <span
-                  className="ml-2 px-1.5 py-0.5 rounded text-xs"
-                  style={{
-                    background: isActive
-                      ? 'rgba(103, 232, 249, 0.2)'
-                      : 'rgba(103, 232, 249, 0.1)',
-                  }}
+                  className="text-xs"
+                  style={{ marginLeft: '8px', color: '#a78bfa' }}
                 >
                   {count}
                 </span>
@@ -98,7 +98,7 @@ export function BookingList({
 
       {/* Bookings grid */}
       {filteredBookings.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2">
           {filteredBookings.map(booking => (
             <BookingCard
               key={booking.id}

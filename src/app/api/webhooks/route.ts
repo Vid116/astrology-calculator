@@ -14,6 +14,8 @@ const relevantEvents = new Set([
   'customer.subscription.updated',
   'customer.subscription.deleted',
   'checkout.session.completed',
+  'payment_intent.payment_failed',
+  'payment_intent.canceled',
 ]);
 
 export async function POST(request: Request) {
@@ -82,6 +84,31 @@ export async function POST(request: Request) {
           await upsertSubscription(subscription);
         }
         break;
+
+      case 'payment_intent.payment_failed': {
+        const pi = event.data.object as Stripe.PaymentIntent;
+        if (pi.metadata.type === 'consultation_booking') {
+          await supabaseAdmin
+            .from('consultation_bookings')
+            .update({ payment_status: 'failed' })
+            .eq('payment_intent_id', pi.id);
+          console.log(`Payment failed for PI: ${pi.id}`);
+        }
+        break;
+      }
+
+      case 'payment_intent.canceled': {
+        const pi = event.data.object as Stripe.PaymentIntent;
+        if (pi.metadata.type === 'consultation_booking') {
+          await supabaseAdmin
+            .from('consultation_bookings')
+            .update({ payment_status: 'cancelled' })
+            .eq('payment_intent_id', pi.id)
+            .in('payment_status', ['authorized', 'requires_action', 'requires_confirmation']);
+          console.log(`Payment canceled for PI: ${pi.id}`);
+        }
+        break;
+      }
 
       default:
         console.log(`Unhandled event type: ${event.type}`);

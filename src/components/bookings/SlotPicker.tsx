@@ -43,9 +43,9 @@ function getUserTimezone(): string {
 }
 
 const DURATIONS = [
-  { value: 30, label: '30 min' },
-  { value: 60, label: '60 min' },
-  { value: 90, label: '90 min' },
+  { value: 30, label: '30 min', price: '$30' },
+  { value: 60, label: '60 min', price: '$40' },
+  { value: 90, label: '90 min', price: '$55' },
 ];
 
 export function SlotPicker({
@@ -138,6 +138,7 @@ export function SlotPicker({
               }}
             >
               {d.label}
+              <span className="block text-xs mt-0.5 opacity-70">{d.price}</span>
             </button>
           ))}
         </div>
@@ -206,7 +207,8 @@ export function SlotPicker({
                 {/* Date header */}
                 <button
                   onClick={() => setExpandedDate(isExpanded ? null : dateKey)}
-                  className="w-full px-5 py-4 flex items-center justify-between text-left transition-all duration-200 hover:bg-white/[0.02]"
+                  className="w-full py-4 flex items-center justify-between text-left transition-all duration-200 hover:bg-white/[0.02]"
+                  style={{ paddingLeft: '25px', paddingRight: '20px' }}
                 >
                   <div>
                     <p className="text-white font-medium">
@@ -235,7 +237,7 @@ export function SlotPicker({
 
                 {/* Time buttons */}
                 {isExpanded && (
-                  <div className="px-5 pb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="pb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" style={{ paddingLeft: '25px', paddingRight: '20px' }}>
                     {dateSlots.map((time, i) => {
                       const isSelected = selectedTime?.start_time === time.start_time && selectedTime?.slot_id === time.slot_id;
 
