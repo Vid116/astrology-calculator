@@ -187,8 +187,8 @@ export default function GoodVibesAstrologyPage() {
         </div>
       </div>
 
-      {/* User's Bookings Section */}
-      {user && activeBookings.length > 0 && (
+      {/* User's Bookings Section (hidden when booking form is open) */}
+      {user && activeBookings.length > 0 && !selectedTime && (
         <div
           className="relative rounded-2xl overflow-hidden"
           style={{
@@ -228,6 +228,16 @@ export default function GoodVibesAstrologyPage() {
       {/* Booking Form (when time selected) */}
       {selectedTime && user && (
         <div style={{ marginTop: '20px' }}>
+          <button
+            onClick={() => setSelectedTime(null)}
+            className="flex items-center gap-2 text-sm font-medium transition-all duration-200 hover:!text-white"
+            style={{ color: '#6b7a90', marginBottom: '12px', paddingLeft: '4px' }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Pick a different time
+          </button>
           <BookingForm
             timeSlot={selectedTime}
             user={user}

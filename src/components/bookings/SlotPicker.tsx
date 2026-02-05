@@ -237,7 +237,7 @@ export function SlotPicker({
 
                 {/* Time buttons */}
                 {isExpanded && (
-                  <div className="pb-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3" style={{ paddingLeft: '25px', paddingRight: '20px' }}>
+                  <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3" style={{ paddingLeft: '25px', paddingRight: '20px', paddingTop: '20px', paddingBottom: '20px' }}>
                     {dateSlots.map((time, i) => {
                       const isSelected = selectedTime?.start_time === time.start_time && selectedTime?.slot_id === time.slot_id;
 
@@ -245,8 +245,10 @@ export function SlotPicker({
                         <button
                           key={`${time.slot_id}-${i}`}
                           onClick={() => onSelectTime(isSelected ? null : time)}
-                          className="p-3 rounded-lg text-left transition-all duration-200 hover:!bg-[rgba(103,232,249,0.2)] active:scale-[0.97] cursor-pointer"
+                          className="rounded-lg text-left transition-all duration-200 hover:!bg-[rgba(103,232,249,0.2)] active:scale-[0.97] cursor-pointer"
                           style={{
+                            padding: '12px',
+                            paddingLeft: '15px',
                             background: isSelected
                               ? 'rgba(103, 232, 249, 0.15)'
                               : 'rgba(103, 232, 249, 0.05)',
