@@ -72,8 +72,10 @@ export function PaymentForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div
-        className="p-4 rounded-lg"
+        className="rounded-lg"
         style={{
+          padding: '16px',
+          paddingLeft: '19px',
           background: 'rgba(255, 216, 0, 0.05)',
           border: '1px solid rgba(255, 216, 0, 0.2)',
         }}

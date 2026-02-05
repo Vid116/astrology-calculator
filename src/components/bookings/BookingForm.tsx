@@ -428,6 +428,7 @@ export function BookingForm({
             onClick={() => { setStep('details'); setPaymentError(null); }}
             className="w-full mt-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/[0.04]"
             style={{
+              marginBottom: '5px',
               background: 'rgba(107, 122, 144, 0.1)',
               color: '#6b7a90',
               border: '1px solid rgba(107, 122, 144, 0.2)',
