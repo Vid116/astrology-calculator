@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Cinzel, Cormorant_Garamond } from "next/font/google";
 import { AuthProvider } from "@/components/auth/AuthProvider";
+import CookieConsent from "@/components/CookieConsent";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const cinzel = Cinzel({
@@ -29,7 +31,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${cinzel.variable} ${cormorant.variable}`}>
         <AuthProvider>
-          {children}
+          <div className="min-h-screen flex flex-col">
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
+          </div>
+          <CookieConsent />
         </AuthProvider>
       </body>
     </html>
