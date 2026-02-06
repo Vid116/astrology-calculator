@@ -42,9 +42,14 @@ export default function Footer() {
             Cookie Preferences
           </button>
         </div>
-        <span className="text-xs sm:ml-auto shrink-0" style={{ color: 'rgba(232, 232, 232, 0.3)' }}>
-          &copy; {new Date().getFullYear()} [Business Name]
-        </span>
+        <div className="flex flex-col items-center sm:items-end sm:ml-auto shrink-0 gap-1">
+          <span className="text-xs" style={{ color: 'rgba(232, 232, 232, 0.3)' }}>
+            &copy; {new Date().getFullYear()} [Business Name]
+          </span>
+          <span className="text-xs" style={{ color: 'rgba(232, 232, 232, 0.3)' }}>
+            Made by the Makers <span style={{ color: '#e74c3c' }}>&hearts;</span>
+          </span>
+        </div>
       </div>
     </footer>
   );
